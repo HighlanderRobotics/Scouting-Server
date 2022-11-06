@@ -33,38 +33,19 @@ app.post ("/createUser", async (req,res) => {
     const hashedPassword = await bcrypt.hash(req.body.password, 10)
 
     var sql = `SELECT * FROM users WHERE username = '${user}'`
-    db.all(sql, [], (err, rows) => {
+    db.get(sql, [user], (err) => {
         if (err) {
-            return console.error(err)
-        }
-    
-        // If there's no username that matches, create a user
-        if (rows.length == 0) {
-            // Insert new user
-            sql = `INSERT INTO users(username PRIMARY KEY, password text NOT NULL, access) VALUES (?,?,?)`
-            // Generate access token on first login
-            db.run(sql, [user, hashedPassword, generateAccessToken ({user: req.body.name})], function(err) {    
-                if (err) {
-                    return console.error(err.message)
-                }
-                console.log(`Row(s) updated: ${this.changes}`)
-            })
-            res.status(201).send(users)
+            sql = `INSERT INTO users VALUES(?,?,?)`;
+            db.run(sql, [user, hashedPassword, generateAccessToken()]);
         } else {
-            // Username is taken
-            res.status(400).send("Username already exists")
+          console.log(`User already exists`);
         }
-    })
-
-    
-    
+        return;
+      });
 })
 
 // REGISTER A USER
 app.get("/listUser", async (req,res) => {
-    //const user = req.body.name
-    //const hashedPassword = await bcrypt.hash(req.body.password, 10)
-    //users.push ({user: user, password: hashedPassword})
     res.status(201).send(users)
     console.log(users)
 })
