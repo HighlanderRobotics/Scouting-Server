@@ -2,33 +2,32 @@ const sqlite = require("sqlite3").verbose()
 const axios = require("axios")
 
 // Connect to db
-const db = new sqlite.Database('./users.db', sqlite.OPEN_READWRITE, (err) => {
+const db = new sqlite.Database('./teams.db', sqlite.OPEN_READWRITE, (err) => {
     if (err)
         console.error(err)
 });
 
-async function dropTable() {
-    var sql = `DROP TABLE users`
-    db.run(sql)
-    return;
-}
 
-function recreateTable() {
-    var sql = `CREATE TABLE users(username PRIMARY KEY, password NOT NULL, access)`
+function dropTable() {
+    var sql = `
+        DROP TABLE teams
+    `
     db.run(sql)
 }
 
+function createTable() {
+    var sql = `
+        CREATE TABLE teams(
+        teamNumber INTEGER PRIMARY KEY, 
+        teamName TEXT ONLY, 
+        tournaments TEXT ONLY
+    )`
+    db.run(sql)
+}
 
-dropTable().then(() => {
-    recreateTable()
-})
+createTable()
+// dropTable()
 
-// sql = `INSERT INTO users(username PRIMARY KEY, password, access) VALUES (?,?,?)`
-// db.run(sql, ["Joe", "Nuts", "cNILjiZj4dmRUNem0iKpJqpKh5ngoADse0emqDhqCOeqxgs48cd3USwJQXiRf7le"], function(err) {    if (err) {
-//     return console.error(err.message)
-// }
-// console.log(`Row(s) updated: ${this.changes}`)
-// })
 
 // var sql = `UPDATE users
 //                     SET access = ?
