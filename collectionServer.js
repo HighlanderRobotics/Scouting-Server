@@ -25,50 +25,109 @@ app.listen(port, () => {
 
 
 // REGISTER A Team
-app.post ("/createTeam", async (req,res) => {
+app.put("/createTeam", async (req,res) => {
+    console.log(`Recieved createTeam post request`)
     // Get username and hash password
     const teamNumber = req.body.number
     const teamName = req.body.teamName
-    const tournaments = req.body.tournaments
+    const tournaments = []
+    console.log(`Got values`)
+
 
     var sql = `SELECT * FROM teams WHERE teamNumber = '${teamNumber}'`
     db.get(sql, (err, teams) => {
+        console.log(`Queried Database`)
         if (err) {
             return console.error(err)
         }
+        console.log(`Team: ${teams}`)
+        console.log(`${teams == undefined}`)
 
-        return teams ? () => {
-            // Team exists
-            console.log(`${teamNumber}: ${teamName} already exists`);
-            res.status(400).send(`${teamNumber}: ${teamName} already exists`)
-        } : () => {
+        if (teams == undefined) {
             // Team doesn't exist and needs to be added
+            console.log(`Team needs to be added`)
             sql = `INSERT INTO teams VALUES(?,?,?)`
-            db.run(sql, [teamNumber, teamName, tournaments], (err) => {
+            db.run(sql, [teamNumber, teamName, JSON.stringify(tournaments)], (err) => {
                 if (err)
                     console.error(err);
                 }
             )
-            console.log(`${teamNumber}: ${teamName} added`);
+            console.log(`${teamNumber}: ${teamName} added`)
             res.status(201).send(`Successfully added team`)
+        } else {
+            // Team exists
+            console.log(`${teamNumber}: ${teamName} already exists`);
+            res.status(400).send(`${teamNumber}: ${teamName} already exists`)
         }
 
+        return
+    })
+})
+
+// Add tournament
+app.post("/addTournament", async (req, res) => {
+    const teamNumber = req.body.teamNumber
+    const tournament = {
+        'name': req.body.tournament,
+        'epoch': req.body.tournamentEpoch 
+    }
+    console.log(`Got Data: ${teamNumber} ${tournament.name}`)
+    var sql = `SELECT * FROM teams WHERE teamNumber = ${teamNumber}`
+    db.get(sql, (err, team) => {
+        console.log(`Got Team: ${team.teamNumber}`)
+        if (err) {
+            console.error(err)
+        }
+
+        if (team == undefined) {
+            console.log(`Could not find team ${teamNumber}`)
+            res.status(400).send(`Team ${teamNumber} does not exist in the database`)
+        } else {
+            var tournaments = []
+            tournaments = JSON.parse(team.tournaments)
+            console.log(`Tournaments ${tournaments}`)
+            if (!containsSameTournament(tournament, tournaments)) {
+                console.log(`Tournament does not have ${tournament.name}`)
+                tournaments.push(tournament)
+                console.log(`Have updated tournaments: ${JSON.stringify(tournaments)}`)
+                sql = `
+                    UPDATE teams 
+                    SET tournaments = ? 
+                    WHERE teamNumber = ?`
+                db.run(sql, [JSON.stringify(tournaments), teamNumber], (err) => {
+                    if (err) {
+                        console.error(err)
+                    }
+                })
+                res.status(400).send(`Tournament ${tournament.name} successfully added`)
+            } else {
+                console.log(`Tournament ${tournament.name} already exists`)
+                res.status(400).send(`Tournament ${tournament.name} already exists`)
+            }
+        }
+        return
     })
 })
 
 // List teams
 app.get("/listTeams", async (req,res) => {
-    var teams = []
     var sql = `SELECT * FROM teams ORDER BY teamnumber`
-    db.run(sql, (err, rows) => {
+    db.all(sql, (err, storedTeams) => {
         if (err) {
             return console.error(err)
         }
-        rows.forEach(element => {
-            teams.push(element)
-        });   
+        console.log(storedTeams)
+        res.status(201).send(storedTeams)
     })
-
-    res.status(201).send(teams)
-    console.log(teams)
+    return
 })
+
+function containsSameTournament(obj, list) {
+    for (var i = 0; i < list.length; i++) {
+        if (list[i].name === obj.name && list[i].epoch === obj.epoch) {
+            console.log(`Tournaments are the same: ${list[i]} ${obj}`)
+            return true
+        }
+    }
+    return false
+}

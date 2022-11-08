@@ -7,26 +7,24 @@ const db = new sqlite.Database('./teams.db', sqlite.OPEN_READWRITE, (err) => {
         console.error(err)
 });
 
-
-function dropTable() {
-    var sql = `
-        DROP TABLE teams
-    `
-    db.run(sql)
-}
-
-function createTable() {
+function recreateTable() {
     var sql = `
         CREATE TABLE teams(
         teamNumber INTEGER PRIMARY KEY, 
         teamName TEXT ONLY, 
         tournaments TEXT ONLY
     )`
-    db.run(sql)
+    db.serialize(() => {
+        db.run(`DROP TABLE teams`)
+        db.run(sql)
+        // Sample data
+        db.run(`INSERT INTO teams VALUES (?, ?, ?)`, [254, "The Cheesy Poofs", "[]"])
+        db.run(`INSERT INTO teams VALUES (?, ?, ?)`, [8033, "Highlander Robotics", "[]"])
+        db.run(`INSERT INTO teams VALUES (?, ?, ?)`, [1678, "Citrus Circuits", "[]"])
+    })
 }
 
-createTable()
-// dropTable()
+recreateTable()
 
 
 // var sql = `UPDATE users
