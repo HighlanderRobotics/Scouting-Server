@@ -68,7 +68,7 @@ app.put("/createTeam", async (req,res) => {
 app.post("/addTournament", async (req, res) => {
     const teamNumber = req.body.teamNumber
     const tournament = {
-        'name': req.body.tournament,
+        'name': req.body.tournamentName,
         'epoch': req.body.tournamentEpoch 
     }
     console.log(`Got Data: ${teamNumber} ${tournament.name}`)
@@ -99,6 +99,7 @@ app.post("/addTournament", async (req, res) => {
                         console.error(err)
                     }
                 })
+
                 res.status(400).send(`Tournament ${tournament.name} successfully added`)
             } else {
                 console.log(`Tournament ${tournament.name} already exists`)
@@ -107,6 +108,29 @@ app.post("/addTournament", async (req, res) => {
         }
         return
     })
+})
+
+app.put("/addMatch", async (req, res) => {
+    // Organize incoming data
+    const tournament = {
+        'name': req.body.tournament.tournamentName,
+        'epoch': req.body.tournamentEpoch 
+    }
+    const matchHeader = {
+        'UUID': req.body.header.uuid,
+        'matchNumber': req.body.header.matchNumber,
+        'teamNumber': req.body.header.teamNumber,
+        'scouterName': req.body.header.scouterName,
+        'startTime': req.body.header.startTime
+    }
+    const matchData = {
+        'challenge': req.body.data.challenge,
+        'defense': req.body.data.defense,
+        'nodes': req.body.data.notes,
+        'events': req.body.data.events
+    }
+
+    // Create a table and write this to the table
 })
 
 // List teams
