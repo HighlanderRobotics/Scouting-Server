@@ -8,10 +8,6 @@ const db = new sqlite.Database('./teams.db', sqlite.OPEN_READWRITE, (err) => {
         console.error(err)
 });
 
-function getData() {
-    
-}
-
 // Keys (i.e. teamKey) are from api, used to pull information about a team
 
 function recreateTable() {
@@ -48,13 +44,8 @@ function recreateTable() {
         FOREIGN KEY (matchId) REFERENCES matches(id)
     )`
     
-    var url = "https://www.thebluealliance.com/api/v3"
-    // Get teams from api after figuring out how many pages of teams there are (probably around 16 because 8033/500)
-    // JSON teams = http get request to url + /teams/page number
-    // Add to the insertTeams
-    var insertTeams = `INSERT INTO teams(teamNumber, teamName, teamKey) VALUES 
-        ${formattedTeamData}
-    `
+  
+    
 
     // Get events/tournaments from api
     // JSON events = http get request and save event key
@@ -85,6 +76,7 @@ function recreateTable() {
         db.run(tournamentTable)
         db.run(matchesTable)
         db.run(dataTable)
+        // db.run(insertTeams)
     })
 }
 
