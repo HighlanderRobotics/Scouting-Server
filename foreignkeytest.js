@@ -7,89 +7,118 @@ const db = new sqlite.Database('./test.db', sqlite.OPEN_READWRITE, (err) => {
         console.error(err)
 });
 
+
+function getMatchData(gId, mId) {
+    var sql = `SELECT matches.matchId, games.name, matches.teamNumber, teams.teamName, scores.data 
+        FROM matches
+        join teams on matches.teamNumber  = teams.teamNumber 
+        join scores on matches.id  = scores.mId 
+        join games on matches.gameId  = games.gameId 
+        where matches.gameId = ? and matches.matchId = ?;` 
+
+        db.each(sql, [gId, mId], (err, row) => {
+            if (err) {
+              throw err;
+            }
+            console.log(`${row.matchId} ${row.name} ${row.teamNumber} ${row.teamName}\t${row.data}`);
+        });
+}
+
 function recreateTable() {
 
-    var create_teams = `
+    var createTeams = `
         CREATE TABLE teams(
-            team_number INTEGER PRIMARY KEY, 
-            team_name TEXT ONLY
+            teamNumber INTEGER PRIMARY KEY, 
+            teamName TEXT ONLY
         );`
 
-    var create_games = `
+    var createGames = `
         CREATE TABLE games (
-            game_id INTEGER PRIMARY KEY, 
+            gameId INTEGER PRIMARY KEY, 
             name VARCHAR(20), 
             location VARCHAR(20),
             date INTEGER);`
 
-    var create_matches = `
+    var createMatches = `
         CREATE TABLE matches (
             id INTEGER PRIMARY KEY, 
-            game_id INTEGER NOT NULL,
-            match_id INTEGER KEY,
-            team_number INTEGER NOT NULL,
-            UNIQUE (match_id, game_id, team_number),
-            FOREIGN KEY(game_id) REFERENCES games(game_id),
-            FOREIGN KEY(team_number) REFERENCES teams(team_number)
+            gameId INTEGER NOT NULL,
+            matchId INTEGER KEY,
+            teamNumber INTEGER NOT NULL,
+            UNIQUE (matchId, gameId, teamNumber),
+            FOREIGN KEY(gameId) REFERENCES games(gameId),
+            FOREIGN KEY(teamNumber) REFERENCES teams(teamNumber)
             );        
             `
 
-    var create_scores = `
+    var createScores = `
     CREATE TABLE scores (
         id INTEGER PRIMARY KEY, 
-        mid INTEGER NOT NULL,
+        mId INTEGER NOT NULL,
         data VARCHAR(3000),
-        FOREIGN KEY(mid) REFERENCES matches(id)
+        FOREIGN KEY(mId) REFERENCES matches(id)
         );        
         `
     
-    var insert_teams = `
-        INSERT INTO teams (team_number, team_name) VALUES
+    var insertTeams = `
+        INSERT INTO teams (teamNumber, teamName) VALUES
         (254, "The Cheesy Poofs"),
-        (8033, "Highlander Robotics"),
-        (1678, "Citrus Circuits");
+        (468, "Aftershock"),
+        (487, "Spartans"),
+        (976, "Circuit Breakerz"),
+        (991, "BroncoBots"),
+        (1678, "Citrus Circuits"),
+        (2017, "Trojans"),
+        (2023, "Robotic Dragons"),        
+        (8033, "Highlander Robotics");
     `
-    var insert_games = `
+    var insertGames = `
         INSERT INTO games (name, location, date) VALUES
         ("chezy", "San Jose", DATE('2022-09-24')),
         ("worlds", "Houston", DATE('2022-04-20'));
     `
 
-    var insert_matches = `
-        INSERT INTO matches (game_id, match_id, team_number) VALUES
+    var insertMatches = `
+        INSERT INTO matches (gameId, matchId, teamNumber) VALUES
         (1, 12, 254),
         (1, 12, 8033),
+        (1, 12, 976),
         (1, 42, 1678),
-        (1, 42, 8033),
+        (1, 42, 487),
+        (1, 42, 991),
+        (1, 42, 2017),
         (2, 27, 254),
         (2, 27, 8033),
         (2, 27, 1678),
         (2, 27, 3251);
+        (2, 27, 2017);
         `
 
-    var insert_scores = `
-        INSERT INTO scores (mid, data) VALUES
+    var insertScores = `
+        INSERT INTO scores (mId, data) VALUES
         (3, "{some json blob}"),
-        (4, "{another json blob}");
+        (4, "{even more json blob}"),
+        (5, "{more json blob data}"),
+        (6, "{another json blob}"),
+        (7, "{one more json blob}");
         `
-
 
     db.serialize(() => {
         db.run("DROP TABLE IF EXISTS `teams`")
-        db.run(create_teams)
+        db.run(createTeams)
         db.run("DROP TABLE IF EXISTS `games`")
-        db.run(create_games)
+        db.run(createGames)
 
         db.run("DROP TABLE IF EXISTS `matches`")
-        db.run(create_matches)
+        db.run(createMatches)
 
         db.run("DROP TABLE IF EXISTS `scores`")
-        db.run(create_scores)
+        db.run(createScores)
 
-        db.run(insert_teams)
-        db.run(insert_games)
-        db.run(insert_matches)
-        db.run(insert_scores)
+        db.run(insertTeams)
+        db.run(insertGames)
+        db.run(insertMatches)
+        db.run(insertScores)
 
         // Sample data
         // db.run(`INSERT INTO teams VALUES (?, ?, ?)`, [254, "The Cheesy Poofs", "[]"])
@@ -100,7 +129,7 @@ function recreateTable() {
 
 
 recreateTable()
-
+getMatchData(1, 42)
 
 // var sql = `UPDATE users
 //                     SET access = ?
