@@ -23,6 +23,18 @@ app.listen(port, () => {
     console.log(`Collection Server running on ${port}...`)
 })
 
+app.get("/getDashboardStartupData", async (req,res) => {
+    // Run cassie's analysis data and save it to an object
+    res.status(201).send(`Cassie's analysis data here`)
+})
+
+app.get("/getDashboardUpdatedData", async (req,res) => {
+    // Rerun Cassie's analysis engine and send it
+    res.status(201).send(`Cassie's analysis data here`)
+})
+
+
+
 
 // REGISTER A Team
 app.put("/createTeam", async (req,res) => {
