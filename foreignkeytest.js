@@ -10,11 +10,11 @@ const db = new sqlite.Database('./test.db', sqlite.OPEN_READWRITE, (err) => {
 
 // Pulls match data
 function getMatchData(gId, mId) {
-    var sql = `SELECT matches.matchId, games.name, matches.teamNumber, teams.teamName, data.data 
+    var sql = `SELECT matches.matchId, tournaments.name, matches.teamNumber, teams.teamName, data.data 
         FROM matches
         JOIN teams ON matches.teamNumber  = teams.teamNumber 
         JOIN data ON matches.id  = data.mId 
-        JOIN games ON matches.gameId  = games.gameId 
+        JOIN tournaments ON matches.gameId  = tournaments.gameId 
         WHERE matches.gameId = ? and matches.matchId = ?
     `
 
@@ -54,83 +54,70 @@ function recreateTable() {
 
     var createTeams = `
         CREATE TABLE teams(
-            teamNumber INTEGER PRIMARY KEY, 
+            key TEXT ONLY PRIMARY KEY,
+            teamNumber INTEGER, 
             teamName TEXT ONLY,
-            teamKey TEXT ONLY
+            UNIQUE (key, teamNumber, teamName)
         );`
 
-    var createGames = `
-        CREATE TABLE games (
-            gameId INTEGER PRIMARY KEY, 
-            name VARCHAR(20), 
+    var createTournaments = `
+        CREATE TABLE tournaments (
+            key TEXT ONLY PRIMARY KEY,
+            name TEXT ONLY, 
             location VARCHAR(50),
             date INTEGER,
-            key TEXT ONLY VARCHAR(20)
+            UNIQUE (key, date)
         );`
 
     var createMatches = `
         CREATE TABLE matches (
-            id INTEGER PRIMARY KEY, 
-            gameId INTEGER NOT NULL,
-            matchId INTEGER KEY,
-            teamNumber TEXT ONLY NOT NULL,
-            key TEXT ONLY VARCHAR(20),
-            UNIQUE (matchId, gameId, teamNumber),
-            FOREIGN KEY(gameId) REFERENCES games(gameId),
-            FOREIGN KEY(teamNumber) REFERENCES teams(teamNumber)
+            key PRIMARY KEY,
+            gameKey TEXT ONLY NOT NULL,
+            matchNumber INTEGER,
+            teamKey TEXT ONLY NOT NULL,
+            matchType TEXT ONLY NOT NULL,
+            UNIQUE (gameKey, matchNumber, teamKey),
+            FOREIGN KEY(gameKey) REFERENCES tournaments(key),
+            FOREIGN KEY(teamKey) REFERENCES teams(key)
             );        
             `
 
     var createData = `
     CREATE TABLE data (
         id INTEGER PRIMARY KEY, 
-        mId INTEGER NOT NULL,
+        matchKey INTEGER NOT NULL,
         data VARCHAR(3000),
-        FOREIGN KEY(mId) REFERENCES matches(id)
+        FOREIGN KEY(matchKey) REFERENCES matches(key)
     );        
     `
+    var bruhMomentum = `INSERT INTO matches (key, gameKey, matchNumber, teamKey, matchType) VALUES (2022cc_qm9_0, "2022cc", 9, frc498, 'qm'), (2022cc_qm9_1, "2022cc", 9, frc4414, 'qm'), (2022cc_qm9_2, "2022cc", 9, frc3310, 'qm'), (2022cc_qm9_3, "2022cc", 9, frc4499, 'qm'), (2022cc_qm9_4, "2022cc", 9, frc694, 'qm'), (2022cc_qm9_5, "2022cc", 9, frc3256, 'qm')`
     
     var insertTeams = `
-        INSERT INTO teams (teamNumber, teamName) VALUES
-        (254, "The Cheesy Poofs"),
-        (468, "Aftershock"),
-        (487, "Spartans"),
-        (976, "Circuit Breakerz"),
-        (991, "BroncoBots"),
-        (1678, "Citrus Circuits"),
-        (2017, "Trojans"),
-        (2023, "Robotic Dragons"),        
-        (8033, "Highlander Robotics");
+        INSERT INTO teams (key, teamNumber, teamName) VALUES
+        ("frc254", 254, "The Cheesy Poofs"),
+        ("frc468", 468, "Aftershock"),
+        ("frc487", 487, "Spartans"),
+        ("frc976", 976, "Circuit Breakerz"),
+        ("frc991", 991, "BroncoBots"),
+        ("frc1678", 1678, "Citrus Circuits"),
+        ("frc2017", 2017, "Trojans"),
+        ("frc2023", 2023, "Robotic Dragons"),        
+        ("frc8033", 8033, "Highlander Robotics");
     `
-    var insertGames = `
-        INSERT INTO games (name, location, date) VALUES
-        ("chezy", "San Jose", DATE('2022-09-24')),
-        ("worlds", "Houston", DATE('2022-04-20'));
+    var insertTournaments = `
+        INSERT INTO tournaments (key, name, location, date) VALUES
+        ("2022cc", "chezy", "San Jose", DATE('2022-09-24')),
+        ("2022___________", "worlds", "Houston", DATE('2022-04-20'));
     `
 
     // Inserting sample chezy matches
     var insertMatches = `
-        INSERT INTO matches (gameId, matchId, teamNumber) VALUES
-        (28, 12, 254),
-        (28, 12, 8033),
-        (28, 12, 976),
-        (28, 13, 8033),
-        (28, 14, 8033),
-        (28, 15, 8033),
-        (28, 16, 8033),
-        (28, 42, 1678),
-        (28, 42, 487),
-        (28, 42, 991),
-        (28, 42, 2017),
-        (28, 27, 254),
-        (28, 27, 8033),
-        (28, 27, 1678),
-        (28, 27, 3251);
-        (28, 27, 2017);
+        INSERT INTO matches (key, gameKey, matchNumber, teamKey, matchType) VALUES
+
         `
 
     var insertData = `
-        INSERT INTO data (mId, data) VALUES
+        INSERT INTO data (matchKey, data) VALUES
         (2, '{
             "points": 12
         }'),
@@ -164,23 +151,22 @@ function recreateTable() {
         `
 
     db.serialize(() => {
-        db.run("DROP TABLE IF EXISTS `scores`")
-
         db.run("DROP TABLE IF EXISTS `teams`")
-        db.run(createTeams)
-        db.run("DROP TABLE IF EXISTS `games`")
-        db.run(createGames)
+        db.run(createTeams, (err) => {console.error(`teams ${err}`)})
+        db.run("DROP TABLE IF EXISTS `tournaments`")
+        db.run(createTournaments, (err) => {console.error(`tournaments ${err}`)})
 
         db.run("DROP TABLE IF EXISTS `matches`")
-        db.run(createMatches)
+        db.run(createMatches, (err) => {console.error(`matches ${err}`)})
 
         db.run("DROP TABLE IF EXISTS `data`")
-        db.run(createData)
+        db.run(createData, (err) => {console.error(`data ${err}`)})
 
-        // db.run(insertTeams)
-        // db.run(insertGames)
-        db.run(insertMatches)
-        db.run(insertData)
+        db.run(insertTeams)
+        // db.run(insertTournaments)
+        // db.run(insertMatches)
+        // db.run(bruhMomentum)
+        // db.run(insertData)
 
         // Sample data
         // db.run(`INSERT INTO teams VALUES (?, ?, ?)`, [254, "The Cheesy Poofs", "[]"])
@@ -192,7 +178,7 @@ function recreateTable() {
 function addAPITeams() {
     var url = "https://www.thebluealliance.com/api/v3"
     
-    var sql = `INSERT INTO teams (teamNumber, teamName, teamKey) VALUES (?, ?, ?)`
+    var sql = `INSERT INTO teams (key, teamumber, teamName) VALUES (?, ?, ?)`
 
     for (var j = 0; j < 1; j++) {
         axios.get(`${url}/teams/${j}/simple`, {
@@ -201,79 +187,114 @@ function addAPITeams() {
           .then(response => {
             // var data = JSON.parse(response)
             for (var i = 0; i < response.data.length; i++) {
-              db.run(sql, [response.data[i].team_number, response.data[i].nickname, response.data[i].key])
+              db.run(sql, [response.data[i].key, response.data[i].team_number, response.data[i].nickname])
               // console.log(response.data[i].key);
             }
             
             
-        })
-          .catch(error => {
+        }).catch(error => {
             console.log(error);
-          });
+        });
         console.log(`Logged page ${j}`)
     }
 }
-function addAPIGames() {
+function addAPITournaments() {
     var url = "https://www.thebluealliance.com/api/v3"
 
-    var sql = `INSERT INTO games (name, location, date, key) VALUES (?, ?, ?, ?)`
+    var sql = `INSERT INTO tournaments (name, location, date, key) VALUES (?, ?, ?, ?)`
 
-    for (var j = 0; j < 1; j++) {
-        axios.get(`${url}/events/2022/simple`, {
-            headers: {'X-TBA-Auth-Key': process.env.KEY}
-        })
-          .then(response => {
-            for (var i = 0; i < response.data.length; i++) {
-              db.run(sql, [response.data[i].name, response.data[i].city, response.data[i].start_date, response.data[i].key])
-            }
-            
-            
-        })
-          .catch(error => {
-            console.log(error);
-          });
-    }
+    axios.get(`${url}/events/2022/simple`, {
+        headers: {'X-TBA-Auth-Key': process.env.KEY}
+    })
+        .then(response => {
+        for (var i = 0; i < response.data.length; i++) {
+            db.run(sql, [response.data[i].name, response.data[i].city, response.data[i].start_date, response.data[i].key])
+        }
+        
+        
+    }).catch(error => {
+        console.log(error);
+    });
 }
 
 function addAPIMatches() {
     var url = "https://www.thebluealliance.com/api/v3"
 
-    var sql = `INSERT INTO matches (gameId, matchId, teamNumber, key) VALUES (?, ?, ?, ?)`
 
-    axios.get(`${url}/event/2022cc/matches`, {
+    axios.get(`${url}/event/2022cc/matches/simple`, {
         headers: {'X-TBA-Auth-Key': process.env.KEY}
-      })
-        .then(response => {
-          for (var i = 0; i < response.data.length; i++) {
-            // db.run(sql, [response.data[i].team_number, response.data[i].nickname, response.data[i].key])
-            // db.run(sql, [response.data[i].name, response.data[i].city, response.data[i].start_date, response.data[i].key])
-            db.run(sql, [28, response.data[i].match_number, response.data[i].alliances.red.team_keys[0], response.data[i].key])
-            db.run(sql, [28, response.data[i].match_number, response.data[i].alliances.red.team_keys[1], response.data[i].key])
-            db.run(sql, [28, response.data[i].match_number, response.data[i].alliances.red.team_keys[2], response.data[i].key])
-            db.run(sql, [28, response.data[i].match_number, response.data[i].alliances.blue.team_keys[0], response.data[i].key])
-            db.run(sql, [28, response.data[i].match_number, response.data[i].alliances.blue.team_keys[1], response.data[i].key])
-            db.run(sql, [28, response.data[i].match_number, response.data[i].alliances.blue.team_keys[2], response.data[i].key])
-    
-          }
-          
-          
-      })
-        .catch(error => {
-          console.log(error);
-        });
-}
+    }).then(response => {
+        for (var i = 0; i < response.data.length; i++) {
+            if (response.data[i].comp_level == "qm") {
+                console.log(`Adding qual match`)
+                var teams = [...response.data[i].alliances.red.team_keys, ...response.data[i].alliances.blue.team_keys]
+                var matches = ``
+                for (var k = 0; k < teams.length; k++) {
+                    matches = matches + `('${response.data[i].key}_${k}', '2022cc', ${response.data[i].match_number}, '${teams[k]}', '${response.data[i].comp_level}'), `
+                    if (k == 5) {
+                        matches = matches.substring(0, matches.length - 2)
+                    }
+                }
+                console.log(matches)
+                var sql = `INSERT INTO matches (key, gameKey, matchNumber, teamKey, matchType) VALUES ${matches}`
+                // console.log(sql)
+
+                db.run(sql)
+                // console.log(response.data[i].key)
+
+            }
+            
+        }
+
+    }).catch(error => {
+        console.log(error);
+    });
+}    
+
+// function addAPIMatches() {
+//     var url = "https://www.thebluealliance.com/api/v3"
+
+//     var sql = `INSERT INTO matches (gameId, matchId, teamNumber, key) VALUES (?, ?, ?, ?)`
+
+//     axios.get(`${url}/event/2022cc/matches`, {
+//         headers: {'X-TBA-Auth-Key': process.env.KEY}
+//       })
+//         .then(response => {
+//             console.log(response.data)
+//             for (var i = 0; i < response.data.length; i++) {
+//                 var teams = [...response.data[i].alliances.red.team_keys, ...response.data[i].alliances.blue.team_keys]
+//                 for (var k = 0; k < teams.length; k++) {
+//                     teams[k] = parseInt(teams[k].toString().substring(3))
+//                     console.log(`Team Number: ${teams[k]}`)
+//                 }
+//                 console.log(`Trying to get response.data[${i}]`)
+
+//                 db.run(sql, [28, response.data[i].match_number, teams[0], response.data[i].key], (err) => {console.error(`sos ${i}: ${err}`)})
+//                 // db.run(sql, [28, response.data[i].match_number, teams[1], response.data[i].key])
+//                 // db.run(sql, [28, response.data[i].match_number, teams[2], response.data[i].key])
+//                 // db.run(sql, [28, response.data[i].match_number, teams[3], response.data[i].key])
+//                 // db.run(sql, [28, response.data[i].match_number, teams[4], response.data[i].key])
+//                 // db.run(sql, [28, response.data[i].match_number, teams[5], response.data[i].key])
+//                 console.log(`${teams} were added, it is ${i} of ${response.data.length}`)
+//             }
+//       })
+//         .catch(error => {
+//           console.log(`Adding API Matches Error: ${error}`);
+//         });
+// }
 
 
 recreateTable()
 
-addAPITeams()
-addAPIGames()
+// addAPITeams()
+// addAPITournaments()
 
-// Broken because match api only gets team keys not the team number, could fix by just cutting off the frc at the front
-// addAPIMatches()
+addAPIMatches()
 
-getMatchData(1, 42)
-getTeamAverage(8033)
+// getMatchData(1, 42)
+// getTeamAverage(8033)
+
+
 // var sql = `UPDATE users
 //                     SET access = ?
 //                     WHERE username = ?`
