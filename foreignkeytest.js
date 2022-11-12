@@ -53,7 +53,7 @@ function getTeamAverage(number) {
 function recreateTable() {
 
     var createTeams = `
-        CREATE TAB  LE teams(
+        CREATE TABLE teams(
             key TEXT ONLY PRIMARY KEY,
             teamNumber INTEGER, 
             teamName TEXT ONLY,
@@ -91,7 +91,7 @@ function recreateTable() {
         FOREIGN KEY(matchKey) REFERENCES matches(key)
     );        
     `
-
+        
     var insertTeams = `
         INSERT INTO teams (key, teamNumber, teamName) VALUES
         ("frc254", 254, "The Cheesy Poofs"),
@@ -113,7 +113,7 @@ function recreateTable() {
     // Inserting sample chezy matches
     var insertMatches = `
         INSERT INTO matches (key, gameKey, matchNumber, teamKey, matchType) VALUES
-
+            
         `
 
     var insertData = `
@@ -151,10 +151,10 @@ function recreateTable() {
         `
 
     db.serialize(() => {
-        // db.run("DROP TABLE IF EXISTS `teams`")
-        // db.run(createTeams, (err) => {if (err) {console.error(`teams ${err}`)}})
-        // db.run("DROP TABLE IF EXISTS `tournaments`")
-        // db.run(createTournaments, (err) => {if (err) {console.error(`tournaments ${err}`)}})
+        db.run("DROP TABLE IF EXISTS `teams`")
+        db.run(createTeams, (err) => {if (err) {console.error(`teams ${err}`)}})
+        db.run("DROP TABLE IF EXISTS `tournaments`")
+        db.run(createTournaments, (err) => {if (err) {console.error(`tournaments ${err}`)}})
 
         db.run("DROP TABLE IF EXISTS `matches`")
         db.run(createMatches, (err) => {if (err) {console.error(`matches ${err}`)}})

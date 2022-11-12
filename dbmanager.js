@@ -26,8 +26,19 @@ class Manager {
         })
     }
 
+    static initServer() {
+        var sql = `PRAGMA foreign_keys = ON`
+
+        // Shouldn't give a response if it runs correctly, just enables foreign keys
+        db.get(sql, (err) => {
+            if (err) {
+                return `(Ask Barry) Error: ${err}`
+            }
+        })
+    }
+
     static resetAndPopulateServer() {
-        var createTeams = `CREATE TAB  LE teams(key TEXT ONLY PRIMARY KEY, teamNumber INTEGER, teamName TEXT ONLY, UNIQUE (key, teamNumber, teamName));`
+        var createTeams = `CREATE TABLE teams(key TEXT ONLY PRIMARY KEY, teamNumber INTEGER, teamName TEXT ONLY, UNIQUE (key, teamNumber, teamName));`
 
         var createTournaments = `CREATE TABLE tournaments (key TEXT ONLY PRIMARY KEY, name TEXT ONLY, location VARCHAR(50), date TEXT ONLY VARCHAR(20), UNIQUE (key, date));`
 

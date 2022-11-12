@@ -28,8 +28,8 @@ let manager = new Manager()
 //get the port number from .env file
 app.listen(port, () => { 
     console.log(`Collection Server running on ${port}...`)
-    // Init server here, idk what it would init but possibly could run + cache analysis engine
-    // Manager.initServer()
+    // Init server here, idk what it would init but possibly could run + cache analysis engine, all it does is turn foreign keys on
+    Manager.initServer()
     
 })
 
