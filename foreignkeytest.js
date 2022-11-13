@@ -180,7 +180,8 @@ function addAPITeams() {
     
     var sql = `INSERT INTO teams (key, teamNumber, teamName) VALUES (?, ?, ?)`
 
-    for (var j = 0; j < 18; j++) {
+    // Turns out there's a team #9999
+    for (var j = 0; j < 20; j++) {
         axios.get(`${url}/teams/${j}/simple`, {
             headers: {'X-TBA-Auth-Key': process.env.KEY}
         })
@@ -193,8 +194,8 @@ function addAPITeams() {
         }).catch(error => {
             console.log(error);
         });
-        console.log(`Logged page ${j}`)
     }
+    console.log(`Finished sending logging`)
 }
 function addAPITournaments() {
     var url = "https://www.thebluealliance.com/api/v3"

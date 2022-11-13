@@ -135,19 +135,6 @@ class Manager {
         var url = "https://www.thebluealliance.com/api/v3"
 
         var sql = `SELECT * FROM tournaments WHERE name = '${name}' AND date = '${date}'`
-
-        async function sanityCheck(sql) {
-            return new Promise((resolve, reject) => {
-                Manager.db.run(sql, (err) => {
-                    if (err) {
-                        // console.log(i)
-                        // console.error(`Error with inserting match: ${err}, ${sql}`)   
-                        reject(err)
-                    }
-                    resolve()
-                })
-            })
-        }
         
         // Fix to use proper sqlite wrapper, ie return tournaments as variable instead of stringing stuff together with .then like a third grader
         Manager.db.all(sql, (err, tournament) => {
@@ -176,8 +163,12 @@ class Manager {
                                 }
                                 var sql = `INSERT INTO matches (key, gameKey, matchNumber, teamKey, matchType) VALUES ${matches}`
                                 // console.log(sql)
-                                await sanityCheck(sql).catch((err) => {if (err) console.log(err)})
-                                
+                                Manager.db.run(sql, (err) => {
+                                    if (err) {
+                                        // console.log(i)
+                                        console.error(`Error with inserting match: ${err}, ${sql}`)   
+                                    }
+                                })                                
                             }
                         }
                     }).catch(error => {
@@ -190,6 +181,6 @@ class Manager {
         return
     }
 }
-Manager.addMatches("Bordie React", "2022-10-14")
+// Manager.addMatches("Bordie React", "2022-10-14")
 // Manager.addMatches("Chezy Champs", "2022-09-23")
 module.exports = Manager
