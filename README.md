@@ -3,7 +3,7 @@ Installation process on Ubuntu (sorry don't know how installation works on mac o
 sudo apt update
 sudo apt install nodejs
 
-Check node install:
+Check node install (Must be at least node v10):
 node -v
 
 sudo apt install sqlite3
@@ -14,6 +14,8 @@ sqlite3 --version
 sudo apt install npm
 npm init -y
 npm install sqlite3
+npm install sqlite
+npm install morgan
 
 ----------------------------------------------------
 

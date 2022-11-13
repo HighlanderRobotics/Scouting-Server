@@ -151,10 +151,10 @@ function recreateTable() {
         `
 
     db.serialize(() => {
-        db.run("DROP TABLE IF EXISTS `teams`")
-        db.run(createTeams, (err) => {if (err) {console.error(`teams ${err}`)}})
-        db.run("DROP TABLE IF EXISTS `tournaments`")
-        db.run(createTournaments, (err) => {if (err) {console.error(`tournaments ${err}`)}})
+        // db.run("DROP TABLE IF EXISTS `teams`")
+        // db.run(createTeams, (err) => {if (err) {console.error(`teams ${err}`)}})
+        // db.run("DROP TABLE IF EXISTS `tournaments`")
+        // db.run(createTournaments, (err) => {if (err) {console.error(`tournaments ${err}`)}})
 
         db.run("DROP TABLE IF EXISTS `matches`")
         db.run(createMatches, (err) => {if (err) {console.error(`matches ${err}`)}})
@@ -189,10 +189,7 @@ function addAPITeams() {
               db.run(sql, [response.data[i].key, response.data[i].team_number, response.data[i].nickname], (err) => {
                 if (err) {console.error(`Error with ${response.data[i]}`)}
               })
-              // console.log(response.data[i].key);
-            }
-            
-            
+            }            
         }).catch(error => {
             console.log(error);
         });
@@ -207,50 +204,59 @@ function addAPITournaments() {
     axios.get(`${url}/events/2022/simple`, {
         headers: {'X-TBA-Auth-Key': process.env.KEY}
     })
-        .then(response => {
+      .then(response => {
         for (var i = 0; i < response.data.length; i++) {
             db.run(sql, [response.data[i].name, response.data[i].city, response.data[i].start_date, response.data[i].key])
         }
-        
-        
     }).catch(error => {
         console.log(error);
     });
 }
 
-// Outdated version of a better one in dbmanager
 function addAPIMatches() {
     var url = "https://www.thebluealliance.com/api/v3"
 
-
-    axios.get(`${url}/event/2022cc/matches/simple`, {
-        headers: {'X-TBA-Auth-Key': process.env.KEY}
-    }).then(response => {
-        for (var i = 0; i < response.data.length; i++) {
-            if (response.data[i].comp_level == "qm") {
-                console.log(`Adding qual match`)
-                var teams = [...response.data[i].alliances.red.team_keys, ...response.data[i].alliances.blue.team_keys]
-                var matches = ``
-                for (var k = 0; k < teams.length; k++) {
-                    matches = matches + `('${response.data[i].key}_${k}', '2022cc', ${response.data[i].match_number}, '${teams[k]}', '${response.data[i].comp_level}'), `
-                    if (k == 5) {
-                        matches = matches.substring(0, matches.length - 2)
-                    }
-                }
-                // console.log(matches)
-                var sql = `INSERT INTO matches (key, gameKey, matchNumber, teamKey, matchType) VALUES ${matches}`
-                // console.log(sql)
-
-                db.run(sql)
-                // console.log(response.data[i].key)
-
-            }
-            
+    var sql = `SELECT * FROM tournaments WHERE name = '${name}' AND date = '${date}'`
+    
+    // Fix to use proper sqlite wrapper, ie return tournaments as variable instead of stringing stuff together with .then like a third grader
+    Manager.db.all(sql, (err, tournament) => {
+        if (err) {
+            console.error(`Error with addMatches(): ${err}`)
         }
-
-    }).catch(error => {
-        console.log(error);
-    });
+        if (tournament[0] == undefined) {
+            console.error(`Error with addMatches(): Tournament not found`)
+        } else {
+            for (var i = 0; i < tournament.length; i++) {
+                // Get matches in tournament
+                axios.get(`${url}/event/${tournament[i].key}/matches/simple`, {
+                    headers: {'X-TBA-Auth-Key': process.env.KEY}
+                }).then(async response => {
+                    // For each match in the tournament
+                    for (var i = 0; i < response.data.length; i++) {
+                        if (response.data[i].comp_level == "qm") {
+                            var teams = [...response.data[i].alliances.red.team_keys, ...response.data[i].alliances.blue.team_keys]
+                            var matches = ``
+                            for (var k = 0; k < teams.length; k++) {
+                                matches = matches + `('${response.data[i].key}_${k}', '${tournament[0].key}', ${response.data[i].match_number}, '${teams[k]}', '${response.data[i].comp_level}'), `
+                                if (k == 5) {
+                                    matches = matches.substring(0, matches.length - 2)
+                                }
+                            }
+                            var sql = `INSERT INTO matches (key, gameKey, matchNumber, teamKey, matchType) VALUES ${matches}`
+                            
+                            Manager.db.run(sql, (err) => {
+                                if (err) {
+                                    console.err(`Error with inserting match: ${err}`)                                      
+                                }
+                            })
+                        }
+                    }
+                }).catch(error => {
+                    console.err(`Error with getting tournaments: ${error}`)
+                })
+            }
+        }
+    })
 }    
 
 recreateTable()

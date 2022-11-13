@@ -4,6 +4,12 @@ require("dotenv").config()
 const sqlite = require("sqlite3").verbose()
 // const axios = require("axios")
 
+// For writing logs
+const fs = require('fs')
+const path = require('path')
+const morgan = require('morgan')
+const Writable = require("stream").Writable
+
 // Promises
 const util = require('util')
 
@@ -12,66 +18,84 @@ const express = require('express')
 const app = express()
 app.use(express.json())
 
+var logStream = fs.createWriteStream(path.join(`${__dirname}/logs`, `Logs_${new Date()}.log`), { flags: 'a' })
+
+// setup the logger
+app.use(morgan('combined', {
+    stream: logStream
+}))
+
+class MyStream extends Writable {
+    write(line) {
+        // Write to console
+        console.log("Logger - ", line)
+    }
+}
+
+// Create a new named format
+morgan.token("readable", ":status A new :method request from :remote-addr for :url was received. It took :total-time[2] milliseconds to be resolved")
+
+let writer = new MyStream()
+
+// Use the new format by name
+app.use(morgan('readable', {
+    stream: writer
+}))
+
 //This middleware will allow us to pull req.body.<params>
 const port = process.env.TOKEN_SERVER_PORT 
 
-// Connect to database and create if doesn't exist
-const db = new sqlite.Database('./test.db', sqlite.OPEN_CREATE | sqlite.OPEN_READWRITE, (err) => {
-    if (err)
-        console.error(err);
-  });
-
 const Manager = require('./dbmanager.js')
 const { rejects } = require("assert")
-let manager = new Manager()
 
 //get the port number from .env file
 app.listen(port, () => { 
     console.log(`Collection Server running on ${port}...`)
     // Init server here, idk what it would init but possibly could run + cache analysis engine, all it does is turn foreign keys on
     Manager.initServer()
-    
+    console.log(`Resetting server`)
 })
 
 app.get("/getDashboardStartupData", async (req,res) => {
     // Run cassie's analysis data and save it to an object
-    res.status(201).send(`Analysis engine data here`)
+    res.status(200).send(`Analysis engine data here`)
 })
 
 app.get("/getDashboardUpdatedData", async (req,res) => {
     // Get cached/Rerun analysis engine and send it
-    res.status(201).send(`Analysis engine data here`)
+    res.status(200).send(`Analysis engine data here`)
 })
 
 app.get("/forceRunEngine", async (req, res) => {
     // Run analysis engine
-    res.status(201).send(`Analysis engine data here`)
+    res.status(200).send(`Analysis engine data here`)
 })
 
 // Add tournament
 app.post("/addTournamentMatches", async (req, res) => {
-    const tournament = {
-        'name': req.body.tournamentName,
-        'date': req.body.tournamentDate, 
+    // If the proper fields are filled out
+    if (req.body.tournamentName && req.body.tournamentDate) {
+        Manager.addMatches(req.body.tournamentName, req.body.tournamentDate)
+        res.status(202).send(`Looks good`)
+    } else {
+        res.status(400).send(`Missing something`)
     }
-
-    const loadMatches = (name, date, cb) => {
-        Manager.addMatches(name, date)
-         .then((errors) => cb(errors))
-    }
-    
-    loadMatches("Chezy Champs", "2022-09-23", (response) => {
-        if (response.includes(`(Your Fault)`) || response.includes(`(Ask Barry)`)) {
-            res.status(400).send(response)
-        } else {
-            res.status(201).send(response)
-        }
-    })
-    // Pull tournaments from that year and match data from api and add it to the db
 })
 
 // List teams
 app.get("/listTeams", async (req,res) => {
-    res.status(201).send(Manager.getTeams())
-    return
+
+    const teams = (cb) => {
+        Manager.getTeams()
+        .then((response) => {
+            cb(response)
+        })
+        .catch((err) => {
+            cb(err)
+        })
+    }
+
+    teams((response) => {
+        res.status(201).send(response)
+    })
 })
