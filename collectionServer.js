@@ -53,22 +53,18 @@ app.listen(port, () => {
     console.log(`Collection Server running on ${port}...`)
     // Init server here, idk what it would init but possibly could run + cache analysis engine, all it does is turn foreign keys on
     Manager.initServer()
-    console.log(`Resetting server`)
+    console.log(`Initializing server`)
 })
 
-app.get("/getDashboardStartupData", async (req,res) => {
-    // Run cassie's analysis data and save it to an object
-    res.status(200).send(`Analysis engine data here`)
-})
 
-app.get("/getDashboardUpdatedData", async (req,res) => {
+app.get("/getDashboardData", async (req,res) => {
     // Get cached/Rerun analysis engine and send it
     res.status(200).send(`Analysis engine data here`)
 })
 
-app.get("/forceRunEngine", async (req, res) => {
+app.get("/runEngine", async (req, res) => {
     // Run analysis engine
-    res.status(200).send(`Analysis engine data here`)
+    res.status(201).send(`Started analysis`)
 })
 
 // Add data to database
