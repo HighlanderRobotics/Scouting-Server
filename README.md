@@ -50,13 +50,19 @@ SQLite Viewer by FLorian Klampfer
 2. Make analysis engine
  - ~~Get Team's points average~~
  - Build rest of analysis for analysis engine
-3. Add actual data to the Database
- - ~~Connect to app~~
- - Get data from the app
+3. ~~Add actual data to the Database~~
+ - ~~Get data from the app~~
+ - ~~Add post request for inputing data~~
  - ~~Add any data required to properly insert into the header in gamedata (on the app)~~
    - Its on the test-rest-api branch
 4. REST API
- - ~~Add post request for inputing data~~
  - ~~Add get request for recieving analysis~~
  - Create token system
- - Add + Implement post request for adding stuff via api (such as tournament matches)
+ - Add post request for inputing data
+ - ~~Add get request for recieving analysis~~
+ - ~~Add post request for adding stuff via api (such as tournament matches)~~
+
+Commands: 
+Run server: nodemon collectionServer.js
+Run individual js files: node {filename}
+Send packets through Postman if you want
