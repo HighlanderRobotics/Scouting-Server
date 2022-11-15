@@ -45,7 +45,16 @@ class Manager {
 
         var createMatches = `CREATE TABLE matches (key PRIMARY KEY, gameKey TEXT ONLY NOT NULL, matchNumber INTEGER, teamKey TEXT ONLY NOT NULL, matchType TEXT ONLY NOT NULL, UNIQUE (gameKey, matchNumber, teamKey), FOREIGN KEY(gameKey) REFERENCES tournaments(key), FOREIGN KEY(teamKey) REFERENCES teams(key));`
 
-        var createData = `CREATE TABLE data (id INTEGER PRIMARY KEY, matchKey INTEGER NOT NULL, data VARCHAR(3000), UNIQUE (matchKey, data), FOREIGN KEY(matchKey) REFERENCES matches(key));`
+        var createData = `
+            CREATE TABLE data (
+                id INTEGER PRIMARY KEY, 
+                matchKey INTEGER NOT NULL, 
+                scoutReport VARCHAR(5000), 
+                notes TEXT ONLY VARCHAR (250),
+                UNIQUE (matchKey, data), 
+                FOREIGN KEY(matchKey) REFERENCES matches(key)
+            );
+        `
         
         async function removeAndAddTables() {
             return new Promise(function (resolve, reject) {

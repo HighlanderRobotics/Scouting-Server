@@ -86,7 +86,7 @@ function recreateTable() {
     CREATE TABLE data (
         id INTEGER PRIMARY KEY, 
         matchKey INTEGER NOT NULL,
-        data VARCHAR(3000),
+        scoutReport VARCHAR(5000),
         UNIQUE (matchKey, data),
         FOREIGN KEY(matchKey) REFERENCES matches(key)
     );        
@@ -117,7 +117,7 @@ function recreateTable() {
         `
 
     var insertData = `
-        INSERT INTO data (matchKey, data) VALUES
+        INSERT INTO data (matchKey, scoutReport) VALUES
         (2, '{
             "points": 12
         }'),
