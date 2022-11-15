@@ -15,9 +15,14 @@ const util = require('util')
 
 //this will allow us to pull params from .env file
 const express = require('express')
+
+// HTTPS (code was removed)
+const port = process.env.TOKEN_SERVER_PORT 
+
 const app = express()
 app.use(express.json())
 
+// Logging stuff
 var logStream = fs.createWriteStream(path.join(`${__dirname}/logs`, `Logs_${new Date()}.log`), { flags: 'a' })
 
 // setup the logger
@@ -43,17 +48,21 @@ app.use(morgan('readable', {
 }))
 
 //This middleware will allow us to pull req.body.<params>
-const port = process.env.TOKEN_SERVER_PORT 
 
 const Manager = require('./dbmanager.js')
-const { rejects } = require("assert")
 
 //get the port number from .env file
+
+
 app.listen(port, () => { 
     console.log(`Collection Server running on ${port}...`)
     // Init server here, idk what it would init but possibly could run + cache analysis engine, all it does is turn foreign keys on
     Manager.initServer()
     console.log(`Resetting server`)
+})
+
+app.get("/", async (req, res) => {
+    res.status(200).send(`All good my dude`)
 })
 
 app.get("/getDashboardStartupData", async (req,res) => {
@@ -72,7 +81,7 @@ app.get("/forceRunEngine", async (req, res) => {
 })
 
 // Add data to database
-app.post("/addData", async (req, res) => {
+app.post("/addScoutReport", async (req, res) => {
     if (req.body.teamKey && req.body.tournamentKey && req.body.data) {
         // Manager.addData(req.body.teamKey, req.body.tournamentKey, req.body.data)
         res.status(202).send(`Looks good`)
@@ -109,3 +118,4 @@ app.get("/listTeams", async (req,res) => {
         res.status(201).send(response)
     })
 })
+
