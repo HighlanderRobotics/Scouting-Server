@@ -38,6 +38,53 @@ class Manager {
         })
     }
 
+    static enterData(teamKey, gameKey, data) {
+
+        var sql = `
+        SELECT * FROM matches WHERE
+            teamKey = "${teamKey}" AND
+            gameKey = "${gameKey}" AND
+            matchNumber = ${data.matchNumber}
+        `
+
+        async function insertData(matchKey, data) {
+            var insert = `INSERT INTO data (matchKey, data) VALUES ('${matchKey}', '${JSON.stringify(data)}')`
+            return new Promise((resolve, reject) => {
+                Manager.db.run(insert, (err) => {
+                    if (err) {
+                        reject(err)
+                    }
+                    console.log(`Data entered`)
+                    resolve()
+                })
+            })
+        }
+
+        Manager.db.get(sql, (err, match) => {
+            console.log(match)
+            if (err) {
+                console.error(err)
+                // reject(err)
+            } else if (match != undefined) {
+                insertData(match.key, data)
+                  .catch((err) => {
+                    if (err) {
+                        console.error(`Problem inserting data: ${err}`)
+                    } else {
+                        console.log(`Data successfully entered`)
+                    }
+                    // reject(err)
+                  })
+                  .then(() => {
+                    // resolve(`Data successfully entered`)
+                  })
+            } else {
+                console.log(`Couldn't find match`)
+                // reject(`Match doesn't exist`)
+            }
+        })
+    }
+
     static resetAndPopulateServer() {
         var createTeams = `CREATE TABLE teams(key TEXT ONLY PRIMARY KEY, teamNumber INTEGER, teamName TEXT ONLY, UNIQUE (key, teamNumber, teamName));`
 

@@ -78,7 +78,7 @@ app.get("/runEngine", async (req, res) => {
 // Add data to database
 app.post("/addScoutReport", async (req, res) => {
     if (req.body.teamKey && req.body.tournamentKey && req.body.data) {
-        // Manager.addData(req.body.teamKey, req.body.tournamentKey, req.body.data)
+        Manager.enterData(req.body.teamKey, req.body.tournamentKey, req.body.data)
         res.status(202).send(`Looks good`)
     } else {
         res.status(400).send(`Missing something`)

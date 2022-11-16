@@ -156,8 +156,8 @@ function recreateTable() {
         // db.run("DROP TABLE IF EXISTS `tournaments`")
         // db.run(createTournaments, (err) => {if (err) {console.error(`tournaments ${err}`)}})
 
-        db.run("DROP TABLE IF EXISTS `matches`")
-        db.run(createMatches, (err) => {if (err) {console.error(`matches ${err}`)}})
+        // db.run("DROP TABLE IF EXISTS `matches`")
+        // db.run(createMatches, (err) => {if (err) {console.error(`matches ${err}`)}})
 
         db.run("DROP TABLE IF EXISTS `data`")
         db.run(createData, (err) => {if (err) {console.error(`data ${err}`)}})
