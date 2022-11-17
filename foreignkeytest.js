@@ -83,13 +83,17 @@ function recreateTable() {
             `
 
     var createData = `
-    CREATE TABLE data (
-        id INTEGER PRIMARY KEY, 
-        matchKey INTEGER NOT NULL,
-        scoutReport VARCHAR(5000),
-        UNIQUE (matchKey, data),
-        FOREIGN KEY(matchKey) REFERENCES matches(key)
-    );        
+        CREATE TABLE data (
+            id INTEGER PRIMARY KEY,
+            matchKey INTEGER NOT NULL, 
+            scouterId TEXT ONLY VARCHAR(25) NOT NULL,
+            defense INTEGER NOT NULL, 
+            startTime INTEGER NOT NULL,
+            scoutReport VARCHAR(5000),
+            notes BLOB VARCHAR (250),
+            UNIQUE (matchKey, scouterId, scoutReport), 
+            FOREIGN KEY(matchKey) REFERENCES matches(key)
+        );
     `
         
     var insertTeams = `
@@ -117,37 +121,6 @@ function recreateTable() {
         `
 
     var insertData = `
-        INSERT INTO data (matchKey, scoutReport) VALUES
-        (2, '{
-            "points": 12
-        }'),
-        (4, '{
-            "points": 16
-        }'),
-        (5, '{
-            "points": 13
-        }'),
-        (6, '{
-            "points": 19
-        }'),
-        (7, '{
-            "points": 24
-        }'),
-        (8, '{
-            "points": 16
-        }'),
-        (9, '{
-            "points": 13
-        }'),
-        (10, '{
-            "points": 25
-        }'),
-        (11, '{
-            "points": 12
-        }'),
-        (13, '{
-            "points": 10
-        }')
         `
 
     db.serialize(() => {

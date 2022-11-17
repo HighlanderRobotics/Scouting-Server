@@ -48,9 +48,33 @@ class Manager {
         `
 
         async function insertData(matchKey, data) {
-            var insert = `INSERT INTO data (matchKey, data) VALUES ('${matchKey}', '${JSON.stringify(data)}')`
+            var insert = `INSERT INTO data (matchKey, scouterId, defense, startTime, scoutReport, notes) VALUES (?, ?, ?, ?, ?, ?)`
+            
+            // Rename game to competition
+            try {
+                var constantData = {
+                    scouterId: data.scouterId,
+                    defense: data.defense,
+                    startTime: data.startTime,
+                    notes: data.notes
+                }
+            } catch (err) {
+                reject(err)
+            }
+
+            
+            var gameDependent = {}
+
+            for (var key of Object.keys(data)) {
+                if (key !== `scouterId` && key !== 'defense' && key !== 'notes' && key !== 'startTime') {
+                    gameDependent[`${key}`] = `"${JSON.stringify(data[`${key}`])}"`
+                    // console.log(`${key}: ${JSON.stringify(data[`${key}`])}`)
+                }
+            }
+
+
             return new Promise((resolve, reject) => {
-                Manager.db.run(insert, (err) => {
+                Manager.db.run(insert, [matchKey, constantData.scouterId, constantData.defense, constantData.startTime, JSON.stringify(gameDependent), constantData.notes], (err) => {
                     if (err) {
                         reject(err)
                     }
@@ -61,7 +85,7 @@ class Manager {
         }
 
         Manager.db.get(sql, (err, match) => {
-            console.log(match)
+            // console.log(match)
             if (err) {
                 console.error(err)
                 // reject(err)
@@ -70,6 +94,7 @@ class Manager {
                   .catch((err) => {
                     if (err) {
                         console.error(`Problem inserting data: ${err}`)
+                        // reject(err)
                     } else {
                         console.log(`Data successfully entered`)
                     }
@@ -92,16 +117,20 @@ class Manager {
 
         var createMatches = `CREATE TABLE matches (key PRIMARY KEY, gameKey TEXT ONLY NOT NULL, matchNumber INTEGER, teamKey TEXT ONLY NOT NULL, matchType TEXT ONLY NOT NULL, UNIQUE (gameKey, matchNumber, teamKey), FOREIGN KEY(gameKey) REFERENCES tournaments(key), FOREIGN KEY(teamKey) REFERENCES teams(key));`
 
+        // Probably finalized lmk if there's any other datapoints
         var createData = `
-            CREATE TABLE data (
-                id INTEGER PRIMARY KEY, 
-                matchKey INTEGER NOT NULL, 
-                scoutReport VARCHAR(5000), 
-                notes TEXT ONLY VARCHAR (250),
-                UNIQUE (matchKey, data), 
-                FOREIGN KEY(matchKey) REFERENCES matches(key)
-            );
-        `
+        CREATE TABLE data (
+            id INTEGER PRIMARY KEY,
+            matchKey INTEGER NOT NULL, 
+            scouterId TEXT ONLY VARCHAR(25) NOT NULL,
+            defense INTEGER NOT NULL, 
+            startTime INTEGER NOT NULL,
+            scoutReport VARCHAR(5000),
+            notes BLOB VARCHAR (250),
+            UNIQUE (matchKey, scouterId, scoutReport), 
+            FOREIGN KEY(matchKey) REFERENCES matches(key)
+        );
+    `
         
         async function removeAndAddTables() {
             return new Promise(function (resolve, reject) {

@@ -6,6 +6,8 @@
 // });
 // require("dotenv").config()
 
+const Manager = require("./dbmanager")
+
 // var url = "https://www.thebluealliance.com/api/v3"
 // console.log(new Date())
 // var sql = `INSERT INTO teams (teamNumber, teamName, teamKey) VALUES (?, ?, ?)`
@@ -94,3 +96,12 @@
 // app.listen(port, () => {
 //    console.log(`Sample app listening at http://localhost:${port}`)
 // })
+
+var sql = `SELECT * FROM data ORDER BY id`
+
+Manager.db.each(sql, (err, row) => {
+  if (err) {
+    console.error(err)
+  }
+  console.log(row)
+})
