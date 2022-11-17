@@ -65,21 +65,21 @@ app.get("/", async (req, res) => {
     res.status(200).send(`All good my dude`)
 })
 
-app.get("/getDashboardData", async (req,res) => {
+app.post("/getEngineTaskData", async (req,res) => {
     // Get cached/Rerun analysis engine and send it
     res.status(200).send(`Analysis engine data here`)
 })
 
-app.get("/runEngine", async (req, res) => {
+app.post("/runEngine", async (req, res) => {
     // Run analysis engine
-    res.status(201).send(`Started analysis`)
+    res.status(200).send(`Started analysis`)
 })
 
 // Add data to database
 app.post("/addScoutReport", async (req, res) => {
     if (req.body.teamKey && req.body.tournamentKey && req.body.data) {
         Manager.enterData(req.body.teamKey, req.body.tournamentKey, req.body.data)
-        res.status(202).send(`Looks good`)
+        res.status(200).send(`Looks good`)
     } else {
         res.status(400).send(`Missing something`)
     }
@@ -90,7 +90,7 @@ app.post("/addTournamentMatches", async (req, res) => {
     // If the proper fields are filled out
     if (req.body.tournamentName && req.body.tournamentDate) {
         Manager.addMatches(req.body.tournamentName, req.body.tournamentDate)
-        res.status(202).send(`Looks good`)
+        res.status(200).send(`Looks good`)
     } else {
         res.status(400).send(`Missing something`)
     }
@@ -110,7 +110,7 @@ app.get("/listTeams", async (req,res) => {
     }
 
     teams((response) => {
-        res.status(201).send(response)
+        res.status(200).send(response)
     })
 })
 
