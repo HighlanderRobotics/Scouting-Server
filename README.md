@@ -37,6 +37,17 @@ openssl x509 -req -days 365 -in csr.pem -signkey key.pem -out cert.pem
 ```
 You can enter w/e information you want for the certificate request it doesn't matter
 
+# Setup ngrok
+
+Follow instructions on https://ngrok.com/download, adding an authToken is optional
+
+Run in terminal:
+```
+ngrok http 4000
+```
+
+Copy the text after the word "forwarding" and before the "->" to get the link to the server (it will work when the server is on and port 4000 opens)
+
 # Extensions
 
 SQLite by alexcvzz<br />
