@@ -51,8 +51,9 @@ app.use(morgan('readable', {
 
 const Manager = require('./dbmanager.js')
 
-//get the port number from .env file
-
+// Tasks map
+const uuidToTask = new Map()
+const tasks = new Map()
 
 app.listen(port, () => { 
     console.log(`Collection Server running on ${port}...`)
@@ -65,9 +66,32 @@ app.get("/", async (req, res) => {
     res.status(200).send(`All good my dude`)
 })
 
-app.post("/getEngineTaskData", async (req,res) => {
+app.post("/getTaskData", async (req,res) => {
     // Get cached/Rerun analysis engine and send it
-    res.status(200).send(`Analysis engine data here`)
+    
+    if (req.body.taskNumber != undefined) {
+        console.log(`Task Number: ${req.body.taskNumber}`)
+        // Times out after 50 ms, assumes it's still pending (usually takes ~10ms)
+        setTimeout(function() {
+            if (tasks.has(req.body.taskNumber)) {
+                tasks.get(req.body.taskNumber)
+                .catch((err) => {
+                    console.error(err)
+                })
+                .then((returnData) => {
+                    res.status(200).send(`${JSON.stringify(returnData)}`)
+                })
+            } else {
+                res.status(400).send(`Task number does not exist`)
+            }
+        }, 50)
+    } else if (req.body.uuid) {
+        console.log(`UUID: ${req.body.uuid}`)
+        console.log(tasks.get(uuidToTask.get(req.body.uuid)))
+        res.status(200).send(`${tasks.get(uuidToTask.get(req.body.uuid))}`)
+    } else {
+        res.status(400).send(`Missing task number or uuid`)
+    }
 })
 
 app.post("/runEngine", async (req, res) => {
@@ -88,29 +112,29 @@ app.post("/addScoutReport", async (req, res) => {
 // Add tournament
 app.post("/addTournamentMatches", async (req, res) => {
     // If the proper fields are filled out
-    if (req.body.tournamentName && req.body.tournamentDate) {
-        Manager.addMatches(req.body.tournamentName, req.body.tournamentDate)
-        res.status(200).send(`Looks good`)
+    if (req.body.tournamentName && req.body.tournamentDate && req.body.uuid) {
+        var taskNumber = uuidToTask.size
+        uuidToTask.set(req.body.uuid, taskNumber)
+        tasks.set(taskNumber, Manager.addMatches(req.body.tournamentName, req.body.tournamentDate))
+        console.log(tasks.get(taskNumber))
+        res.status(200).send(`${taskNumber}`)
     } else {
         res.status(400).send(`Missing something`)
     }
 })
 
 // List teams
-app.get("/listTeams", async (req,res) => {
+app.post("/listTeams", async (req,res) => {
 
-    const teams = (cb) => {
-        Manager.getTeams()
-        .then((response) => {
-            cb(response)
-        })
-        .catch((err) => {
-            cb(err)
-        })
+    if (req.body.uuid) {
+        var taskNumber = uuidToTask.size
+        uuidToTask.set(req.body.uuid, taskNumber)
+        tasks.set(taskNumber, Manager.getTeams())
+        // console.log(tasks.get(taskNumber))
+        res.status(200).send(`Task Number: ${taskNumber}`)
+    } else {
+        res.status(400).send(`Missing uuid`)
     }
 
-    teams((response) => {
-        res.status(200).send(response)
-    })
 })
 

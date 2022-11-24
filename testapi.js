@@ -97,11 +97,35 @@ const Manager = require("./dbmanager")
 //    console.log(`Sample app listening at http://localhost:${port}`)
 // })
 
-var sql = `SELECT * FROM data ORDER BY id`
+// var sql = `SELECT * FROM data ORDER BY id`
 
-Manager.db.each(sql, (err, row) => {
-  if (err) {
-    console.error(err)
-  }
-  console.log(row)
+// Manager.db.each(sql, (err, row) => {
+//   if (err) {
+//     console.error(err)
+//   }
+//   console.log(row)
+// })
+
+const map = new Map()
+
+// map.set({"num": 0, "uuid":"3243423"}, "asdf")
+// map.set({"num": 1, "uuid":"3243423"}, "asadf")
+// map.set({"num": 2, "uuid":"3243423"}, "afssdf")
+// map.set({"num": 3, "uuid":"3243423"}, "asddf")
+// map.set({"num": 5, "uuid":"3243423"}, "asdfaf")
+// map.set({"num": 4, "uuid":"3243423"}, "asdsf")
+
+map.set(4, "4")
+map.set(2, "2")
+map.set(1, "1")
+map.set(3, "3")
+map.set(0, "0")
+map.set(5, "5")
+map.set(6, "6")
+
+for (var i = 0; i < 6; i++)
+  console.log(map.get(i))
+
+map.forEach((value, key) => {
+  console.log(`${key.num}: ${value}`)
 })

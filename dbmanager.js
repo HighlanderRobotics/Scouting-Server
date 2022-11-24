@@ -15,15 +15,17 @@ class Manager {
     static getTeams() {
         var sql = `SELECT * FROM teams ORDER BY teamnumber`
 
-        // Later do differently so it doesn't keep the http request open
         return new Promise((resolve, reject) => {
             Manager.db.all(sql, (err, storedTeams) => {
                 if (err) {
                     console.error(`Error with getTeams(): ${err}`)
                     reject(`Error with getTeams(): ${err}`)
+                } else {
+                    resolve(storedTeams);
                 }
-                resolve(storedTeams);
             })
+        }).catch((err) => {
+            return err
         })
     }
 
@@ -197,22 +199,25 @@ class Manager {
 
         var sql = `INSERT INTO tournaments (name, location, date, key) VALUES (?, ?, ?, ?)`
 
-        axios.get(`${url}/events/2022/simple`, {
-            headers: {'X-TBA-Auth-Key': process.env.KEY}
+        return new Promise((resolve, reject) => {
+            axios.get(`${url}/events/2022/simple`, {
+                headers: {'X-TBA-Auth-Key': process.env.KEY}
+            })
+              .then(response => {
+                for (var i = 0; i < response.data.length; i++) {
+                    db.run(sql, [response.data[i].name, response.data[i].city, response.data[i].start_date, response.data[i].key], (err) => {
+                        if (err) {
+                            console.error(`Error inserting tournament: ${err}`)
+                            reject(`Error inserting tournament: ${err}`)
+                        }
+                    })
+                }
+            }).catch(err => {
+                console.error(`Error with getting API Tournaments: ${err}`)
+                reject(`Error with getting API Tournaments: ${err}`)
+            });
+            resolve(`Success`)
         })
-          .then(response => {
-            for (var i = 0; i < response.data.length; i++) {
-                db.run(sql, [response.data[i].name, response.data[i].city, response.data[i].start_date, response.data[i].key], (err) => {
-                    if (err) {
-                        console.error(`Error inserting tournament: ${err}`)
-                    }
-                })
-            }
-        }).catch(err => {
-            console.error(`Error with getting API Tournaments: ${err}`)
-        });
-
-        return
     }
 
     // Add matches from tournament
@@ -221,49 +226,77 @@ class Manager {
 
         var sql = `SELECT * FROM tournaments WHERE name = '${name}' AND date = '${date}'`
         
-        // Fix to use proper sqlite wrapper, ie return tournaments as variable instead of stringing stuff together with .then like a third grader
-        Manager.db.all(sql, (err, tournament) => {
-            if (err) {
-                console.error(`Error with addMatches(): ${err}`)
-            }
-            if (tournament[0] == undefined) {
-                console.error(`Error with addMatches(): Tournament not found`)
-            } else {
-                for (var i = 0; i < tournament.length; i++) {
-                    // Get matches in tournament
-                    axios.get(`${url}/event/${tournament[i].key}/matches/simple`, {
-                        headers: {'X-TBA-Auth-Key': process.env.KEY}
-                    }).then(async response => {
-                        // For each match in the tournament
-                        for (var i = 0; i < response.data.length; i++) {
-                            // console.log(`${response.data[i].comp_level} ${response.data[i].match_number}`)
-                            if (response.data[i].comp_level == "qm") {
-                                var teams = [...response.data[i].alliances.red.team_keys, ...response.data[i].alliances.blue.team_keys]
-                                var matches = ``
-                                for (var k = 0; k < teams.length; k++) {
-                                    matches = matches + `('${response.data[i].key}_${k}', '${tournament[0].key}', ${response.data[i].match_number}, '${teams[k]}', '${response.data[i].comp_level}'), `
-                                    if (k == 5) {
-                                        matches = matches.substring(0, matches.length - 2)
-                                    }
-                                }
-                                var sql = `INSERT INTO matches (key, gameKey, matchNumber, teamKey, matchType) VALUES ${matches}`
-                                // console.log(sql)
-                                Manager.db.run(sql, (err) => {
-                                    if (err) {
-                                        // console.log(i)
-                                        console.error(`Error with inserting match: ${err}, ${sql}`)   
-                                    }
-                                })                                
-                            }
-                        }
-                    }).catch(error => {
-                        console.error(`Error with getting tournaments: ${error}`)
-                    })
-                }
-            }
-        })
+        async function whyGodInsert(sql) {
+            return new Promise((resolve, reject) => {
+                Manager.db.run(sql, (err) => {
+                    if (err) {
+                        // console.error(`Error with inserting match: ${err}, ${sql}`)
+                        reject(`Error with inserting match: ${err}, ${sql}`)
+                    } else {
+                        resolve()
+                    }
+                })
+            })
+        }
 
-        return
+        // Fix to use proper sqlite wrapper, ie return tournaments as variable instead of stringing stuff together with .then like a third grader
+        return new Promise((resolve, reject) => {
+            Manager.db.all(sql, (err, tournament) => {
+                if (err) {
+                    console.error(`Error with addMatches(): ${err}`)
+                    reject(`Error with addMatches(): ${err}`)
+                }
+                if (tournament[0] == undefined) {
+                    console.error(`Error with addMatches(): Tournament not found`)
+                    reject(`Error with addMatches(): Tournament not found`)
+                } else {
+                    for (var i = 0; i < tournament.length; i++) {
+                        // Get matches in tournament
+                        axios.get(`${url}/event/${tournament[i].key}/matches/simple`, {
+                            headers: {'X-TBA-Auth-Key': process.env.KEY}
+                        }).then(async response => {
+                            // For each match in the tournament
+                            for (var i = 0; i < response.data.length; i++) {
+                                // console.log(`${response.data[i].comp_level} ${response.data[i].match_number}`)
+                                if (response.data[i].comp_level == "qm") {
+                                    var teams = [...response.data[i].alliances.red.team_keys, ...response.data[i].alliances.blue.team_keys]
+                                    var matches = ``
+                                    for (var k = 0; k < teams.length; k++) {
+                                        matches = matches + `('${response.data[i].key}_${k}', '${tournament[0].key}', ${response.data[i].match_number}, '${teams[k]}', '${response.data[i].comp_level}'), `
+                                        if (k == 5) {
+                                            matches = matches.substring(0, matches.length - 2)
+                                        }
+                                    }
+                                    var sql = `INSERT INTO matches (key, gameKey, matchNumber, teamKey, matchType) VALUES ${matches}`
+                                    // console.log(sql)
+                                    await whyGodInsert(sql)
+                                    .catch((err) => {
+                                        if (err) {
+                                            console.log(`Error with inserting: ${err}`)
+                                            reject(err)
+                                        }
+
+                                    })                           
+                                }
+                            }
+                        }).catch(error => {
+                            console.error(`Error with getting tournaments: ${error}`)
+                            reject(`Error with getting tournaments: ${error}`)
+                        }).then(() => {
+                            console.log(`Success`)
+                            resolve(`Success`)
+                        })
+                    }
+                }
+            })
+
+        }).catch((err) => {
+            if (err) {
+                return err
+            }
+        }).then((results) => {
+            return results
+        })
     }
 }
 // Manager.addMatches("Bordie React", "2022-10-14")
