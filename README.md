@@ -23,20 +23,6 @@ npm install sqlite3
 npm install sqlite
 npm install morgan
 ```
-# Setup SSL Certificate
-
-**Not neccessary because scrapped https code**
-
-Go to /ssl and run: 
-```
-openssl genrsa -out key.pem
-
-openssl req -new -key key.pem -out csr.pem
-
-openssl x509 -req -days 365 -in csr.pem -signkey key.pem -out cert.pem
-```
-You can enter w/e information you want for the certificate request it doesn't matter
-
 # Setup ngrok
 
 Follow instructions on https://ngrok.com/download, adding an authToken is optional
@@ -73,7 +59,13 @@ SQLite Viewer by FLorian Klampfer
  - ~~Add get request for recieving analysis~~
  - ~~Add post request for adding stuff via api (such as tournament matches)~~
 
-Commands: 
-Run server: nodemon collectionServer.js
-Run individual js files: node {filename}
+## Commands:
+Run server: 
+```
+nodemon collectionServer.js
+```
+Run individual js files: 
+```
+node {filename}
+```
 Send packets through Postman if you want
