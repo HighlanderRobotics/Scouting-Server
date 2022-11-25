@@ -66,31 +66,45 @@ app.get("/", async (req, res) => {
     res.status(200).send(`All good my dude`)
 })
 
-app.post("/getTaskData", async (req,res) => {
+const promiseWithTimeout = (async (promise) => {
+    // Times out after 1 ms, assumes promise is still pending (usually takes ~0ms)
+    var timeOutTime = 1;
+
+    const timeoutPromise = new Promise(async (resolve, reject) => {
+        setTimeout(resolve, timeOutTime, `Request timed out after ${timeOutTime}`)
+    })
+
+    return Promise.race([promise, timeoutPromise])
+  })
+
+  app.post("/getTaskData", async (req,res) => {
     // Get cached/Rerun analysis engine and send it
-    
+
     if (req.body.taskNumber != undefined) {
         console.log(`Task Number: ${req.body.taskNumber}`)
-        // Times out after 50 ms, assumes it's still pending (usually takes ~10ms)
-        setTimeout(function() {
-            if (tasks.has(req.body.taskNumber)) {
-                tasks.get(req.body.taskNumber)
-                .catch((err) => {
-                    console.error(err)
-                })
-                .then((returnData) => {
-                    res.status(200).send(`${JSON.stringify(returnData)}`)
-                })
+
+        await promiseWithTimeout(tasks.get(req.body.taskNumber))
+        .then((response) => {
+            if (JSON.stringify(response).includes(`Error: `)) {
+                res.status(400).send(`Error: ${JSON.stringify(response)}`)
             } else {
-                res.status(400).send(`Task number does not exist`)
+                res.status(200).send(`${JSON.stringify(response)}`)
             }
-        }, 50)
+        })
     } else if (req.body.uuid) {
         console.log(`UUID: ${req.body.uuid}`)
-        console.log(tasks.get(uuidToTask.get(req.body.uuid)))
-        res.status(200).send(`${tasks.get(uuidToTask.get(req.body.uuid))}`)
+
+        await promiseWithTimeout(tasks.get(uuidToTask.get(req.body.uuid)))
+        .then((response) => {
+            if (JSON.stringify(response).includes(`Error: `)) {
+                res.status(400).send(`Error: ${JSON.stringify(response)}`)
+            } else {
+                res.status(200).send(`${JSON.stringify(response)}`)
+            }
+        })
     } else {
         res.status(400).send(`Missing task number or uuid`)
+        return
     }
 })
 
@@ -116,8 +130,8 @@ app.post("/addTournamentMatches", async (req, res) => {
         var taskNumber = uuidToTask.size
         uuidToTask.set(req.body.uuid, taskNumber)
         tasks.set(taskNumber, Manager.addMatches(req.body.tournamentName, req.body.tournamentDate))
-        console.log(tasks.get(taskNumber))
-        res.status(200).send(`${taskNumber}`)
+        // console.log(tasks.get(taskNumber))
+        res.status(200).send(`Task Number:${taskNumber}`)
     } else {
         res.status(400).send(`Missing something`)
     }

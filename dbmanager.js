@@ -241,6 +241,9 @@ class Manager {
 
         // Fix to use proper sqlite wrapper, ie return tournaments as variable instead of stringing stuff together with .then like a third grader
         return new Promise((resolve, reject) => {
+            // setTimeout(reject, 5000, `Added`)
+
+            // /*
             Manager.db.all(sql, (err, tournament) => {
                 if (err) {
                     console.error(`Error with addMatches(): ${err}`)
@@ -283,13 +286,13 @@ class Manager {
                             console.error(`Error with getting tournaments: ${error}`)
                             reject(`Error with getting tournaments: ${error}`)
                         }).then(() => {
-                            console.log(`Success`)
+                            console.log(`Successfully added matches`)
                             resolve(`Success`)
                         })
                     }
                 }
             })
-
+            // */
         }).catch((err) => {
             if (err) {
                 return err
