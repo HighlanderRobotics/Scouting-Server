@@ -45,7 +45,7 @@ SQLite Viewer by FLorian Klampfer
  - ~~Build get all teams~~
  - ~~Get and insert matches for round-robin~~
 2. Make analysis engine
- - ~~Get Team's points average~~
+ - Get Team's points average
  - Build rest of analysis for analysis engine
 3. ~~Add actual data to the Database~~
  - ~~Get data from the app~~
@@ -54,8 +54,8 @@ SQLite Viewer by FLorian Klampfer
    - Its on the test-rest-api branch
 4. REST API
  - ~~Add get request for recieving analysis~~
- - Create token system
- - Add post request for inputing data
+ - ~~Create token system~~
+ - ~~Add post request for inputing data~~
  - ~~Add get request for recieving analysis~~
  - ~~Add post request for adding stuff via api (such as tournament matches)~~
 

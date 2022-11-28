@@ -46,24 +46,27 @@ body: {
 Will accept if a teamKey, tournamentKey, and data
 ```
 body: {
-    "uuid": uuid,
-    "teamKey": "frc949",
-    "tournamentKey": "2022brd",
+    "uuid": "uuidgoeshere",
+    "teamKey": "frc254",
+    "tournamentKey": "2022cc",
     "data": {
-        "matchNumber": 14,
-        "scouterId": "Barry B Benson",
-        "defense": false,
-        "startTime": 12395743893,
-        "events": [
-            {
-                "event": "point"
-            }, 
-            {
-                "event": "point"
-            }
-        ],
-        "challenge": "Low Bar",
-        "notes": "So what's the deal with airline food"
+        "constantData": {
+            "scouterId": "Barry B Benson",
+            "matchNumber": 13,
+            "defense": 0,
+            "startTime": 129834982,
+            "notes": "Ya like jazz"
+        },
+        "gameDependent": {
+            "events": [
+                {
+                    "event": "point"
+                },
+                {
+                    "event": "point"
+                }
+            ]
+        }
     }
 }
 ```

@@ -1,10 +1,10 @@
-// const axios = require('axios');
-// const sqlite = require("sqlite3").verbose()
-// const db = new sqlite.Database('./test.db', sqlite.OPEN_READWRITE, (err) => {
-//   if (err)
-//       console.error(err)
-// });
-// require("dotenv").config()
+const axios = require('axios');
+const sqlite = require("sqlite3").verbose()
+const db = new sqlite.Database('./test.db', sqlite.OPEN_READWRITE, (err) => {
+  if (err)
+      console.error(err)
+});
+require("dotenv").config()
 
 const Manager = require("./dbmanager")
 
@@ -115,17 +115,47 @@ const map = new Map()
 // map.set({"num": 5, "uuid":"3243423"}, "asdfaf")
 // map.set({"num": 4, "uuid":"3243423"}, "asdsf")
 
-map.set(4, "4")
-map.set(2, "2")
-map.set(1, "1")
-map.set(3, "3")
-map.set(0, "0")
-map.set(5, "5")
-map.set(6, "6")
+// map.set(4, "4")
+// map.set(2, "2")
+// map.set(1, "1")
+// map.set(3, "3")
+// map.set(0, "0")
+// map.set(5, "5")
+// map.set(6, "6")
 
-for (var i = 0; i < 6; i++)
-  console.log(map.get(i))
+// for (var i = 0; i < 6; i++)
+//   console.log(map.get(i))
 
-map.forEach((value, key) => {
-  console.log(`${key.num}: ${value}`)
+// map.forEach((value, key) => {
+//   console.log(`${key.num}: ${value}`)
+// })
+var createTeams = `CREATE TABLE teams(key TEXT ONLY PRIMARY KEY, teamNumber INTEGER, teamName TEXT ONLY, UNIQUE (key, teamNumber, teamName));`
+
+var createTournaments = `CREATE TABLE tournaments (key TEXT ONLY PRIMARY KEY, name TEXT ONLY, location VARCHAR(50), date TEXT ONLY VARCHAR(20), UNIQUE (key, date));`
+var createData = `
+        CREATE TABLE data (
+            id INTEGER PRIMARY KEY,
+            matchKey INTEGER NOT NULL, 
+            scouterId TEXT ONLY VARCHAR(25) NOT NULL,
+            defense INTEGER NOT NULL, 
+            startTime INTEGER NOT NULL,
+            scoutReport VARCHAR(5000),
+            notes BLOB VARCHAR (250),
+            UNIQUE (matchKey, scouterId, scoutReport), 
+            FOREIGN KEY(matchKey) REFERENCES matches(key)
+        );
+        `
+Manager.db.serialize(() => {
+  // Manager.db.run("DROP TABLE IF EXISTS `teams`", ((err) => {if (err){console.log(`dropTeams ${err}`)}}))
+  // Manager.db.run(createTeams, ((err) => {if (err){console.log(`createTeams`)}}))
+  
+  // Manager.db.run("DROP TABLE IF EXISTS `tournaments`", ((err) => {if (err){console.log(`dropTourney`)}}))
+  // Manager.db.run(createTournaments, ((err) => {if (err){console.log(`createTourney`)}}))
+
+  // Manager.db.run(`INSERT INTO teams (key, teamNumber, teamName) VALUES ('frc8033', 8033, 'Highlander Robotics')`)
+  // Manager.db.run("DROP TABLE IF EXISTS `matches`")
+  // Manager.db.run(createMatches)
+
+  Manager.db.run("DROP TABLE IF EXISTS `data`")
+  Manager.db.run(createData)
 })

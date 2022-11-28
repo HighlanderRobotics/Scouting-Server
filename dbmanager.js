@@ -40,13 +40,13 @@ class Manager {
         })
     }
 
-    static enterData(teamKey, gameKey, data) {
+    static addScoutReport(teamKey, tournamentKey, data) {
 
         var sql = `
         SELECT * FROM matches WHERE
             teamKey = "${teamKey}" AND
-            gameKey = "${gameKey}" AND
-            matchNumber = ${data.matchNumber}
+            gameKey = "${tournamentKey}" AND
+            matchNumber = ${data.constantData.matchNumber}
         `
 
         async function insertData(matchKey, data) {
@@ -55,13 +55,13 @@ class Manager {
             // Rename game to competition
             try {
                 var constantData = {
-                    scouterId: data.scouterId,
-                    defense: data.defense,
-                    startTime: data.startTime,
-                    notes: data.notes
+                    scouterId: data.constantData.scouterId,
+                    defense: data.constantData.defense,
+                    startTime: data.constantData.startTime,
+                    notes: data.constantData.notes
                 }
             } catch (err) {
-                reject(err)
+                return (err)
             }
 
             
@@ -70,7 +70,6 @@ class Manager {
             for (var key of Object.keys(data)) {
                 if (key !== `scouterId` && key !== 'defense' && key !== 'notes' && key !== 'startTime') {
                     gameDependent[`${key}`] = `"${JSON.stringify(data[`${key}`])}"`
-                    // console.log(`${key}: ${JSON.stringify(data[`${key}`])}`)
                 }
             }
 
@@ -79,40 +78,51 @@ class Manager {
                 Manager.db.run(insert, [matchKey, constantData.scouterId, constantData.defense, constantData.startTime, JSON.stringify(gameDependent), constantData.notes], (err) => {
                     if (err) {
                         reject(err)
+                    } else {
+                        resolve()
                     }
-                    console.log(`Data entered`)
-                    resolve()
                 })
             })
         }
 
-        Manager.db.get(sql, (err, match) => {
-            // console.log(match)
+        return new Promise((resolve, reject) => {
+            Manager.db.get(sql, (err, match) => {
+                if (err) {
+                    console.error(err)
+                    reject(err)
+                } else if (match != undefined) {
+                    insertData(match.key, data)
+                    .catch((err) => {
+                        if (err) {
+                            console.log(err)
+                            reject(err)
+                        } else {
+                            console.log(`Data successfully entered`)
+                            resolve(`Data successfully entered`)
+                        }
+                    })
+                    .then(() => {
+                        console.log(`Data entry complete`)
+                        resolve(`Data successfully entered`)
+                    })
+                } else {
+                    console.log(`Couldn't find match`)
+                    reject(`Match doesn't exist`)
+                }
+            })
+        })
+        .catch((err) => {
             if (err) {
-                console.error(err)
-                // reject(err)
-            } else if (match != undefined) {
-                insertData(match.key, data)
-                  .catch((err) => {
-                    if (err) {
-                        console.error(`Problem inserting data: ${err}`)
-                        // reject(err)
-                    } else {
-                        console.log(`Data successfully entered`)
-                    }
-                    // reject(err)
-                  })
-                  .then(() => {
-                    // resolve(`Data successfully entered`)
-                  })
-            } else {
-                console.log(`Couldn't find match`)
-                // reject(`Match doesn't exist`)
+                // console.error(err)
+                return err
             }
+        })
+        .finally(() => {
+            return `Success`
         })
     }
 
-    static resetAndPopulateServer() {
+    static resetAndPopulateDB() {
         var createTeams = `CREATE TABLE teams(key TEXT ONLY PRIMARY KEY, teamNumber INTEGER, teamName TEXT ONLY, UNIQUE (key, teamNumber, teamName));`
 
         var createTournaments = `CREATE TABLE tournaments (key TEXT ONLY PRIMARY KEY, name TEXT ONLY, location VARCHAR(50), date TEXT ONLY VARCHAR(20), UNIQUE (key, date));`
@@ -134,41 +144,77 @@ class Manager {
         );
     `
         
-        async function removeAndAddTables() {
+        function removeAndAddTables() {
             return new Promise(function (resolve, reject) {
                 Manager.db.serialize(() => {
-                    Manager.db.run("DROP TABLE IF EXISTS `teams`")
-                    Manager.db.run(createTeams, (err) => {if (err) {reject(`(Ask Barry) Error with creating Teams Table: ${err}`)}})
+                    // See of there's a better fix than turning foreign keys off for dropping tables with data in them
+                    Manager.db.run(`PRAGMA foreign_keys = 0`, ((err) => {if (err){console.log(`foreign keys ${err}`)}}))
+                    Manager.db.get(`PRAGMA foreign_keys`, ((err, result) => {if (err){console.log(`foreign keys status ${err}`)} console.log(result)}))
+
+                    Manager.db.run("DROP TABLE IF EXISTS `teams`", ((err) => {if (err){console.log(`dropTeams ${err}`)}}))
+                    Manager.db.run(createTeams, ((err) => {if (err){console.log(`createTeams`)}}))
                     
-                    Manager.db.run("DROP TABLE IF EXISTS `tournaments`")
-                    Manager.db.run(createTournaments, (err) => {if (err) {reject(`(Ask Barry) Error with creating Tournaments Table: ${err}`)}})
+                    Manager.db.run("DROP TABLE IF EXISTS `tournaments`", ((err) => {if (err){console.log(`dropTourney ${err}`)}}))
+                    Manager.db.run(createTournaments, ((err) => {if (err){console.log(`createTourney ${err}`)}}))
             
-                    Manager.db.run("DROP TABLE IF EXISTS `matches`")
-                    Manager.db.run(createMatches, (err) => {if (err) {reject(`(Ask Barry) Error with creating Matches Table: ${err}`)}})
+                    Manager.db.run("DROP TABLE IF EXISTS `matches`", ((err) => {if (err){console.log(`dropMatches ${err}`)}}))
+                    Manager.db.run(createMatches, ((err) => {if (err){console.log(`createMatches ${err}`)}}))
             
-                    Manager.db.run("DROP TABLE IF EXISTS `data`")
-                    Manager.db.run(createData, (err) => {if (err) {reject(`(Ask Barry) Error with creating Data Table: ${err}`)}})
+                    Manager.db.run("DROP TABLE IF EXISTS `data`", ((err) => {if (err){console.log(`dropData ${err}`)}}))
+                    Manager.db.run(createData, ((err) => {if (err){console.log(`createData ${err}`)} else {
+                        // Resolve should be here
+                        resolve()
+                    }}))
                 })
-                resolve()
+                // DON'T PUT THE RESOLVE HERE BECAUSE THE DB RUNS INSTRUCTIONS ASYNCHRONOUSLY AND THUS WILL RESOLVE BEFORE TABLES ARE RESET
+                // resolve()
             })
         }
-        
-
-        // Fix after setting up promises for API teams and tournaments
-        const setupTables = async () => {
-            await removeAndAddTables()
+        return new Promise((resolve, reject) => {
+            removeAndAddTables()
             .catch((err) => {
-                console.error(err)
+                if (err) {
+                    reject(err)
+                }
             })
             .then(() => {
+                // Runs addAPITeams and addAPITournaments after tables are created
                 Manager.addAPITeams()
-                Manager.addAPITournament()       
+                .catch((err) => {
+                    if (err) {
+                        console.log(`teamissue`)
+                        reject(err)
+                    }
+                })
             })
-        }
-        
-        setupTables()
-
-        return
+            .then(() => {
+                Manager.addAPITournaments()
+                .catch((err) => {
+                    if (err) {
+                        console.log(`tourneyissue`)
+                        reject(err)
+                    }
+                })
+            })
+            .then(() => {
+                // Turn foreign keys back on
+                Manager.db.run(`PRAGMA foreign_keys = 1`, ((err) => {if (err){reject(err)}}))
+                Manager.db.get(`PRAGMA foreign_keys`, ((err, result) => {if (err){console.log(`foreign keys status ${err}`)} console.log(result)}))
+            })
+            .finally(() => {
+                resolve(`Success`)
+                return(`yay`)
+            })
+        })
+        .catch((err) => {
+            if (err) {
+                console.error(`Error: ${err}`)
+                return err
+            }
+        })
+        .finally(() => {
+            return `Success`
+        })
     }
 
     static addAPITeams() {
@@ -176,22 +222,28 @@ class Manager {
         
         var sql = `INSERT INTO teams (key, teamNumber, teamName) VALUES (?, ?, ?)`
 
-        for (var j = 0; j < 18; j++) {
-            axios.get(`${url}/teams/${j}/simple`, {
-                headers: {'X-TBA-Auth-Key': process.env.KEY}
-            })
-            .then(response => {
-                for (var i = 0; i < response.data.length; i++) {
-                    Manager.db.run(sql, [response.data[i].key, response.data[i].team_number, response.data[i].nickname], (err) => {
-                        if (err) {
-                            console.error(`Error inserting teams: ${response.data[i]}`)
-                        }
-                    })                
-                }
-            }).catch(error => {
-                console.error(`Error with getting teams from TBA API: ${error}`)
-            });
-        }
+        return new Promise((resolve, reject) => {
+
+            for (var j = 0; j < 18; j++) {
+                axios.get(`${url}/teams/${j}/simple`, {
+                    headers: {'X-TBA-Auth-Key': process.env.KEY}
+                })
+                .then(response => {
+                    for (var i = 0; i < response.data.length; i++) {
+                        Manager.db.run(sql, [response.data[i].key, response.data[i].team_number, response.data[i].nickname], (err) => {
+                            if (err) {
+                                console.error(`Error inserting teams: ${response.data[i]}`)
+                                reject(`Error inserting teams: ${err}`)
+                            }
+                        })                
+                    }
+                }).catch(error => {
+                    console.error(`Error with getting teams from TBA API: ${error}`)
+                    reject(`Error with getting teams from TBA API: ${error}`)
+                });
+            }
+        })
+
     }
 
     static addAPITournaments() {
@@ -203,9 +255,9 @@ class Manager {
             axios.get(`${url}/events/2022/simple`, {
                 headers: {'X-TBA-Auth-Key': process.env.KEY}
             })
-              .then(response => {
+            .then(response => {
                 for (var i = 0; i < response.data.length; i++) {
-                    db.run(sql, [response.data[i].name, response.data[i].city, response.data[i].start_date, response.data[i].key], (err) => {
+                    Manager.db.run(sql, [response.data[i].name, response.data[i].city, response.data[i].start_date, response.data[i].key], (err) => {
                         if (err) {
                             console.error(`Error inserting tournament: ${err}`)
                             reject(`Error inserting tournament: ${err}`)
