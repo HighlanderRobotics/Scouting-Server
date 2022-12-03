@@ -106,7 +106,7 @@ const Manager = require("./dbmanager")
 //   console.log(row)
 // })
 
-const map = new Map()
+// const map = new Map()
 
 // map.set({"num": 0, "uuid":"3243423"}, "asdf")
 // map.set({"num": 1, "uuid":"3243423"}, "asadf")
@@ -129,33 +129,10 @@ const map = new Map()
 // map.forEach((value, key) => {
 //   console.log(`${key.num}: ${value}`)
 // })
-var createTeams = `CREATE TABLE teams(key TEXT ONLY PRIMARY KEY, teamNumber INTEGER, teamName TEXT ONLY, UNIQUE (key, teamNumber, teamName));`
 
-var createTournaments = `CREATE TABLE tournaments (key TEXT ONLY PRIMARY KEY, name TEXT ONLY, location VARCHAR(50), date TEXT ONLY VARCHAR(20), UNIQUE (key, date));`
-var createData = `
-        CREATE TABLE data (
-            id INTEGER PRIMARY KEY,
-            matchKey INTEGER NOT NULL, 
-            scouterId TEXT ONLY VARCHAR(25) NOT NULL,
-            defense INTEGER NOT NULL, 
-            startTime INTEGER NOT NULL,
-            scoutReport VARCHAR(5000),
-            notes BLOB VARCHAR (250),
-            UNIQUE (matchKey, scouterId, scoutReport), 
-            FOREIGN KEY(matchKey) REFERENCES matches(key)
-        );
-        `
+var createMatches = `CREATE TABLE matches (key PRIMARY KEY, gameKey TEXT ONLY NOT NULL, matchNumber INTEGER, teamKey TEXT ONLY NOT NULL, matchType TEXT ONLY NOT NULL, UNIQUE (gameKey, matchNumber, teamKey), FOREIGN KEY(gameKey) REFERENCES tournaments(key), FOREIGN KEY(teamKey) REFERENCES teams(key));`
+
 Manager.db.serialize(() => {
-  // Manager.db.run("DROP TABLE IF EXISTS `teams`", ((err) => {if (err){console.log(`dropTeams ${err}`)}}))
-  // Manager.db.run(createTeams, ((err) => {if (err){console.log(`createTeams`)}}))
-  
-  // Manager.db.run("DROP TABLE IF EXISTS `tournaments`", ((err) => {if (err){console.log(`dropTourney`)}}))
-  // Manager.db.run(createTournaments, ((err) => {if (err){console.log(`createTourney`)}}))
-
-  // Manager.db.run(`INSERT INTO teams (key, teamNumber, teamName) VALUES ('frc8033', 8033, 'Highlander Robotics')`)
-  // Manager.db.run("DROP TABLE IF EXISTS `matches`")
-  // Manager.db.run(createMatches)
-
-  Manager.db.run("DROP TABLE IF EXISTS `data`")
-  Manager.db.run(createData)
+  Manager.db.run("DROP TABLE IF EXISTS `matches`")
+  Manager.db.run(createMatches, (err) => {if (err) {reject(`(Ask Barry) Error with creating Matches Table: ${err}`)}})
 })
