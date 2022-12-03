@@ -17,7 +17,7 @@ const util = require('util')
 const express = require('express')
 
 // HTTPS (code was removed)
-const port = process.env.TOKEN_SERVER_PORT 
+const port = process.env.PORT 
 
 const app = express()
 app.use(express.json())
@@ -66,7 +66,7 @@ app.get("/", async (req, res) => {
     res.status(200).send(`All good my dude`)
 })
 
-const promiseWithTimeout = (async (promise) => {
+const promiseWithTimeout = ((promise) => {
     // Times out after 1 ms, assumes promise is still pending (usually takes ~0ms)
     var timeOutTime = 1;
 
@@ -77,33 +77,25 @@ const promiseWithTimeout = (async (promise) => {
     return Promise.race([promise, timeoutPromise])
   })
 
-  app.post("/getTaskData", async (req,res) => {
+app.post("/getTaskData", async (req,res) => {
     // Get cached/Rerun analysis engine and send it
 
-    if (req.body.taskNumber != undefined) {
+    if (req.body.taskNumber != undefined && req.body.taskNumber < tasks.size) {
         console.log(`\nTask Number: ${req.body.taskNumber}`)
 
-        await promiseWithTimeout(tasks.get(req.body.taskNumber))
+        promiseWithTimeout(tasks.get(req.body.taskNumber))
         .then((response) => {
-            // if (JSON.stringify(response).includes(`Error: `)) {
-            //     res.status(400).send(`Error: ${JSON.stringify(response)}`)
-            // } else {
                 res.status(200).send(`${JSON.stringify(response)}`)
-            // }
         })
-    } else if (req.body.uuid) {
+    } else if (req.body.uuid != undefined && Array.from(uuidToTask.values()).includes(req.body.uuid)) {
         console.log(`UUID: ${req.body.uuid}`)
 
-        await promiseWithTimeout(tasks.get(uuidToTask.get(req.body.uuid)))
+        promiseWithTimeout(tasks.get(uuidToTask.get(req.body.uuid)))
         .then((response) => {
-            // if (JSON.stringify(response).includes(`Error: `)) {
-                // res.status(400).send(`Error: ${JSON.stringify(response)}`)
-            // } else {
                 res.status(200).send(`${JSON.stringify(response)}`)
-            // }
         })
     } else {
-        res.status(400).send(`Missing task number or uuid`)
+        res.status(400).send(`Missing task number or uuid or task number/uuid doesn't have a task`)
         return
     }
 })
@@ -141,7 +133,8 @@ app.post("/addTournamentMatches", async (req, res) => {
         uuidToTask.set(req.body.uuid, taskNumber)
         tasks.set(taskNumber, Manager.addMatches(req.body.tournamentName, req.body.tournamentDate))
         // console.log(tasks.get(taskNumber))
-        res.status(200).send(`Task Number:${taskNumber}`)
+        
+        res.status(200).send(`${JSON.stringify({"taskNumber": taskNumber})}`)
     } else {
         res.status(400).send(`Missing something`)
     }
@@ -155,7 +148,7 @@ app.post("/listTeams", async (req,res) => {
         uuidToTask.set(req.body.uuid, taskNumber)
         tasks.set(taskNumber, Manager.getTeams())
         // console.log(tasks.get(taskNumber))
-        res.status(200).send(`Task Number: ${taskNumber}`)
+        res.status(200).send(`${JSON.stringify({"taskNumber": taskNumber})}`)
     } else {
         res.status(400).send(`Missing uuid`)
     }
@@ -169,10 +162,8 @@ app.post("/resetDB", async (req,res) => {
         var taskNumber = uuidToTask.size
         uuidToTask.set(req.body.uuid, taskNumber)
         tasks.set(taskNumber, Manager.resetAndPopulateDB())
-        res.status(200).send(`Task Number: ${taskNumber}`)
+        res.status(200).send(`${JSON.stringify({"taskNumber": taskNumber})}`)
     } else {
         res.status(400).send(`Missing uuid`)
     }
-
 })
-

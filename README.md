@@ -55,7 +55,7 @@ SQLite Viewer by FLorian Klampfer
 
 
 # TODO
-1. Query The blue alliance
+1. ~~Query The blue alliance~~
  - ~~Build get all teams~~
  - ~~Get and insert matches for round-robin~~
 2. Make analysis engine
@@ -72,6 +72,19 @@ SQLite Viewer by FLorian Klampfer
  - ~~Add post request for inputing data~~
  - ~~Add get request for recieving analysis~~
  - ~~Add post request for adding stuff via api (such as tournament matches)~~
+5. Abstraction
+ - Break functions and utilities into seperate files for modularity reasons
+6. Testing
+ - Learn jest framework
+ - Write test cases
+7. Fix package.json
+
+# Future
+1. Incorporate ORM
+2. Make proper message queue
+3. Convert to typescript
+4. Multithreading if possible
+5. Make setup simpler
 
 Commands: 
 Run server: 
