@@ -1,6 +1,7 @@
 // To connect to the database
 const sqlite = require("sqlite3").verbose()
-const axios = require("axios")
+const axios = require("axios");
+const { resolve } = require("path");
 
 // API Key
 require("dotenv").config()
@@ -155,7 +156,6 @@ class Manager {
                 Manager.db.serialize(() => {
                     // See of there's a better fix than turning foreign keys off for dropping tables with data in them
                     Manager.db.run(`PRAGMA foreign_keys = 0`, ((err) => {if (err){console.log(`foreign keys ${err}`)}}))
-                    // Manager.db.get(`PRAGMA foreign_keys`, ((err, result) => {if (err){console.log(`foreign keys status ${err}`)} console.log(result)}))
 
                     Manager.db.run("DROP TABLE IF EXISTS `teams`", ((err) => {if (err){console.log(`dropTeams ${err}`)}}))
                     Manager.db.run(createTeams, ((err) => {if (err){console.log(`createTeams`)}}))
@@ -179,6 +179,17 @@ class Manager {
                 // resolve()
             })
         }
+
+        async function turnOnForeignKeys() {
+            Manager.db.run(`PRAGMA foreign_keys = 1`, ((err) => {
+                if (err){
+                    console.log(`foreign keys ${err}`)
+                } else {
+                    return
+                }
+            }))
+        }
+
         return new Promise((resolve, reject) => {
             removeAndAddTables()
             .catch((err) => {
@@ -188,7 +199,9 @@ class Manager {
             })
             .then(async () => {
                 await Manager.addAPITeams()
-                await Manager.addAPITournaments()       
+                await Manager.addAPITournaments()
+                await Manager.addScouters()
+                await turnOnForeignKeys()
             })
             .then(() => {
                 resolve(`Successfully reset tables`)
@@ -215,7 +228,7 @@ class Manager {
         }
 
         for (var j = 0; j < 18; j++) {
-            console.log(`at start ${j}`)
+            console.log(`Inserting teams ${(j/18)*100}%`)
             await axios.get(`${url}/teams/${j}/simple`, {
                 headers: {'X-TBA-Auth-Key': process.env.KEY}
             })
@@ -230,10 +243,8 @@ class Manager {
                 }
             }).then(() => {
                 if (j === 17) {
-                    console.log(`${j} done with all teams`)
+                    console.log(`Finished inserting API teams`)
                     return
-                } else {
-                    console.log(`done with page ${j}`)
                 }
             })
         }
@@ -268,18 +279,60 @@ class Manager {
                         console.log(`Error with inserting tournament: ${err}`)
                         reject(err)
                     }
-
-                })  
+                })
             }
-            console.log(`Inserted tournaments`)
         }).catch(err => {
             if (err) {
-                console.error(`Error with getting API Tournaments: ${err}`)
-                return(`Error with getting API Tournaments: ${err}`)    
+                console.error(`Error with inserting API Tournaments: ${err}`)
+                return(`Error with inserting API Tournaments: ${err}`)    
             }
         })
         .then(() => {
-            console.log(`returning from insert tournaments`)
+            console.log(`Finished inserting tournaments`)
+            return
+        })
+    }
+
+    static async addScouters() {
+        var sql = `INSERT INTO scouters (name) VALUES (?)`
+
+        // Will eventually read from a file, is temporary until I get a full team list
+        var scouters = ["Barry B Benson", "Jacob Trentini", "Collin Cameron", "Alex Ware", "Jasper Tripp"]
+
+        async function insertScouter(sql, scouters, i) {
+            return new Promise((resolve, reject) => {
+                Manager.db.run(sql, [scouters[i]], (err) => {
+                    if (err) {
+                        console.error(`Error inserting scouters: ${err}`)
+                        reject(`Error inserting scouters: ${err}`)
+                    } else {
+                        resolve()
+                    }
+                })
+            })
+        }
+
+        async function runInsertScouters() {
+            for (var i = 0; i < scouters.length; i++) {
+                await insertScouter(sql, scouters, i)
+                .catch((err) => {
+                    if (err) {
+                        console.log(`Error with inserting scouter: ${err}`)
+                        reject(err)
+                    }
+                })
+            }
+        }
+
+        await runInsertScouters()
+        .catch(err => {
+            if (err) {
+                console.error(`Error with inserting Scouters: ${err}`)
+                return(`Error with inserting Scouters: ${err}`)    
+            }
+        })
+        .then(() => {
+            console.log(`Finished inserting Scouters`)
             return
         })
     }
