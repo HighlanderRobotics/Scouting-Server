@@ -51,13 +51,14 @@ class Manager {
         `
 
         async function insertData(matchKey, data) {
-            var insert = `INSERT INTO data (matchKey, scouterId, defense, startTime, scoutReport, notes) VALUES (?, ?, ?, ?, ?, ?)`
+            var insert = `INSERT INTO data (matchKey, scouterId, defenseQuality, defenseQuantity, startTime, scoutReport, notes) VALUES (?, ?, ?, ?, ?, ?, ?)`
             
             // Rename game to competition
             try {
                 var constantData = {
                     scouterId: data.constantData.scouterId,
-                    defense: data.constantData.defense,
+                    defenseQuality: data.constantData.defenseQuality,
+                    defenseQuantity: data.constantData.defenseQuantity,
                     startTime: data.constantData.startTime,
                     notes: data.constantData.notes
                 }
@@ -76,7 +77,7 @@ class Manager {
 
 
             return new Promise((resolve, reject) => {
-                Manager.db.run(insert, [matchKey, constantData.scouterId, constantData.defense, constantData.startTime, JSON.stringify(gameDependent), constantData.notes], (err) => {
+                Manager.db.run(insert, [matchKey, constantData.scouterId, constantData.defenseQuality, constantData.defenseQuantity, constantData.startTime, JSON.stringify(gameDependent), constantData.notes], (err) => {
                     if (err) {
                         reject(err)
                     } else {
@@ -97,17 +98,16 @@ class Manager {
                         if (err) {
                             console.log(err)
                             reject(err)
-                        } else {
-                            console.log(`Data successfully entered`)
-                            resolve(`Data successfully entered`)
                         }
                     })
                     .then(() => {
-                        console.log(`Data entry complete`)
+                        console.log(`Data entry complete for ${match.key}`)
                         resolve(`Data successfully entered`)
                     })
                 } else {
-                    console.log(`Couldn't find match`)
+                    console.log(`Couldn't find match for:`)
+                    console.log(data)
+                    console.log(teamKey)
                     reject(`Match doesn't exist`)
                 }
             })
@@ -136,7 +136,8 @@ class Manager {
             id INTEGER PRIMARY KEY,
             matchKey INTEGER NOT NULL, 
             scouterId TEXT ONLY VARCHAR(25) NOT NULL,
-            defense INTEGER NOT NULL, 
+            defenseQuality INTEGER NOT NULL,
+            defenseQuantity INTEGER NOT NULL, 
             startTime INTEGER NOT NULL,
             scoutReport VARCHAR(5000),
             notes BLOB VARCHAR (250),

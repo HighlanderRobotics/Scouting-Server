@@ -130,9 +130,23 @@ const Manager = require("./dbmanager")
 //   console.log(`${key.num}: ${value}`)
 // })
 
-var createMatches = `CREATE TABLE matches (key PRIMARY KEY, gameKey TEXT ONLY NOT NULL, matchNumber INTEGER, teamKey TEXT ONLY NOT NULL, matchType TEXT ONLY NOT NULL, UNIQUE (gameKey, matchNumber, teamKey), FOREIGN KEY(gameKey) REFERENCES tournaments(key), FOREIGN KEY(teamKey) REFERENCES teams(key));`
+var createData = `
+        CREATE TABLE data (
+            id INTEGER PRIMARY KEY,
+            matchKey INTEGER NOT NULL, 
+            scouterId TEXT ONLY VARCHAR(25) NOT NULL,
+            defenseQuality INTEGER NOT NULL,
+            defenseQuantity INTEGER NOT NULL, 
+            startTime INTEGER NOT NULL,
+            scoutReport VARCHAR(5000),
+            notes BLOB VARCHAR (250),
+            UNIQUE (matchKey, scouterId, scoutReport), 
+            FOREIGN KEY(matchKey) REFERENCES matches(key),
+            FOREIGN KEY(scouterId) REFERENCES scouters(id)
+        );`
 
 Manager.db.serialize(() => {
-  Manager.db.run("DROP TABLE IF EXISTS `matches`")
-  Manager.db.run(createMatches, (err) => {if (err) {reject(`(Ask Barry) Error with creating Matches Table: ${err}`)}})
+  Manager.db.run("DROP TABLE IF EXISTS `data`", ((err) => {if (err){console.log(`dropData ${err}`)}}))
+  Manager.db.run(createData, ((err) => {if (err){console.log(`createData ${err}`)}}))
+
 })

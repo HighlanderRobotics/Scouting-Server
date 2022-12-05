@@ -1,0 +1,360 @@
+timeStamp,teamNumber,matchNumber,scouterId,autoHighSucsess,autoMisses,teleopHighSucsess,teleopMisses,climberPosition,notes,defense,startTime
+9/11/2022 14:59:04,5940,1,Max,5,2,7,2,Mid,,0,0
+9/11/2022 14:59:59,5940,2,Max,4,3,16,2,Mid,,0,0
+9/14/2022 16:03:11,5940,3,Max,3,7,17,3,Traversal,,0,0
+9/14/2022 16:04:40,5940,4,Fool,1,6,2,8,Low,,0,0
+9/14/2022 16:05:34,5940,5,Max,3,2,8,3,High,,0,0
+9/18/2022 13:38:36,254,3,Jasper,5,1,17,4,Traversal,no defense,1,0
+9/18/2022 13:39:12,254,4,Jasper,3,2,12,5,No Climb,,1,0
+9/18/2022 15:11:37,,,,,,28,,,,0,0
+9/24/2022 10:08:35,7157,1,Collin Cameron,0,6,7,2,Mid,"Intake not very reliable, kept dropping balls and may have broken towards the end.",1,0
+9/24/2022 10:10:21,6036,1,Max,2,2,9,7,No Climb,,1,0
+9/24/2022 10:11:47,8033,1,Jacob Trentini,3,0,19,1,No Climb,"May not have been super accurate readings, the secondary extended unintentionally mid match (during teleop)",1,0
+9/24/2022 10:18:59,114,2,Collin Cameron,2,0,3,2,Traversal,Drive team seemed to be overwhelmed,0,0
+9/24/2022 10:19:57,1678,2,Jacob Trentini,2,1,21,3,Traversal,,0,0
+9/24/2022 10:20:05,1690,2,Max,5,0,17,8,No Climb,,0,0
+9/24/2022 10:20:58,1700,2,Jasper Tripp,2,0,4,6,No Climb,,0,0
+9/24/2022 10:31:28,1619,3,Jasper Tripp,3,0,10,0,High,,0,0
+9/24/2022 10:33:07,1690,3,Max,4,2,22,11,Traversal,,1,0
+9/24/2022 10:34:24,4499,3,Jacob Trentini,2,1,11,2,Traversal,"Aggressive defense - their defense is ramming other robots from other side of court @ full speed
+
+They were going good at the start of the match but then switched to defense",1,0
+9/24/2022 10:38:52,498,4,Jasper Tripp,1,1,2,1,No Climb,Defense - 3/5,0,0
+9/24/2022 10:39:40,5104,4,Collin Cameron,0,0,6,1,Traversal,"No limelight, can only shoot when touching the goal. Got a ball stuck under it for a while.",0,0
+9/24/2022 10:40:34,2046,4,Jacob Trentini,2,2,6,4,Mid,"Kept twirling around, did not shoot many times.
+
+Showed up late to the climber and only got to mid and didn’t have enough time to extend for high
+
+bad intake - did not have guiding wheels to intake so it would get stuck on sides.",0,0
+9/24/2022 10:46:11,649,5,Jasper Tripp,2,0,12,4,Traversal,,1,0
+9/24/2022 10:46:28,3940,5,Matteo,2,0,12,3,High,,0,0
+9/24/2022 10:46:28,359,5,Collin Cameron,3,0,7,1,Traversal,Climber seems extremely reliable.,0,0
+9/24/2022 10:47:40,4414,5,Max,5,1,26,4,No Climb,,0,0
+9/24/2022 10:48:36,7034,5,Jacob Trentini,2,0,13,2,Traversal,"Climber system failed at start where the climber went over the bar then they somehow retracted it and extended it again.
+
+Throughout the match, the robot had a period of around a whole minute of not even getting any balls.
+
+Additionally, the robot mostly shot one ball since it was unable to get a second one. ",0,0
+9/24/2022 10:56:01,846,6,Matteo,2,0,2,2,Traversal,,1,0
+9/24/2022 10:56:15,2486,6,Collin Cameron,0,1,4,0,Traversal,,1,0
+9/24/2022 10:56:42,973,6,Clio,3,0,17,6,No Climb,,1,0
+9/24/2022 10:57:30,3256,6,Max,2,0,7,11,No Climb,,1,0
+9/24/2022 10:57:56,2813,6,Jacob Trentini,0,2,6,3,Mid,"Auto didn’t shoot correctly. I don’t think the lime light tracked the subject so it just shot up vertically
+
+Had a pattern of shooting the first ball in and the second one always missing. This is due to their shooting system. They need to make a greater arc in the air (higher up) rather than a lower and direct to the goal. Pls ask if have question
+
+Played defense well. Even pinned robot to wall",1,0
+9/24/2022 11:03:43,972,7,Matteo,0,0,0,0,No Climb,Out of match,0,0
+9/24/2022 11:05:24,4255,7,Nate,0,2,2,9,Traversal,,1,0
+9/24/2022 11:05:39,3476,7,Jasper Tripp,2,0,11,5,Traversal,,1,0
+9/24/2022 11:05:47,1678,7,Collin Cameron,5,0,23,0,Traversal,,1,0
+9/24/2022 11:06:11,3476,7,Clio,2,1,12,4,Traversal,3476 was being defended by red 2930,1,0
+9/24/2022 11:07:37,2930,7,Max,2,0,0,2,Mid,Defense,0,0
+9/24/2022 11:07:37,8033,7,Jacob Trentini,1,1,22,1,No Climb,"Very reliable shooting system. The intake is also very reliable - only failed once. High rollover (tippyness)
+
+The process between the intake and shooting had a problem and couldn’t get up to the shooter only once so the driver bashed it on the wall once and it fixed it.",0,0
+9/24/2022 11:12:04,649,8,Nate H,2,1,12,2,Traversal,,0,0
+9/24/2022 11:12:09,359,8,Jasper Tripp,1,2,13,2,Traversal,,0,0
+9/24/2022 11:12:16,3647,8,Matteo,3,0,15,2,Mid,,1,0
+9/24/2022 11:12:30,359,8,Clio,1,1,12,1,Traversal,,1,0
+9/24/2022 11:12:45,3478,8,Collin Cameron,2,0,15,3,No Climb,Two of the misses just came from a no-risk chance at the end.,0,0
+9/24/2022 11:12:46,7034,8,Jacob Trentini,2,0,12,2,Traversal,The method the robot extends and retracts the intake system is shady. Not super reliable.,0,0
+9/24/2022 11:13:51,5940,8,Max,6,0,24,1,Traversal,Very good,0,0
+9/24/2022 11:22:56,694,9,Jasper Tripp,2,1,8,0,Traversal,,0,0
+9/24/2022 11:23:04,4499,9,Nate H,2,1,9,7,Traversal,Was being defended,0,0
+9/24/2022 11:23:22,3256,9,Matteo Scanu,1,1,0,0,No Climb,"Played def. They were ok at it, but small lightweight robot.",1,0
+9/24/2022 11:23:30,694,9,clio,2,1,5,1,Traversal,,0,0
+9/24/2022 11:23:35,4414,9,Collin Cameron,5,0,15,4,Traversal,,1,0
+9/24/2022 11:24:30,498,9,Max,1,1,2,0,Mid,"Defense, on climb sold their alliance member and hit them of the bar when they were trying to transfer to traversal.",1,0
+9/24/2022 11:26:20,3310,9,Jacob Trentini,1,1,8,1,No Climb,Absolutely failed the climb. Fell off and was not reliable.,1,0
+9/24/2022 11:29:36,973,10,Collin Cameron,2,0,6,1,No Climb,Completely broke halfway through,1,0
+9/24/2022 11:29:50,696,10,Jasper Tripp,2,0,3,4,No Climb,,0,0
+9/24/2022 11:30:01,1690,10,Matteo,5,0,3,0,No Climb,Intake and climber hook broke,1,0
+9/24/2022 11:30:06,1700,10,Nate H,2,0,7,2,Mid,,1,0
+9/24/2022 11:30:27,696,10,Clio,3,0,2,3,No Climb,big defense match against (696),0,0
+9/24/2022 11:31:00,2046,10,Max,5,0,1,0,Traversal,Defense ,0,0
+9/24/2022 11:33:42,6036,10,Jacob Trentini,2,2,4,2,High,"A very cool ability to shoot while moving. Usually with the lime light, we stop and swerve left and right to shoot but they can slow down to a slower speed and shoot but keep moving to the next ball. Accuracy is okay..",0,0
+9/24/2022 11:40:15,604,11,Tiago,3,0,19,2,No Climb,,0,0
+9/24/2022 11:40:20,971,11,Nate H,4,0,10,5,No Climb,Was being defended,0,0
+9/24/2022 11:40:56,3940,11,Caetano de Figueiredo,2,0,16,2,Traversal,Can shoot from the launch pad and also directly from under the hub into the high hoop.,1,0
+9/24/2022 11:41:03,114,11,Kasper Jansson,0,0,13,6,Traversal,Inconsistent shooter,0,0
+9/24/2022 11:41:05,2813,11,Nate Scher,3,1,0,0,High,"Literally just pushed 971 around the ENTIRE MATCH, no teleop attempts",1,0
+9/24/2022 11:42:16,2930,11,Jake Baker,3,0,6,0,Mid,"2930 achieved a mid bar climb but only did so because one hook didn’t attach. In a better game, they could have made it higher up, possibly to the traversal bar. They also seemed more oriented to knocking their opponents off target rather than scoring.",1,0
+9/24/2022 11:56:00,3476,12,Caetano de Figueiredo ,3,1,11,4,Traversal,Autonomous is good. Can shoot from many positions on the field.,0,0
+9/24/2022 11:56:19,3175,12,Tiago,2,0,0,0,No Climb,Played defense on 6800 the whole time; we’re about to try for a climb but did not have enough time to start.,0,0
+9/24/2022 11:56:44,7157,12,Nate Scher,2,0,16,10,No Climb,"First ball always made, second ball always missed",1,0
+9/24/2022 11:57:08,2910,12,Jake Baker ,4,0,20,1,High,"2910 could have made it to the traversal bar, but only one hook caught on the high bar. Their shooting was amazing, however, and their only miss was an accidental fire, not actually directed at the hoop.",0,0
+9/24/2022 12:05:26,254,13,Tiago,4,0,27,4,No Climb,"Went for mid rung at 0:03 left, but fell off",0,0
+9/24/2022 12:05:35,4255,13,Nate S,0,0,0,0,High,"just defense, no auto shots no teleop shots",0,0
+9/24/2022 12:05:39,5104,13,Caetano de Figueiredo,3,0,8,1,No Climb,Shoots from directly below the hub.,0,0
+9/24/2022 12:06:02,2486,13,Jake Baker,2,1,0,0,No Climb,"After auto, 2486 just shut down for the remainder of the entire match, earning no teleop or climbing points.",1,0
+9/24/2022 12:13:02,694,14,Tiago,4,2,13,1,Traversal,,0,0
+9/24/2022 12:13:13,6036,14,Jasper Tripp,2,0,12,5,High,,1,0
+9/24/2022 12:13:26,114,14,Caetano de Figueiredo ,0,0,0,5,Traversal,It is mainly defensive. Sometimes it did not move. Very fast.,1,0
+9/24/2022 12:14:08,3478,14,Jake Baker,3,0,12,2,No Climb,3478 didn’t climb since it’s teammate fell down and obstructed the climbing bars. It’s two misses were caused when it was accidentally bumped by its teammate on the launchpad.,1,0
+9/24/2022 12:14:45,8033,14,Nate Scher,1,1,4,1,No Climb,What happened to our intake???,1,0
+9/24/2022 13:14:55,3310,16,Tiago,4,0,19,2,Traversal,,0,0
+9/24/2022 13:14:58,846,16,Caetano de Figueiredo,1,2,15,1,Traversal,No defense. Really good climber.,1,0
+9/24/2022 13:14:59,2930,16,Nate Scher,2,0,10,4,High,,0,0
+9/24/2022 13:25:59,3476,17,Tiago,3,0,21,1,Mid,,0,0
+9/24/2022 13:26:11,649,17,Nate Scher,1,1,7,4,High,Struggled with traversal,1,0
+9/24/2022 13:26:39,5507,17,Jasper Tripp,2,0,0,0,No Climb,Played 2/5 defense then broke down,1,0
+9/24/2022 13:26:45,1690,17,Max,6,0,8,6,Traversal,,1,0
+9/24/2022 13:26:58,7034,17,Caetano de Figueiredo ,4,0,5,1,Traversal,Defense: 3. It is a good shooter but it is vulnerable to defense by opposing robots.,0,0
+9/24/2022 13:27:11,1690,17,Kasper,6,0,10,5,Traversal,"Seemed to have good robot, but they struggled with accuracy. I think they were also having some issues with their robot",1,0
+9/24/2022 13:33:36,5940,18,Tiago,2,1,6,2,No Climb,Seemed as if there shooter got stuck mid way; started playing defense (I rate it 4-5),0,0
+9/24/2022 13:34:16,6800,18,Nate Scher,0,0,9,7,No Climb,Climb failed last second,1,0
+9/24/2022 13:34:20,2046,18,Jasper Tripp,4,0,14,1,Traversal,,0,0
+9/24/2022 13:34:23,254,18,Caetano de De Figueiredo,5,0,29,1,Traversal,"Defense: 3. Can shoot while in motion from all over the field, they have intakes on both sides.",0,0
+9/24/2022 13:34:52,3940,18,Kasper,2,0,13,2,Mid,Could have climbed further if they had more time. Very consistent shooter but they didn’t have much range.,0,0
+9/24/2022 13:34:58,3940,18,Max,2,0,13,2,Mid,,1,0
+9/24/2022 13:40:56,3647,19,Clio,2,0,9,1,No Climb,Defended as well as shot ,1,0
+9/24/2022 13:41:00,3175,19,Tiago,3,1,0,0,No Climb,Seemed to disable and practically stop moving.  Fell off mid rung.,1,0
+9/24/2022 13:41:01,2813,19,Nate Scher,2,0,1,1,High,Really good defense,0,0
+9/24/2022 13:41:02,971,19,Caetano de Figueiredo,4,0,4,3,No Climb,Defense: 4,1,0
+9/24/2022 13:42:31,3647,19,Max,2,0,6,0,No Climb,Defense (for half the match),1,0
+9/24/2022 13:42:35,3647,19,Kasper,2,0,8,0,No Climb,Went back and forth between offense and defense. I would give them 3.5/5 on defense.,1,0
+9/24/2022 13:50:43,1619,20,Caetano de Figueiredo,4,1,14,0,Traversal,Defense: not assessed. ,1,0
+9/24/2022 13:51:06,972,20,Nate Scher,2,2,2,2,No Climb,"Robot shoots just one ball, wobbles around the field",1,0
+9/24/2022 13:51:24,604,20,Kasper,3,1,7,2,High,Played a little bit of defense (3/5). They seemed to have issues with their shooter and only shot one at a time,1,0
+9/24/2022 13:51:32,359,20,Tiago,3,0,17,1,Traversal,The info deleted before I submitted it but I’m I’m pretty sure it’s correct.,1,0
+9/24/2022 13:51:47,604,20,Max,3,2,6,4,Traversal,Some defense ,1,0
+9/24/2022 14:03:11,114,21,Nate H,0,0,0,0,Traversal,Defense 2.5/5,1,0
+9/24/2022 14:03:15,5507,21,Tiago,2,0,7,2,No Climb,,0,0
+9/24/2022 14:03:16,649,21,Clio,3,0,13,4,No Climb,,0,0
+9/24/2022 14:03:18,3310,21,Collin Cameron,3,0,16,1,Traversal,,0,0
+9/24/2022 14:03:31,649,21,Kasper,3,0,14,2,No Climb,Very good shooter. Didn’t play much defense,0,0
+9/24/2022 14:04:28,649,21,Max,3,0,15,1,No Climb,,1,0
+9/24/2022 14:17:36,1678,22,jessica (sub for clio),4,0,19,0,Traversal,threw in one red ball? ,1,0
+9/24/2022 14:17:37,846,22,Nate H,1,1,10,1,Traversal,,0,0
+9/24/2022 14:17:51,6036,22,Collin Cameron,3,0,14,0,High,,0,0
+9/24/2022 14:18:50,2486,22,Max,1,0,10,1,Traversal,,0,0
+9/24/2022 14:41:55,972,23,jessica (sub for clio),0,0,0,0,No Climb,battery failure,1,0
+9/24/2022 14:42:07,973,23,Collin Cameron,0,0,10,7,No Climb,,0,0
+9/24/2022 14:42:17,254,23,Nate H,0,0,0,0,Traversal,Defense 1/5,0,0
+9/24/2022 14:42:19,3175,23,Jasper Tripp,1,1,10,7,High,,0,0
+9/24/2022 14:43:16,3478,23,Max,3,0,5,4,Traversal,,0,0
+9/24/2022 14:43:39,498,23,Jacob Trentini,0,2,5,2,Mid,,0,0
+9/24/2022 14:50:42,7034,24,Jasper Tripp ,2,0,5,3,Traversal,,0,0
+9/24/2022 14:50:45,7157,24,Nate H,1,1,0,0,Mid,Defense 5/5 (completely shut down 1619),0,0
+9/24/2022 14:50:47,971,24,jessica,6,0,25,0,No Climb,,0,0
+9/24/2022 14:50:49,2930,24,Collin Cameron,3,0,12,3,Traversal,,1,0
+9/24/2022 14:52:00,4255,24,Max,2,0,0,0,Mid,4/5 defense,0,0
+9/24/2022 14:52:29,1619,24,Jacob Trentini,3,1,10,2,Traversal,Heavy defense by blue but was very good with navigation around them. Pretty good score because of how they were guarded by blue and did rlly good,1,0
+9/24/2022 14:58:15,5940,25,Nate H,6,0,20,4,High,,1,0
+9/24/2022 14:58:15,2813,25,jessica,3,2,0,0,Traversal,defense,1,0
+9/24/2022 14:58:27,2910,25,Collin Cameron,7,0,19,2,Traversal,,1,0
+9/24/2022 14:58:43,3647,25,Jasper Tripp ,2,0,14,2,Mid,,0,0
+9/24/2022 14:59:17,8033,25,Jacob Trentini,4,0,7,0,No Climb,Sometimes the ball would get stuck on side of intake,0,0
+9/24/2022 14:59:25,4499,25,Max,3,0,20,0,Traversal,,0,0
+9/24/2022 15:09:32,5104,26,Nate H,0,0,7,3,Traversal,,0,0
+9/24/2022 15:10:05,3256,26,Clara sub for Clio ,2,0,0,0,No Climb,"They didn’t shoot, just defense",1,0
+9/24/2022 15:10:23,3476,26,Max,3,0,12,1,Traversal,,0,0
+9/24/2022 15:10:49,1690,26,Jacob Trentini,2,1,10,1,No Climb,They have a swerve shooting system so they can move any direction and shoot without having to be in that direction. Only have to worry about inertia but overall it’s great. No defense ,0,0
+9/24/2022 15:24:22,2486,27,Nate H,3,0,11,4,Traversal,,0,0
+9/24/2022 15:24:49,4255,27,Jasper Tripp ,0,0,0,0,Low,4/5 defense,1,0
+9/24/2022 15:25:02,498,27,Jacob Trentini,2,0,12,2,Mid,,1,0
+9/24/2022 15:25:56,3175,27,Max,1,1,17,1,No Climb,,1,0
+9/24/2022 15:32:53,1700,28,Jasper Tripp ,0,0,0,0,Mid,2.5 defense,0,0
+9/24/2022 15:32:55,972,28,Nate H,0,0,0,2,No Climb,,0,0
+9/24/2022 15:34:50,5507,28,Max,2,0,9,3,No Climb,Easy to defend and the shooting mechanism is an inaccurate catapult,0,0
+9/24/2022 15:34:54,846,28,Jacob Trentini,2,0,0,1,Traversal,Played lots of defense. Defense from 1…5: 2,0,0
+9/24/2022 15:41:54,3647,29,Matteo ,4,0,16,0,Mid,Didn’t make the high climb,0,0
+9/24/2022 15:41:58,6800,29,Nate H,1,2,18,7,No Climb,,1,0
+9/24/2022 15:42:00,604,29,Collin Cameron,3,0,3,2,Traversal,,1,0
+9/24/2022 15:42:55,649,29,Jacob Trentini,1,1,7,2,Mid,"For the climbing, it fell off while on traversal and so they went to climb again and only one telescoping arm would extend.",1,0
+9/24/2022 15:43:00,696,29,Max,5,0,20,2,No Climb,,0,0
+9/24/2022 15:52:22,1619,30,Jasper Tripp,6,0,18,2,Traversal,,1,0
+9/24/2022 15:52:32,8033,30,jessica,4,0,15,0,No Climb,climber snaped or bent,1,0
+9/24/2022 15:52:37,8033,30,Matteo,3,0,16,0,No Climb,,0,0
+9/24/2022 15:52:40,2813,30,Nate H,0,2,6,2,High,Some defense 3/5,1,0
+9/24/2022 15:52:43,4499,30,Collin Cameron,3,0,18,0,Traversal,,1,0
+9/24/2022 15:53:42,3310,30,Jacob Trentini,3,0,8,0,No Climb,"Their vision system isn’t good because it swerves left and right many times and takes around 2 seconds for the robot to position, not even shoot.",0,0
+9/24/2022 15:54:28,2046,30,Max,3,1,13,4,Traversal,,1,0
+9/24/2022 16:00:58,3256,31,Collin Cameron,2,1,2,3,Mid,,1,0
+9/24/2022 16:01:09,3478,31,Nate Scher,2,0,15,2,No Climb,,0,0
+9/24/2022 16:01:12,1690,31,Matteo,0,0,0,0,Traversal,Broken shooter,1,0
+9/24/2022 16:01:30,1678,31,Tiago,6,0,24,0,High,,1,0
+9/24/2022 16:02:17,971,31,Caetano de Figueiredo ,3,0,9,1,Mid,"Defense: 2, they were very bad at resisting defense.",1,0
+9/24/2022 16:11:05,2910,32,Matteo,5,1,23,3,Traversal,Quick climb,1,0
+9/24/2022 16:11:08,6036,32,Nate Scher,2,0,13,3,High,,0,0
+9/24/2022 16:11:15,359,32,Tiago,2,0,0,0,No Climb,"Practically not moving, not much maneuverability ",1,0
+9/24/2022 16:11:22,973,32,Collin Cameron,0,0,16,2,No Climb,,0,0
+9/24/2022 16:11:35,694,32,Caetano de Figueiredo ,3,0,14,0,Traversal,Defense: not assessed. It has a good climber and can shoot okay.,0,0
+9/24/2022 16:21:13,7034,33,Matteo,2,1,23,3,Traversal,,0,0
+9/24/2022 16:21:19,114,33,Tiago,0,0,2,0,No Climb,Defense?  It wasn’t really doing much; defense 0-1.  Seemed partially disabled; stopped moving in endgame,0,0
+9/24/2022 16:21:39,5940,33,Nate Scher,2,1,18,1,High,Tried to traverse and failed,1,0
+9/24/2022 16:21:39,3175,33,Collin Cameron,2,0,0,0,No Climb,4/5 defense,0,0
+9/24/2022 16:21:53,3940,33,Caetano de Figueiredo,2,1,8,2,Traversal,Defense: not assessed. It was not very consistent in shooting.,0,0
+9/24/2022 16:29:13,5104,34,Caetano de Figueiredo,2,0,0,0,No Climb,Defense: 3. In the second half its drivetrain started ti malfunction.,0,0
+9/24/2022 16:29:22,3478,34,Matteo,3,0,17,5,No Climb,,1,0
+9/24/2022 16:29:31,254,34,Collin Cameron,2,0,19,3,No Climb,,1,0
+9/24/2022 16:29:33,4414,34,Tiago,5,0,30,7,Mid,,1,0
+9/24/2022 16:29:38,971,34,Nate Scher,2,0,18,1,No Climb,God I love the catapult,1,0
+9/24/2022 16:38:48,3256,35,Matteo ,0,1,6,1,Traversal,,1,0
+9/24/2022 16:38:48,359,35,Collin Cameron,1,1,17,1,Traversal,,1,0
+9/24/2022 16:40:53,972,35,Nate Scher,0,1,0,1,No Climb,Just sat in the corner and did nothing. Weak single-shot shooter. Drive issues?,0,0
+9/24/2022 16:41:05,696,35,Caetano de Figueiredo ,3,0,15,5,No Climb,Defense: not assessed. The robot turned off during the end of the match. The shooter was inconsistent as often a pair of shots would be one miss and one make.,0,0
+9/24/2022 16:41:33,7157,35,Tiago,2,0,26,1,No Climb,,1,0
+9/24/2022 16:47:58,649,36,Tiago,2,1,5,3,No Climb,Seemed to disable midway through teleop.,1,0
+9/24/2022 16:48:08,4499,36,Jacob Trentini,3,0,21,0,Traversal,Amazing run by them.,0,0
+9/24/2022 16:48:24,4255,36,Nate Scher,0,0,0,0,Traversal,"Struggled to get traversal, no auto, no shots",0,0
+9/24/2022 16:49:52,973,36,Caetano de Figueiredo,0,0,19,5,No Climb,It did not defend. It did not move during auto. The shooter was relatively consistent.,0,0
+9/24/2022 16:55:23,6800,37,Tiago,3,0,20,3,Traversal,Scored blue ball in auto.,1,0
+9/24/2022 16:55:38,3940,37,Nate Scher,2,0,10,3,Traversal,,1,0
+9/24/2022 16:55:47,8033,37,Jacob Trentini,3,0,15,0,No Climb,,0,0
+9/24/2022 16:56:32,1700,37,Caetano de Figueiredo,2,0,0,0,Mid,Defense rating (out of five): 4. The robot was really effective in defense. It is mainly a defensive robot and it is exceptionally fast.,1,0
+9/24/2022 17:02:11,3647,38,Tiago,1,1,17,3,No Climb,,1,0
+9/24/2022 17:02:22,3476,38,Nate Scher,5,0,10,3,Traversal,,1,0
+9/24/2022 17:04:28,2046,38,Caetano de Figueiredo,1,1,12,10,No Climb,Defense out of five: not assessed. The shooter is really inconsistent. The majority of the time a pair of shots was split evenly with one miss and one make.,1,0
+9/24/2022 17:09:21,2910,39,Tiago,1,1,22,1,No Climb,,1,0
+9/24/2022 17:09:25,1678,39,Nate Scher,6,0,15,2,Traversal,,0,0
+9/24/2022 17:09:40,846,39,Jacob Trentini,2,0,12,2,Traversal,Started slow at start but got better,1,0
+9/24/2022 17:10:01,694,39,Caetano de Figueiredo,2,0,12,0,Traversal,Defense not assessed. It had a consistent shooter. Its climber works well.,0,0
+9/24/2022 17:20:29,1700,40,Nate Scher,2,0,3,0,No Climb,,1,0
+9/24/2022 17:20:30,6036,40,Tiago,5,0,14,5,No Climb,Kept shooting blue (opposite) cargo during teleop.,1,0
+9/24/2022 17:21:23,8033,40,Jacob Trentini,2,0,5,4,No Climb,Fell off at last time. For some reason unknown. We need to make the climbers more durable??,1,0
+9/24/2022 17:21:58,3175,40,Caetano de Figueiredo,1,0,1,0,High,"Defense rating out of five: 4. This is a mainly defensive robot. It was very effective on defense, and its climber is reliable.",1,0
+9/24/2022 17:29:46,2486,41,Nate H,1,1,7,2,Traversal,,0,0
+9/24/2022 17:30:15,2046,41,Jacob Trentini,2,0,8,2,No Climb,,1,0
+9/24/2022 17:30:18,3647,41,Caetano de Figueiredo,3,0,11,1,Traversal,,0,0
+9/24/2022 17:30:59,359,41,359,3,0,14,4,No Climb,,1,0
+9/24/2022 17:31:11,3647,41,Max,4,1,11,0,Traversal,Missing teammate,1,0
+9/24/2022 17:39:29,2813,42,Nate H,1,1,0,0,Traversal,Defense 3/5,1,0
+9/24/2022 17:39:43,649,42,Asha Byers,3,0,13,2,Traversal,,0,0
+9/24/2022 17:39:55,1678,42,Jasper Tripp,5,0,10,3,High,,1,0
+9/24/2022 17:39:58,3940,42,Tiago,2,0,4,1,Traversal,Were pinned down for a lot of the time.,0,0
+9/24/2022 17:40:10,649,42,Collin Cameron,4,0,11,2,Traversal,,0,0
+9/24/2022 17:40:20,7157,42,Caetano de Figueiredo,2,0,0,0,No Climb,Defense rating out of five: 2. This robot mainly plays defense. For the entire second half of the match its drive train was off.,1,0
+9/24/2022 17:41:33,7157,42,Max,3,0,0,0,No Climb,Defense 3/5. Robot broke mid round on defense ,0,0
+9/24/2022 17:49:46,3478,43,Nate H,3,0,15,6,High,,1,0
+9/24/2022 17:49:52,5507,43,Asha Byers,2,0,10,3,No Climb,,1,0
+9/24/2022 17:49:55,2930,43,Nate W,3,0,11,0,Traversal,Long climb time,0,0
+9/24/2022 17:50:36,973,43,Caetano de Figueiredo ,1,0,16,1,No Climb,It has an accurate shooter.,0,0
+9/24/2022 17:50:37,6800,43,Max,5,0,20,3,Traversal,,1,0
+9/24/2022 18:00:41,694,44,Nate H,2,1,11,1,Traversal,,1,0
+9/24/2022 18:00:45,846,44,Asha Byers,2,0,4,0,Traversal,,0,0
+9/24/2022 18:00:58,971,44,Tiago,4,0,19,6,No Climb,,1,0
+9/24/2022 18:01:17,5940,44,Jasper Tripp,6,0,8,2,No Climb,"Intake seemed broken, got defended hard by 604",0,0
+9/24/2022 18:01:18,846,44,Collin Cameron,3,0,3,1,Traversal,,1,0
+9/24/2022 18:01:29,1690,44,Caetano de Figueiredo,5,0,28,1,Traversal,It has an accurate and consistent shooter that can shoot from any position in the field. It resists defense well.,1,0
+9/24/2022 18:02:36,604,44,Max,2,0,2,0,Traversal,Defense 5/5. This robot has clamps,0,0
+9/24/2022 18:15:04,3476,45,Nate H,5,1,15,5,Traversal,,1,0
+9/24/2022 18:15:13,5104,45,Collin Cameron,2,1,0,0,No Climb,5/5 defense,1,0
+9/24/2022 18:15:30,5104,45,Asha Byers,1,2,0,0,No Climb,Defense for this round,0,0
+9/24/2022 18:15:45,4499,45,Jasper Tripp,1,2,23,1,Traversal,,0,0
+9/24/2022 18:15:46,114,45,Caetano de Figueiredo,2,0,3,11,No Climb,It was constantly overshooting the hub.,1,0
+9/24/2022 18:15:48,254,45,Tiago,5,1,17,6,No Climb,,1,0
+9/24/2022 18:17:33,7034,45,Max,2,1,14,2,Traversal,,1,0
+9/24/2022 18:22:48,4414,46,Nate H,5,0,25,2,Traversal,,1,0
+9/24/2022 18:23:07,6036,46,Jasper Tripp,1,0,7,8,No Climb,,1,0
+9/24/2022 18:23:09,498,46,Tiago,1,1,0,0,No Climb,"Played defense, probably ~3 level defense; disabled partially into teleop",1,0
+9/24/2022 18:23:31,2930,46,Nate W,3,1,9,6,High,"Climber messed up, always missed short and with back spin",1,0
+9/24/2022 18:23:34,1619,46,Asha Byers,3,0,9,2,Traversal,Defended,1,0
+9/24/2022 18:24:06,6800,46,Max,6,0,17,4,No Climb,,0,0
+9/24/2022 18:25:32,1619,46,Collin Cameron,2,0,13,3,Traversal,Can make very long shots ,0,0
+9/24/2022 18:32:38,694,47,Nate H,3,0,11,1,Traversal,,1,0
+9/24/2022 18:32:47,4255,47,Tiago,1,0,0,0,No Climb,"Played defense.  Not bad, 2-3 originally by the end was 3-4 (rank).",1,0
+9/24/2022 18:32:49,3647,47,Nate W,3,0,18,1,High,"Climber failed, shooter jammed once",1,0
+9/24/2022 18:32:50,973,47,Asha Byers,0,0,22,6,No Climb,Shot a wrong ball but only one,1,0
+9/24/2022 18:32:52,3940,47,Jasper Tripp,3,0,6,2,Traversal,,1,0
+9/24/2022 18:34:02,846,47,Max,2,0,4,1,Traversal,Defense (2.5/5),0,0
+9/24/2022 18:40:05,2813,48,Caetano de Figueiredo,0,0,5,5,Traversal,,1,0
+9/24/2022 18:40:13,3175,48,Nate H,2,0,7,3,Mid,,0,0
+9/24/2022 18:40:28,5507,48,Tiago,3,0,5,6,No Climb,,0,0
+9/24/2022 18:41:08,359,48,Jasper Tripp,2,1,8,2,Traversal,Climb is so clean,0,0
+9/24/2022 18:41:22,4499,48,Max,6,0,20,1,Traversal,,1,0
+9/24/2022 18:50:03,971,49,jessica,4,0,8,5,Mid,,1,0
+9/24/2022 18:50:03,972,49,Nate H,1,0,0,0,No Climb,,0,0
+9/24/2022 18:50:36,8033,49,Jacob Trentini,3,0,16,0,No Climb,Failed to climb,0,0
+9/24/2022 18:50:44,8033,49,Jasper Tripp,3,0,17,0,No Climb,,1,0
+9/24/2022 18:50:47,4414,49,Tiago,5,0,34,2,No Climb,,0,0
+9/24/2022 18:51:10,2910,49,Caetano de Figueiredo,3,0,19,0,Traversal,It moves really fast across the field.,1,0
+9/24/2022 18:51:52,649,49,Max,2,0,0,0,No Climb,Defense 1.5/5,0,0
+9/25/2022 9:32:20,3478,52,Collin Cameron,0,0,15,2,No Climb,,1,0
+9/25/2022 9:32:46,3310,52,Nate H,2,0,18,2,Traversal,,0,0
+9/25/2022 9:32:56,3478,52,Nate Scher,2,0,14,3,No Climb,,1,0
+9/25/2022 9:33:01,8282,83837,Jacob,4,0,8,5,Mid,,1,0
+9/25/2022 9:33:04,5940,52,Matteo,6,0,11,0,Traversal,,0,0
+9/25/2022 9:33:23,3476,52,Clio,5,1,8,5,Mid,,1,0
+9/25/2022 9:35:05,7157,52,Jasper Tripp,0,2,0,0,No Climb,Played goood defense but the died,0,0
+9/25/2022 9:39:48,2930,53,Jacob Trentini,3,3,7,2,No Climb,,1,0
+9/25/2022 9:39:56,694,53,Collin Cameron,3,0,2,3,Traversal,Was heavily defended this match. ,1,0
+9/25/2022 9:40:12,694,53,Nate Scher,5,0,4,2,Traversal,,1,0
+9/25/2022 9:40:49,5104,53,Clio,1,0,7,0,Traversal,Intake broke at very end and switched to defense (on defense rated 4/5 we’re aggressive but didn’t get penalties) ,1,0
+9/25/2022 9:41:48,8033,53,Jasper Tripp,3,0,22,1,No Climb,,0,0
+9/25/2022 9:46:59,1690,54,Clio,7,0,16,5,Traversal,,0,0
+9/25/2022 9:47:05,3647,54,Nate Scher,0,0,0,0,No Climb,Robot failed and did nothing,1,0
+9/25/2022 9:47:15,3647,54,Collin Cameron,3,0,0,0,No Climb,"5/5 defense, stopped working mid match",1,0
+9/25/2022 9:47:17,649,54,Matteo,2,0,0,0,No Climb,Def:3/5,1,0
+9/25/2022 9:55:39,6800,55,Nate H,3,0,8,5,Traversal,Bring defended very well,1,0
+9/25/2022 9:55:50,971,55,Matteo,5,0,9,3,High,,0,0
+9/25/2022 9:56:06,3310,55,Jasper Tripp,2,0,4,1,Traversal,Got defended to death ,0,0
+9/25/2022 9:56:27,498,55,Nate Scher,1,0,0,0,Low,"Defense bot, climber struggled. Ended at low",1,0
+9/25/2022 9:56:49,359,55,Jacob Trentini,3,0,19,1,Traversal,,0,0
+9/25/2022 9:57:28,1700,55,Clio,2,0,0,0,No Climb,"4 on defense we’re extremely aggressive! But got a lot of penalties most likely, they literally broke their bot raming into other bots ",0,0
+9/25/2022 10:03:39,1678,56,Nate H,6,0,22,1,Traversal,,1,0
+9/25/2022 10:03:59,4499,56,Matteo,3,1,14,0,Traversal,Ok at def:3.5/5,0,0
+9/25/2022 10:04:00,7157,56,Jasper Tripp,0,0,16,8,Mid,,1,0
+9/25/2022 10:04:17,5940,56,Jacob Trentini,5,0,16,5,High,,0,0
+9/25/2022 10:04:44,5507,56,Collin Cameron,2,0,0,0,No Climb,"3/5 defense, kept getting rammed and felt like it was about to fall apart.",0,0
+9/25/2022 10:04:55,696,56,Clio,3,0,13,1,No Climb,(Got stick on another bot and that’s why they didn’t have time to climb),1,0
+9/25/2022 10:05:33,5507,56,Nate Scher,0,0,0,0,No Climb,"Got a blue ball stuck in their robot, decided to defend BADLY, got stuck on 696 disabling their ability to get to climber",0,0
+9/25/2022 10:16:19,604,57,Matteo,2,0,17,3,Traversal,,1,0
+9/25/2022 10:16:23,3478,57,Nate H,2,0,20,2,No Climb,,0,0
+9/25/2022 10:16:31,2486,57,Jacob Trentini,2,0,6,2,No Climb,,0,0
+9/25/2022 10:16:35,3940,57,Nate Scher,0,2,11,1,No Climb,,1,0
+9/25/2022 10:16:48,2046,57,Jasper Tripp,4,0,17,3,Traversal,,1,0
+9/25/2022 10:17:21,3940,57,Collin Cameron,0,1,12,1,No Climb,"No limelight, must be touching the hub to shoot.",0,0
+9/25/2022 10:17:24,846,57,Clio,2,0,14,4,High,,1,0
+9/25/2022 10:23:47,7034,58,Matteo,6,0,6,0,Traversal,Was being defended the whole time.,1,0
+9/25/2022 10:23:55,972,58,Collin Cameron,0,1,0,0,No Climb,Did literally nothing.,1,0
+9/25/2022 10:24:02,6036,58,Jasper Tripp,2,0,21,5,No Climb,,1,0
+9/25/2022 10:24:11,2813,58,Jacob Trentini,1,1,0,0,No Climb,Mainly defense. They didn’t have an auto but played defense moderately well. Trapped the same robot 3 times removing around 1-2 minutes of playtime.,1,0
+9/25/2022 10:24:24,972,58,Nate Scher,0,1,0,0,No Climb,"Did absolutely nothing, autonomous fired the wrong direction",0,0
+9/25/2022 10:25:22,4414,58,Clio,3,1,23,3,Mid,,0,0
+9/25/2022 10:33:22,3476,59,Matteo,3,2,20,7,Traversal,Great shooter and heavy robot,0,0
+9/25/2022 10:33:26,4499,59,Nate Scher,1,0,20,0,Traversal,,1,0
+9/25/2022 10:33:37,973,59,Clio,2,0,9,4,No Climb,,0,0
+9/25/2022 10:33:48,6800,59,Jasper Tripp,3,0,20,7,Traversal,,1,0
+9/25/2022 10:34:00,971,59,Jacob Trentini,6,0,8,0,Mid,,0,0
+9/25/2022 10:35:46,4499,59,Collin Cameron,2,0,22,0,Traversal,,1,0
+9/25/2022 10:43:07,694,60,Matteo,3,2,12,2,Traversal,,1,0
+9/25/2022 10:44:00,498,60,Jasper Tripp,0,0,0,0,No Climb,,0,0
+9/25/2022 10:44:01,5940,60,Clio,2,0,14,0,Traversal,,0,0
+9/25/2022 10:44:01,359,60,Collin Cameron,2,0,12,0,Mid,,1,0
+9/25/2022 10:45:51,1678,60,Jacob Trentini,4,0,10,3,Traversal,"Being heavily guarded by a blue. Did pretty good for being guarded and had strategies that even tho they were being pushed around, they had a strategy to still make shots: go full speed into the goal wall so it can’t move around and shoot. We need to work on short shooting to do this.",1,0
+9/25/2022 10:55:30,3175,61,Caetano de Figueiredo,2,0,17,0,Mid,It is good at resisting defense.,1,0
+9/25/2022 10:55:50,2046,61,Alex montero,2,0,20,3,High,,1,0
+9/25/2022 10:55:51,2046,61,Milan,3,0,24,1,High,,0,0
+9/25/2022 10:56:06,2910,61,Ayaan,5,0,20,1,Traversal,Lots of shots even while being defended,0,0
+9/25/2022 10:56:37,3478,61,Nate Scher,0,0,7,4,High,,0,0
+9/25/2022 10:57:08,4255,61,Tiago,0,0,0,0,No Climb,The shooter seemed jammed; tried to play defense but did a bad job (0-1).,0,0
+9/25/2022 11:06:48,6036,63,jessixa,7,0,6,4,No Climb,,1,0
+9/25/2022 11:06:51,3940,62,Milan,0,3,12,0,Traversal,,1,0
+9/25/2022 11:06:54,3256,62,Tiago,2,0,0,0,No Climb,Defense—4,0,0
+9/25/2022 11:07:08,3940,62,Alex montero ,1,1,13,0,Traversal,,0,0
+9/25/2022 11:07:15,846,62,Nate Scher,0,1,9,7,Traversal,I love that climber,0,0
+9/25/2022 11:07:21,1619,62,Caetano de Figueiredo,5,0,11,10,Traversal,It has a reliable climber and it can shoot (although inconsistently) from many spots on the field.,1,0
+9/25/2022 11:07:48,5507,62,Ayaan,2,0,5,6,No Climb,"Shooter not good, they have to be against the hoop to shoot. Lots of balls fell out of the robot",1,0
+9/25/2022 11:15:38,973,64,jessica,3,0,6,2,No Climb,,1,0
+9/25/2022 11:15:39,604,63,Caetano de Figueiredo,2,0,17,4,Traversal,It has an inconsistent shooter.,1,0
+9/25/2022 11:15:51,3310,63,Ayaan,2,0,19,2,No Climb,,0,0
+9/25/2022 11:16:09,4414,63,Tiago,0,5,21,4,Traversal,,1,0
+9/25/2022 11:16:19,7034,63,Milan,3,0,14,0,High,,0,0
+9/25/2022 11:16:25,7034,63,Alex montero ,4,0,17,0,High,,0,0
+9/25/2022 11:16:29,8033,63,Nate Scher,3,0,14,0,Mid,,1,0
+9/25/2022 11:23:41,2831,64,jessica,3,0,4,3,Traversal,,0,0
+9/25/2022 11:23:55,3476,64,Alex montero,0,0,14,5,High,,1,0
+9/25/2022 11:24:06,2486,64,Tiago,2,0,13,4,Traversal,,1,0
+9/25/2022 11:24:11,649,64,Nate Scher,3,0,2,0,High,,1,0
+9/25/2022 11:24:17,2930,64,Ayaan,2,0,7,2,Mid,,0,0
+9/25/2022 11:24:20,1700,64,Caetano de Figueiredo,2,0,8,2,Mid,Defense rating out of five: 4. It is very fast in moving about the field.,1,0
+9/25/2022 11:32:03,1690,65,Tiago,6,0,15,5,No Climb,,1,0
+9/25/2022 11:32:07,7157,65,jessica,2,0,16,7,No Climb,"got two in but they bouncee out i still counted it? 
+",1,0
+9/25/2022 11:32:09,3647,65,Ayaan,6,0,17,2,Mid,,1,0
+9/25/2022 11:32:18,114,65,Milan,1,2,0,0,High,"Does not go for any points, only defense ",0,0
+9/25/2022 11:32:21,5104,65,Caetano de Figueiredo,2,0,9,3,Traversal,Defense rating out of five: 3. It shoots from right under the hub.,0,0
+9/25/2022 11:32:28,972,65,Nate Scher,0,1,0,0,No Climb,"I don’t even have to say anymore, useless.",0,0
+9/25/2022 15:57:26,254,66,Alex,3,0,16,13,Traversal,Turret was acting up,0,0

@@ -22,6 +22,7 @@ npm init -y
 npm install sqlite3
 npm install sqlite
 npm install morgan
+npm install papaparse
 ```
 # Setup SSL Certificate
 

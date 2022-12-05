@@ -53,7 +53,8 @@ body: {
         "constantData": {
             "scouterId": "Barry B Benson",
             "matchNumber": 13,
-            "defense": 0,
+            "dfenseQuantity": 2,
+            "defenseQuality": 4,
             "startTime": 129834982,
             "notes": "Ya like jazz"
         },
