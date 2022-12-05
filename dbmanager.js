@@ -7,7 +7,7 @@ const { resolve } = require("path");
 require("dotenv").config()
 
 class Manager {
-    static db = new sqlite.Database('./test.db', sqlite.OPEN_CREATE | sqlite.OPEN_READWRITE, (err) => {
+    static db = new sqlite.Database(`${__dirname}/./test.db`, sqlite.OPEN_CREATE | sqlite.OPEN_READWRITE, (err) => {
         if (err)
             console.error(err);
     });
@@ -141,7 +141,8 @@ class Manager {
             scoutReport VARCHAR(5000),
             notes BLOB VARCHAR (250),
             UNIQUE (matchKey, scouterId, scoutReport), 
-            FOREIGN KEY(matchKey) REFERENCES matches(key)
+            FOREIGN KEY(matchKey) REFERENCES matches(key),
+            FOREIGN KEY(scouterId) REFERENCES scouters(id)
         );`
 
         var createScouters = `
@@ -228,7 +229,7 @@ class Manager {
         }
 
         for (var j = 0; j < 18; j++) {
-            console.log(`Inserting teams ${(j/18)*100}%`)
+            console.log(`Inserting teams ${Math.round((j/18)*100)}%`)
             await axios.get(`${url}/teams/${j}/simple`, {
                 headers: {'X-TBA-Auth-Key': process.env.KEY}
             })

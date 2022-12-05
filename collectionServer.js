@@ -2,7 +2,6 @@ require("dotenv").config()
 
 // To connect to the database
 const sqlite = require("sqlite3").verbose()
-// const axios = require("axios")
 
 // For writing logs
 const fs = require('fs')
