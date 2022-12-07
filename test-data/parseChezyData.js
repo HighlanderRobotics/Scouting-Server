@@ -30,9 +30,9 @@ for(i = 0; i < jsonData.data.length; i ++)
             notes: data.notes
         },
         gameDependent: {
-            autoHighSucsess: parseInt(data.autoHighSucsess),
+            autoHighSuccess: parseInt(data.autoHighSuccess),
             autoMisses: parseInt(data.autoMisses),
-            teleopHighSucsess: parseInt(data.teleopHighSucsess),
+            teleopHighSuccess: parseInt(data.teleopHighSuccess),
             teleopMisses: parseInt(data.teleopMisses),
             climberPosition: 'No Climb',
         }

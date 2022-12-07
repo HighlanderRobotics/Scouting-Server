@@ -1,4 +1,4 @@
-timeStamp,teamNumber,matchNumber,scouterId,autoHighSucsess,autoMisses,teleopHighSucsess,teleopMisses,climberPosition,notes,defense,startTime
+timeStamp,teamNumber,matchNumber,scouterId,autoHighSuccess,autoMisses,teleopHighSuccess,teleopMisses,climberPosition,notes,defense,startTime
 9/11/2022 14:59:04,5940,1,Max,5,2,7,2,Mid,,0,0
 9/11/2022 14:59:59,5940,2,Max,4,3,16,2,Mid,,0,0
 9/14/2022 16:03:11,5940,3,Max,3,7,17,3,Traversal,,0,0

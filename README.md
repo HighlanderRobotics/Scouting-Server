@@ -79,13 +79,15 @@ SQLite Viewer by FLorian Klampfer
  - Learn jest framework
  - Write test cases
 7. Fix package.json
+8. Make a message queue
+ - Learn BullMQ and Redis
+ - Make message queue
 
 # Future
 1. Incorporate ORM
-2. Make proper message queue
+2. Make setup simpler
 3. Convert to typescript
 4. Multithreading if possible
-5. Make setup simpler
 
 Commands: 
 Run server: 
