@@ -1,13 +1,17 @@
 {
-  "name": "jwt-practice",
+  "name": "scouting-server",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Scouting Server",
+  "main": "collectionServer.js",
+  "homepage": "https://github.com/barryb5/learn-auth-server#README.md",
   "scripts": {
     "start": "nodemon collectionServer.js"
   },
   "keywords": [],
-  "author": "",
+  "author": {
+    "name": "Barry B Benson",
+    "email": "bbalasingham@gmail.com"
+  },
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",
@@ -22,5 +26,16 @@
   "devDependencies": {
     "dotenv": "^16.0.3",
     "nodemon": "^2.0.20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/barryb5/learn-auth-server"
+  },
+  "bugs": {
+    "url": "https://github.com/barryb5/learn-auth-server/issues"
+  },
+  "engines": {
+      "node": "^18.12.1",
+      "npm": "^9.2.0"
   }
 }
