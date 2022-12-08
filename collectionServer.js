@@ -15,8 +15,11 @@ const util = require('util')
 //this will allow us to pull params from .env file
 const express = require('express')
 
-// HTTPS (code was removed)
+// HTTPS
 const port = process.env.PORT 
+
+// Analysis Engine
+const TaskManager = require('./TaskManager.js')
 
 const app = express()
 app.use(express.json())
@@ -74,17 +77,18 @@ const promiseWithTimeout = ((promise) => {
     })
 
     return Promise.race([promise, timeoutPromise])
-  })
+})
 
 app.post("/getTaskData", async (req,res) => {
     // Get cached/Rerun analysis engine and send it
 
     if (req.body.taskNumber != undefined && req.body.taskNumber < tasks.size) {
-        console.log(`\nTask Number: ${req.body.taskNumber}`)
+        console.log(`Task Number: ${req.body.taskNumber}`)
 
         promiseWithTimeout(tasks.get(req.body.taskNumber))
         .then((response) => {
-                res.status(200).send(`${JSON.stringify(response)}`)
+            // console.log(response)
+            res.status(200).send(`${JSON.stringify(response)}`)
         })
     } else if (req.body.uuid != undefined && Array.from(uuidToTask.values()).includes(req.body.uuid)) {
         console.log(`UUID: ${req.body.uuid}`)
@@ -99,9 +103,20 @@ app.post("/getTaskData", async (req,res) => {
     }
 })
 
-app.post("/runEngine", async (req, res) => {
+app.post("/analysis", async (req, res) => {
     // Run analysis engine
-    res.status(200).send(`Started analysis`)
+    if (req.body.uuid) {
+        if (req.body.tasks) {
+            uuidToTask.set(req.body.uuid, uuidToTask.size)
+            tasks.set(uuidToTask.size, new TaskManager().runTasks(req.body.tasks))
+
+            res.status(200).send(`Task Number: ${uuidToTask.size}`)
+        } else {
+            res.status(400).send(`Missing tasks`)
+        }
+    } else {
+        res.status(400).send(`Missing uuid`)
+    }
 })
 
 // Add data to database
@@ -109,11 +124,10 @@ app.post("/addScoutReport", async (req, res) => {
 
     if (req.body.uuid) {
         if (req.body.teamKey && req.body.tournamentKey && req.body.data) {
-            var taskNumber = uuidToTask.size
-            uuidToTask.set(req.body.uuid, taskNumber)
-            tasks.set(taskNumber, Manager.addScoutReport(req.body.teamKey, req.body.tournamentKey, req.body.data))
+            uuidToTask.set(req.body.uuid, uuidToTask.size)
+            tasks.set(uuidToTask.size, Manager.addScoutReport(req.body.teamKey, req.body.tournamentKey, req.body.data))
 
-            res.status(200).send(`Task Number: ${taskNumber}`)
+            res.status(200).send(`Task Number: ${uuidToTask.size}`)
         } else {
             res.status(400).send(`Missing something`)
         }
@@ -128,12 +142,11 @@ app.post("/addScoutReport", async (req, res) => {
 app.post("/addTournamentMatches", async (req, res) => {
     // If the proper fields are filled out
     if (req.body.tournamentName && req.body.tournamentDate && req.body.uuid) {
-        var taskNumber = uuidToTask.size
-        uuidToTask.set(req.body.uuid, taskNumber)
-        tasks.set(taskNumber, Manager.addMatches(req.body.tournamentName, req.body.tournamentDate))
-        // console.log(tasks.get(taskNumber))
+        uuidToTask.set(req.body.uuid, uuidToTask.size)
+        tasks.set(uuidToTask.size, Manager.addMatches(req.body.tournamentName, req.body.tournamentDate))
+        // console.log(tasks.get(uuidToTask.size))
         
-        res.status(200).send(`${JSON.stringify({"taskNumber": taskNumber})}`)
+        res.status(200).send(`${JSON.stringify({"taskNumber": uuidToTask.size})}`)
     } else {
         res.status(400).send(`Missing something`)
     }
@@ -143,11 +156,10 @@ app.post("/addTournamentMatches", async (req, res) => {
 app.post("/listTeams", async (req,res) => {
 
     if (req.body.uuid) {
-        var taskNumber = uuidToTask.size
-        uuidToTask.set(req.body.uuid, taskNumber)
-        tasks.set(taskNumber, Manager.getTeams())
-        // console.log(tasks.get(taskNumber))
-        res.status(200).send(`${JSON.stringify({"taskNumber": taskNumber})}`)
+        uuidToTask.set(req.body.uuid, uuidToTask.size)
+        tasks.set(uuidToTask.size, Manager.getTeams())
+        // console.log(tasks.get(uuidToTask.size))
+        res.status(200).send(`${JSON.stringify({"taskNumber": uuidToTask.size})}`)
     } else {
         res.status(400).send(`Missing uuid`)
     }
@@ -158,10 +170,9 @@ app.post("/listTeams", async (req,res) => {
 app.post("/resetDB", async (req,res) => {
 
     if (req.body.uuid) {
-        var taskNumber = uuidToTask.size
-        uuidToTask.set(req.body.uuid, taskNumber)
-        tasks.set(taskNumber, Manager.resetAndPopulateDB())
-        res.status(200).send(`${JSON.stringify({"taskNumber": taskNumber})}`)
+        uuidToTask.set(req.body.uuid, uuidToTask.size)
+        tasks.set(uuidToTask.size, Manager.resetAndPopulateDB())
+        res.status(200).send(`${JSON.stringify({"taskNumber": uuidToTask.size})}`)
     } else {
         res.status(400).send(`Missing uuid`)
     }
