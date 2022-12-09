@@ -1,18 +1,51 @@
 # Currently runs from localhost
 
-## POST /runEngine
+# IF YOU WANT IT TO FUNCTION SIMILAR TO A REST API, ADD /API the start of the endpoint and ignore the uuid
+
+## POST /API/analysis
+Will accept a list of analyses and parameters
+```
+body: {
+    "tasks": [
+        {
+            "name": "AverageForMetric",
+            "teamKey": "frc8033",
+            "metric": "teleopHighSuccess"
+        },
+        {
+            "name": "TeamsInTournament",
+            "tournamentKey": "2022cc"
+        },
+        {
+            "name": "BestAverageForMetric",
+            "tournamentKey": "2022cc",
+            "metric": "teleopHighSuccess"
+        }
+    ]
+}
+```
+### Will return: Response code 200 
+Returns completed analyses as a list
+
+## POST /analysis
 Will accept a uuid and a list of analyses (made of analyses that can be run (will come later))
 ```
 body: {
     "uuid": uuid,
-    "analysis": [
+    "tasks": [
         {
-            "name": "averagePoints",
-            "analysisId": 2,
+            "name": "AverageForMetric",
+            "teamkey": "frc8033",
+            "metric": "teleopHighSuccess"
         },
         {
-            "name": "averagePoints",
-            "analysisId": 3,
+            "name": "TeamsInTournament",
+            "tournamentKey": "2022cc"
+        },
+        {
+            "name": "BestAverageForMetric",
+            "tournamentKey": "2022cc",
+            "metric": "teleopHighSuccess"
         }
     ]
 }
@@ -20,7 +53,6 @@ body: {
 ### Will return: Response code 200
 ```
 {
-    "uuid": uuid,
     "taskNumber": taskNumber
 }
 ```
@@ -36,17 +68,15 @@ body: {
 ### Will return: Response code 200
 ```
 {
-    "uuid": uuid,
-    "taskNumber": INTEGER,
     "taskData": Promise
 }
 ```
 
 ## POST /addScoutRport
-Will accept if a teamKey, tournamentKey, and data
+Will accept if a teamKey, tournamentKey, and data. Uuid is not neccessary if using /API/addScoutReport, it will instead return success. Let me know if anyone thinks anything else should be added to this format, (can be shrunk, thats not an issue, this is for understanding/agreement purposes)
 ```
 body: {
-    "uuid": "uuidgoeshere",
+    "uuid": uuid,
     "teamKey": "frc254",
     "tournamentKey": "2022cc",
     "data": {
@@ -59,12 +89,35 @@ body: {
             "notes": "Ya like jazz"
         },
         "gameDependent": {
+            "challengeResult": "Traversal"
             "events": [
                 {
-                    "event": "point"
+                    "event": {
+                        "timeSinceStart": 1405,
+                        "eventType": 0,
+                        "location": 1,
+                    }
                 },
                 {
-                    "event": "point"
+                    "event": {
+                        "timeSinceStart": 1645,
+                        "eventType": 0,
+                        "location": 1,
+                    }
+                },
+                {
+                    "event": {
+                        "timeSinceStart": 8418,
+                        "eventType": 1,
+                        "location": 3,
+                    }
+                },
+                {
+                    "event": {
+                        "timeSinceStart": 8897,
+                        "eventType": 0,
+                        "location": 3,
+                    }
                 }
             ]
         }
@@ -72,25 +125,29 @@ body: {
 }
 ```
 ### Will return: Response code 200
+```
 {
-    "uuid": uuid,
     "taskNumber": taskNumber
 }
+```
 
 ## POST /addTournamentMatches
-Add all the matches for a tournament, currently only works for matches where all the teams are in the db, so some offseason matches will have issues (such as Bordie React)
+Add all the matches for a tournament, currently only works for matches where all the teams are in the db, so some offseason matches will have issues (such as Bordie React). Uuid is not required if using /API/addTournamentMatches and it will respond with success.
 ```
 body: {
+    "uuid": uuid,
     "tournamentName": "Chezy Champs",
     "tournamentDate": "2022-09-23"
 }
 ```
 ### Will return: Response code 200
+```
 {
     "taskNumber": taskNumber
 }
+```
 
-## GET /listTeams
+## GET /API/listTeams
 Sends JSON list of all teams in the teams table
 Response code 200
 ```

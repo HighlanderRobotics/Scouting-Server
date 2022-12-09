@@ -1,8 +1,10 @@
 const Manager = require('./dbmanager.js')
 const AverageForMetric = require('./analysis/AverageForMetric.js')
 const TeamsInTournament = require('./analysis/TeamsInTournament.js')
+const BestAverageForMetric = require('./analysis/BestAverageForMetric.js')
 
 class TaskManager {
+
     runTasks(tasks) {
         if (tasks.length <= 0) {
             console.log(`No tasks provided`)
@@ -24,9 +26,9 @@ class TaskManager {
 
             for (var i = 0; i < analysis.length; i++) {
                 // Resolve results when they've all finished
+                // console.log(analysis[i].finalizeResults())
                 results.push(analysis[i].finalizeResults())
             }
-
             resolve(results)
         })
         .catch((err) => {
@@ -35,8 +37,6 @@ class TaskManager {
             }
         })
         .then((results) => {
-            // console.log(results)
-
             return results
         })
     }
@@ -54,23 +54,16 @@ class TaskManager {
                     // console.log(`TeamsInTournament`)
                     returnAnalysis.push(new TeamsInTournament(Manager.db, task.tournamentKey))
                     break;
+                case (BestAverageForMetric.name):
+                    // console.log(task.name)
+                    returnAnalysis.push(new BestAverageForMetric(Manager.db, task.tournamentKey, task.metric))
+                    break;
                 default:
                     console.log(`${task.name} is not a valid task`)
             }
         })
 
         return returnAnalysis
-    }
-
-    bruh() {
-        return [new AverageForMetric(Manager.db, "frc254", "teleopHighSuccess")]
-    }
-
-    async test() {
-        let bruh = new AverageForMetric(Manager.db, "frc254", "teleopHighSuccess") 
-
-        await bruh.runAnalysis()
-        console.log(bruh.finalizeResults())
     }
 }
 

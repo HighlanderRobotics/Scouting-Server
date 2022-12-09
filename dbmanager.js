@@ -415,6 +415,5 @@ class Manager {
         })
     }
 }
-// Manager.addMatches("Bordie React", "2022-10-14")
-// Manager.addMatches("Chezy Champs", "2022-09-23")
+
 module.exports = Manager

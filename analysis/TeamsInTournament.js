@@ -17,8 +17,6 @@ class TeamsInTournament extends BaseAnalysis {
             FROM matches
             WHERE gameKey = ?`
 
-            var returnData = []
-
             a.db.all(sql, [a.tournamentKey], (err, rows) => {
                 if (err) {
                     console.log(`Error getting data from ${a.tournamentKey}`)

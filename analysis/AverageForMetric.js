@@ -36,7 +36,6 @@ class AverageForMetric extends BaseAnalysis {
                         // Extracts only the metric (could be done more elegantly but w/e)
                         returnData.push(JSON.parse(JSON.parse(data.scoutReport).gameDependent.slice(1, -1))[a.metric])
                     })
-                    // console.log(returnData)
                     resolve(returnData)
                 }
             })
@@ -66,7 +65,7 @@ class AverageForMetric extends BaseAnalysis {
             if (data.length < 1) {
                 resolve(`No Data Found for ${a.metric}`)
             } else {
-                // Has Data and finds average    
+                // Has Data and finds average  
                 a.result = data.reduce((a,b) => a + b, 0)/data.length
                 // console.log(a.result)
                 resolve(`Task Completed`)
@@ -76,11 +75,11 @@ class AverageForMetric extends BaseAnalysis {
     }
 
     finalizeResults() {
-        return JSON.parse(`{ 
-            "metric": "${this.metric}",
-            "AverageForMetric": ${this.result},
-            "team": "${this.teamKey}"
-        }`)
+        return { 
+            "metric": this.metric,
+            "AverageForMetric": this.result,
+            "team": this.teamKey
+        }
     }
 }
 

@@ -107,10 +107,11 @@ app.post("/analysis", async (req, res) => {
     // Run analysis engine
     if (req.body.uuid) {
         if (req.body.tasks) {
-            uuidToTask.set(req.body.uuid, uuidToTask.size)
-            tasks.set(uuidToTask.size, new TaskManager().runTasks(req.body.tasks))
+            let taskNumber = uuidToTask.size
+            uuidToTask.set(req.body.uuid, taskNumber)
+            tasks.set(taskNumber, new TaskManager().runTasks(req.body.tasks))
 
-            res.status(200).send(`Task Number: ${uuidToTask.size}`)
+            res.status(200).send(`Task Number: ${taskNumber}`)
         } else {
             res.status(400).send(`Missing tasks`)
         }
@@ -119,13 +120,26 @@ app.post("/analysis", async (req, res) => {
     }
 })
 
+app.post("/API/analysis", async (req, res) => {
+    // Run analysis engine
+    if (req.body.tasks) {
+        let results = await new TaskManager().runTasks(req.body.tasks)
+
+        // console.log(`Results: ${JSON.stringify(results)}`)
+        res.status(200).send(results)
+    } else {
+        res.status(400).send(`Missing tasks`)
+    }
+})
+
 // Add data to database
 app.post("/addScoutReport", async (req, res) => {
 
     if (req.body.uuid) {
         if (req.body.teamKey && req.body.tournamentKey && req.body.data) {
-            uuidToTask.set(req.body.uuid, uuidToTask.size)
-            tasks.set(uuidToTask.size, Manager.addScoutReport(req.body.teamKey, req.body.tournamentKey, req.body.data))
+            let taskNumber = uuidToTask.size
+            uuidToTask.set(req.body.uuid, taskNumber)
+            tasks.set(taskNumber, Manager.addScoutReport(req.body.teamKey, req.body.tournamentKey, req.body.data))
 
             res.status(200).send(`Task Number: ${uuidToTask.size}`)
         } else {
@@ -133,9 +147,18 @@ app.post("/addScoutReport", async (req, res) => {
         }
     } else {
         res.status(400).send(`Missing uuid`)
-    }
+    }  
+})
 
-    
+app.post("/API/addScoutReport", async (req, res) => {
+
+    if (req.body.teamKey && req.body.tournamentKey && req.body.data) {
+        let results = await Manager.addScoutReport(req.body.teamKey, req.body.tournamentKey, req.body.data)
+
+        res.status(200).send(results)
+    } else {
+        res.status(400).send(`Missing something`)
+    }
 })
 
 // Add tournament
@@ -152,19 +175,49 @@ app.post("/addTournamentMatches", async (req, res) => {
     }
 })
 
+app.post("/API/addTournamentMatches", async (req, res) => {
+    // If the proper fields are filled out
+    if (req.body.tournamentName && req.body.tournamentDate) {
+        var results = await Manager.addMatches(req.body.tournamentName, req.body.tournamentDate)
+        .catch((err) => {
+            if (err) {
+                res.status(400).send(`Error with addTournamentMatches(): ${err}`)
+            }
+        })
+        res.status(200).send(results)
+    } else {
+        res.status(400).send(`Missing something`)
+    }
+})
+
 // List teams
 app.post("/listTeams", async (req,res) => {
 
     if (req.body.uuid) {
-        uuidToTask.set(req.body.uuid, uuidToTask.size)
+        let taskNumber = uuidToTask.size
+        uuidToTask.set(req.body.uuid, taskNumber)
         tasks.set(uuidToTask.size, Manager.getTeams())
         // console.log(tasks.get(uuidToTask.size))
-        res.status(200).send(`${JSON.stringify({"taskNumber": uuidToTask.size})}`)
+        res.status(200).send(`${JSON.stringify({"taskNumber": taskNumber})}`)
     } else {
         res.status(400).send(`Missing uuid`)
     }
 
 })
+
+app.get("/API/listTeams", async (req,res) => {
+
+    var results = await Manager.getTeams()
+    .catch((err) => {
+        if (err) {
+            res.status(400).send(`Error with getTeams(): ${err}`)
+        }
+    })
+
+    res.status(200).send(results)
+})
+
+
 
 // Reset DB (testing only)
 app.post("/resetDB", async (req,res) => {
