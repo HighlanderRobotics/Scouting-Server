@@ -1,5 +1,3 @@
-# Currently runs from localhost
-
 # IF YOU WANT IT TO FUNCTION SIMILAR TO A REST API, ADD /API the start of the endpoint and ignore the uuid
 
 ## POST /API/analysis
