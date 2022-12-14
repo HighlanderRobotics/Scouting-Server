@@ -7,7 +7,7 @@ const { resolve } = require("path");
 require("dotenv").config()
 
 class Manager {
-    static db = new sqlite.Database(`${__dirname}/./test.db`, sqlite.OPEN_CREATE | sqlite.OPEN_READWRITE, (err) => {
+    static db = new sqlite.Database(`${__dirname}/.././test.db`, sqlite.OPEN_CREATE | sqlite.OPEN_READWRITE, (err) => {
         if (err)
             console.error(err);
     });
@@ -406,7 +406,8 @@ class Manager {
                     }
                 }
             })
-        }).catch((err) => {
+        })
+        .catch((err) => {
             if (err) {
                 return err
             }

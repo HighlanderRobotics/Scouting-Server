@@ -81,40 +81,40 @@ body: {
         "constantData": {
             "scouterId": "Barry B Benson",
             "matchNumber": 13,
-            "dfenseQuantity": 2,
+            "defenseQuantity": 2,
             "defenseQuality": 4,
             "startTime": 129834982,
             "notes": "Ya like jazz"
         },
         "gameDependent": {
-            "challengeResult": "Traversal"
+            "challengeResult": "Traversal",
             "events": [
                 {
                     "event": {
                         "timeSinceStart": 1405,
                         "eventType": 0,
-                        "location": 1,
+                        "location": 1
                     }
                 },
                 {
                     "event": {
                         "timeSinceStart": 1645,
                         "eventType": 0,
-                        "location": 1,
+                        "location": 1
                     }
                 },
                 {
                     "event": {
                         "timeSinceStart": 8418,
                         "eventType": 1,
-                        "location": 3,
+                        "location": 3
                     }
                 },
                 {
                     "event": {
                         "timeSinceStart": 8897,
                         "eventType": 0,
-                        "location": 3,
+                        "location": 3
                     }
                 }
             ]

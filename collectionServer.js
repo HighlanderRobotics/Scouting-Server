@@ -18,8 +18,9 @@ const express = require('express')
 // HTTPS
 const port = process.env.PORT 
 
-// Analysis Engine
+// Task Managers
 const TaskManager = require('./TaskManager.js')
+const DatabaseManager = require('./DatabaseManager.js')
 
 const app = express()
 app.use(express.json())
@@ -51,17 +52,25 @@ app.use(morgan('readable', {
 
 //This middleware will allow us to pull req.body.<params>
 
-const Manager = require('./dbmanager.js')
+// Temporary if others want to use old endpoints for integration test day, will force changing endpoints later
+const Manager = require('./manager/dbmanager.js')
 
 // Tasks map
 const uuidToTask = new Map()
 const tasks = new Map()
 
-app.listen(port, () => { 
+app.listen(port, async () => { 
     console.log(`Collection Server running on ${port}...`)
     // Init server here, idk what it would init but possibly could run + cache analysis engine, all it does is turn foreign keys on
-    Manager.initServer()
-    console.log(`Initializing server`)
+    let init = await new DatabaseManager().runTask("InitServer", {})
+    .catch((err) => {
+        if (err) {
+            console.log(err)
+        }
+    })
+    .then((results) => {
+        console.log(`Initializing server`)
+    })
 })
 
 app.get("/", async (req, res) => {
@@ -129,6 +138,22 @@ app.post("/API/analysis", async (req, res) => {
         res.status(200).send(results)
     } else {
         res.status(400).send(`Missing tasks`)
+    }
+})
+
+app.post("/API/manager/:task", async (req, res) => {
+    if (req.params.task) {
+        let results = await new DatabaseManager().runTask(req.params.task, req.body)
+        .catch((err) => {
+            if (err) {
+                res.status(400).send(err)
+            }
+        })
+
+        // console.log(results)
+        res.status(200).send(results)
+    } else {
+        res.status(400).send(`Missing Task Name`)
     }
 })
 

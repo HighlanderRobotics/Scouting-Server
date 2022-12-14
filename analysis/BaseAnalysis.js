@@ -1,4 +1,4 @@
-const Manager = require('.././dbmanager.js')
+const Manager = require('../manager/Manager.js')
 
 class BaseAnalysis {
     constructor(db) {
