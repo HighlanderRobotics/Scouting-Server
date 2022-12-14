@@ -1,3 +1,4 @@
+// import BaseAnalysis from './BaseAnalysis.js'
 const BaseAnalysis = require('./BaseAnalysis.js')
 
 class notes extends BaseAnalysis {
@@ -6,6 +7,8 @@ class notes extends BaseAnalysis {
     constructor(db, team) {
         super(db)
         this.team = team
+        // this.start = start
+        // this.end = end
         this.result = []
     }
     async getNotes()
@@ -20,13 +23,16 @@ class notes extends BaseAnalysis {
                     JOIN teams ON teams.key = matches.teamKey
                     WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key`
                 let arr = []
-                db.all(sql, [a.team], (err, rows) => {
+                // console.log(a.team)
+                a.db.all(sql, [a.team], (err, rows) => {
                     if(err)
                     {
+                        console.log(err)
                         reject(err)
                     }
                     else
-                    {                    
+                    {     
+                        console.log(rows)               
                         a.result = rows
                         resolve(rows)
                     }
@@ -37,9 +43,10 @@ class notes extends BaseAnalysis {
     }
     runAnalysis()
     {
+        let a = this
         return new Promise(async (resolve, reject) =>
         {
-            var temp = a.getNotes().catch((err) => {
+            var temp = await a.getNotes().catch((err) => {
                 if (err) {
                     return err
                 }
@@ -52,8 +59,9 @@ class notes extends BaseAnalysis {
     finalizeResults()
     {
         return { 
-            "notes": this.result,
+            "result": this.result,
             "team": this.team
         }
     }
 }
+module.exports = notes

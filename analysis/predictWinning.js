@@ -1,6 +1,7 @@
 const BaseAnalysis = require('./BaseAnalysis.js')
+const math = require('jstat')
 
-class overview extends BaseAnalysis {
+class predictWinning extends BaseAnalysis {
     static name = `predictWinning`
 
     constructor(db, red1, red2, red3, blue1, blue2, blue3,) {
@@ -138,7 +139,8 @@ class overview extends BaseAnalysis {
             "blue1" : this.blue1,
             "blue2" : this.blue2,
             "blue3" : this.blue3,
-            "result": this.result,
+            "result": this.result
         }
     }
 }
+module.exports = predictWinning

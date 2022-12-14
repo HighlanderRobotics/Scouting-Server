@@ -1,11 +1,13 @@
 const BaseAnalysis = require('./BaseAnalysis.js')
 
-class notes extends BaseAnalysis {
+class averageScore extends BaseAnalysis {
     static name = `averageScore`
 
-    constructor(db, team) {
+    constructor(db, team, start, end) {
         super(db)
         this.team = team
+        this.start = start
+        this.end = end
         this.result = []
     }
     async scoresOverTime()
@@ -13,16 +15,15 @@ class notes extends BaseAnalysis {
         let a = this
         return new Promise(function(resolve, reject)
         {
-            var sql = `SELECT json_extract(json(trim(json_extract(data.scoutReport, '$.gameDependent'), '"')), '$.autoHighSuccess') as autoHigh, CAST(replace(json_extract(json(trim(json_extract(data.scoutReport, '$.gameDependent'), '"')), '$.teleopHighSuccess'), '"', '') AS INTEGER) as teleopHigh, json_extract(json(trim(json_extract(data.scoutReport, '$.gameDependent'), '"')), '$.climberPosition') AS climb
+            var sql = `SELECT scoutReport
             FROM data
             JOIN (SELECT matches.key
                 FROM matches 
                 JOIN teams ON teams.key = matches.teamKey
                 WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key`
-                let arr = []
-            let total = 0
+            let arr = []
             
-            db.all(sql, [a.team], (err, rows) =>
+            a.db.all(sql, [a.team], (err, rows) =>
             {
                 if(err)
                 {
@@ -33,31 +34,39 @@ class notes extends BaseAnalysis {
                 {
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array){
-                        let shots = 0
-                        let total = 0
-                        for (let i = 0; i < arr.length; i++) {
-                            let curr = arr[i][1]
-                            if (curr == 0) {
-                              shots++;
-                            }
-                            if(curr == 2)
+                        let temp = []
+                         temp = data.events
+                        let total = 2 
+                        if(data.challengeResult == 2)
+                        {
+                            total += 4
+                        }
+                        else if(data.challengeResult == 3)
+                        {
+                            total += 6
+                        }
+                        else if(data.challengeResult == 4)
+                        {
+                            total += 10
+                        }
+                        else if(data.challengeResult == 5)
+                        {
+                            total += 15
+                        }
+                      
+                        for (let i = 0; i < array.length; i++) {
+                            
+                            const entry = array[i];
+                            if(entry[0] <= 3000 && entry[1] == 0)
                             {
                                 total += 4
                             }
-                            if(curr == 3)
+                            else if(entry[1] == 0)
                             {
-                                total += 6
-                            }
-                            if(curr == 4)
-                            {
-                                total += 10
-                            }
-                            if(curr == 5)
-                            {
-                                total += 15
+                                total += 2
                             }
                         }
-                        total += shots * 2
+                        arr.push(total)
 
                     }
                 
@@ -71,9 +80,10 @@ class notes extends BaseAnalysis {
     }
     runAnalysis()
     {
+        let a = this
         return new Promise(async (resolve, reject) =>
         {
-            var temp = a.getDefenseQuality().catch((err) => {
+            var temp = a.scoresOverTime().catch((err) => {
                 if (err) {
                     return err
                 }
@@ -92,3 +102,4 @@ class notes extends BaseAnalysis {
         }
     }
 }
+module.exports = averageScore

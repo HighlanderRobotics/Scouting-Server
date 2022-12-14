@@ -1,3 +1,4 @@
+const Manager = require('../manager/dbmanager.js')
 const BaseAnalysis = require('./BaseAnalysis.js')
 
 
@@ -18,7 +19,7 @@ class fullyScouted extends BaseAnalysis {
             let sql = `SELECT COUNT(*) AS rowCount
             FROM matches
             WHERE gameKey = ? AND matchNumber  = ?`
-            db.all(sql, [a.gameKey, a.matchNumber], (err, rows) =>
+            a.db.all(sql, [a.gameKey, a.matchNumber], (err, rows) =>
             {
                 if(err)
                 {
@@ -33,9 +34,11 @@ class fullyScouted extends BaseAnalysis {
     }
     runAnalysis()
     {
+        let a = this
+
         return new Promise(async (resolve, reject) =>
         {
-            var temp = a.fullyScouted().catch((err) => {
+            var temp = a.getFullyScouted().catch((err) => {
                 if (err) {
                     return err
                 }
@@ -47,8 +50,9 @@ class fullyScouted extends BaseAnalysis {
     finalizeResults()
     {
         return { 
-            "defenseQuantity": this.result,
+            "result": this.result,
             "matchNumber": this.matchNumber
         }
     }
 }
+module.exports = fullyScouted

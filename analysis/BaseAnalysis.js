@@ -1,11 +1,11 @@
-const Manager = require('../manager/Manager.js')
+// const Manager = require('../manager/Manager.js')
 
 class BaseAnalysis {
     constructor(db) {
         if (this.constructor == BaseAnalysis) {
             throw new Error(`Abstract classes can't be instantiated.`);
         }
-        this.db = Manager.db
+        this.db = db
     }
 
     getData() {
@@ -21,4 +21,4 @@ class BaseAnalysis {
     }
 }
 
-module.exports = BaseAnalysis
+module.exports  = BaseAnalysis

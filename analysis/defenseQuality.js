@@ -1,30 +1,35 @@
+// const BaseAnalysis = require('./BaseAnalysis.js')
 const BaseAnalysis = require('./BaseAnalysis.js')
 
-class defenseQuantity extends BaseAnalysis {
-    static name = `defenseQuanlity`
+class defenseQuality extends BaseAnalysis {
+    static name = `defenseQuality`
 
-    constructor(db, teamKey) {
+    constructor(db, teamKey, start, end) {
         super(db)
         this.team = teamKey
+        this.start = start
+        this.end = end
         this.result = 0
     }
     async getDefenseQuality()
     {
         let a = this
-        return new Promise(function(resolve, reject)
+        return new Promise(async function(resolve, reject)
         {
             let sql = `SELECT SUM(defenseQuality) AS dSum, COUNT(*) AS size
-            FROM data
+            FFROM data
             JOIN (SELECT matches.key
                 FROM matches 
                 JOIN teams ON teams.key = matches.teamKey
-                WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key`
-            db.all(sql, [a.team], (err, row)=>{
+                WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
+          `
+            a.db.all(sql, [a.team], (err, row)=>{
                 if(err)
                 {
                     reject(err)
                 }
-                let temp = ow[0].dSum / row[0].size
+                console.log(a.team)
+                let temp = row[0].dSum / row[0].size
                 a.result = temp
                 resolve(temp)
             })
@@ -42,15 +47,16 @@ class defenseQuantity extends BaseAnalysis {
                 }
             })  
             a.result = temp    
-            resolve(done)      
+            resolve("done")
         })
         
     }
     finalizeResults()
     {
         return { 
-            "defenseQuality": this.result,
+            "result": this.result,
             "team": this.team
         }
     }
 }
+module.exports = defenseQuality

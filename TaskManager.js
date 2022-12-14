@@ -2,8 +2,18 @@ const Manager = require('./manager/dbmanager.js')
 const AverageForMetric = require('./analysis/AverageForMetric.js')
 const TeamsInTournament = require('./analysis/TeamsInTournament.js')
 const BestAverageForMetric = require('./analysis/BestAverageForMetric.js')
-const Overveiw = require('./overview.js')
-const FullyScouted = requite('./fullyScouted.js')
+//const Overview = require('./overview.js')
+const fullyScouted = require('./analysis/fullyScouted.js')
+const defenseAmmount = require('./analysis/defenseQuantity.js')
+const defenseQuality = require('./analysis/defenseQuality.js')
+const notes = require('./analysis/notes.js')
+const climberSucsess = require('./analysis/climberSucsess.js')
+const climberMax = require('./analysis/climberMax.js')
+const cargoCount = require('./analysis/cargoCount.js')
+const cargoAccuracy = require('./analysis/cargoAccuracy.js')
+const scores = require('./analysis/averageScore.js')
+const predictWinning = require('./analysis/predictWinning.js')
+
 class TaskManager {
 
     runTasks(tasks) {
@@ -58,17 +68,37 @@ class TaskManager {
                 case (BestAverageForMetric.name):
                     // console.log(task.name)
                     returnAnalysis.push(new BestAverageForMetric(Manager.db, task.tournamentKey, task.metric))
-                    break;
-                case (Overveiw.name):
-
-                    returnAnalysis.push(new Overveiw(Manager.db, task.teamNum))
-                    break;
-                
-                case(FullyScouted.name):
-                
-                    returnAnalysis.push(new FullyScouted(Manager.db, task.gameKey, task.matchNum))
-                    break;
-                
+                    break
+                case(cargoCount.name):
+                    returnAnalysis.push(new cargoCount(Manager.db, task.team, task.start, task.end))
+                    break
+                case(cargoAccuracy.name):
+                    returnAnalysis.push(new cargoAccuracy(Manager.db, task.team, task.start, task.end))
+                    break
+                case(climberMax.name):
+                    returnAnalysis.push(new climberMax(Manager.db, task.team, task.start, task.end))
+                    break
+                case(climberSucsess.name):
+                    returnAnalysis.push(new climberSucsess(Manager.db, task.team, task.start, task.end))
+                    break
+                case(notes.name):
+                    returnAnalysis.push(new notes(Manager.db, task.team, task.start, task.end))
+                    break
+                case(defenseAmmount.name):
+                    returnAnalysis.push(new defenseAmmount(Manager.db, task.team, task.start, task.end))
+                    break
+                case(defenseQuality.name):
+                    returnAnalysis.push(new defenseQuality(Manager.db, task.team, task.start, task.end))
+                    break
+                case(scores.name):
+                    returnAnalysis.push(new scores(Manager.db, task.team, task.start, task.end))
+                    break
+                case(fullyScouted.name):
+                    returnAnalysis.push(new fullyScouted(Manager.db, task.team, task.start, task.end))
+                    break
+                case(predictWinning.name):
+                    returnAnalysis.push(new predictWinning(Manager.db, task.team, task.start, task.end))
+                    break
                 default:
                     console.log(`${task.name} is not a valid task`)
             }

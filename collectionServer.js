@@ -183,7 +183,7 @@ app.get('/API/analysis/:task', async (req, res) => {
 
 // Reset DB (testing only)
 app.post('/resetDB', async (req,res) => {
-
+7
     if (req.body.uuid) {
         let taskNumber = uuidToTask.size
         uuidToTask.set(req.body.uuid, taskNumber)

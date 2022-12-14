@@ -1,5 +1,6 @@
 const AverageForMetric = require('./AverageForMetric.js')
 const BaseAnalysis = require('./BaseAnalysis.js')
+
 const TeamsInTournament = require('./TeamsInTournament.js')
 
 class BestAverageForMetric extends BaseAnalysis {
