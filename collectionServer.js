@@ -166,7 +166,7 @@ app.post("/addScoutReport", async (req, res) => {
             uuidToTask.set(req.body.uuid, taskNumber)
             tasks.set(taskNumber, Manager.addScoutReport(req.body.teamKey, req.body.tournamentKey, req.body.data))
 
-            res.status(200).send(`Task Number: ${uuidToTask.size}`)
+            res.status(200).send(`Task Number: ${taskNumber}`)
         } else {
             res.status(400).send(`Missing something`)
         }
@@ -190,11 +190,12 @@ app.post("/API/addScoutReport", async (req, res) => {
 app.post("/addTournamentMatches", async (req, res) => {
     // If the proper fields are filled out
     if (req.body.tournamentName && req.body.tournamentDate && req.body.uuid) {
-        uuidToTask.set(req.body.uuid, uuidToTask.size)
-        tasks.set(uuidToTask.size, Manager.addMatches(req.body.tournamentName, req.body.tournamentDate))
-        // console.log(tasks.get(uuidToTask.size))
+        let taskNumber = uuidToTask.size
+        uuidToTask.set(req.body.uuid, taskNumber)
+        tasks.set(taskNumber, Manager.addMatches(req.body.tournamentName, req.body.tournamentDate))
+        // console.log(tasks.get(taskNumber))
         
-        res.status(200).send(`${JSON.stringify({"taskNumber": uuidToTask.size})}`)
+        res.status(200).send(`${JSON.stringify({"taskNumber": taskNumber})}`)
     } else {
         res.status(400).send(`Missing something`)
     }
@@ -221,8 +222,8 @@ app.post("/listTeams", async (req,res) => {
     if (req.body.uuid) {
         let taskNumber = uuidToTask.size
         uuidToTask.set(req.body.uuid, taskNumber)
-        tasks.set(uuidToTask.size, Manager.getTeams())
-        // console.log(tasks.get(uuidToTask.size))
+        tasks.set(taskNumber, Manager.getTeams())
+        // console.log(tasks.get(taskNumber))
         res.status(200).send(`${JSON.stringify({"taskNumber": taskNumber})}`)
     } else {
         res.status(400).send(`Missing uuid`)
@@ -248,9 +249,10 @@ app.get("/API/listTeams", async (req,res) => {
 app.post("/resetDB", async (req,res) => {
 
     if (req.body.uuid) {
-        uuidToTask.set(req.body.uuid, uuidToTask.size)
-        tasks.set(uuidToTask.size, Manager.resetAndPopulateDB())
-        res.status(200).send(`${JSON.stringify({"taskNumber": uuidToTask.size})}`)
+        let taskNumber = uuidToTask.size
+        uuidToTask.set(req.body.uuid, taskNumber)
+        tasks.set(taskNumber, Manager.resetAndPopulateDB())
+        res.status(200).send(`${JSON.stringify({"taskNumber": taskNumber})}`)
     } else {
         res.status(400).send(`Missing uuid`)
     }
