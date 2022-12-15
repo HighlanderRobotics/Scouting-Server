@@ -88,7 +88,7 @@ const promiseWithTimeout = ((promise) => {
     return Promise.race([promise, timeoutPromise])
 })
 
-app.post("/getTaskData", async (req,res) => {
+app.get("/getTaskData", async (req,res) => {
     // Get cached/Rerun analysis engine and send it
 
     if (req.body.taskNumber != undefined && req.body.taskNumber < tasks.size) {
@@ -112,7 +112,7 @@ app.post("/getTaskData", async (req,res) => {
     }
 })
 
-app.post("/analysis", async (req, res) => {
+app.get("/analysis", async (req, res) => {
     // Run analysis engine
     if (req.body.uuid) {
         if (req.body.tasks) {
@@ -129,7 +129,7 @@ app.post("/analysis", async (req, res) => {
     }
 })
 
-app.post("/API/analysis", async (req, res) => {
+app.get("/API/analysis", async (req, res) => {
     // Run analysis engine
     if (req.body.tasks) {
         let results = await new TaskManager().runTasks(req.body.tasks)
@@ -141,7 +141,7 @@ app.post("/API/analysis", async (req, res) => {
     }
 })
 
-app.post("/API/manager/:task", async (req, res) => {
+app.get("/API/manager/:task", async (req, res) => {
     if (req.params.task) {
         let results = await new DatabaseManager().runTask(req.params.task, req.body)
         .catch((err) => {
@@ -217,7 +217,7 @@ app.post("/API/addTournamentMatches", async (req, res) => {
 })
 
 // List teams
-app.post("/listTeams", async (req,res) => {
+app.get("/listTeams", async (req,res) => {
 
     if (req.body.uuid) {
         let taskNumber = uuidToTask.size

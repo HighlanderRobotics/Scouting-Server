@@ -1,6 +1,6 @@
 # IF YOU WANT IT TO FUNCTION SIMILAR TO A REST API, ADD /API the start of the endpoint and ignore the uuid
 
-## POST /API/analysis
+## GET /API/analysis
 Will accept a list of analyses and parameters
 ```
 body: {
@@ -25,7 +25,7 @@ body: {
 ### Will return: Response code 200 
 Returns completed analyses as a list
 
-## POST /analysis
+## GET /analysis
 Will accept a uuid and a list of analyses (made of analyses that can be run (will come later))
 ```
 body: {
@@ -55,7 +55,7 @@ body: {
 }
 ```
 
-## POST /getTaskData
+## GET /getTaskData
 Can accept either a uuid that was sent with the initial request AND/OR the taskNumber that is returned with the uuid. Will return the promise associated with the taskNumber/uuid
 ```
 body: {
