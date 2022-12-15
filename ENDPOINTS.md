@@ -2,7 +2,7 @@
 
 ## GET /API/analysis
 Will accept a list of analyses and parameters
-```
+```json
 body: {
     "tasks": [
         {
@@ -27,7 +27,7 @@ Returns completed analyses as a list
 
 ## GET /analysis
 Will accept a uuid and a list of analyses (made of analyses that can be run (will come later))
-```
+```json
 body: {
     "uuid": uuid,
     "tasks": [
@@ -49,7 +49,7 @@ body: {
 }
 ```
 ### Will return: Response code 200
-```
+```json
 {
     "taskNumber": taskNumber
 }
@@ -57,14 +57,14 @@ body: {
 
 ## GET /getTaskData
 Can accept either a uuid that was sent with the initial request AND/OR the taskNumber that is returned with the uuid. Will return the promise associated with the taskNumber/uuid
-```
+```json
 body: {
     "uuid": uuid,
     "taskNumber": INTEGER
 }
 ```
 ### Will return: Response code 200
-```
+```json
 {
     "taskData": Promise
 }
@@ -72,7 +72,7 @@ body: {
 
 ## POST /addScoutRport
 Will accept if a teamKey, tournamentKey, and data. Uuid is not neccessary if using /API/addScoutReport, it will instead return success. Let me know if anyone thinks anything else should be added to this format, (can be shrunk, thats not an issue, this is for understanding/agreement purposes)
-```
+```json
 body: {
     "uuid": uuid,
     "teamKey": "frc254",
@@ -123,7 +123,7 @@ body: {
 }
 ```
 ### Will return: Response code 200
-```
+```json
 {
     "taskNumber": taskNumber
 }
@@ -131,7 +131,7 @@ body: {
 
 ## POST /addTournamentMatches
 Add all the matches for a tournament, currently only works for matches where all the teams are in the db, so some offseason matches will have issues (such as Bordie React). Uuid is not required if using /API/addTournamentMatches and it will respond with success.
-```
+```json
 body: {
     "uuid": uuid,
     "tournamentName": "Chezy Champs",
@@ -139,7 +139,7 @@ body: {
 }
 ```
 ### Will return: Response code 200
-```
+```json
 {
     "taskNumber": taskNumber
 }
@@ -148,7 +148,7 @@ body: {
 ## GET /API/listTeams
 Sends JSON list of all teams in the teams table
 Response code 200
-```
+```json
 [
     {
         "key": "frc1",
