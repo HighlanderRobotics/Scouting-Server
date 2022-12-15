@@ -3,10 +3,19 @@ const BaseAnalysis = require('./BaseAnalysis.js')
 class AverageForMetric extends BaseAnalysis {
     static name = `averageForMetric`
 
-    constructor(db, teamKey, metric) {
+    constructor(db, teamKey, metric, countOrAvg) {
         super(db)
         this.teamKey = teamKey
         this.metric = metric
+        //boolean, true = count, false = avg
+        if(countOrAvg.eqauls("count"))
+        {
+            this.count = true
+        }
+        else
+        {
+            this.count = false
+        }
         this.result = 0
     }
 
@@ -48,6 +57,10 @@ class AverageForMetric extends BaseAnalysis {
         .then((data) => {
             return data
         })
+    }
+    async getAvg()
+    {
+        
     }
 
     runAnalysis() {
