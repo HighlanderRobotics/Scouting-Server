@@ -24,19 +24,6 @@ npm install sqlite
 npm install morgan
 npm install papaparse
 ```
-# Setup SSL Certificate
-
-**Not neccessary because scrapped https code**
-
-Go to /ssl and run: 
-```
-openssl genrsa -out key.pem
-
-openssl req -new -key key.pem -out csr.pem
-
-openssl x509 -req -days 365 -in csr.pem -signkey key.pem -out cert.pem
-```
-You can enter w/e information you want for the certificate request it doesn't matter
 
 # Setup ngrok
 
@@ -60,28 +47,30 @@ SQLite Viewer by FLorian Klampfer
  - ~~Build get all teams~~
  - ~~Get and insert matches for round-robin~~
 2. Make analysis engine
- - Get Team's points average
- - Build rest of analysis for analysis engine
+ - ~~Get Team's points average~~
+ - ~~Build rest of analysis for analysis engine~~
 3. ~~Add actual data to the Database~~
  - ~~Get data from the app~~
  - ~~Add post request for inputing data~~
  - ~~Add any data required to properly insert into the header in gamedata (on the app)~~
-   - Its on the test-rest-api branch
+   - ~~Its on the test-rest-api branch~~
 4. REST API
  - ~~Add get request for recieving analysis~~
  - ~~Create token system~~
  - ~~Add post request for inputing data~~
  - ~~Add get request for recieving analysis~~
  - ~~Add post request for adding stuff via api (such as tournament matches)~~
-5. Abstraction
- - Break functions and utilities into seperate files for modularity reasons
+5. ~~Abstraction~~
+ - ~~Break functions and utilities into seperate files for modularity reasons~~
 6. Testing
- - Learn jest framework
- - Write test cases
-7. Fix package.json
+ - ~~Learn jest framework~~
+ - Finish writing test cases
+7. ~~Fix package.json~~
 8. Make a message queue
  - Learn BullMQ and Redis
  - Make message queue
+9. Fix endpoints to Collin's suggestions
+ - More params and stop using body
 
 # Future
 1. Incorporate ORM

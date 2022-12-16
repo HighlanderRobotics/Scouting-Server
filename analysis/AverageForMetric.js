@@ -1,7 +1,7 @@
 const BaseAnalysis = require('./BaseAnalysis.js')
 
 class AverageForMetric extends BaseAnalysis {
-    static name = `AverageForMetric`
+    static name = `averageForMetric`
 
     constructor(db, teamKey, metric) {
         super(db)

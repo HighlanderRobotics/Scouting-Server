@@ -129,10 +129,19 @@ app.get("/analysis", async (req, res) => {
     }
 })
 
-app.get("/API/analysis", async (req, res) => {
+app.get("/API/analysis/:task", async (req, res) => {
     // Run analysis engine
-    if (req.body.tasks) {
-        let results = await new TaskManager().runTasks(req.body.tasks)
+    if (req.query) {
+        singleTask = [
+            {
+                "name": req.params.task,
+            }
+        ]
+        Object.keys(req.query).forEach((key) => {
+            singleTask[0][`${key}`] = req.query[key]
+        })
+
+        let results = await new TaskManager().runTasks(singleTask)
 
         // console.log(`Results: ${JSON.stringify(results)}`)
         res.status(200).send(results)
@@ -141,9 +150,28 @@ app.get("/API/analysis", async (req, res) => {
     }
 })
 
+app.get("/API/manager/isScouted/:tournamentKey/:matchNumber", async (req, res) => {
+    if (req.params.tournamentKey && req.params.matchNumber) {
+        let body = {
+            "tournamentKey": req.params.tournamentKey,
+            "matchNumber": parseInt(req.params.matchNumber)
+        }
+        let results = await new DatabaseManager().runTask("isScouted", req.params)
+        .catch((err) => {
+            if (err) {
+                res.status(400).send(err)
+            }
+        })
+
+        res.status(200).send(results)
+    } else {
+        res.status(400).send(`Missing Tournament or match`)
+    }
+})
+
 app.get("/API/manager/:task", async (req, res) => {
     if (req.params.task) {
-        let results = await new DatabaseManager().runTask(req.params.task, req.body)
+        let results = await new DatabaseManager().runTask(req.params.task, req.query)
         .catch((err) => {
             if (err) {
                 res.status(400).send(err)

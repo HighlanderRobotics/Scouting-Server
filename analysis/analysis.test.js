@@ -5,7 +5,7 @@ test(`AverageForMetric`, async () => {
     let result = await new TaskManager().runTasks(
         [
             {
-                "name": "AverageForMetric",
+                "name": "averageForMetric",
                 "teamKey": "frc8033",
                 "metric": "teleopHighSuccess"
             }
@@ -18,7 +18,7 @@ test(`BestAverageForMetric`, async () => {
     let result = await new TaskManager().runTasks(
         [
             {
-                "name": "BestAverageForMetric",
+                "name": "bestAverageForMetric",
                 "tournamentKey": "2022cc",
                 "metric": "teleopHighSuccess"
             }
