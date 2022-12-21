@@ -7,6 +7,7 @@ const AddAPITeams = require('./manager/AddAPITeams.js')
 const AddAPITournaments = require('./manager/AddAPITournaments.js')
 const AddScouters = require('./manager/AddScouters.js')
 const AddTournamentMatches = require('./manager/AddTournamentMatches.js')
+const GetScouters = require('./manager/GetScouters.js')
 
 class DatabaseManager {
 
@@ -41,6 +42,9 @@ class DatabaseManager {
                 case AddTournamentMatches.name:
                     resolve(await new AddTournamentMatches().runTask(body.tournamentName, body.tournamentDate))
                     break
+                case GetScouters.name:
+                    resolve(await new GetScouters().runTask())
+                    break;
                 default:
                     reject(`${task} is not a task`)
                     break

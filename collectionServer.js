@@ -248,9 +248,10 @@ app.get("/API/listTeams", async (req,res) => {
 app.post("/resetDB", async (req,res) => {
 
     if (req.body.uuid) {
-        uuidToTask.set(req.body.uuid, uuidToTask.size)
-        tasks.set(uuidToTask.size, Manager.resetAndPopulateDB())
-        res.status(200).send(`${JSON.stringify({"taskNumber": uuidToTask.size})}`)
+        let taskNumber = uuidToTask.size
+        uuidToTask.set(req.body.uuid, taskNumber)
+        tasks.set(taskNumber, Manager.resetAndPopulateDB())
+        res.status(200).send(`${JSON.stringify({"taskNumber": taskNumber})}`)
     } else {
         res.status(400).send(`Missing uuid`)
     }

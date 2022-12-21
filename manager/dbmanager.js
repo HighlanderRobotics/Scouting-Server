@@ -2,6 +2,7 @@
 const sqlite = require("sqlite3").verbose()
 const axios = require("axios");
 const { resolve } = require("path");
+const fs = require('fs');
 
 // API Key
 require("dotenv").config()
@@ -150,7 +151,8 @@ class Manager {
         CREATE TABLE scouters (
             id INTEGER PRIMARY KEY,
             name TEXT ONLY NOT NULL,
-            UNIQUE (name)
+            phoneNumber INTEGER,
+            UNIQUE (name, phoneNumber)
         )`
         
         function removeAndAddTables() {
@@ -296,14 +298,14 @@ class Manager {
     }
 
     static async addScouters() {
-        var sql = `INSERT INTO scouters (name) VALUES (?)`
+        let sql = `INSERT INTO scouters (name, phoneNumber) VALUES (?,?)`
 
         // Will eventually read from a file, is temporary until I get a full team list
-        var scouters = ["Barry B Benson", "Jacob Trentini", "Collin Cameron", "Alex Ware", "Jasper Tripp"]
+        var scouters = getScouters()
 
-        async function insertScouter(sql, scouters, i) {
+        async function insertScouter(sql, scout, i) {
             return new Promise((resolve, reject) => {
-                Manager.db.run(sql, [scouters[i]], (err) => {
+                Manager.db.run(sql, [scout.name, scout.number], (err) => {
                     if (err) {
                         console.error(`Error inserting scouters: ${err}`)
                         reject(`Error inserting scouters: ${err}`)
@@ -316,7 +318,8 @@ class Manager {
 
         async function runInsertScouters() {
             for (var i = 0; i < scouters.length; i++) {
-                await insertScouter(sql, scouters, i)
+                console.log(scouters[i])
+                await insertScouter(sql, scouters[i], i)
                 .catch((err) => {
                     if (err) {
                         console.log(`Error with inserting scouter: ${err}`)
@@ -337,6 +340,11 @@ class Manager {
             console.log(`Finished inserting Scouters`)
             return
         })
+
+        function getScouters() {
+            let data = JSON.parse(fs.readFileSync(`${__dirname}/.././scouters.json`, 'utf8'))
+            return data.scouters
+        }
     }
 
     // Add matches from tournament
