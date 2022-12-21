@@ -166,43 +166,17 @@ class ResetAndPopulate extends Manager {
     }
 
     async getScouters() {
-        var sql = `
-        SELECT * FROM matches WHERE
-            teamKey = "${teamKey}" AND
-            gameKey = "${tournamentKey}" AND
-            matchNumber = ${data.constantData.matchNumber}
-        `
+        let sql = `INSERT INTO scouters (name, phoneNumber) VALUES (?,?)`
 
-        async function insertData(matchKey, data) {
-            var insert = `INSERT INTO data (matchKey, scouterId, defenseQuality, defenseQuantity, startTime, scoutReport, notes) VALUES (?, ?, ?, ?, ?, ?, ?)`
-            
-            // Rename game to competition
-            try {
-                var constantData = {
-                    scouterId: data.constantData.scouterId,
-                    defenseQuality: data.constantData.defenseQuality,
-                    defenseQuantity: data.constantData.defenseQuantity,
-                    startTime: data.constantData.startTime,
-                    notes: data.constantData.notes
-                }
-            } catch (err) {
-                return (err)
-            }
+        // Will eventually read from a file, is temporary until I get a full team list
+        var scouters = getScouters()
 
-            
-            var gameDependent = {}
-
-            for (var key of Object.keys(data)) {
-                if (key !== `scouterId` && key !== 'defense' && key !== 'notes' && key !== 'startTime') {
-                    gameDependent[`${key}`] = `"${JSON.stringify(data[`${key}`])}"`
-                }
-            }
-
-
+        async function insertScouter(sql, scout, i) {
             return new Promise((resolve, reject) => {
-                Manager.db.run(insert, [matchKey, constantData.scouterId, constantData.defenseQuality, constantData.defenseQuantity, constantData.startTime, JSON.stringify(gameDependent), constantData.notes], (err) => {
+                Manager.db.run(sql, [scout.name, scout.number], (err) => {
                     if (err) {
-                        reject(err)
+                        console.error(`Error inserting scouters: ${err}`)
+                        reject(`Error inserting scouters: ${err}`)
                     } else {
                         resolve()
                     }
@@ -210,40 +184,35 @@ class ResetAndPopulate extends Manager {
             })
         }
 
-        return new Promise((resolve, reject) => {
-            Manager.db.get(sql, (err, match) => {
-                if (err) {
-                    console.error(err)
-                    reject(err)
-                } else if (match != undefined) {
-                    insertData(match.key, data)
-                    .catch((err) => {
-                        if (err) {
-                            console.log(err)
-                            reject(err)
-                        }
-                    })
-                    .then(() => {
-                        console.log(`Data entry complete for ${match.key}`)
-                        resolve(`Data successfully entered`)
-                    })
-                } else {
-                    console.log(`Couldn't find match for:`)
-                    console.log(data)
-                    console.log(teamKey)
-                    reject(`Match doesn't exist`)
-                }
-            })
-        })
-        .catch((err) => {
+        async function runInsertScouters() {
+            for (var i = 0; i < scouters.length; i++) {
+                console.log(scouters[i])
+                await insertScouter(sql, scouters[i], i)
+                .catch((err) => {
+                    if (err) {
+                        console.log(`Error with inserting scouter: ${err}`)
+                        reject(err)
+                    }
+                })
+            }
+        }
+
+        await runInsertScouters()
+        .catch(err => {
             if (err) {
-                // console.error(err)
-                return err
+                console.error(`Error with inserting Scouters: ${err}`)
+                return(`Error with inserting Scouters: ${err}`)    
             }
         })
-        .finally(() => {
-            return `Success`
+        .then(() => {
+            console.log(`Finished inserting Scouters`)
+            return
         })
+
+        function getScouters() {
+            let data = JSON.parse(fs.readFileSync(`${__dirname}/.././scouters.json`, 'utf8'))
+            return data.scouters
+        }
     }
 }
 
