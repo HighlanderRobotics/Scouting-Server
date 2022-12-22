@@ -63,7 +63,7 @@ class TeamsInTournament extends BaseAnalysis {
 
     finalizeResults() {
         return {
-            "TeamsInTournament": this.result
+            'TeamsInTournament': this.result
         }
     }
 }

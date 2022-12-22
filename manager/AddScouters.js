@@ -1,10 +1,8 @@
 const Manager = require('./Manager.js')
-const fs = require('fs');
-const { resolve } = require('path');
-const { reject } = require('bcrypt/promises.js');
+const fs = require('fs')
 
 class AddScouters extends Manager {
-    static name = "addScouters"
+    static name = 'addScouters'
 
     constructor() {
         super()
@@ -56,7 +54,7 @@ class AddScouters extends Manager {
     }
 
     getScouters() {
-        return JSON.parse(fs.readFileSync(`${__dirname}/.././scouters.json`, 'utf8')).scouters
+        return JSON.parse(fs.readFileSync(`${__dirname}/../scouters/./scouters.json`, 'utf8')).scouters
     }
 }
 

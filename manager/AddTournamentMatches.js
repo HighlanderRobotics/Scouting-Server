@@ -1,15 +1,15 @@
 const Manager = require('./Manager.js')
-const axios = require("axios");
+const axios = require('axios');
 
 class AddTournamentMatches extends Manager {
-    static name = "AddTournamentMatches"
+    static name = 'addTournamentMatches'
 
     constructor() {
         super()
     }
 
     runTask(name, date) {
-        var url = "https://www.thebluealliance.com/api/v3"
+        var url = 'https://www.thebluealliance.com/api/v3'
 
         var sql = `SELECT * FROM tournaments WHERE name = '${name}' AND date = '${date}'`
 
@@ -31,7 +31,7 @@ class AddTournamentMatches extends Manager {
                             // For each match in the tournament
                             for (var i = 0; i < response.data.length; i++) {
                                 // console.log(`${response.data[i].comp_level} ${response.data[i].match_number}`)
-                                if (response.data[i].comp_level == "qm") {
+                                if (response.data[i].comp_level == 'qm') {
                                     var teams = [...response.data[i].alliances.red.team_keys, ...response.data[i].alliances.blue.team_keys]
                                     var matches = ``
                                     for (var k = 0; k < teams.length; k++) {

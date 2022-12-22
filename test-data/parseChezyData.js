@@ -1,14 +1,13 @@
-const fs = require('fs');
-const Papa = require('papaparse');
-const { execPath } = require('process');
-const Manager = require('../manager/./dbmanager.js');
+const fs = require('fs')
+const Papa = require('papaparse')
+const Manager = require('../manager/./dbmanager.js')
 
-const file = "./test-data/chezyData.csv"
+const file = './test-data/chezyData.csv'
 const csvData = fs.readFileSync(file, 'utf8');
 
 const jsonData = Papa.parse(csvData, { header: true });
 
-const tournamentKey = "2022cc"
+const tournamentKey = '2022cc'
 
 
 for(i = 0; i < jsonData.data.length; i ++)

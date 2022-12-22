@@ -1,14 +1,14 @@
 const axios = require('axios');
-const sqlite = require("sqlite3").verbose()
+const sqlite = require('sqlite3').verbose()
 const db = new sqlite.Database('./test.db', sqlite.OPEN_READWRITE, (err) => {
   if (err)
       console.error(err)
 });
-require("dotenv").config()
+require('dotenv').config()
 
-const Manager = require("./dbmanager")
+const fs = require('fs')
 
-// var url = "https://www.thebluealliance.com/api/v3"
+// var url = 'https://www.thebluealliance.com/api/v3'
 // console.log(new Date())
 // var sql = `INSERT INTO teams (teamNumber, teamName, teamKey) VALUES (?, ?, ?)`
 // var sql = `INSERT INTO games (name, location, date, key) VALUES (?, ?, ?, ?)`
@@ -54,7 +54,7 @@ const Manager = require("./dbmanager")
 
 // const express = require('express')
 // const morgan = require('morgan')
-// const Writable = require("stream").Writable
+// const Writable = require('stream').Writable
 // const fs = require('fs')
 // const path = require('path')
 // const app = express()
@@ -70,13 +70,13 @@ const Manager = require("./dbmanager")
 // class MyStream extends Writable {
 //     write(line) {
 //         // Here you send the log line to wherever you need
-//         console.log("Logger - ", line)
+//         console.log('Logger - ', line)
 //     }
 // }
 
 // // Create a new named format
-// morgan.token("timed", "A new :method request for :url was received. " +
-//     "It took :total-time[2] milliseconds to be resolved")
+// morgan.token('timed', 'A new :method request for :url was received. ' +
+//     'It took :total-time[2] milliseconds to be resolved')
 
 // let writer = new MyStream()
 
@@ -108,20 +108,20 @@ const Manager = require("./dbmanager")
 
 // const map = new Map()
 
-// map.set({"num": 0, "uuid":"3243423"}, "asdf")
-// map.set({"num": 1, "uuid":"3243423"}, "asadf")
-// map.set({"num": 2, "uuid":"3243423"}, "afssdf")
-// map.set({"num": 3, "uuid":"3243423"}, "asddf")
-// map.set({"num": 5, "uuid":"3243423"}, "asdfaf")
-// map.set({"num": 4, "uuid":"3243423"}, "asdsf")
+// map.set({'num': 0, 'uuid':'3243423'}, 'asdf')
+// map.set({'num': 1, 'uuid':'3243423'}, 'asadf')
+// map.set({'num': 2, 'uuid':'3243423'}, 'afssdf')
+// map.set({'num': 3, 'uuid':'3243423'}, 'asddf')
+// map.set({'num': 5, 'uuid':'3243423'}, 'asdfaf')
+// map.set({'num': 4, 'uuid':'3243423'}, 'asdsf')
 
-// map.set(4, "4")
-// map.set(2, "2")
-// map.set(1, "1")
-// map.set(3, "3")
-// map.set(0, "0")
-// map.set(5, "5")
-// map.set(6, "6")
+// map.set(4, '4')
+// map.set(2, '2')
+// map.set(1, '1')
+// map.set(3, '3')
+// map.set(0, '0')
+// map.set(5, '5')
+// map.set(6, '6')
 
 // for (var i = 0; i < 6; i++)
 //   console.log(map.get(i))
@@ -130,23 +130,35 @@ const Manager = require("./dbmanager")
 //   console.log(`${key.num}: ${value}`)
 // })
 
-var createData = `
-        CREATE TABLE data (
-            id INTEGER PRIMARY KEY,
-            matchKey INTEGER NOT NULL, 
-            scouterId TEXT ONLY VARCHAR(25) NOT NULL,
-            defenseQuality INTEGER NOT NULL,
-            defenseQuantity INTEGER NOT NULL, 
-            startTime INTEGER NOT NULL,
-            scoutReport VARCHAR(5000),
-            notes BLOB VARCHAR (250),
-            UNIQUE (matchKey, scouterId, scoutReport), 
-            FOREIGN KEY(matchKey) REFERENCES matches(key),
-            FOREIGN KEY(scouterId) REFERENCES scouters(id)
-        );`
+// var createData = `
+//         CREATE TABLE data (
+//             id INTEGER PRIMARY KEY,
+//             matchKey INTEGER NOT NULL, 
+//             scouterId TEXT ONLY VARCHAR(25) NOT NULL,
+//             defenseQuality INTEGER NOT NULL,
+//             defenseQuantity INTEGER NOT NULL, 
+//             startTime INTEGER NOT NULL,
+//             scoutReport VARCHAR(5000),
+//             notes BLOB VARCHAR (250),
+//             UNIQUE (matchKey, scouterId, scoutReport), 
+//             FOREIGN KEY(matchKey) REFERENCES matches(key),
+//             FOREIGN KEY(scouterId) REFERENCES scouters(id)
+//         );`
 
-Manager.db.serialize(() => {
-  Manager.db.run("DROP TABLE IF EXISTS `data`", ((err) => {if (err){console.log(`dropData ${err}`)}}))
-  Manager.db.run(createData, ((err) => {if (err){console.log(`createData ${err}`)}}))
+// Manager.db.serialize(() => {
+//   Manager.db.run('DROP TABLE IF EXISTS `data`', ((err) => {if (err){console.log(`dropData ${err}`)}}))
+//   Manager.db.run(createData, ((err) => {if (err){console.log(`createData ${err}`)}}))
 
+// })
+
+let data = fs.readFileSync(`${__dirname}/scouters/./scouters.json`, 'utf8', (err) => {
+  if (err) {
+      return 'Error reading scouters file'
+  }
 })
+
+data = JSON.parse(data)
+
+for (var i = 0; i < data.scouters.length; i++) {
+  console.log(data.scouters[i].name)
+}

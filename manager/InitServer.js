@@ -1,7 +1,7 @@
 const Manager = require('./Manager.js')
 
 class InitServer extends Manager {
-    static name = "InitServer"
+    static name = 'initServer'
 
     constructor() {
         super()

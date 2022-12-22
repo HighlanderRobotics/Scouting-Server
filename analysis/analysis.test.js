@@ -1,13 +1,13 @@
 const TaskManager = require('.././TaskManager.js')
-const DatabaseManager = require(".././DatabaseManager.js")
+const DatabaseManager = require('.././DatabaseManager.js')
 
 test(`AverageForMetric`, async () => {
     let result = await new TaskManager().runTasks(
         [
             {
-                "name": "averageForMetric",
-                "teamKey": "frc8033",
-                "metric": "teleopHighSuccess"
+                'name': 'averageForMetric',
+                'teamKey': 'frc8033',
+                'metric': 'teleopHighSuccess'
             }
         ])
 
@@ -18,12 +18,12 @@ test(`BestAverageForMetric`, async () => {
     let result = await new TaskManager().runTasks(
         [
             {
-                "name": "bestAverageForMetric",
-                "tournamentKey": "2022cc",
-                "metric": "teleopHighSuccess"
+                'name': 'bestAverageForMetric',
+                'tournamentKey': '2022cc',
+                'metric': 'teleopHighSuccess'
             }
         ])
 
         expect(result[0].BestAverageForMetric).toBe(24.857142857142858)
-        expect(result[0].team).toBe("frc4414")
+        expect(result[0].team).toBe('frc4414')
 })

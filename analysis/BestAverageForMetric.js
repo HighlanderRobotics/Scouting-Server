@@ -3,7 +3,7 @@ const BaseAnalysis = require('./BaseAnalysis.js')
 const TeamsInTournament = require('./TeamsInTournament.js')
 
 class BestAverageForMetric extends BaseAnalysis {
-    static name = "bestAverageForMetric"
+    static name = 'bestAverageForMetric'
 
     constructor(db, tournamentKey, metric) {
         super(db)
@@ -80,10 +80,10 @@ class BestAverageForMetric extends BaseAnalysis {
 
     finalizeResults() {
         return JSON.parse(`{ 
-            "metric": "${this.metric}",
-            "BestAverageForMetric": ${this.bestResult},
-            "team": "${this.bestTeam}",
-            "tournament": "${this.tournamentKey}"
+            'metric': '${this.metric}',
+            'BestAverageForMetric': ${this.bestResult},
+            'team': '${this.bestTeam}',
+            'tournament': '${this.tournamentKey}'
         }`)
     }
 }

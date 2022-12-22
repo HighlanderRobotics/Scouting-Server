@@ -1,8 +1,8 @@
 const Manager = require('./Manager.js')
-const axios = require("axios");
+const axios = require('axios');
 
 class AddScoutReport extends Manager {
-    static name = "AddScoutReport"
+    static name = 'addScoutReport'
 
     constructor() {
         super()
@@ -11,8 +11,8 @@ class AddScoutReport extends Manager {
     runTask(teamKey, tournamentKey, data) {
         var sql = `
         SELECT * FROM matches WHERE
-            teamKey = "${teamKey}" AND
-            gameKey = "${tournamentKey}" AND
+            teamKey = '${teamKey}' AND
+            gameKey = '${tournamentKey}' AND
             matchNumber = ${data.constantData.matchNumber}
         `
 
@@ -73,7 +73,7 @@ class AddScoutReport extends Manager {
 
         for (var key of Object.keys(data)) {
             if (key !== `scouterId` && key !== 'defense' && key !== 'notes' && key !== 'startTime') {
-                gameDependent[`${key}`] = `"${JSON.stringify(data[`${key}`])}"`
+                gameDependent[`${key}`] = `'${JSON.stringify(data[`${key}`])}'`
             }
         }
 

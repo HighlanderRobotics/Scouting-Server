@@ -21,7 +21,7 @@ class IsScouted extends Manager {
             })
 
             if (matches === undefined) {
-                reject("Something went wrong")
+                reject('Something went wrong')
             } else {
                 matches.forEach(scouter => {
                     a.result.push(scouter)
@@ -44,7 +44,7 @@ class IsScouted extends Manager {
         let sql = `SELECT matchKey, name FROM matches
             LEFT JOIN data ON matches.key = data.matchKey
             LEFT JOIN scouters ON data.scouterId = scouters.id
-            WHERE matches.gameKey = "${tournamentKey}"
+            WHERE matches.gameKey = '${tournamentKey}'
             AND matches.matchNumber = ${matchNumber}
             `
 
@@ -57,7 +57,7 @@ class IsScouted extends Manager {
                 if (matches) {
                     resolve(matches)
                 } else {
-                    reject("No matches found")
+                    reject('No matches found')
                 }
             })      
         })

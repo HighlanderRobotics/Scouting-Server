@@ -15,7 +15,7 @@ class AverageForMetric extends BaseAnalysis {
         let a = this
 
         return new Promise((resolve, reject) => {
-        // CAST(replace(json_extract(data.scoutReport,'$.autoHighSucsess'), '"', '') AS INTEGER)
+        // CAST(replace(json_extract(data.scoutReport,'$.autoHighSucsess'), ''', '') AS INTEGER)
             var sql = `SELECT *
             FROM matches
             JOIN data ON data.matchKey = matches.key
@@ -76,9 +76,9 @@ class AverageForMetric extends BaseAnalysis {
 
     finalizeResults() {
         return { 
-            "metric": this.metric,
-            "AverageForMetric": this.result,
-            "team": this.teamKey
+            'metric': this.metric,
+            'AverageForMetric': this.result,
+            'team': this.teamKey
         }
     }
 }

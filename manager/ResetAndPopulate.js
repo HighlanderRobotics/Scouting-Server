@@ -1,9 +1,9 @@
 const Manager = require('./Manager.js')
 const DatabaseManager = require('.././DatabaseManager.js')
-const axios = require("axios");
+const axios = require('axios');
 
 class ResetAndPopulate extends Manager {
-    static name = "ResetAndPopulate"
+    static name = 'resetAndPopulate'
 
     constructor() {
         super()
@@ -36,8 +36,8 @@ class ResetAndPopulate extends Manager {
 
         var createScouters = `
         CREATE TABLE scouters (
-            id INTEGER PRIMARY KEY,
-            name TEXT ONLY NOT NULL,
+            name TEXT ONLY PRIMARY KEY,
+            phoneNumber INTEGER,
             UNIQUE (name)
         )`
         return new Promise((resolve, reject) => {
@@ -76,19 +76,19 @@ class ResetAndPopulate extends Manager {
                 // See of there's a better fix than turning foreign keys off for dropping tables with data in them
                 Manager.db.run(`PRAGMA foreign_keys = 0`, ((err) => {if (err){console.log(`foreign keys ${err}`)}}))
 
-                Manager.db.run("DROP TABLE IF EXISTS `teams`", ((err) => {if (err){console.log(`dropTeams ${err}`)}}))
+                Manager.db.run('DROP TABLE IF EXISTS `teams`', ((err) => {if (err){console.log(`dropTeams ${err}`)}}))
                 Manager.db.run(createTeams, ((err) => {if (err){console.log(`createTeams`)}}))
                 
-                Manager.db.run("DROP TABLE IF EXISTS `tournaments`", ((err) => {if (err){console.log(`dropTourney ${err}`)}}))
+                Manager.db.run('DROP TABLE IF EXISTS `tournaments`', ((err) => {if (err){console.log(`dropTourney ${err}`)}}))
                 Manager.db.run(createTournaments, ((err) => {if (err){console.log(`createTourney ${err}`)}}))
         
-                Manager.db.run("DROP TABLE IF EXISTS `matches`", ((err) => {if (err){console.log(`dropMatches ${err}`)}}))
+                Manager.db.run('DROP TABLE IF EXISTS `matches`', ((err) => {if (err){console.log(`dropMatches ${err}`)}}))
                 Manager.db.run(createMatches, ((err) => {if (err){console.log(`createMatches ${err}`)}}))
         
-                Manager.db.run("DROP TABLE IF EXISTS `data`", ((err) => {if (err){console.log(`dropData ${err}`)}}))
+                Manager.db.run('DROP TABLE IF EXISTS `data`', ((err) => {if (err){console.log(`dropData ${err}`)}}))
                 Manager.db.run(createData, ((err) => {if (err){console.log(`createData ${err}`)}}))
 
-                Manager.db.run("DROP TABLE IF EXISTS `scouters`", ((err) => {if (err){console.log(`dropScouters ${err}`)}}))
+                Manager.db.run('DROP TABLE IF EXISTS `scouters`', ((err) => {if (err){console.log(`dropScouters ${err}`)}}))
                 Manager.db.run(createScouters, ((err) => {if (err){console.log(`createScouters ${err}`)} else {
                     // Resolve should be here
                     resolve()
@@ -123,7 +123,7 @@ class ResetAndPopulate extends Manager {
     }
 
     async getTournaments() {
-        var url = "https://www.thebluealliance.com/api/v3"
+        var url = 'https://www.thebluealliance.com/api/v3'
 
         var sql = `INSERT INTO tournaments (name, location, date, key) VALUES (?, ?, ?, ?)`
 
@@ -210,7 +210,7 @@ class ResetAndPopulate extends Manager {
         })
 
         function getScouters() {
-            let data = JSON.parse(fs.readFileSync(`${__dirname}/.././scouters.json`, 'utf8'))
+            let data = JSON.parse(fs.readFileSync(`${__dirname}/../scouters/./scouters.json`, 'utf8'))
             return data.scouters
         }
     }

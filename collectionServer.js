@@ -1,13 +1,13 @@
-require("dotenv").config()
+require('dotenv').config()
 
 // To connect to the database
-const sqlite = require("sqlite3").verbose()
+const sqlite = require('sqlite3').verbose()
 
 // For writing logs
 const fs = require('fs')
 const path = require('path')
 const morgan = require('morgan')
-const Writable = require("stream").Writable
+const Writable = require('stream').Writable
 
 // Promises
 const util = require('util')
@@ -36,12 +36,12 @@ app.use(morgan('combined', {
 class MyStream extends Writable {
     write(line) {
         // Write to console
-        console.log("Logger - ", line)
+        console.log('Logger - ', line)
     }
 }
 
 // Create a new named format
-morgan.token("readable", ":status A new :method request from :remote-addr for :url was received. It took :total-time[2] milliseconds to be resolved")
+morgan.token('readable', ':status A new :method request from :remote-addr for :url was received. It took :total-time[2] milliseconds to be resolved')
 
 let writer = new MyStream()
 
@@ -62,7 +62,7 @@ const tasks = new Map()
 app.listen(port, async () => { 
     console.log(`Collection Server running on ${port}...`)
     // Init server here, idk what it would init but possibly could run + cache analysis engine, all it does is turn foreign keys on
-    let init = await new DatabaseManager().runTask("InitServer", {})
+    let init = await new DatabaseManager().runTask('InitServer', {})
     .catch((err) => {
         if (err) {
             console.log(err)
@@ -73,7 +73,7 @@ app.listen(port, async () => {
     })
 })
 
-app.get("/", async (req, res) => {
+app.get('/', async (req, res) => {
     res.status(200).send(`All good my dude`)
 })
 
@@ -88,7 +88,7 @@ const promiseWithTimeout = ((promise) => {
     return Promise.race([promise, timeoutPromise])
 })
 
-app.get("/getTaskData", async (req,res) => {
+app.get('/getTaskData', async (req,res) => {
     // Get cached/Rerun analysis engine and send it
 
     if (req.body.taskNumber != undefined && req.body.taskNumber < tasks.size) {
@@ -112,7 +112,7 @@ app.get("/getTaskData", async (req,res) => {
     }
 })
 
-app.get("/analysis", async (req, res) => {
+app.get('/analysis', async (req, res) => {
     // Run analysis engine
     if (req.body.uuid) {
         if (req.body.tasks) {
@@ -129,12 +129,12 @@ app.get("/analysis", async (req, res) => {
     }
 })
 
-app.get("/API/analysis/:task", async (req, res) => {
+app.get('/API/analysis/:task', async (req, res) => {
     // Run analysis engine
     if (req.query) {
         singleTask = [
             {
-                "name": req.params.task,
+                'name': req.params.task,
             }
         ]
         Object.keys(req.query).forEach((key) => {
@@ -150,13 +150,13 @@ app.get("/API/analysis/:task", async (req, res) => {
     }
 })
 
-app.get("/API/manager/isScouted/:tournamentKey/:matchNumber", async (req, res) => {
+app.get('/API/manager/isScouted/:tournamentKey/:matchNumber', async (req, res) => {
     if (req.params.tournamentKey && req.params.matchNumber) {
         let body = {
-            "tournamentKey": req.params.tournamentKey,
-            "matchNumber": parseInt(req.params.matchNumber)
+            'tournamentKey': req.params.tournamentKey,
+            'matchNumber': parseInt(req.params.matchNumber)
         }
-        let results = await new DatabaseManager().runTask("isScouted", req.params)
+        let results = await new DatabaseManager().runTask('isScouted', req.params)
         .catch((err) => {
             if (err) {
                 res.status(400).send(err)
@@ -169,7 +169,7 @@ app.get("/API/manager/isScouted/:tournamentKey/:matchNumber", async (req, res) =
     }
 })
 
-app.post("/API/manager/:task", async (req, res) => {
+app.post('/API/manager/:task', async (req, res) => {
     if (req.params.task) {
         let results = await new DatabaseManager().runTask(req.params.task, req.body)
         .catch((err) => {
@@ -185,7 +185,7 @@ app.post("/API/manager/:task", async (req, res) => {
     }
 })
 
-app.get("/API/manager/:task", async (req, res) => {
+app.get('/API/manager/:task', async (req, res) => {
     if (req.params.task) {
         let results = await new DatabaseManager().runTask(req.params.task, req.query)
         .catch((err) => {
@@ -202,7 +202,7 @@ app.get("/API/manager/:task", async (req, res) => {
 })
 
 // Add data to database
-app.post("/addScoutReport", async (req, res) => {
+app.post('/addScoutReport', async (req, res) => {
 
     if (req.body.uuid) {
         if (req.body.teamKey && req.body.tournamentKey && req.body.data) {
@@ -219,7 +219,7 @@ app.post("/addScoutReport", async (req, res) => {
     }  
 })
 
-app.post("/API/addScoutReport", async (req, res) => {
+app.post('/API/addScoutReport', async (req, res) => {
 
     if (req.body.teamKey && req.body.tournamentKey && req.body.data) {
         let results = await Manager.addScoutReport(req.body.teamKey, req.body.tournamentKey, req.body.data)
@@ -231,7 +231,7 @@ app.post("/API/addScoutReport", async (req, res) => {
 })
 
 // Add tournament
-app.post("/addTournamentMatches", async (req, res) => {
+app.post('/addTournamentMatches', async (req, res) => {
     // If the proper fields are filled out
     if (req.body.tournamentName && req.body.tournamentDate && req.body.uuid) {
         let taskNumber = uuidToTask.size
@@ -239,13 +239,13 @@ app.post("/addTournamentMatches", async (req, res) => {
         tasks.set(taskNumber, Manager.addMatches(req.body.tournamentName, req.body.tournamentDate))
         // console.log(tasks.get(taskNumber))
         
-        res.status(200).send(`${JSON.stringify({"taskNumber": taskNumber})}`)
+        res.status(200).send(`${JSON.stringify({'taskNumber': taskNumber})}`)
     } else {
         res.status(400).send(`Missing something`)
     }
 })
 
-app.post("/API/addTournamentMatches", async (req, res) => {
+app.post('/API/addTournamentMatches', async (req, res) => {
     // If the proper fields are filled out
     if (req.body.tournamentName && req.body.tournamentDate) {
         var results = await Manager.addMatches(req.body.tournamentName, req.body.tournamentDate)
@@ -261,21 +261,21 @@ app.post("/API/addTournamentMatches", async (req, res) => {
 })
 
 // List teams
-app.get("/listTeams", async (req,res) => {
+app.get('/listTeams', async (req,res) => {
 
     if (req.body.uuid) {
         let taskNumber = uuidToTask.size
         uuidToTask.set(req.body.uuid, taskNumber)
         tasks.set(taskNumber, Manager.getTeams())
         // console.log(tasks.get(taskNumber))
-        res.status(200).send(`${JSON.stringify({"taskNumber": taskNumber})}`)
+        res.status(200).send(`${JSON.stringify({'taskNumber': taskNumber})}`)
     } else {
         res.status(400).send(`Missing uuid`)
     }
 
 })
 
-app.get("/API/listTeams", async (req,res) => {
+app.get('/API/listTeams', async (req,res) => {
 
     var results = await Manager.getTeams()
     .catch((err) => {
@@ -290,13 +290,13 @@ app.get("/API/listTeams", async (req,res) => {
 
 
 // Reset DB (testing only)
-app.post("/resetDB", async (req,res) => {
+app.post('/resetDB', async (req,res) => {
 
     if (req.body.uuid) {
         let taskNumber = uuidToTask.size
         uuidToTask.set(req.body.uuid, taskNumber)
         tasks.set(taskNumber, Manager.resetAndPopulateDB())
-        res.status(200).send(`${JSON.stringify({"taskNumber": taskNumber})}`)
+        res.status(200).send(`${JSON.stringify({'taskNumber': taskNumber})}`)
     } else {
         res.status(400).send(`Missing uuid`)
     }

@@ -1,11 +1,11 @@
 // To connect to the database
-const sqlite = require("sqlite3").verbose()
-const axios = require("axios");
-const { resolve } = require("path");
+const sqlite = require('sqlite3').verbose()
+const axios = require('axios');
+const { resolve } = require('path');
 const fs = require('fs');
 
 // API Key
-require("dotenv").config()
+require('dotenv').config()
 
 class Manager {
     static db = new sqlite.Database(`${__dirname}/.././test.db`, sqlite.OPEN_CREATE | sqlite.OPEN_READWRITE, (err) => {
@@ -46,8 +46,8 @@ class Manager {
 
         var sql = `
         SELECT * FROM matches WHERE
-            teamKey = "${teamKey}" AND
-            gameKey = "${tournamentKey}" AND
+            teamKey = '${teamKey}' AND
+            gameKey = '${tournamentKey}' AND
             matchNumber = ${data.constantData.matchNumber}
         `
 
@@ -72,7 +72,7 @@ class Manager {
 
             for (var key of Object.keys(data)) {
                 if (key !== `scouterId` && key !== 'defense' && key !== 'notes' && key !== 'startTime') {
-                    gameDependent[`${key}`] = `"${JSON.stringify(data[`${key}`])}"`
+                    gameDependent[`${key}`] = `'${JSON.stringify(data[`${key}`])}'`
                 }
             }
 
@@ -161,19 +161,19 @@ class Manager {
                     // See of there's a better fix than turning foreign keys off for dropping tables with data in them
                     Manager.db.run(`PRAGMA foreign_keys = 0`, ((err) => {if (err){console.log(`foreign keys ${err}`)}}))
 
-                    Manager.db.run("DROP TABLE IF EXISTS `teams`", ((err) => {if (err){console.log(`dropTeams ${err}`)}}))
+                    Manager.db.run('DROP TABLE IF EXISTS `teams`', ((err) => {if (err){console.log(`dropTeams ${err}`)}}))
                     Manager.db.run(createTeams, ((err) => {if (err){console.log(`createTeams`)}}))
                     
-                    Manager.db.run("DROP TABLE IF EXISTS `tournaments`", ((err) => {if (err){console.log(`dropTourney ${err}`)}}))
+                    Manager.db.run('DROP TABLE IF EXISTS `tournaments`', ((err) => {if (err){console.log(`dropTourney ${err}`)}}))
                     Manager.db.run(createTournaments, ((err) => {if (err){console.log(`createTourney ${err}`)}}))
             
-                    Manager.db.run("DROP TABLE IF EXISTS `matches`", ((err) => {if (err){console.log(`dropMatches ${err}`)}}))
+                    Manager.db.run('DROP TABLE IF EXISTS `matches`', ((err) => {if (err){console.log(`dropMatches ${err}`)}}))
                     Manager.db.run(createMatches, ((err) => {if (err){console.log(`createMatches ${err}`)}}))
             
-                    Manager.db.run("DROP TABLE IF EXISTS `data`", ((err) => {if (err){console.log(`dropData ${err}`)}}))
+                    Manager.db.run('DROP TABLE IF EXISTS `data`', ((err) => {if (err){console.log(`dropData ${err}`)}}))
                     Manager.db.run(createData, ((err) => {if (err){console.log(`createData ${err}`)}}))
 
-                    Manager.db.run("DROP TABLE IF EXISTS `scouters`", ((err) => {if (err){console.log(`dropScouters ${err}`)}}))
+                    Manager.db.run('DROP TABLE IF EXISTS `scouters`', ((err) => {if (err){console.log(`dropScouters ${err}`)}}))
                     Manager.db.run(createScouters, ((err) => {if (err){console.log(`createScouters ${err}`)} else {
                         // Resolve should be here
                         resolve()
@@ -214,7 +214,7 @@ class Manager {
     }
 
     static async addAPITeams() {
-        var url = "https://www.thebluealliance.com/api/v3"
+        var url = 'https://www.thebluealliance.com/api/v3'
         
         var sql = `INSERT INTO teams (key, teamNumber, teamName) VALUES (?, ?, ?)`
 
@@ -255,7 +255,7 @@ class Manager {
     }
 
     static async addAPITournaments() {
-        var url = "https://www.thebluealliance.com/api/v3"
+        var url = 'https://www.thebluealliance.com/api/v3'
 
         var sql = `INSERT INTO tournaments (name, location, date, key) VALUES (?, ?, ?, ?)`
 
@@ -342,14 +342,14 @@ class Manager {
         })
 
         function getScouters() {
-            let data = JSON.parse(fs.readFileSync(`${__dirname}/.././scouters.json`, 'utf8'))
+            let data = JSON.parse(fs.readFileSync(`${__dirname}/../scouters/./scouters.json`, 'utf8'))
             return data.scouters
         }
     }
 
     // Add matches from tournament
     static addMatches(name, date) {
-        var url = "https://www.thebluealliance.com/api/v3"
+        var url = 'https://www.thebluealliance.com/api/v3'
 
         var sql = `SELECT * FROM tournaments WHERE name = '${name}' AND date = '${date}'`
         
@@ -383,7 +383,7 @@ class Manager {
                             // For each match in the tournament
                             for (var i = 0; i < response.data.length; i++) {
                                 // console.log(`${response.data[i].comp_level} ${response.data[i].match_number}`)
-                                if (response.data[i].comp_level == "qm") {
+                                if (response.data[i].comp_level == 'qm') {
                                     var teams = [...response.data[i].alliances.red.team_keys, ...response.data[i].alliances.blue.team_keys]
                                     var matches = ``
                                     for (var k = 0; k < teams.length; k++) {

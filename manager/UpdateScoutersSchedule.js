@@ -2,7 +2,7 @@ const Manager = require('./Manager.js')
 const fs = require('fs')
 
 class UpdateScoutersSchedule extends Manager {
-    static name = "updateScoutersSchedule"
+    static name = 'updateScoutersSchedule'
 
     constructor() {
         super()
@@ -10,13 +10,13 @@ class UpdateScoutersSchedule extends Manager {
 
     runTask(schedule) {
         console.log()
-        fs.writeFileSync(`${__dirname}/.././scoutersSchedule.json`, JSON.stringify(schedule), 'utf8', (err) => {
+        fs.writeFileSync(`${__dirname}/../scouters/./scoutersSchedule.json`, JSON.stringify(schedule), 'utf8', (err) => {
             if (err) {
-                return "Error reading scouters file"
+                return 'Error writing to scouters file'
             }
         })
 
-        return "scoutersSchedule is updated"
+        return 'scoutersSchedule is updated'
     }
 }
 

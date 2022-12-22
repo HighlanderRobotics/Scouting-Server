@@ -1,0 +1,35 @@
+{
+    "version":2,
+    "matches":[
+        {
+            "start":1,
+            "end":20,
+            "scouts":["Collin Cameron","Kasper Jansson","Nate Scher","Jacob Trentini","Jasper Tripp","Jake Baker"]
+        },
+        {
+            "start":21,
+            "end":40,
+            "scouts":["Collin Cameron","Kasper Jansson","Miranda \"Asha\" Byers","Barry B Benson","Jasper Tripp","Jake Baker"]
+        },
+        {
+            "start":21,
+            "end":40,
+            "scouts":["Collin Cameron","Kasper Jansson","Nate Scher","Jacob Trentini","Jasper Tripp","Jake Baker"]
+        },
+        {
+            "start":21,
+            "end":40,
+            "scouts":["Collin Cameron","Kasper Jansson","Nate Scher","Jacob Trentini","Jasper Tripp","Jake Baker"]
+        },
+        {
+            "start":21,
+            "end":40,
+            "scouts":["Collin Cameron","Kasper Jansson","Nate Scher","Jacob Trentini","Jasper Tripp","Jake Baker"]
+        },
+        {
+            "start":21,
+            "end":40,
+            "scouts":["Collin Cameron","Kasper Jansson","Nate Scher","Jacob Trentini","Jasper Tripp","Jake Baker"]
+        }
+    ]
+}

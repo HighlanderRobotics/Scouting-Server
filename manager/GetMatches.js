@@ -1,20 +1,22 @@
 const Manager = require('./Manager.js')
 
-class GetTeams extends Manager {
-    static name = 'getTeams'
+class GetMatches extends Manager {
+    static name = 'getMatches'
 
     constructor() {
         super()
     }
 
-    runTask() {
-        var sql = `SELECT * FROM teams ORDER BY teamnumber`
+    runTask(tournamentKey) {
+        var sql = `SELECT * FROM matches
+            WHERE gameKey = '${tournamentKey}'
+            ORDER BY matchNumber`
 
         return new Promise((resolve, reject) => {
             Manager.db.all(sql, (err, storedTeams) => {
                 if (err) {
-                    console.error(`Error with getTeams(): ${err}`)
-                    reject(`Error with getTeams(): ${err}`)
+                    console.error(`Error with getMatches(): ${err}`)
+                    reject(`Error with getMatches(): ${err}`)
                 } else {
                     resolve(storedTeams);
                 }
@@ -31,4 +33,4 @@ class GetTeams extends Manager {
     }
 }
 
-module.exports = GetTeams
+module.exports = GetMatches

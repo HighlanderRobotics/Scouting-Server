@@ -1,15 +1,15 @@
 const Manager = require('./Manager.js')
-const axios = require("axios");
+const axios = require('axios');
 
 class AddAPITeams extends Manager {
-    static name = "AddAPITeams"
+    static name = 'addAPITeams'
 
     constructor() {
         super()
     }
 
     async runTask() {
-        var url = "https://www.thebluealliance.com/api/v3"
+        var url = 'https://www.thebluealliance.com/api/v3'
         
         var sql = `INSERT INTO teams (key, teamNumber, teamName) VALUES (?, ?, ?)`
 
