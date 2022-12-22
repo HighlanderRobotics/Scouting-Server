@@ -26,7 +26,7 @@ class AddAPITournaments extends Manager {
             })
         }
 
-        await axios.get(`${url}/events/2022/simple`, {
+        await axios.get(`${url}/events/2023/simple`, {
             headers: {'X-TBA-Auth-Key': process.env.KEY}
         })
         .then(async (response) => {
@@ -42,7 +42,7 @@ class AddAPITournaments extends Manager {
         }).catch(err => {
             if (err) {
                 console.error(`Error with inserting API Tournaments: ${err}`)
-                return(`Error with inserting API Tournaments: ${err}`)    
+                return`Error with inserting API Tournaments: ${err}`
             }
         })
         .then(() => {

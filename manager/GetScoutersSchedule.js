@@ -1,15 +1,15 @@
 const Manager = require('./Manager.js')
 const fs = require('fs')
 
-class GetScouters extends Manager {
-    static name = "getScouters"
+class GetScoutersSchedule extends Manager {
+    static name = "getScoutersSchedule"
 
     constructor() {
         super()
     }
 
-    async runTask() {
-        let data = fs.readFileSync(`${__dirname}/.././scouters.json`, 'utf8', (err) => {
+    runTask() {
+        let data = fs.readFileSync(`${__dirname}/.././scoutersSchedule.json`, 'utf8', (err) => {
             if (err) {
                 return "Error reading scouters file"
             }
@@ -19,4 +19,4 @@ class GetScouters extends Manager {
     }
 }
 
-module.exports = GetScouters
+module.exports = GetScoutersSchedule

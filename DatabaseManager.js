@@ -9,9 +9,10 @@ const AddScouters = require('./manager/AddScouters.js')
 const AddTournamentMatches = require('./manager/AddTournamentMatches.js')
 const IsScouted = require('./manager/IsScouted.js')
 const GetScouters = require('./manager/GetScouters.js')
+const GetScoutersSchedule = require('./manager/GetScoutersSchedule.js')
+const UpdateScoutersSchedule = require('./manager/UpdateScoutersSchedule.js')
 
 class DatabaseManager {
-
     constructor() {
         
     }
@@ -48,7 +49,13 @@ class DatabaseManager {
                     break
                 case GetScouters.name:
                     resolve(await new GetScouters().runTask())
-                    break;
+                    break
+                case GetScoutersSchedule.name:
+                    resolve(await new GetScoutersSchedule().runTask())
+                    break
+                case UpdateScoutersSchedule.name:
+                    resolve(await new UpdateScoutersSchedule().runTask(body))
+                    break
                 default:
                     reject(`${task} is not a task`)
                     break

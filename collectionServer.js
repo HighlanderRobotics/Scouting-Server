@@ -169,6 +169,22 @@ app.get("/API/manager/isScouted/:tournamentKey/:matchNumber", async (req, res) =
     }
 })
 
+app.post("/API/manager/:task", async (req, res) => {
+    if (req.params.task) {
+        let results = await new DatabaseManager().runTask(req.params.task, req.body)
+        .catch((err) => {
+            if (err) {
+                res.status(400).send(err)
+            }
+        })
+
+        // console.log(results)
+        res.status(200).send(results)
+    } else {
+        res.status(400).send(`Missing Task Name`)
+    }
+})
+
 app.get("/API/manager/:task", async (req, res) => {
     if (req.params.task) {
         let results = await new DatabaseManager().runTask(req.params.task, req.query)
