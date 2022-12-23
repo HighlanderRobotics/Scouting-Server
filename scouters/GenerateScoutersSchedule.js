@@ -5,7 +5,12 @@ const { addScouters } = require('../manager/dbmanager.js')
 
 const scouters = JSON.parse(fs.readFileSync(`./scouters/scouters.json`, 'utf8')).scouters
 const availability = Papa.parse(fs.readFileSync('./scouters/Availability.csv', 'utf8'), { header: true }).data
-const version = JSON.parse(fs.readFileSync(`./scouters/scoutersSchedule.json`, 'utf8')).version + 1
+let version = 1
+let previous = fs.readFileSync(`./scouters/scoutersSchedule.json`, 'utf8')
+if (undefined != previous && previous.includes('version')) {
+    console.log(`exists`)
+    version = JSON.parse(previous).version + 1
+}
 
 const tournamentKey = '2022cc'
 const shiftSize = 5
@@ -48,27 +53,23 @@ run = async () => {
         while (newData.matches[i].scouts.length < 6) {
             var possibleScout = viables[Math.floor(Math.random() * (viables.length))]
             
-
             if (
-                !recents.includes(possibleScout) && 
-                !busy.includes(possibleScout) && 
-                !newData.matches[(i - 2) < 0 ? 0 : i].scouts.includes(possibleScout)
-                ) {
-
+                !newData.matches[(i)].scouts.includes(possibleScout)
+                && !busy.includes(possibleScout)
+                && !newData.matches[(i-1) < 0 ? 0 : i-1].scouts.includes(possibleScout)
+            ) {
                 newData.matches[i].scouts.push(possibleScout)
-
-                recents.push(possibleScout)
             }
         }
 
-        recents = []
     }
 
     console.log('Writing to file')
-    fs.writeFileSync('./scoutersSchedule.json', JSON.stringify(newData), 'utf8', (err) => {
+    fs.writeFileSync('scouters/./scoutersSchedule.json', JSON.stringify(newData), 'utf8', (err) => {
         if (err) {
             return 'Error writing to scouters file'
         }
+        console.log('written')
     })    
 }
 
