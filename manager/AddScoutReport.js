@@ -13,7 +13,7 @@ class AddScoutReport extends Manager {
         SELECT * FROM matches WHERE
             teamKey = '${teamKey}' AND
             gameKey = '${tournamentKey}' AND
-            matchNumber = ${data.constantData.matchNumber}
+            matchNumber = ${data.matchNumber}
         `
 
         return new Promise((resolve, reject) => {
@@ -53,16 +53,17 @@ class AddScoutReport extends Manager {
     }
 
     async insertData(matchKey, data) {
-        var insert = `INSERT INTO data (matchKey, scouterId, defenseQuality, defenseQuantity, startTime, scoutReport, notes) VALUES (?, ?, ?, ?, ?, ?, ?)`
+        var insert = `INSERT INTO data (uuid, matchKey, scouterId, defenseQuality, defenseQuantity, startTime, scoutReport, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
         
         // Rename game to competition
         try {
             var constantData = {
-                scouterId: data.constantData.scouterId,
-                defenseQuality: data.constantData.defenseQuality,
-                defenseQuantity: data.constantData.defenseQuantity,
-                startTime: data.constantData.startTime,
-                notes: data.constantData.notes
+                uuid: data.uuid,
+                scouterId: data.scouterId,
+                defenseQuality: data.overallDefenseRating,
+                defenseQuantity: data.defenseFrequencyRating,
+                startTime: data.startTime,
+                notes: data.notes
             }
         } catch (err) {
             return (err)
@@ -72,14 +73,24 @@ class AddScoutReport extends Manager {
         var gameDependent = {}
 
         for (var key of Object.keys(data)) {
-            if (key !== `scouterId` && key !== 'defense' && key !== 'notes' && key !== 'startTime') {
+            if (key !== `uuid` 
+                && key !== 'competitionKey'
+                && key !== 'matchNumber'
+                && key !== 'teamNumber'
+                && key !== 'scouterId'
+                && key !== 'startTime'
+                && key !== 'defenseFrequencyRating'
+                && key !== 'overallDefenseRating'
+                && key !== 'notes'
+                ) {
+
                 gameDependent[`${key}`] = `'${JSON.stringify(data[`${key}`])}'`
             }
         }
 
 
         return new Promise((resolve, reject) => {
-            Manager.db.run(insert, [matchKey, constantData.scouterId, constantData.defenseQuality, constantData.defenseQuantity, constantData.startTime, JSON.stringify(gameDependent), constantData.notes], (err) => {
+            Manager.db.run(insert, [constantData.uuid, matchKey, constantData.scouterId, constantData.defenseQuality, constantData.defenseQuantity, constantData.startTime, JSON.stringify(gameDependent), constantData.notes], (err) => {
                 if (err) {
                     reject(err)
                 } else {

@@ -22,7 +22,8 @@ class DatabaseManager {
         return new Promise(async (resolve, reject) => {
             switch (task) {
                 case AddScoutReport.name:
-                    resolve(await new AddScoutReport().runTask(body.teamKey, body.tournamentKey, body.data))
+                    // Different naming scheme is because of Jacob
+                    resolve(await new AddScoutReport().runTask(`frc${body.teamNumber}`, body.competitionKey, body))
                     break
                 case GetTeams.name:
                     resolve(await new GetTeams().runTask())

@@ -20,21 +20,21 @@ for(i = 0; i < jsonData.data.length; i ++)
     teamKey = `frc${data.teamNumber}`;
     
     var data = {
-        constantData: {
-            scouterId: 1,
-            matchNumber: parseInt(data.matchNumber),
-            defenseQuantity: parseInt(data.defense),
-            defenseQuality: parseInt(data.defense),
-            startTime: timestamp,
-            notes: data.notes
-        },
-        gameDependent: {
-            autoHighSuccess: parseInt(data.autoHighSuccess),
-            autoMisses: parseInt(data.autoMisses),
-            teleopHighSuccess: parseInt(data.teleopHighSuccess),
-            teleopMisses: parseInt(data.teleopMisses),
-            climberPosition: 'No Climb',
-        }
+        /* Constant data */
+        uuid: i,
+        scouterId: 1,
+        matchNumber: parseInt(data.matchNumber),
+        defenseFrequencyRating: parseInt(data.defense),
+        overallDefenseRating: parseInt(data.defense),
+        startTime: timestamp,
+        notes: data.notes,
+
+        /* Game dependent data */
+        autoHighSuccess: parseInt(data.autoHighSuccess),
+        autoMisses: parseInt(data.autoMisses),
+        teleopHighSuccess: parseInt(data.teleopHighSuccess),
+        teleopMisses: parseInt(data.teleopMisses),
+        challengeResult: 'No Climb',
         
     }
 

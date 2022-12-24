@@ -134,7 +134,7 @@ class Manager {
         // Probably finalized lmk if there's any other datapoints
         var createData = `
         CREATE TABLE data (
-            id INTEGER PRIMARY KEY,
+            uuid PRIMARY KEY,
             matchKey INTEGER NOT NULL, 
             scouterId TEXT ONLY VARCHAR(25) NOT NULL,
             defenseQuality INTEGER NOT NULL,
@@ -318,7 +318,7 @@ class Manager {
 
         async function runInsertScouters() {
             for (var i = 0; i < scouters.length; i++) {
-                console.log(scouters[i])
+                // console.log(scouters[i])
                 await insertScouter(sql, scouters[i], i)
                 .catch((err) => {
                     if (err) {

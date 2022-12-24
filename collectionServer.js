@@ -25,6 +25,25 @@ const DatabaseManager = require('./DatabaseManager.js')
 const app = express()
 app.use(express.json())
 
+// ngrok
+const ngrok = require('ngrok')
+const token = process.env.NGROK_TOKEN
+
+setup = async () => {
+    const url = await ngrok.connect(4000, { 
+        proto: 'http',
+        addr: 4000,
+        onStatusChange: status => {console.log(status)},
+        onLogEvent: data => {console.log(data)},
+        authtoken: token 
+    })
+    console.log(url)
+    return url
+}
+
+// Terminal QR Code
+const qrcode = require('qrcode-terminal');
+
 // Logging stuff
 var logStream = fs.createWriteStream(path.join(`${__dirname}/logs`, `Logs_${new Date()}.log`), { flags: 'a' })
 
@@ -61,6 +80,10 @@ const tasks = new Map()
 
 app.listen(port, async () => { 
     console.log(`Collection Server running on ${port}...`)
+
+    // Scannable qr code with ngrok link
+    qrcode.generate(await setup())
+
     // Init server here, idk what it would init but possibly could run + cache analysis engine, all it does is turn foreign keys on
     let init = await new DatabaseManager().runTask('InitServer', {})
     .catch((err) => {
