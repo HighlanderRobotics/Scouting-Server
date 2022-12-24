@@ -48,7 +48,7 @@ class Manager {
         SELECT * FROM matches WHERE
             teamKey = '${teamKey}' AND
             gameKey = '${tournamentKey}' AND
-            matchNumber = ${data.constantData.matchNumber}
+            matchNumber = ${data.matchNumber}
         `
 
         async function insertData(matchKey, data) {

@@ -38,6 +38,17 @@ setup = async () => {
         authtoken: token 
     })
     console.log(url)
+
+    if (url.startsWith('https://')) {
+    const https = 'https://'
+        return url.slice(https.length)
+    }
+
+    if (url.startsWith('http://')) {
+        const http = 'http://'
+        return url.slice(http.length)
+    }
+
     return url
 }
 
@@ -69,8 +80,6 @@ app.use(morgan('readable', {
     stream: writer
 }))
 
-//This middleware will allow us to pull req.body.<params>
-
 // Temporary if others want to use old endpoints for integration test day, will force changing endpoints later
 const Manager = require('./manager/dbmanager.js')
 
@@ -85,13 +94,13 @@ app.listen(port, async () => {
     qrcode.generate(await setup())
 
     // Init server here, idk what it would init but possibly could run + cache analysis engine, all it does is turn foreign keys on
-    let init = await new DatabaseManager().runTask('InitServer', {})
+    await new DatabaseManager().runTask('InitServer', {})
     .catch((err) => {
         if (err) {
             console.log(err)
         }
     })
-    .then((results) => {
+    .then(() => {
         console.log(`Initializing server`)
     })
 })
@@ -100,42 +109,41 @@ app.get('/', async (req, res) => {
     res.status(200).send(`All good my dude`)
 })
 
-const promiseWithTimeout = ((promise) => {
-    // Times out after 1 ms, assumes promise is still pending (usually takes ~0ms)
-    var timeOutTime = 1;
-
-    const timeoutPromise = new Promise(async (resolve, reject) => {
-        setTimeout(resolve, timeOutTime, `Requested task is unfinished, come back later`)
-    })
-
-    return Promise.race([promise, timeoutPromise])
-})
-
-app.get('/getTaskData', async (req,res) => {
-    // Get cached/Rerun analysis engine and send it
-
-    if (req.body.taskNumber != undefined && req.body.taskNumber < tasks.size) {
-        console.log(`Task Number: ${req.body.taskNumber}`)
-
-        promiseWithTimeout(tasks.get(req.body.taskNumber))
-        .then((response) => {
-            // console.log(response)
-            res.status(200).send(`${JSON.stringify(response)}`)
+// Manager
+app.post('/API/manager/:task', async (req, res) => {
+    if (req.params.task) {
+        let results = await new DatabaseManager().runTask(req.params.task, req.body)
+        .catch((err) => {
+            if (err) {
+                res.status(400).send(err)
+            }
         })
-    } else if (req.body.uuid != undefined && Array.from(uuidToTask.values()).includes(req.body.uuid)) {
-        console.log(`UUID: ${req.body.uuid}`)
 
-        promiseWithTimeout(tasks.get(uuidToTask.get(req.body.uuid)))
-        .then((response) => {
-                res.status(200).send(`${JSON.stringify(response)}`)
-        })
+        // console.log(results)
+        res.status(200).send(results)
     } else {
-        res.status(400).send(`Missing task number or uuid or task number/uuid doesn't have a task`)
-        return
+        res.status(400).send(`Missing Task Name`)
     }
 })
 
-app.get('/analysis', async (req, res) => {
+app.get('/API/manager/:task', async (req, res) => {
+    if (req.params.task) {
+        let results = await new DatabaseManager().runTask(req.params.task, req.query)
+        .catch((err) => {
+            if (err) {
+                res.status(400).send(err)
+            }
+        })
+
+        // console.log(results)
+        res.status(200).send(results)
+    } else {
+        res.status(400).send(`Missing Task Name`)
+    }
+})
+
+// Analysis
+app.get('/API/analysis', async (req, res) => {
     // Run analysis engine
     if (req.body.uuid) {
         if (req.body.tasks) {
@@ -173,145 +181,6 @@ app.get('/API/analysis/:task', async (req, res) => {
     }
 })
 
-app.get('/API/manager/isScouted/:tournamentKey/:matchNumber', async (req, res) => {
-    if (req.params.tournamentKey && req.params.matchNumber) {
-        let body = {
-            'tournamentKey': req.params.tournamentKey,
-            'matchNumber': parseInt(req.params.matchNumber)
-        }
-        let results = await new DatabaseManager().runTask('isScouted', req.params)
-        .catch((err) => {
-            if (err) {
-                res.status(400).send(err)
-            }
-        })
-
-        res.status(200).send(results)
-    } else {
-        res.status(400).send(`Missing Tournament or match`)
-    }
-})
-
-app.post('/API/manager/:task', async (req, res) => {
-    if (req.params.task) {
-        let results = await new DatabaseManager().runTask(req.params.task, req.body)
-        .catch((err) => {
-            if (err) {
-                res.status(400).send(err)
-            }
-        })
-
-        // console.log(results)
-        res.status(200).send(results)
-    } else {
-        res.status(400).send(`Missing Task Name`)
-    }
-})
-
-app.get('/API/manager/:task', async (req, res) => {
-    if (req.params.task) {
-        let results = await new DatabaseManager().runTask(req.params.task, req.query)
-        .catch((err) => {
-            if (err) {
-                res.status(400).send(err)
-            }
-        })
-
-        // console.log(results)
-        res.status(200).send(results)
-    } else {
-        res.status(400).send(`Missing Task Name`)
-    }
-})
-
-// Add data to database
-app.post('/addScoutReport', async (req, res) => {
-
-    if (req.body.uuid) {
-        if (req.body.teamKey && req.body.tournamentKey && req.body.data) {
-            let taskNumber = uuidToTask.size
-            uuidToTask.set(req.body.uuid, taskNumber)
-            tasks.set(taskNumber, Manager.addScoutReport(req.body.teamKey, req.body.tournamentKey, req.body.data))
-
-            res.status(200).send(`Task Number: ${taskNumber}`)
-        } else {
-            res.status(400).send(`Missing something`)
-        }
-    } else {
-        res.status(400).send(`Missing uuid`)
-    }  
-})
-
-app.post('/API/addScoutReport', async (req, res) => {
-
-    if (req.body.teamKey && req.body.tournamentKey && req.body.data) {
-        let results = await Manager.addScoutReport(req.body.teamKey, req.body.tournamentKey, req.body.data)
-
-        res.status(200).send(results)
-    } else {
-        res.status(400).send(`Missing something`)
-    }
-})
-
-// Add tournament
-app.post('/addTournamentMatches', async (req, res) => {
-    // If the proper fields are filled out
-    if (req.body.tournamentName && req.body.tournamentDate && req.body.uuid) {
-        let taskNumber = uuidToTask.size
-        uuidToTask.set(req.body.uuid, taskNumber)
-        tasks.set(taskNumber, Manager.addMatches(req.body.tournamentName, req.body.tournamentDate))
-        // console.log(tasks.get(taskNumber))
-        
-        res.status(200).send(`${JSON.stringify({'taskNumber': taskNumber})}`)
-    } else {
-        res.status(400).send(`Missing something`)
-    }
-})
-
-app.post('/API/addTournamentMatches', async (req, res) => {
-    // If the proper fields are filled out
-    if (req.body.tournamentName && req.body.tournamentDate) {
-        var results = await Manager.addMatches(req.body.tournamentName, req.body.tournamentDate)
-        .catch((err) => {
-            if (err) {
-                res.status(400).send(`Error with addTournamentMatches(): ${err}`)
-            }
-        })
-        res.status(200).send(results)
-    } else {
-        res.status(400).send(`Missing something`)
-    }
-})
-
-// List teams
-app.get('/listTeams', async (req,res) => {
-
-    if (req.body.uuid) {
-        let taskNumber = uuidToTask.size
-        uuidToTask.set(req.body.uuid, taskNumber)
-        tasks.set(taskNumber, Manager.getTeams())
-        // console.log(tasks.get(taskNumber))
-        res.status(200).send(`${JSON.stringify({'taskNumber': taskNumber})}`)
-    } else {
-        res.status(400).send(`Missing uuid`)
-    }
-
-})
-
-app.get('/API/listTeams', async (req,res) => {
-
-    var results = await Manager.getTeams()
-    .catch((err) => {
-        if (err) {
-            res.status(400).send(`Error with getTeams(): ${err}`)
-        }
-    })
-
-    res.status(200).send(results)
-})
-
-
-
 // Reset DB (testing only)
 app.post('/resetDB', async (req,res) => {
 
@@ -322,5 +191,41 @@ app.post('/resetDB', async (req,res) => {
         res.status(200).send(`${JSON.stringify({'taskNumber': taskNumber})}`)
     } else {
         res.status(400).send(`Missing uuid`)
+    }
+})
+
+// Old system
+const promiseWithTimeout = ((promise) => {
+    // Times out after 1 ms, assumes promise is still pending (usually takes ~0ms)
+    var timeOutTime = 1;
+
+    const timeoutPromise = new Promise(async (resolve, reject) => {
+        setTimeout(resolve, timeOutTime, `Requested task is unfinished, come back later`)
+    })
+
+    return Promise.race([promise, timeoutPromise])
+})
+
+app.get('/getTaskData', async (req,res) => {
+    // Get cached/Rerun analysis engine and send it
+
+    if (req.body.taskNumber != undefined && req.body.taskNumber < tasks.size) {
+        console.log(`Task Number: ${req.body.taskNumber}`)
+
+        promiseWithTimeout(tasks.get(req.body.taskNumber))
+        .then((response) => {
+            // console.log(response)
+            res.status(200).send(`${JSON.stringify(response)}`)
+        })
+    } else if (req.body.uuid != undefined && Array.from(uuidToTask.values()).includes(req.body.uuid)) {
+        console.log(`UUID: ${req.body.uuid}`)
+
+        promiseWithTimeout(tasks.get(uuidToTask.get(req.body.uuid)))
+        .then((response) => {
+                res.status(200).send(`${JSON.stringify(response)}`)
+        })
+    } else {
+        res.status(400).send(`Missing task number or uuid or task number/uuid doesn't have a task`)
+        return
     }
 })

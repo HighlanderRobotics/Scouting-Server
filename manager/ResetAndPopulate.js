@@ -1,5 +1,4 @@
 const Manager = require('./Manager.js')
-const DatabaseManager = require('.././DatabaseManager.js')
 const axios = require('axios');
 
 class ResetAndPopulate extends Manager {

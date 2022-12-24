@@ -19,13 +19,11 @@ Npm installs
 ```
 sudo apt install npm
 npm init -y
-npm install sqlite3
-npm install sqlite
-npm install morgan
-npm install papaparse
 ```
 
 # Setup ngrok
+
+### If ngrok isn't working on startup
 
 Follow instructions on https://ngrok.com/download, adding an authToken is optional
 
@@ -41,6 +39,349 @@ Copy the text after the word "forwarding" and before the "->" to get the link to
 SQLite by alexcvzz<br />
 SQLite Viewer by FLorian Klampfer
 
+# ENDPOINTS
+
+## Analysis
+
+### GET /API/analysis/:taskName?metric=asdf
+
+#### Will return: Response code 200 
+Returns completed analyses as a list
+
+### GET /API/analysis
+Can send multiple analysis to be run in the body
+```json
+body: {
+  "tasks": [
+    {
+      "name": "AverageForMetric",
+      "teamKey": "frc254",
+      "metric": "teleopHighSuccess"
+    },
+    {
+      "name": "AverageForMetric",
+      "teamKey": "frc8033",
+      "metric": "teleopHighSuccess"
+    },
+    {
+      "name": "TeamsInTournament",
+      "tournamentKey": "2022cc"
+    }
+  ]
+}
+```
+
+#### Will return: Response code 200 
+Returns completed analyses as a list
+
+### GET /API/manager/isScouted/:tournamentKey/:matchNumber
+
+#### Will return: 
+```json
+body: {
+  {
+    {
+      "matchKey": "2022cc_qm2_1",
+      "name": "Barry B Benson"
+    },
+    {
+      "matchKey": "2022cc_qm2_2",
+      "name": "Barry B Benson"
+    },
+    {
+      "matchKey": "2022cc_qm2_0",
+      "name": "Barry B Benson"
+    },
+    {
+      "matchKey": "2022cc_qm2_4",
+      "name": "Barry B Benson"
+    },
+    {
+      "matchKey": null,
+      "name": null
+    },
+    {
+      "matchKey": null,
+      "name": null
+    }
+  }
+}
+```
+
+-----------------------------------------------------------------
+## Database Manager
+
+## POST /API/manager/addScoutRport
+Will accept if a teamKey, tournamentKey, and data
+```json
+body: {
+    "uuid": "b9364689-9672-45fd-8a98-a5801338b3bf",
+    "competitionKey": "2022cc",
+    "matchNumber": 1,
+    "teamNumber": 254,
+    "scouterId": 0,
+    "startTime": 1671755981764,
+    "defenseFrequencyRating": 4,
+    "overallDefenseRating": 2,
+    "notes": "",
+    "events": [
+      [
+        1730,
+        0,
+        1
+      ],
+      [
+        1877,
+        0,
+        1
+      ],
+      [
+        2016,
+        0,
+        1
+      ],
+      [
+        2156,
+        0,
+        1
+      ]
+    ],
+    "robotRole": 1,
+    "challengeResult": "Failed climb"
+}
+```
+### Will return: Response code 200
+```
+Data successfully entered
+```
+
+## GET /API/manager/getTeams
+
+### Will return: Response code 200
+```json
+[
+    {
+      "key": "frc1",
+      "teamNumber": 1,
+      "teamName": "The Juggernauts"
+    },
+    {
+      "key": "frc4",
+      "teamNumber": 4,
+      "teamName": "Team 4 ELEMENT"
+    },
+    {
+      "key": "frc5",
+      "teamNumber": 5,
+      "teamName": "Robocards"
+    }
+]
+```
+
+## GET /API/manager/resetAndPopulate
+Don't use this one anyway and also it takes a couple minutes for the database to fully reset then populate
+### Will return: Response code 200
+
+## GET /API/manager/addTournamentMatches
+Needs a tournamentName and tournamentDate
+```json
+{
+  {
+    "tournamentName": "Chezy Champs",
+    "tournamentDate": "2022-09-23"
+  }
+} 
+```
+
+## Will return: Response code 200
+```
+Success
+```
+
+## GET /API/manager/isScouted?tournamentKey=2022cc&matchNumber=2
+
+### Will return: Response code 200
+```json
+{
+  {
+    {
+      "matchKey": "2022cc_qm2_1",
+      "name": "Barry B Benson"
+    },
+    {
+      "matchKey": "2022cc_qm2_2",
+      "name": "Barry B Benson"
+    },
+    {
+      "matchKey": "2022cc_qm2_0",
+      "name": "Barry B Benson"
+    },
+    {
+      "matchKey": "2022cc_qm2_4",
+      "name": "Barry B Benson"
+    },
+    {
+      "matchKey": null,
+      "name": null
+    },
+    {
+      "matchKey": null,
+      "name": null
+    }
+  }
+}
+```
+
+## GET /API/manager/getScouters
+
+### Will return: Response code 200
+```json
+body: {
+  "scouters": [
+    {
+      "name": "Abagail Cothran",
+      "number": "5109905559"
+    },
+    {
+      "name": "Alex Ware",
+      "number": "5109183413"
+    },
+    {
+      "name": "Alexander Aires",
+      "number": ""
+    },
+    {
+      "name": "Alexis Montero Castro",
+      "number": ""
+    }
+  ]
+}
+```
+
+## GET /API/manager/getScoutersSchedule
+
+### Will return: Response code 200
+```json
+{
+  "version": 2,
+  "matches": [
+    {
+      "start": 1,
+      "end": 5,
+      "scouts": [
+        "Jasper Tripp",
+        "Mckeane Mcbrearty",
+        "Torsten Olsen",
+        "Evrim Duransoy",
+        "Nate Hart",
+        "Jessica Liu"
+      ]
+    },
+    {
+      "start": 6,
+      "end": 10,
+      "scouts": [
+        "Nathaniel Scher",
+        "Barry Balasingham",
+        "Collin Cameron",
+        "Valentina Prieto Black",
+        "Asha Byers",
+        "Lewy Seiden"
+      ]
+    },
+    {
+      "start": 11,
+      "end": 15,
+      "scouts": [
+        "Torsten Olsen",
+        "Jasper Tripp",
+        "Nate Hart",
+        "Jessica Liu",
+        "Evrim Duransoy",
+        "Nathaniel Welch"
+      ]
+    }
+  ]
+}
+```
+
+## POST /API/manager/updateScoutersSchedule
+
+### Will return: Response code 200
+```json
+{
+  "version": 3,
+  "matches": [
+    {
+      "start": 1,
+      "end": 5,
+      "scouts": [
+        "Jasper Tripp",
+        "Mckeane Mcbrearty",
+        "Torsten Olsen",
+        "Evrim Duransoy",
+        "Nate Hart",
+        "Jessica Liu"
+      ]
+    },
+    {
+      "start": 6,
+      "end": 10,
+      "scouts": [
+        "Nathaniel Scher",
+        "Barry Balasingham",
+        "Collin Cameron",
+        "Valentina Prieto Black",
+        "Asha Byers",
+        "Lewy Seiden"
+      ]
+    },
+    {
+      "start": 11,
+      "end": 15,
+      "scouts": [
+        "Mckeane Mcbrearty",
+        "Jasper Tripp",
+        "Nate Hart",
+        "Cassandra Colby",
+        "Beck Peterson",
+        "Nathaniel Welch"
+      ]
+    }
+  ]
+}
+```
+
+## GET /API/manager/getMatches?tournamentKey=2022cc
+
+### Will return: Response code 200
+```json
+[
+  {
+    "key": "2022cc_qm1_4",
+    "gameKey": "2022cc",
+    "matchNumber": 1,
+    "teamKey": "frc254",
+    "matchType": "qm"
+  },
+  {
+    "key": "2022cc_qm1_3",
+    "gameKey": "2022cc",
+    "matchNumber": 1,
+    "teamKey": "frc3647",
+    "matchType": "qm"
+  },
+  {
+    "key": "2022cc_qm1_0",
+    "gameKey": "2022cc",
+    "matchNumber": 1,
+    "teamKey": "frc6036",
+    "matchType": "qm"
+  }
+]
+```
+
+-----------------------------------------------------------------
 
 # TODO
 1. ~~Query The blue alliance~~

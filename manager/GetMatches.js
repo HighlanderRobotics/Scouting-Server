@@ -7,10 +7,11 @@ class GetMatches extends Manager {
         super()
     }
 
-    runTask(tournamentKey) {
+    runTask(body) {
         var sql = `SELECT * FROM matches
-            WHERE gameKey = '${tournamentKey}'
+            WHERE gameKey = '${body.tournamentKey}'
             ORDER BY matchNumber`
+
 
         return new Promise((resolve, reject) => {
             Manager.db.all(sql, (err, storedTeams) => {
@@ -18,6 +19,7 @@ class GetMatches extends Manager {
                     console.error(`Error with getMatches(): ${err}`)
                     reject(`Error with getMatches(): ${err}`)
                 } else {
+                    console.log(storedTeams)
                     resolve(storedTeams);
                 }
             })
