@@ -43,15 +43,22 @@ SQLite Viewer by FLorian Klampfer
 
 ## Analysis
 
-### GET /API/analysis/:taskName?metric=asdf
+## GET /API/analysis/:taskName
 
-#### Will return: Response code 200 
+| :taskName | requirements | description |
+| :---:   | :---: | :---: |
+| AverageForMetric | teamKey, metric | Will get average of any metric for a team |
+| BestAverageForMetric | tournamentKey, metric | Will get the team with the best average <br/>for a metric in a tournament as well as<br/>their average
+| TeamsInTournament | tournamentKey | Returns a list of all teams in the <br/>tournament
+|
+
+### Will return: Response code 200
 Returns completed analyses as a list
 
 ### GET /API/analysis
 Can send multiple analysis to be run in the body
 ```json
-body: {
+{
   "tasks": [
     {
       "name": "AverageForMetric",
@@ -71,42 +78,8 @@ body: {
 }
 ```
 
-#### Will return: Response code 200 
+### Will return: Response code 200 
 Returns completed analyses as a list
-
-### GET /API/manager/isScouted/:tournamentKey/:matchNumber
-
-#### Will return: 
-```json
-body: {
-  {
-    {
-      "matchKey": "2022cc_qm2_1",
-      "name": "Barry B Benson"
-    },
-    {
-      "matchKey": "2022cc_qm2_2",
-      "name": "Barry B Benson"
-    },
-    {
-      "matchKey": "2022cc_qm2_0",
-      "name": "Barry B Benson"
-    },
-    {
-      "matchKey": "2022cc_qm2_4",
-      "name": "Barry B Benson"
-    },
-    {
-      "matchKey": null,
-      "name": null
-    },
-    {
-      "matchKey": null,
-      "name": null
-    }
-  }
-}
-```
 
 -----------------------------------------------------------------
 ## Database Manager
@@ -114,40 +87,40 @@ body: {
 ## POST /API/manager/addScoutRport
 Will accept if a teamKey, tournamentKey, and data
 ```json
-body: {
-    "uuid": "b9364689-9672-45fd-8a98-a5801338b3bf",
-    "competitionKey": "2022cc",
-    "matchNumber": 1,
-    "teamNumber": 254,
-    "scouterId": 0,
-    "startTime": 1671755981764,
-    "defenseFrequencyRating": 4,
-    "overallDefenseRating": 2,
-    "notes": "",
-    "events": [
-      [
-        1730,
-        0,
-        1
-      ],
-      [
-        1877,
-        0,
-        1
-      ],
-      [
-        2016,
-        0,
-        1
-      ],
-      [
-        2156,
-        0,
-        1
-      ]
+{
+  "uuid": "b9364689-9672-45fd-8a98-a5801338b3bf",
+  "competitionKey": "2022cc",
+  "matchNumber": 1,
+  "teamNumber": 254,
+  "scouterId": 0,
+  "startTime": 1671755981764,
+  "defenseFrequencyRating": 4,
+  "overallDefenseRating": 2,
+  "notes": "",
+  "events": [
+    [
+      1730,
+      0,
+      1
     ],
-    "robotRole": 1,
-    "challengeResult": "Failed climb"
+    [
+      1877,
+      0,
+      1
+    ],
+    [
+      2016,
+      0,
+      1
+    ],
+    [
+      2156,
+      0,
+      1
+    ]
+  ],
+  "robotRole": 1,
+  "challengeResult": "Failed climb"
 }
 ```
 ### Will return: Response code 200
@@ -180,9 +153,10 @@ Data successfully entered
 
 ## GET /API/manager/resetAndPopulate
 Don't use this one anyway and also it takes a couple minutes for the database to fully reset then populate
+
 ### Will return: Response code 200
 
-## GET /API/manager/addTournamentMatches
+## POST /API/manager/addTournamentMatches
 Needs a tournamentName and tournamentDate
 ```json
 {
@@ -236,7 +210,7 @@ Success
 
 ### Will return: Response code 200
 ```json
-body: {
+{
   "scouters": [
     {
       "name": "Abagail Cothran",
