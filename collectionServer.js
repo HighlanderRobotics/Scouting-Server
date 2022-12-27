@@ -143,7 +143,7 @@ app.get('/API/manager/:task', async (req, res) => {
 })
 
 // Analysis
-app.get('/API/analysis', async (req, res) => {
+app.post('/API/analysis', async (req, res) => {
     // Run analysis engine
     if (req.body.uuid) {
         if (req.body.tasks) {

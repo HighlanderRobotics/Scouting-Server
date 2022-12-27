@@ -1,6 +1,7 @@
 const TaskManager = require('.././TaskManager.js')
 const DatabaseManager = require('.././DatabaseManager.js')
 
+// Tests must be updated to use latest data
 test(`AverageForMetric`, async () => {
     let result = await new TaskManager().runTasks(
         [

@@ -19,7 +19,7 @@ class GetMatches extends Manager {
                     console.error(`Error with getMatches(): ${err}`)
                     reject(`Error with getMatches(): ${err}`)
                 } else {
-                    console.log(storedTeams)
+                    // console.log(storedTeams)
                     resolve(storedTeams);
                 }
             })
