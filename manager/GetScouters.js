@@ -9,6 +9,7 @@ class GetScouters extends Manager {
     }
 
     async runTask() {
+        let scoutersList = []
 
         try {
             let data = fs.readFileSync(`${__dirname}/../scouters/./scouters.json`, 'utf8')
@@ -16,10 +17,10 @@ class GetScouters extends Manager {
             data = JSON.parse(data)
 
             for (let i = 0; i < data.scouters.length; i++) {
-                delete data.scouters[i].number
+                scoutersList.push(data.scouters[i].name)
             }
     
-            return data
+            return scoutersList
         } catch (e) {
             return `Error reading scouters file: ${e}`
         }

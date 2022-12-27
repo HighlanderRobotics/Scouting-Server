@@ -8,12 +8,12 @@ class IsScouted extends Manager {
         this.result = []
     }
 
-    runTask(tournamentKey, matchNumber) {
+    runTask(tournamentKey, matchKey) {
         
         let a = this
 
         return new Promise(async (resolve, reject) => {
-            let matches = await a.getMatchKeys(tournamentKey, matchNumber)
+            let matches = await a.getMatchKeys(tournamentKey, matchKey)
             .catch((err) => {
                 if (err) {
                     reject(err)
@@ -40,12 +40,12 @@ class IsScouted extends Manager {
         })
     }
 
-    async getMatchKeys(tournamentKey, matchNumber) {
-        let sql = `SELECT matchKey, name FROM matches
+    async getMatchKeys(tournamentKey, matchKey) {
+        let sql = `SELECT matches.key, name FROM matches
             LEFT JOIN data ON matches.key = data.matchKey
             LEFT JOIN scouters ON data.scouterId = scouters.id
             WHERE matches.gameKey = '${tournamentKey}'
-            AND matches.matchNumber = ${matchNumber}
+            AND INSTR(matches.key, '${matchKey}_')
             `
 
         return new Promise((resolve, reject) => {

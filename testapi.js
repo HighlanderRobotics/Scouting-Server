@@ -132,7 +132,7 @@ const fs = require('fs')
 
 var createData = `
         CREATE TABLE data (
-            uuid INTEGER PRIMARY KEY,
+            uuid PRIMARY KEY,
             matchKey INTEGER NOT NULL, 
             scouterId TEXT ONLY VARCHAR(25) NOT NULL,
             defenseQuality INTEGER NOT NULL,

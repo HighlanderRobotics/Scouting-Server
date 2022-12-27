@@ -92,7 +92,7 @@ Will accept if a teamKey, tournamentKey, and data
   "competitionKey": "2022cc",
   "matchNumber": 1,
   "teamNumber": 254,
-  "scouterId": 0,
+  "scouterId": 5,
   "startTime": 1671755981764,
   "defenseFrequencyRating": 4,
   "overallDefenseRating": 2,
@@ -172,64 +172,55 @@ Needs a tournamentName and tournamentDate
 Success
 ```
 
-## GET /API/manager/isScouted?tournamentKey=2022cc&matchNumber=2
+## GET /API/manager/isScouted?tournamentKey=2022cc&matchKey=2022cc_qm1
 
 ### Will return: Response code 200
+If the name is null then it means there's a scoutreport missing for that matchKey
 ```json
-{
+[
   {
-    {
-      "matchKey": "2022cc_qm2_1",
-      "name": "Barry B Benson"
-    },
-    {
-      "matchKey": "2022cc_qm2_2",
-      "name": "Barry B Benson"
-    },
-    {
-      "matchKey": "2022cc_qm2_0",
-      "name": "Barry B Benson"
-    },
-    {
-      "matchKey": "2022cc_qm2_4",
-      "name": "Barry B Benson"
-    },
-    {
-      "matchKey": null,
-      "name": null
-    },
-    {
-      "matchKey": null,
-      "name": null
-    }
+    "key": "2022cc_qm1_4",
+    "name": "Nate Hart"
+  },
+  {
+    "key": "2022cc_qm1_3",
+    "name": null
+  },
+  {
+    "key": "2022cc_qm1_0",
+    "name": "William Tenney"
+  },
+  {
+    "key": "2022cc_qm1_5",
+    "name": "Nathaniel Welch"
+  },
+  {
+    "key": "2022cc_qm1_1",
+    "name": "Keshav Rangan"
+  },
+  {
+    "key": "2022cc_qm1_2",
+    "name": "Helena Young"
   }
-}
+]
 ```
 
 ## GET /API/manager/getScouters
 
 ### Will return: Response code 200
 ```json
-{
-  "scouters": [
-    {
-      "name": "Abagail Cothran",
-      "number": "5109905559"
-    },
-    {
-      "name": "Alex Ware",
-      "number": "5109183413"
-    },
-    {
-      "name": "Alexander Aires",
-      "number": ""
-    },
-    {
-      "name": "Alexis Montero Castro",
-      "number": ""
-    }
-  ]
-}
+[
+  "Abagail Cothran",
+  "Alex Ware",
+  "Alexander Aires",
+  "Alexis Montero Castro",
+  "Asha Byers",
+  "Athena Li",
+  "audrey Dickinson",
+  "Ava Grochowski",
+  "Ayaan Jajodia",
+  "Barry Balasingham",
+]
 ```
 
 ## GET /API/manager/getScoutersSchedule
