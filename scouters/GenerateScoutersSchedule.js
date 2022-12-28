@@ -24,7 +24,7 @@ run = async () => {
 
     let newData = {
         'version': version,
-        'matches': []
+        'shifts': []
     }
 
     availability.forEach(scouter => {
@@ -35,30 +35,30 @@ run = async () => {
         }
     })
 
-    for (var i = 0; i < (matches.length/6)/shiftSize; i++) {
-        if (i+shiftSize > matches.length/6) {
-            newData.matches[i] = {
+    for (var i = 0; i < (shifts.length/6)/shiftSize; i++) {
+        if (i+shiftSize > shifts.length/6) {
+            newData.shifts[i] = {
                 'start': i*shiftSize + 1,
-                'end': (matches.length/6),
+                'end': (shifts.length/6),
                 'scouts': []
             }
         } else {
-            newData.matches[i] = {
+            newData.shifts[i] = {
                 'start': i*shiftSize + 1,
                 'end': (i*shiftSize + shiftSize),
                 'scouts': []
             }
         }
 
-        while (newData.matches[i].scouts.length < 6) {
+        while (newData.shifts[i].scouts.length < 6) {
             var possibleScout = viables[Math.floor(Math.random() * (viables.length))]
             
             if (
-                !newData.matches[(i)].scouts.includes(possibleScout)
+                !newData.shifts[(i)].scouts.includes(possibleScout)
                 && !busy.includes(possibleScout)
-                && !newData.matches[(i-1) < 0 ? 0 : i-1].scouts.includes(possibleScout)
+                && !newData.shifts[(i-1) < 0 ? 0 : i-1].scouts.includes(possibleScout)
             ) {
-                newData.matches[i].scouts.push(possibleScout)
+                newData.shifts[i].scouts.push(possibleScout)
             }
         }
 

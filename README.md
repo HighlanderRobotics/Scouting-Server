@@ -229,7 +229,7 @@ If the name is null then it means there's a scoutreport missing for that matchKe
 ```json
 {
   "version": 2,
-  "matches": [
+  "shifts": [
     {
       "start": 1,
       "end": 5,
@@ -276,7 +276,7 @@ If the name is null then it means there's a scoutreport missing for that matchKe
 ```json
 {
   "version": 3,
-  "matches": [
+  "shifts": [
     {
       "start": 1,
       "end": 5,
@@ -342,6 +342,27 @@ If the name is null then it means there's a scoutreport missing for that matchKe
     "matchNumber": 1,
     "teamKey": "frc6036",
     "matchType": "qm"
+  }
+]
+```
+
+## GET /API/manager/isMatchesScouted?tournamentKey=2022cc&scouterId=34&matchKeys=["2022cc_qm2", "2022cc_qm3", "2022cc_qm4"]
+
+### Will return: Response code 200
+```json
+[
+  {
+    "matchKey": "2022cc_qm1",
+    "specificMatchKey": "2022cc_qm1_1",
+    "status": true
+  },
+  {
+    "matchKey": "2022cc_1qm2",
+    "status": false
+  },
+  {
+    "matchKey": "2022cc_qm3",
+    "status": false
   }
 ]
 ```
