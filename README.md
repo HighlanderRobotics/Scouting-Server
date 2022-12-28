@@ -367,6 +367,18 @@ If the name is null then it means there's a scoutreport missing for that matchKe
 ]
 ```
 
+## GET /API/manager/getAllNotes?teamKey=frc8033&sinceTime=1671755981763
+sinceTime is optional but will use epoch in milis
+
+### Will return: Response code 200
+```json
+[
+  "Very Purple",
+  "Got bodied by defense",
+  "Bad climb"
+]
+```
+
 -----------------------------------------------------------------
 
 # TODO

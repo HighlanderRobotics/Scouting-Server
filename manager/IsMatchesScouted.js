@@ -9,12 +9,6 @@ class IsMatchesScouted extends Manager {
     
     runTask(tournamentKey, scouterId, matchKeys) {
         let a = this
-        
-        // matchKeys.replace(`"`, '')
-        // matchKeys = matchKeys.split(',')
-        // if (matchKeys.length == 0) {
-        //     return "Forgot Matchkeys"
-        // }
 
         matchKeys = JSON.parse(matchKeys)
 

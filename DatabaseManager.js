@@ -13,6 +13,7 @@ const GetScoutersSchedule = require('./manager/GetScoutersSchedule.js')
 const UpdateScoutersSchedule = require('./manager/UpdateScoutersSchedule.js')
 const GetMatches = require('./manager/GetMatches.js')
 const IsMatchesScouted = require('./manager/IsMatchesScouted.js')
+const GetAllNotes = require('./manager/GetAllNotes.js')
 
 class DatabaseManager {
     constructor() {
@@ -64,6 +65,9 @@ class DatabaseManager {
                     break
                 case IsMatchesScouted.name:
                     resolve(await new IsMatchesScouted().runTask(body.tournamentKey, body.scouterId, body.matchKeys))
+                    break
+                case GetAllNotes.name:
+                    resolve(await new GetAllNotes().runTask(body.teamKey, body.sinceTime))
                     break
                 default:
                     reject(`${task} is not a task`)
