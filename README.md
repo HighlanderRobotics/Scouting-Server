@@ -1,4 +1,5 @@
-# Installation process on Ubuntu (sorry don't know how installation works on mac or windows)
+# Installation process on Ubuntu (sorry don't know how installation works on windows)
+(on mac, it sqlite3 should already come installed)
 ```
 sudo apt update
 sudo apt install nodejs
