@@ -62,7 +62,8 @@ class AddTournamentMatches extends Manager {
                                     await this.whyGodInsert(sql)
                                     .catch((err) => {
                                         if (err) {
-                                            console.log(response.data[i].match_number)
+                                            // console.log(response.data[i].team_keys)
+                                            // console.log(response.data[i].match_number)
                                             console.log(err)
                                             reject(err)
                                         }

@@ -40,7 +40,7 @@ class DatabaseManager {
                 //     resolve(await new AddAPITeams().runTask())
                 //     break
                 case AddAPITournaments.name:
-                    resolve(await new AddAPITournaments().runTask())
+                    resolve(await new AddAPITournaments().runTask(body.year))
                     break
                 // case AddScouters.name:
                 //     resolve(await new AddScouters().runTask())
