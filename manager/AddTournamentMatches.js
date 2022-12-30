@@ -45,18 +45,34 @@ class AddTournamentMatches extends Manager {
                                     await this.whyGodInsert(sql)
                                     .catch((err) => {
                                         if (err) {
-                                            console.log(`Error with inserting: ${err}`)
+                                            console.log(err)
                                             reject(err)
                                         }
-
-                                    })                           
+                                    })
+                                } else {
+                                    var matches = ``
+                                    for (var k = 0; k < 6; k++) {
+                                        matches = matches + `('${response.data[i].key.substring(0, response.data[i].key.length-2)}_${k}', '${tournament[0].key}', ${response.data[i].key.substring(response.data[i].key.length-3, response.data[i].key.length-2)}, '${response.data[i].comp_level}'), `
+                                        if (k == 5) {
+                                            matches = matches.substring(0, matches.length - 2)
+                                        }
+                                    }
+                                    var sql = `INSERT INTO matches (key, gameKey, matchNumber, matchType) VALUES ${matches}`
+                                    // console.log(sql)
+                                    await this.whyGodInsert(sql)
+                                    .catch((err) => {
+                                        if (err) {
+                                            console.log(response.data[i].match_number)
+                                            console.log(err)
+                                            reject(err)
+                                        }
+                                    })
                                 }
                             }
-                        }).catch(error => {
-                            console.error(`Error with getting tournaments: ${error}`)
-                            reject(`Error with getting tournaments: ${error}`)
+                        }).catch(err => {
+                            console.error(err)
+                            reject(err)
                         }).then(() => {
-                            console.log(`Successfully added matches`)
                             resolve(`Success`)
                         })
                     }

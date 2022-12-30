@@ -129,7 +129,7 @@ class Manager {
 
         var createTournaments = `CREATE TABLE tournaments (key TEXT ONLY PRIMARY KEY, name TEXT ONLY, location VARCHAR(50), date TEXT ONLY VARCHAR(20), UNIQUE (key, date));`
 
-        var createMatches = `CREATE TABLE matches (key PRIMARY KEY, gameKey TEXT ONLY NOT NULL, matchNumber INTEGER, teamKey TEXT ONLY NOT NULL, matchType TEXT ONLY NOT NULL, UNIQUE (gameKey, matchNumber, teamKey), FOREIGN KEY(gameKey) REFERENCES tournaments(key), FOREIGN KEY(teamKey) REFERENCES teams(key));`
+        var createMatches = `CREATE TABLE matches (key PRIMARY KEY, gameKey TEXT ONLY NOT NULL, matchNumber INTEGER, teamKey TEXT ONLY NOT NULL, matchType TEXT ONLY NOT NULL, UNIQUE (gameKey, teamKey), FOREIGN KEY(gameKey) REFERENCES tournaments(key), FOREIGN KEY(teamKey) REFERENCES teams(key));`
 
         // Probably finalized lmk if there's any other datapoints
         var createData = `
@@ -203,7 +203,8 @@ class Manager {
             })
             .then(async () => {
                 await Manager.addAPITeams()
-                await Manager.addAPITournaments()
+                await Manager.addAPITournaments(2022)
+                await Manager.addAPITournaments(2023)
                 await Manager.addScouters()
                 await turnOnForeignKeys()
             })
@@ -254,7 +255,7 @@ class Manager {
         }
     }
 
-    static async addAPITournaments() {
+    static async addAPITournaments(year) {
         var url = 'https://www.thebluealliance.com/api/v3'
 
         var sql = `INSERT INTO tournaments (name, location, date, key) VALUES (?, ?, ?, ?)`
@@ -272,7 +273,7 @@ class Manager {
             })
         }
 
-        await axios.get(`${url}/events/2022/simple`, {
+        await axios.get(`${url}/events/${year}/simple`, {
             headers: {'X-TBA-Auth-Key': process.env.KEY}
         })
         .then(async (response) => {

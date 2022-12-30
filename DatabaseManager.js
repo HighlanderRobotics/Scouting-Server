@@ -4,7 +4,7 @@ const GetTeams = require('./manager/GetTeams.js')
 const InitServer = require('./manager/InitServer.js')
 const ResetAndPopulate = require('./manager/ResetAndPopulate.js')
 // const AddAPITeams = require('./manager/AddAPITeams.js')
-// const AddAPITournaments = require('./manager/AddAPITournaments.js')
+const AddAPITournaments = require('./manager/AddAPITournaments.js')
 // const AddScouters = require('./manager/AddScouters.js')
 const AddTournamentMatches = require('./manager/AddTournamentMatches.js')
 const IsScouted = require('./manager/IsScouted.js')
@@ -39,9 +39,9 @@ class DatabaseManager {
                 // case AddAPITeams.name:
                 //     resolve(await new AddAPITeams().runTask())
                 //     break
-                // case AddAPITournaments.name:
-                //     resolve(await new AddAPITournaments().runTask())
-                //     break
+                case AddAPITournaments.name:
+                    resolve(await new AddAPITournaments().runTask())
+                    break
                 // case AddScouters.name:
                 //     resolve(await new AddScouters().runTask())
                 //     break
