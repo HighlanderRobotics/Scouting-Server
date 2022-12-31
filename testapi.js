@@ -130,26 +130,26 @@ const fs = require('fs')
 //   console.log(`${key.num}: ${value}`)
 // })
 
-// var createData = `
-//         CREATE TABLE data (
-//             uuid PRIMARY KEY,
-//             matchKey INTEGER NOT NULL, 
-//             scouterId TEXT ONLY VARCHAR(25) NOT NULL,
-//             defenseQuality INTEGER NOT NULL,
-//             defenseQuantity INTEGER NOT NULL, 
-//             startTime INTEGER NOT NULL,
-//             scoutReport VARCHAR(5000),
-//             notes BLOB VARCHAR (250),
-//             UNIQUE (matchKey, scouterId, scoutReport), 
-//             FOREIGN KEY(matchKey) REFERENCES matches(key),
-//             FOREIGN KEY(scouterId) REFERENCES scouters(id)
-//         );`
+var createData = `
+        CREATE TABLE data (
+            uuid PRIMARY KEY,
+            matchKey NOT NULL, 
+            scouterName TEXT ONLY VARCHAR(25) NOT NULL,
+            defenseQuality INTEGER NOT NULL,
+            defenseQuantity INTEGER NOT NULL, 
+            startTime INTEGER NOT NULL,
+            scoutReport VARCHAR(5000),
+            notes BLOB VARCHAR (250),
+            UNIQUE (matchKey, scouterName, scoutReport), 
+            FOREIGN KEY(matchKey) REFERENCES matches(key),
+            FOREIGN KEY(scouterName) REFERENCES scouters(name)
+        );`
 
-// db.serialize(() => {
-//   db.run('DROP TABLE IF EXISTS `data`', ((err) => {if (err){console.log(`dropData ${err}`)}}))
-//   db.run(createData, ((err) => {if (err){console.log(`createData ${err}`)}}))
+db.serialize(() => {
+  db.run('DROP TABLE IF EXISTS `data`', ((err) => {if (err){console.log(`dropData ${err}`)}}))
+  db.run(createData, ((err) => {if (err){console.log(`createData ${err}`)}}))
 
-// })
+})
 
 // let data = fs.readFileSync(`${__dirname}/scouters/./scouters.json`, 'utf8', (err) => {
 //   if (err) {
@@ -163,9 +163,14 @@ const fs = require('fs')
 //   console.log(data.scouters[i].name)
 // }
 
-var createMatches = `CREATE TABLE matches (key PRIMARY KEY, gameKey TEXT ONLY NOT NULL, matchNumber INTEGER, teamKey TEXT ONLY, matchType TEXT ONLY NOT NULL, UNIQUE (gameKey, teamKey, matchType, matchNumber), FOREIGN KEY(gameKey) REFERENCES tournaments(key), FOREIGN KEY(teamKey) REFERENCES teams(key));`
+// var creMatches = `CREATE TABLE matches (key PRIMARY KEY, gameKey TEXT ONLY NOT NULL, matchNumber INTEGER, teamKey TEXT ONLY, matchType TEXT ONLY NOT NULL, UNIQUE (gameKey, teamKey, matchType, matchNumber), FOREIGN KEY(gameKey) REFERENCES tournaments(key), FOREIGN KEY(teamKey) REFERENCES teams(key));`
 
-db.serialize(() => {
-  db.run('DROP TABLE IF EXISTS `matches`', ((err) => {if (err){console.log(`dropMatches ${err}`)}}))
-  db.run(createMatches, ((err) => {if (err){console.log(`createMatches ${err}`)}}))
-})
+// db.serialize(() => {
+//   db.run('DROP TABLE IF EXISTS `matches`', ((err) => {if (err){console.log(`dropMatches ${err}`)}}))
+//   db.run(createMatches, ((err) => {if (err){console.log(`createMatches ${err}`)}}))
+// })eateMatches = `CREATE TABLE matches (key PRIMARY KEY, gameKey TEXT ONLY NOT NULL, matchNumber INTEGER, teamKey TEXT ONLY, matchType TEXT ONLY NOT NULL, UNIQUE (gameKey, teamKey, matchType, matchNumber), FOREIGN KEY(gameKey) REFERENCES tournaments(key), FOREIGN KEY(teamKey) REFERENCES teams(key));`
+
+// db.serialize(() => {
+//   db.run('DROP TABLE IF EXISTS `matches`', ((err) => {if (err){console.log(`dropMatches ${err}`)}}))
+//   db.run(createMatches, ((err) => {if (err){console.log(`createMatches ${err}`)}}))
+// })

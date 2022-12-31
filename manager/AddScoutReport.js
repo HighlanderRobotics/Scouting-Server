@@ -9,15 +9,21 @@ class AddScoutReport extends Manager {
     }
 
     runTask(teamKey, tournamentKey, data) {
-        var sql = `
-        SELECT * FROM matches WHERE
-            teamKey = '${teamKey}' AND
-            gameKey = '${tournamentKey}' AND
-            matchNumber = ${data.matchNumber}
+        let localMatchKey = `${tournamentKey}_${data.matchKey}`
+        // console.log(localMatchKey)
+        // console.log(teamKey)
+        // console.log(tournamentKey)
+        let sql = `
+        SELECT * FROM matches 
+        WHERE
+            teamKey = '${teamKey}'
+            AND gameKey = '${tournamentKey}'
+            AND SUBSTRING(key, 1, LENGTH(key)-1) = '${localMatchKey}_'
         `
 
         return new Promise((resolve, reject) => {
             Manager.db.get(sql, (err, match) => {
+                // console.log(match)
                 if (err) {
                     console.error(err)
                     reject(err)
@@ -36,7 +42,6 @@ class AddScoutReport extends Manager {
                 } else {
                     console.log(`Couldn't find match for:`)
                     console.log(data)
-                    console.log(teamKey)
                     reject(`Match doesn't exist`)
                 }
             })
@@ -53,13 +58,13 @@ class AddScoutReport extends Manager {
     }
 
     async insertData(matchKey, data) {
-        var insert = `INSERT INTO data (uuid, matchKey, scouterId, defenseQuality, defenseQuantity, startTime, scoutReport, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+        var insert = `INSERT INTO data (uuid, matchKey, scouterName, defenseQuality, defenseQuantity, startTime, scoutReport, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
         
         // Rename game to competition
         try {
             var constantData = {
                 uuid: data.uuid,
-                scouterId: data.scouterId,
+                scouterName: data.scouterName,
                 defenseQuality: data.overallDefenseRating,
                 defenseQuantity: data.defenseFrequencyRating,
                 startTime: data.startTime,
@@ -77,7 +82,7 @@ class AddScoutReport extends Manager {
                 && key !== 'competitionKey'
                 && key !== 'matchNumber'
                 && key !== 'teamNumber'
-                && key !== 'scouterId'
+                && key !== 'scouterName'
                 && key !== 'startTime'
                 && key !== 'defenseFrequencyRating'
                 && key !== 'overallDefenseRating'
@@ -90,7 +95,7 @@ class AddScoutReport extends Manager {
 
 
         return new Promise((resolve, reject) => {
-            Manager.db.run(insert, [constantData.uuid, matchKey, constantData.scouterId, constantData.defenseQuality, constantData.defenseQuantity, constantData.startTime, JSON.stringify(gameDependent), constantData.notes], (err) => {
+            Manager.db.run(insert, [constantData.uuid, matchKey, constantData.scouterName, constantData.defenseQuality, constantData.defenseQuantity, constantData.startTime, JSON.stringify(gameDependent), constantData.notes], (err) => {
                 if (err) {
                     reject(err)
                 } else {
