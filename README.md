@@ -85,7 +85,7 @@ Returns completed analyses as a list
 -----------------------------------------------------------------
 ## Database Manager
 
-## POST /API/manager/addScoutRport
+## POST /API/manager/addScoutReport
 Will accept if a teamKey, tournamentKey, and data
 ```json
 {
