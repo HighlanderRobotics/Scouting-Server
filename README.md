@@ -380,6 +380,11 @@ sinceTime is optional but will use epoch in milis
 ]
 ```
 
+## GET /API/manager/newScouter?scouterName=test&scouterNumber=4154154155&scouterEmail=asdf@gmail.com
+Due to this command editing the scouters.json file, it will forcibly restart the server. Unless we have paid ngrok the link will change
+
+### Will return: Response code 200
+
 -----------------------------------------------------------------
 
 # TODO

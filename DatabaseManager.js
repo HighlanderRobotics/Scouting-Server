@@ -5,7 +5,7 @@ const InitServer = require('./manager/InitServer.js')
 const ResetAndPopulate = require('./manager/ResetAndPopulate.js')
 // const AddAPITeams = require('./manager/AddAPITeams.js')
 const AddAPITournaments = require('./manager/AddAPITournaments.js')
-// const AddScouters = require('./manager/AddScouters.js')
+const AddScouters = require('./manager/AddScouters.js')
 const AddTournamentMatches = require('./manager/AddTournamentMatches.js')
 const IsScouted = require('./manager/IsScouted.js')
 const GetScouters = require('./manager/GetScouters.js')
@@ -14,6 +14,7 @@ const UpdateScoutersSchedule = require('./manager/UpdateScoutersSchedule.js')
 const GetMatches = require('./manager/GetMatches.js')
 const IsMatchesScouted = require('./manager/IsMatchesScouted.js')
 const GetAllNotes = require('./manager/GetAllNotes.js')
+const NewScouter = require('./manager/NewScouter.js')
 
 class DatabaseManager {
     constructor() {
@@ -42,9 +43,9 @@ class DatabaseManager {
                 case AddAPITournaments.name:
                     resolve(await new AddAPITournaments().runTask(body.year))
                     break
-                // case AddScouters.name:
-                //     resolve(await new AddScouters().runTask())
-                //     break
+                case AddScouters.name:
+                    resolve(await new AddScouters().runTask())
+                    break
                 case AddTournamentMatches.name:
                     resolve(await new AddTournamentMatches().runTask(body.tournamentName, body.tournamentDate))
                     break
@@ -68,6 +69,9 @@ class DatabaseManager {
                     break
                 case GetAllNotes.name:
                     resolve(await new GetAllNotes().runTask(body.teamKey, body.sinceTime))
+                    break
+                case NewScouter.name:
+                    resolve(await new NewScouter().runTask(body.scouterName, body.scouterNumber, body.scouterEmail))
                     break
                 default:
                     reject(`${task} is not a task`)

@@ -1,7 +1,7 @@
 const Manager = require('./Manager.js')
 
 class AddScouters extends Manager {
-    static name = "AddScouters"
+    static name = "addScouters"
 
     constructor() {
         super()
@@ -10,10 +10,12 @@ class AddScouters extends Manager {
     async runTask() {
         var sql = `INSERT INTO scouters (name) VALUES (?)`
 
-        // Will eventually read from a file, is temporary until I get a full team list
-        var scouters = ["Barry B Benson", "Jacob Trentini", "Collin Cameron", "Alex Ware", "Jasper Tripp"]
+        console.log('here')
+        let scouters = fs.readFile(`${__dirname}/../scouters/./scouters.json`, 'utf8').scouters
 
-        await this.runInsertScouters()
+        console.log('here')
+        
+        await this.runInsertScouters(scouters)
         .catch(err => {
             if (err) {
                 console.error(`Error with inserting Scouters: ${err}`)
@@ -26,7 +28,7 @@ class AddScouters extends Manager {
         })
     }
     
-    async runInsertScouters() {
+    async runInsertScouters(scouters) {
         for (var i = 0; i < scouters.length; i++) {
             await this.insertScouter(sql, scouters, i)
             .catch((err) => {
