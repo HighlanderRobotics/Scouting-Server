@@ -3,7 +3,7 @@
 const Manager = require('./manager/dbmanager')
 
 const test = require('./analysis/overview')
-var x = new test(Manager.db, 8033, 2022)
+var x = new test(Manager.db, 4499)
 x.runAnalysis()
 let done = x.finalizeResults()
 setTimeout(function() {

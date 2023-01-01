@@ -3,11 +3,11 @@ const BaseAnalysis = require('./BaseAnalysis.js')
 class cargoCount extends BaseAnalysis {
     static name = `cargoCount`
 
-    constructor(db, team, start, end) {
+    constructor(db, team) {
         super(db)
         this.team = team
-        this.start = start
-        this.end = end
+        // this.start = start
+        // this.end = end
         this.teamKey = "ftc" + team
         this.result = 0
         
@@ -18,23 +18,24 @@ class cargoCount extends BaseAnalysis {
         return new Promise(async function(resolve, reject)
         {
             //why does await not work when it works in  bestAverageForMetric
-                var sql = `SELECT scoutReport.events
+                var sql = `SELECT scoutReport
                 FROM data
-            JOIN (SELECT matches.key
-                FROM matches 
-                JOIN teams ON teams.key = matches.teamKey
-                WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
-            WHERE data.startTime BETWEEN COALESCE(?, (SELECT MIN(startTime) FROM data)) AND COALESCE(?, (SELECT MAX(startTime) FROM data))
-            ORDER BY data.startTime ASC`;
-                a.db.all(sql, [a.team, a.start, a.end], (err, rows) =>
+                JOIN (SELECT matches.key, matches.matchNumber
+                    FROM matches 
+                    JOIN teams ON teams.key = matches.teamKey
+                    WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
+              `
+              let len = 0
+              let makes = 0
+                a.db.all(sql, [a.team], (err, rows) =>
                 {
-                    let len = 0
-                    let makes = 0
+                    
+
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array){
-                       
-                        for (let [subArr] of row.entries()) {
-                            
+                        let curr = JSON.parse(row.scoutReport).events
+                        for(var i = 0; i < curr.length; i++) {
+                            let subArr = curr[i]
                             if (subArr[1] === 0) {
                               makes++
                             
@@ -44,8 +45,10 @@ class cargoCount extends BaseAnalysis {
                        
 
                     }
-                    resolve(makes/len)  
+                    resolve(makes/len)
                 }) 
+            
+                
                               
                 })
                 .catch((err) => {
@@ -62,14 +65,11 @@ class cargoCount extends BaseAnalysis {
     runAnalysis()
     {
         let a = this
-        return new Promise(function (resolve, reject)
+        return new Promise(async function (resolve, reject)
         {
-            var temp =  a.getCount().catch((err) => {
-                if (err) {
-                    return err
-                }
-            })  
-            a.result = temp      
+            var temp =  await a.getCount()
+            a.result = temp   
+            console.log(a.result)   
             resolve("done")    
         })
         

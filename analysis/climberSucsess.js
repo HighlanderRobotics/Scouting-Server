@@ -3,12 +3,12 @@ const BaseAnalysis = require('./BaseAnalysis.js')
 class climberSucsess extends BaseAnalysis {
     static name = `climberSucsess`
 
-    constructor(db, team, start, end) {
+    constructor(db, team) {
         super(db)
         this.team = team
         this.teamKey = "ftc" + team
-        this.start = start
-        this.end = end
+        // this.start = start
+        // this.end = end
         this.result = 0
         
     }
@@ -18,18 +18,15 @@ class climberSucsess extends BaseAnalysis {
         return new Promise(async(resolve, reject) =>
         {
             //why does await not work when it works in  bestAverageForMetric
-           
-            var sql = `SELECT COUNT(*)
-                FROM data
-                WHERE (data.scoutReport = 1 OR data.scoutReport = 0)
+            var sql = `SELECT scoutReport
+                    FROM data
                 JOIN (SELECT matches.key, matches.matchNumber
                     FROM matches 
                     JOIN teams ON teams.key = matches.teamKey
                     WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
-                WHERE data.startTime BETWEEN COALESCE(?, (SELECT MIN(startTime) FROM data)) AND COALESCE(?, (SELECT MAX(startTime) FROM data))
-                ORDER BY data.startTime ASC`;
+                `;
             let failed = 0
-            this.db.all(sql, [a.team, a.start, a.end], (err, row) =>
+            this.db.all(sql, [a.team], (err, rows) =>
             {
                 if(err)
                 {
@@ -37,19 +34,26 @@ class climberSucsess extends BaseAnalysis {
                 }
                 else
                 {
-                    failed = row[0]
+                    rows.forEach(functionAdder);
+                    function functionAdder(row, index, array){
+                        let curr = JSON.parse(row.scoutReport).challengeResult
+                            if(curr === 0 || curr === 1)
+                            {
+                                failed++
+                            }
+                        
+                    }
                 }
             })
             let all = 0
-            var sql2 = `SELECT COUNT(*)
+            var sql2 = `SELECT COUNT(*) as count
             FROM data
             JOIN (SELECT matches.key, matches.matchNumber
                 FROM matches 
                 JOIN teams ON teams.key = matches.teamKey
                 WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
-            WHERE data.startTime BETWEEN COALESCE(?, (SELECT MIN(startTime) FROM data)) AND COALESCE(?, (SELECT MAX(startTime) FROM data))
-            ORDER BY data.startTime ASC`;
-            this.db.all(sql2, [a.team, a.start, a.end], (err, row) =>
+          `;
+            this.db.all(sql2, [a.team], (err, row) =>
             {
                 if(err)
                 {
@@ -57,9 +61,12 @@ class climberSucsess extends BaseAnalysis {
                 }
                 else
                 {
-                    all = row[0]
+                    console.log(row)
+                    all = row[0].count
                 }
             })
+
+            console.log(all)
             resolve(1 - (failed/all))
                 
 
@@ -78,14 +85,11 @@ class climberSucsess extends BaseAnalysis {
     {
         let a = this
 
-        return new Promise(function (resolve, reject)
+        return new Promise(async function (resolve, reject)
         {
-            var temp = a.getData().catch((err) => {
-                if (err) {
-                    return err
-                }
-            })  
-            a.result = temp      
+            var temp = await a.getData()
+            a.result = temp    
+            console.log(temp)  
             resolve("done")    
         })
         

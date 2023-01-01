@@ -1,4 +1,3 @@
-// const BaseAnalysis = require('./BaseAnalysis.js')
 const BaseAnalysis = require('./BaseAnalysis.js')
 
 class defenseQuality extends BaseAnalysis {
@@ -17,18 +16,18 @@ class defenseQuality extends BaseAnalysis {
         return new Promise(async function(resolve, reject)
         {
             let sql = `SELECT SUM(defenseQuality) AS dSum, COUNT(*) AS size
-            FFROM data
+            FROM data
             JOIN (SELECT matches.key
                 FROM matches 
                 JOIN teams ON teams.key = matches.teamKey
                 WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
-          `
-            a.db.all(sql, [a.team], (err, row)=>{
+            WHERE data.startTime BETWEEN COALESCE(?, (SELECT MIN(startTime) FROM data)) AND COALESCE(?, (SELECT MAX(startTime) FROM data))
+            ORDER BY data.startTime ASC`
+            a.db.all(sql, [a.team, a.start, a.end], (err, row)=>{
                 if(err)
                 {
                     reject(err)
                 }
-                console.log(a.team)
                 let temp = row[0].dSum / row[0].size
                 a.result = temp
                 resolve(temp)
@@ -37,17 +36,16 @@ class defenseQuality extends BaseAnalysis {
     }
     runAnalysis()
     {
-        let a = this
-
         return new Promise(async (resolve, reject) =>
         {
-            var temp = a.getDefenseQuality().catch((err) => {
+            let a = this
+            var temp = await a.getDefenseQuality().catch((err) => {
                 if (err) {
                     return err
                 }
             })  
-            a.result = temp    
-            resolve("done")
+            a.result = temp  
+            resolve("done")        
         })
         
     }

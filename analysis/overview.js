@@ -14,10 +14,10 @@ const cargoCount = require('./cargoCount.js')
 const cargoAccuracy = require('./cargoAccuracy.js')
 const averageScore = require('./averageScore.js')
 
-const { i } = require('mathjs')
+// const { i } = require('mathjs')
 
 
-
+//2022cc_qm3_2	
 
 
 class overview extends BaseAnalysis {
@@ -52,7 +52,7 @@ class overview extends BaseAnalysis {
             var note = new notes(a.db, a.team)
                 await note.runAnalysis()
                 result.notes = note.finalizeResults()
-            var accuracy = new cargoAccuracy(a.ab, a.team)
+            var accuracy = new cargoAccuracy(a.db, a.team)
                 await accuracy.runAnalysis()
                 result.cargoAccuracy = accuracy.finalizeResults()
             var ballCount = new cargoCount(a.db, a.team)

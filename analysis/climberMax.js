@@ -19,48 +19,47 @@ class climberMax extends BaseAnalysis {
         {
             //why does await not work when it works in  bestAverageForMetric
            
-            var sql = `SELECT MAX(scoutReport.challengeResult)
+            var sql = `SELECT scoutReport
                 FROM data
                 JOIN (SELECT matches.key, matches.matchNumber
                     FROM matches 
                     JOIN teams ON teams.key = matches.teamKey
                     WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
-                WHERE data.startTime BETWEEN COALESCE(?, (SELECT MIN(startTime) FROM data)) AND COALESCE(?, (SELECT MAX(startTime) FROM data))
-                ORDER BY data.startTime ASC`;
-            this.db.all(sql, [a.team, a.start, a.end], (err, row) =>
+              `
+            a.db.all(sql, [a.team], (err, rows) =>
             {
                 if(err)
                 {
+                    console.log(err)
                     reject(err)
                 }
                 else
                 {
-                    resolve(row[0])
-                }
-            })
+                    // console.log(row)
+
+                    let max = 0
+                    rows.forEach(functionAdder);
+                    function functionAdder(row, index, array){
+                        let curr = JSON.parse(row.scoutReport)
+                        if(curr.challengeResult > max)
+                        {
+                            max = curr.challengeResult
+                        }
+                       
+                    }
+            }
                 
 
         })
-        .catch((err) => {
-            if (err) {
-                return err
-            }
-        })
-        .then((data) => {
-            // console.log(data)
-            return data
-        })
+        
+    })
     }
     runAnalysis()
     {
         let a = this
         return new Promise(async (resolve, reject) =>
         {
-            var temp = await a.getClimberMax().catch((err) => {
-                if (err) {
-                    return err
-                }
-            })  
+            var temp = await a.getClimberMax()
             a.result = temp      
             resolve("done")    
         })
