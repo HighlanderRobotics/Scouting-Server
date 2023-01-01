@@ -22,21 +22,22 @@ class ResetAndPopulate extends Manager {
         CREATE TABLE data (
             uuid PRIMARY KEY,
             matchKey INTEGER NOT NULL, 
-            scouterId TEXT ONLY VARCHAR(25) NOT NULL,
+            scouterName TEXT ONLY VARCHAR(25) NOT NULL,
             defenseQuality INTEGER NOT NULL,
             defenseQuantity INTEGER NOT NULL, 
             startTime INTEGER NOT NULL,
             scoutReport VARCHAR(5000),
             notes BLOB VARCHAR (250),
-            UNIQUE (matchKey, scouterId, scoutReport), 
+            UNIQUE (matchKey, scouterName, scoutReport), 
             FOREIGN KEY(matchKey) REFERENCES matches(key),
-            FOREIGN KEY(scouterId) REFERENCES scouters(id)
+            FOREIGN KEY(scouterName) REFERENCES scouters(id)
         );`
 
         var createScouters = `
         CREATE TABLE scouters (
             name TEXT ONLY PRIMARY KEY,
             phoneNumber INTEGER,
+            email VARCHAR(100),
             UNIQUE (name)
         )`
         return new Promise((resolve, reject) => {
@@ -166,14 +167,13 @@ class ResetAndPopulate extends Manager {
     }
 
     async getScouters() {
-        let sql = `INSERT INTO scouters (name, phoneNumber) VALUES (?,?)`
+        let sql = `INSERT INTO scouters (name, phoneNumber, email) VALUES (?,?,?)`
 
-        // Will eventually read from a file, is temporary until I get a full team list
         var scouters = getScouters()
 
         async function insertScouter(sql, scout, i) {
             return new Promise((resolve, reject) => {
-                Manager.db.run(sql, [scout.name, scout.number], (err) => {
+                Manager.db.run(sql, [scout.name, scout.number, scout.email], (err) => {
                     if (err) {
                         console.error(`Error inserting scouters: ${err}`)
                         reject(`Error inserting scouters: ${err}`)

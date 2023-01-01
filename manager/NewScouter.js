@@ -33,9 +33,9 @@ class NewScouter extends Manager {
     
                     fs.writeFile(`${__dirname}/../scouters/./scouters.json`, data, () => {console.log('Updated the file')})
 
-                    let sql = `INSERT INTO scouters (name, phoneNumber) VALUES (?, ?)`
+                    let sql = `INSERT INTO scouters (name, phoneNumber, email) VALUES (?, ?, ?)`
 
-                    Manager.db.run(sql, [scouterName, scouterNumber], (err) => {
+                    Manager.db.run(sql, [scouterName, scouterNumber, scouterEmail], (err) => {
                         if (err) {
                             throw new Error(err)
                         }

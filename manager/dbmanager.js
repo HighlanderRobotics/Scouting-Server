@@ -52,12 +52,12 @@ class Manager {
         `
 
         async function insertData(matchKey, data) {
-            var insert = `INSERT INTO data (matchKey, scouterId, defenseQuality, defenseQuantity, startTime, scoutReport, notes) VALUES (?, ?, ?, ?, ?, ?, ?)`
+            var insert = `INSERT INTO data (matchKey, scouterName, defenseQuality, defenseQuantity, startTime, scoutReport, notes) VALUES (?, ?, ?, ?, ?, ?, ?)`
             
             // Rename game to competition
             try {
                 var constantData = {
-                    scouterId: data.constantData.scouterId,
+                    scouterName: data.constantData.scouterName,
                     defenseQuality: data.constantData.defenseQuality,
                     defenseQuantity: data.constantData.defenseQuantity,
                     startTime: data.constantData.startTime,
@@ -71,14 +71,14 @@ class Manager {
             var gameDependent = {}
 
             for (var key of Object.keys(data)) {
-                if (key !== `scouterId` && key !== 'defense' && key !== 'notes' && key !== 'startTime') {
-                    gameDependent[`${key}`] = `'${JSON.stringify(data[`${key}`])}'`
+                if (key !== `scouterName` && key !== 'defense' && key !== 'notes' && key !== 'startTime') {
+                    gameDependent[key] = data[key]
                 }
             }
 
 
             return new Promise((resolve, reject) => {
-                Manager.db.run(insert, [matchKey, constantData.scouterId, constantData.defenseQuality, constantData.defenseQuantity, constantData.startTime, JSON.stringify(gameDependent), constantData.notes], (err) => {
+                Manager.db.run(insert, [matchKey, constantData.scouterName, constantData.defenseQuality, constantData.defenseQuantity, constantData.startTime, JSON.stringify(gameDependent), constantData.notes], (err) => {
                     if (err) {
                         reject(err)
                     } else {
@@ -136,22 +136,22 @@ class Manager {
         CREATE TABLE data (
             uuid PRIMARY KEY,
             matchKey INTEGER NOT NULL, 
-            scouterId TEXT ONLY VARCHAR(25) NOT NULL,
+            scouterName TEXT ONLY VARCHAR(25) NOT NULL,
             defenseQuality INTEGER NOT NULL,
             defenseQuantity INTEGER NOT NULL, 
             startTime INTEGER NOT NULL,
             scoutReport VARCHAR(5000),
             notes BLOB VARCHAR (250),
-            UNIQUE (matchKey, scouterId, scoutReport), 
+            UNIQUE (matchKey, scouterName, scoutReport), 
             FOREIGN KEY(matchKey) REFERENCES matches(key),
-            FOREIGN KEY(scouterId) REFERENCES scouters(id)
+            FOREIGN KEY(scouterName) REFERENCES scouters(id)
         );`
 
         var createScouters = `
         CREATE TABLE scouters (
-            id INTEGER PRIMARY KEY,
-            name TEXT ONLY NOT NULL,
+            name TEXT ONLY PRIMARY KEY,
             phoneNumber INTEGER,
+            email VARCHAR(100),
             UNIQUE (name, phoneNumber)
         )`
         

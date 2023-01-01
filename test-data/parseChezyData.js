@@ -29,7 +29,7 @@ let run = async () => {
                 competitionKey: tournamentKey,
                 
                 uuid: i,
-                scouterId: 1,
+                scouterName: 'Joe',
                 matchNumber: parseInt(data.matchNumber),
                 defenseFrequencyRating: parseInt(data.defense),
                 overallDefenseRating: parseInt(data.defense),

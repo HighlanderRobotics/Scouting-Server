@@ -65,7 +65,7 @@ class DatabaseManager {
                     resolve(await new GetMatches().runTask(body))
                     break
                 case IsMatchesScouted.name:
-                    resolve(await new IsMatchesScouted().runTask(body.tournamentKey, body.scouterId, body.matchKeys))
+                    resolve(await new IsMatchesScouted().runTask(body.tournamentKey, body.scouterName, body.matchKeys))
                     break
                 case GetAllNotes.name:
                     resolve(await new GetAllNotes().runTask(body.teamKey, body.sinceTime))

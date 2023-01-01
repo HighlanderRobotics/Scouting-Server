@@ -8,14 +8,12 @@ class AddScouters extends Manager {
     }
 
     async runTask() {
-        var sql = `INSERT INTO scouters (name) VALUES (?)`
+        let sql = `INSERT INTO scouters (name, phoneNumber, email) VALUES (?,?,?)`
 
-        console.log('here')
-        let scouters = fs.readFile(`${__dirname}/../scouters/./scouters.json`, 'utf8').scouters
+        var scouters = this.getScouters()
 
-        console.log('here')
-        
-        await this.runInsertScouters(scouters)
+
+        await this.runInsertScouters()
         .catch(err => {
             if (err) {
                 console.error(`Error with inserting Scouters: ${err}`)
@@ -25,24 +23,17 @@ class AddScouters extends Manager {
         .then(() => {
             console.log(`Finished inserting Scouters`)
             return
-        })
+        }) 
     }
     
-    async runInsertScouters(scouters) {
-        for (var i = 0; i < scouters.length; i++) {
-            await this.insertScouter(sql, scouters, i)
-            .catch((err) => {
-                if (err) {
-                    console.log(`Error with inserting scouter: ${err}`)
-                    reject(err)
-                }
-            })
-        }
+    getScouters() {
+        let data = JSON.parse(fs.readFileSync(`${__dirname}/../scouters/./scouters.json`, 'utf8'))
+        return data.scouters
     }
 
-    async insertScouter(sql, scouters, i) {
+    async insertScouter(sql, scout, i) {
         return new Promise((resolve, reject) => {
-            Manager.db.run(sql, [scouters[i]], (err) => {
+            Manager.db.run(sql, [scout.name, scout.number, scout.email], (err) => {
                 if (err) {
                     console.error(`Error inserting scouters: ${err}`)
                     reject(`Error inserting scouters: ${err}`)
@@ -51,6 +42,19 @@ class AddScouters extends Manager {
                 }
             })
         })
+    }
+
+    async runInsertScouters() {
+        for (var i = 0; i < scouters.length; i++) {
+            // console.log(scouters[i])
+            await this.insertScouter(sql, scouters[i], i)
+            .catch((err) => {
+                if (err) {
+                    console.log(`Error with inserting scouter: ${err}`)
+                    reject(err)
+                }
+            })
+        }
     }
 }
 

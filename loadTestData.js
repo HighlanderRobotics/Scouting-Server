@@ -1,4 +1,4 @@
-//for testing needs to be fixed
+//for testing, does not work
 
 const xxx = require('./manager/AddScoutReport')
 let x = new xxx()

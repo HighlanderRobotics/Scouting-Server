@@ -130,25 +130,25 @@ const fs = require('fs')
 //   console.log(`${key.num}: ${value}`)
 // })
 
-var createData = `
-        CREATE TABLE data (
-            uuid PRIMARY KEY,
-            matchKey NOT NULL, 
-            scouterName TEXT ONLY VARCHAR(25) NOT NULL,
-            defenseQuality INTEGER NOT NULL,
-            defenseQuantity INTEGER NOT NULL, 
-            startTime INTEGER NOT NULL,
-            scoutReport VARCHAR(5000),
-            notes BLOB VARCHAR (250),
-            UNIQUE (matchKey, scouterName, scoutReport), 
-            FOREIGN KEY(matchKey) REFERENCES matches(key),
-            FOREIGN KEY(scouterName) REFERENCES scouters(name)
-        );`
+// var createData = `
+//         CREATE TABLE data (
+//             uuid PRIMARY KEY,
+//             matchKey NOT NULL, 
+//             scouterName TEXT ONLY VARCHAR(25) NOT NULL,
+//             defenseQuality INTEGER NOT NULL,
+//             defenseQuantity INTEGER NOT NULL, 
+//             startTime INTEGER NOT NULL,
+//             scoutReport VARCHAR(5000),
+//             notes BLOB VARCHAR (250),
+//             UNIQUE (matchKey, scouterName, scoutReport), 
+//             FOREIGN KEY(matchKey) REFERENCES matches(key),
+//             FOREIGN KEY(scouterName) REFERENCES scouters(name)
+//         );`
 
-db.serialize(() => {
-  db.run('DROP TABLE IF EXISTS `data`', ((err) => {if (err){console.log(`dropData ${err}`)}}))
-  db.run(createData, ((err) => {if (err){console.log(`createData ${err}`)}}))
-})
+// db.serialize(() => {
+//   db.run('DROP TABLE IF EXISTS `data`', ((err) => {if (err){console.log(`dropData ${err}`)}}))
+//   db.run(createData, ((err) => {if (err){console.log(`createData ${err}`)}}))
+// })
 
 // let data = fs.readFileSync(`${__dirname}/scouters/./scouters.json`, 'utf8', (err) => {
 //   if (err) {

@@ -7,13 +7,13 @@ class IsMatchesScouted extends Manager {
         super()
     }
     
-    runTask(tournamentKey, scouterId, matchKeys) {
+    runTask(tournamentKey, scouterName, matchKeys) {
         let a = this
 
         matchKeys = JSON.parse(matchKeys)
 
         return new Promise(async (resolve, reject) => {
-            let data = await a.getData(tournamentKey, scouterId, matchKeys)
+            let data = await a.getData(tournamentKey, scouterName, matchKeys)
             .catch((err) => {
                 if (err) {
                     reject(err)
@@ -26,8 +26,8 @@ class IsMatchesScouted extends Manager {
 
             for (let i = 0; i < matchKeys.length; i++) {
                 for (let j = 0; j < data.length; j++) {
-                    // console.log(data[j].scouterId + " " + data[j].matchKey)
-                    if (exists && data[j].scouterId == scouterId && data[j].matchKey.includes(`${matchKeys[i]}_`)) {
+                    // console.log(data[j].scouterName + " " + data[j].matchKey)
+                    if (exists && data[j].scouterName == scouterName && data[j].matchKey.includes(`${matchKeys[i]}_`)) {
                         returnVals.push({
                             "matchKey": matchKeys[i],
                             "specificMatchKey": data[j].matchKey,
@@ -60,12 +60,12 @@ class IsMatchesScouted extends Manager {
         })
     }
 
-    getData(tournamentKey, scouterId, matchKeys) {
+    getData(tournamentKey, scouterName, matchKeys) {
         let sql = `SELECT * FROM matches
         LEFT JOIN data ON matches.key = data.matchKey
-        LEFT JOIN scouters ON data.scouterId = scouters.id
+        LEFT JOIN scouters ON data.scouterName = scouters.name
         WHERE matches.gameKey = '${tournamentKey}'
-        AND data.ScouterId = ${scouterId}
+        AND data.scouterName = ${scouterName}
         AND (`
         
         for (let i = 0; i < matchKeys.length; i++) {

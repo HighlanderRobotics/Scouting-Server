@@ -93,7 +93,7 @@ Will accept if a teamKey, tournamentKey, and data
   "competitionKey": "2022cc",
   "matchNumber": 1,
   "teamNumber": 254,
-  "scouterId": 5,
+  "scouterName": 5,
   "startTime": 1671755981764,
   "defenseFrequencyRating": 4,
   "overallDefenseRating": 2,
@@ -347,7 +347,7 @@ If the name is null then it means there's a scoutreport missing for that matchKe
 ]
 ```
 
-## GET /API/manager/isMatchesScouted?tournamentKey=2022cc&scouterId=34&matchKeys=["2022cc_qm1", "2022cc_qm2", "2022cc_qm3"]
+## GET /API/manager/isMatchesScouted?tournamentKey=2022cc&scouterName=Jacob Trentini&matchKeys=["2022cc_qm1", "2022cc_qm2", "2022cc_qm3"]
 
 ### Will return: Response code 200
 ```json

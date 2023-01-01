@@ -43,7 +43,7 @@ class IsScouted extends Manager {
     async getMatchKeys(tournamentKey, matchKey) {
         let sql = `SELECT matches.key, name FROM matches
             LEFT JOIN data ON matches.key = data.matchKey
-            LEFT JOIN scouters ON data.scouterId = scouters.id
+            LEFT JOIN scouters ON data.scouterName = scouters.name
             WHERE matches.gameKey = '${tournamentKey}'
             AND INSTR(matches.key, '${matchKey}_')
             `
