@@ -148,7 +148,6 @@ var createData = `
 db.serialize(() => {
   db.run('DROP TABLE IF EXISTS `data`', ((err) => {if (err){console.log(`dropData ${err}`)}}))
   db.run(createData, ((err) => {if (err){console.log(`createData ${err}`)}}))
-
 })
 
 // let data = fs.readFileSync(`${__dirname}/scouters/./scouters.json`, 'utf8', (err) => {
@@ -174,3 +173,71 @@ db.serialize(() => {
 //   db.run('DROP TABLE IF EXISTS `matches`', ((err) => {if (err){console.log(`dropMatches ${err}`)}}))
 //   db.run(createMatches, ((err) => {if (err){console.log(`createMatches ${err}`)}}))
 // })
+
+/*
+
+var createScouters = `
+        CREATE TABLE scouters (
+            name TEXT ONLY PRIMARY KEY,
+            phoneNumber INTEGER,
+            email VARCHAR(100),
+            UNIQUE (name)
+)`
+
+db.serialize(() => {
+  db.run('DROP TABLE IF EXISTS `scouters`', ((err) => {if (err){console.log(`dropScouters ${err}`)}}))
+  db.run(createScouters, ((err) => {if (err){console.log(`createScouters ${err}`)}}))
+})
+
+getScouters()
+
+async function getScouters() {
+  let sql = `INSERT INTO scouters (name, phoneNumber, email) VALUES (?,?,?)`
+
+  var scouters = getScouters()
+
+  async function insertScouter(sql, scout, i) {
+      return new Promise((resolve, reject) => {
+          db.run(sql, [scout.name, scout.number, scout.email], (err) => {
+              if (err) {
+                  console.error(`Error inserting scouters: ${err}`)
+                  reject(`Error inserting scouters: ${err}`)
+              } else {
+                  resolve()
+              }
+          })
+      })
+  }
+
+  async function runInsertScouters() {
+      for (var i = 0; i < scouters.length; i++) {
+          // console.log(scouters[i])
+          await insertScouter(sql, scouters[i], i)
+          .catch((err) => {
+              if (err) {
+                  console.log(`Error with inserting scouter: ${err}`)
+                  reject(err)
+              }
+          })
+      }
+  }
+
+  await runInsertScouters()
+  .catch(err => {
+      if (err) {
+          console.error(`Error with inserting Scouters: ${err}`)
+          return(`Error with inserting Scouters: ${err}`)    
+      }
+  })
+  .then(() => {
+      console.log(`Finished inserting Scouters`)
+      return
+  })
+
+  function getScouters() {
+      let data = JSON.parse(fs.readFileSync(`${__dirname}/scouters/./scouters.json`, 'utf8'))
+      return data.scouters
+  }
+}
+*/
+// console.log(JSON.parse(`{"matchKey":"'\\"qm1\\"'","events":"'[[1004,0,1],[1124,0,1],[1236,0,1],[1375,0,1],[1509,0,1],[1890,0,0],[2020,0,0],[2148,0,0],[2279,0,0],[2396,0,0],[2869,0,0],[3013,0,0],[3141,0,0],[3283,0,0],[3435,0,0],[3732,0,2],[4194,0,2],[4344,0,2],[4470,0,2],[4607,0,2],[5053,0,3],[5198,0,3],[5341,0,3],[5515,0,3],[8793,2,5],[8943,2,5],[9406,2,5],[9630,2,5]]'","robotRole":"'0'","challengeResult":"'0'"}`))

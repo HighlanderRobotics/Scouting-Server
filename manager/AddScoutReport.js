@@ -89,7 +89,7 @@ class AddScoutReport extends Manager {
                 && key !== 'notes'
                 ) {
 
-                gameDependent[`${key}`] = `'${JSON.stringify(data[`${key}`])}'`
+                gameDependent[key] = data[key]
             }
         }
 
