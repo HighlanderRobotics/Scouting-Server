@@ -47,6 +47,8 @@ class climberMax extends BaseAnalysis {
                         }
                        
                     }
+                    resolve(max)
+
             }
                 
 
@@ -55,23 +57,30 @@ class climberMax extends BaseAnalysis {
     })
     }
     runAnalysis()
-    {
-        let a = this
-        return new Promise(async (resolve, reject) =>
         {
-            var temp = await a.getClimberMax()
-            a.result = temp      
-            resolve("done")    
-        })
-        
-    }
-    finalizeResults()
-    {
-        return { 
-            "team": this.team,
-            "result": this.result
+            return new Promise(async (resolve, reject) =>
+            {
+                // console.log("here")
+                let a = this
+                var temp = await a.getClimberMax().catch((err) => {
+                    if (err) {
 
+                        console.log(err)
+                        return err
+                    }
+                })  
+                a.result = temp  
+                resolve("done")        
+            })
+            
         }
-    }
+        finalizeResults()
+        {
+            return { 
+                "result": this.result,
+                "team": this.team
+            }
+        }
+
 }
 module.exports = climberMax

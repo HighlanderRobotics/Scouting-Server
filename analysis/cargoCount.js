@@ -62,26 +62,31 @@ class cargoCount extends BaseAnalysis {
                 })
         }
     
-    runAnalysis()
-    {
-        let a = this
-        return new Promise(async function (resolve, reject)
+        runAnalysis()
         {
-            var temp =  await a.getCount()
-            a.result = temp   
-            console.log(a.result)   
-            resolve("done")    
-        })
-        
-    }
-    finalizeResults()
-    {
-        return { 
-            "team": this.team,
-            "result": this.result
+            return new Promise(async (resolve, reject) =>
+            {
+                console.log("here")
+                let a = this
+                var temp = await a.getCount().catch((err) => {
+                    if (err) {
 
+                        console.log(err)
+                        return err
+                    }
+                })  
+                a.result = temp  
+                resolve("done")        
+            })
+            
         }
-    }
+        finalizeResults()
+        {
+            return { 
+                "result": this.result,
+                "team": this.team
+            }
+        }
 
 }
 module.exports = cargoCount

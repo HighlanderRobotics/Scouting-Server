@@ -7,6 +7,6 @@ var x = new test(Manager.db, 4499)
 x.runAnalysis()
 let done = x.finalizeResults()
 setTimeout(function() {
-    console.log(done);
+    console.log(done.result.cargoAccuracy);
   }, 2000);
   

@@ -43,9 +43,12 @@ class overview extends BaseAnalysis {
             
             //why does await not work when it works in  bestAverageForMetric
             let result = {}
+            // console.log(result)
+
             var defenseFreq = new defenseAmmount(a.db, a.team)
                 await defenseFreq.runAnalysis()
                 result.defenseQuantity = defenseFreq.finalizeResults()
+
             var defenseQaul = new defenseQuality(a.db, a.team)
                 await defenseQaul.runAnalysis()
                 result.defenseQuality = defenseQaul.finalizeResults()
@@ -59,14 +62,18 @@ class overview extends BaseAnalysis {
                 await ballCount.runAnalysis()
                 result.averageCount = ballCount.finalizeResults()
             var climber = new climberMax(a.db, a.team)
+
                 await climber.runAnalysis()
+
                 result.climberHighest = climber.finalizeResults()
             var climberS = new climberSucsess(a.db, a.team)
                 await climberS.runAnalysis()
                 result.climberSucsesses = climberS.finalizeResults()
+
             var scores = new averageScore(a.db, a.team)
                 await scores.runAnalysis()
                 result.arrayScores = scores.finalizeResults()
+
 
             resolve(result)
 
@@ -77,6 +84,7 @@ class overview extends BaseAnalysis {
         })
         .catch((err) => {
             if (err) {
+                console.log(err)
                 return err
             }
         })

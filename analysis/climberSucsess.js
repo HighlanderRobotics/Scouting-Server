@@ -83,23 +83,26 @@ class climberSucsess extends BaseAnalysis {
     }
     runAnalysis()
     {
-        let a = this
-
-        return new Promise(async function (resolve, reject)
+        return new Promise(async (resolve, reject) =>
         {
-            var temp = await a.getData()
-            a.result = temp    
-            console.log(temp)  
-            resolve("done")    
+            let a = this
+            var temp = await a.getData().catch((err) => {
+                if (err) {
+                    console.log(err)
+                    return err
+                }
+            })  
+            a.result = temp  
+            console.log("cllimber Sucsess ")
+            resolve("done")        
         })
         
     }
     finalizeResults()
     {
         return { 
-            "team": this.team,
-            "result": this.result
-
+            "result": this.result,
+            "team": this.team
         }
     }
 }

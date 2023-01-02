@@ -3,11 +3,11 @@ const BaseAnalysis = require('./BaseAnalysis.js')
 class averageScore extends BaseAnalysis {
     static name = `averageScore`
 
-    constructor(db, team, start, end) {
+    constructor(db, team) {
         super(db)
         this.team = team
-        this.start = start
-        this.end = end
+        // this.start = start
+        // this.end = end
         this.result = []
     }
     async scoresOverTime()
@@ -86,15 +86,17 @@ class averageScore extends BaseAnalysis {
     }
     runAnalysis()
     {
-        let a = this
         return new Promise(async (resolve, reject) =>
         {
-            var temp = a.scoresOverTime()
+            let a = this
+            var temp = await a.scoresOverTime().catch((err) => {
+                if (err) {
+                    return err
+                }
+            })  
             a.result = temp  
-
-            resolve(temp)        
+            resolve("done")        
         })
-    
         
     }
     finalizeResults()

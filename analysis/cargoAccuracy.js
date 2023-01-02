@@ -65,27 +65,28 @@ class cargoAccuracy extends BaseAnalysis {
                 })
         }
     
-    runAnalysis()
-    {
-        let a = this
-        return new Promise(async (resolve, reject) =>
+        runAnalysis()
         {
-
-            var temp = await a.getAccuracy()
-            a.result = temp 
-            // console.log(temp)     
-            resolve("done")    
-        })
-        
-    }
-    finalizeResults()
-    {
-        return { 
-            "team": this.team,
-            "result": this.result
-
+            return new Promise(async (resolve, reject) =>
+            {
+                let a = this
+                var temp = await a.getAccuracy().catch((err) => {
+                    if (err) {
+                        return err
+                    }
+                })  
+                a.result = temp  
+                resolve("done")        
+            })
+            
         }
-    }
+        finalizeResults()
+        {
+            return { 
+                "result": this.result,
+                "team": this.team
+            }
+        }
 
 }
 module.exports = cargoAccuracy

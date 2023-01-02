@@ -32,7 +32,7 @@ class notes extends BaseAnalysis {
                     }
                     else
                     {     
-                        console.log(rows)               
+                        // console.log(rows)               
                         a.result = rows
                         resolve(rows)
                     }
