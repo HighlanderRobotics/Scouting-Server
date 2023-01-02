@@ -26,15 +26,16 @@ const app = express()
 app.use(express.json())
 
 // ngrok
-const ngrok = require('ngrok')
-const token = process.env.NGROK_TOKEN
+// const ngrok = require('ngrok')
+// const token = process.env.NGROK_TOKEN
+// Get constant url from paid ngrok
+const url = undefined
+
 
 setup = async () => {
     const url = await ngrok.connect(4000, { 
         proto: 'http',
         addr: 4000,
-        onStatusChange: status => {console.log(status)},
-        onLogEvent: data => {console.log(data)},
         authtoken: token 
     })
     console.log(url)
@@ -91,7 +92,11 @@ app.listen(port, async () => {
     console.log(`Collection Server running on ${port}...`)
 
     // Scannable qr code with ngrok link
-    qrcode.generate(await setup())
+    // qrcode.generate(await setup())
+    if (url) {
+        qrcode.generate(url)
+    }
+    
 
     // Init server here, idk what it would init but possibly could run + cache analysis engine, all it does is turn foreign keys on
     await new DatabaseManager().runTask('InitServer', {})

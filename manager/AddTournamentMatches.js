@@ -50,14 +50,18 @@ class AddTournamentMatches extends Manager {
                                         }
                                     })
                                 } else {
+                                    // console.log("red" + response.data[i].alliances.red.team_keys)
+                                    // console.log("blue" + response.data[i].alliances.blue.team_keys)
+                                    var teams = [...response.data[i].alliances.red.team_keys, ...response.data[i].alliances.blue.team_keys]
                                     var matches = ``
                                     for (var k = 0; k < 6; k++) {
-                                        matches = matches + `('${response.data[i].key.substring(0, response.data[i].key.length-2)}_${k}', '${tournament[0].key}', ${response.data[i].key.substring(response.data[i].key.length-3, response.data[i].key.length-2)}, '${response.data[i].comp_level}'), `
+                                        // console.log(teams[k])
+                                        matches = matches + `('${response.data[i].key.substring(0, response.data[i].key.length-2)}_${k}', '${tournament[0].key}', ${response.data[i].key.substring(response.data[i].key.length-3, response.data[i].key.length-2)}, '${teams[k]}', '${response.data[i].comp_level}'), `
                                         if (k == 5) {
                                             matches = matches.substring(0, matches.length - 2)
                                         }
                                     }
-                                    var sql = `INSERT INTO matches (key, gameKey, matchNumber, matchType) VALUES ${matches}`
+                                    var sql = `INSERT INTO matches (key, gameKey, matchNumber, teamkey, matchType) VALUES ${matches}`
                                     // console.log(sql)
                                     await this.whyGodInsert(sql)
                                     .catch((err) => {

@@ -19,10 +19,21 @@ sqlite3 --version
 Npm installs
 ```
 sudo apt install npm
-npm init -y
+npm install
 ```
 
 # Setup ngrok
+
+On server startup, run the command coorespoinding to your operating system
+```
+npm run linuxstart
+npm run macstart
+npm run windowsstart
+```
+
+If the command fails, go to the built in terminal in vscode, hit the down arrow next to the plus sign, and press bash or Ubuntu (WSL). Run the linux command
+
+If both steps above fail, please let Barry know both your operating system and which command you ran. Then follow the steps below
 
 ### If ngrok isn't working on startup
 
