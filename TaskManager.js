@@ -13,6 +13,7 @@ const cargoCount = require('./analysis/cargoCount.js')
 const cargoAccuracy = require('./analysis/cargoAccuracy.js')
 const scores = require('./analysis/averageScore.js')
 const predictWinning = require('./analysis/predictWinning.js')
+const overview = require('./analysis/overview.js')
 
 class TaskManager {
 
@@ -98,6 +99,9 @@ class TaskManager {
                     break
                 case(predictWinning.name):
                     returnAnalysis.push(new predictWinning(Manager.db, task.team, task.start, task.end))
+                    break
+                case(overview.name):
+                    returnAnalysis.push(new overview(Manager.db, task.team))
                     break
                 default:
                     console.log(`${task.name} is not a valid task`)
