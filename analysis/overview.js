@@ -21,7 +21,7 @@ const averageScore = require('./averageScore.js')
 
 
 class overview extends BaseAnalysis {
-    static name = `overveiw`
+    static name = `overview`
 
     constructor(db, team) {
         super(db)
@@ -76,21 +76,6 @@ class overview extends BaseAnalysis {
 
 
             resolve(result)
-
-            
-           
-                
-
-        })
-        .catch((err) => {
-            if (err) {
-                console.log(err)
-                return err
-            }
-        })
-        .then((data) => {
-            // console.log(data)
-            return data
         })
     }
     runAnalysis()
@@ -98,13 +83,17 @@ class overview extends BaseAnalysis {
         let a = this
         return new Promise(async (resolve, reject) =>
         {
-            var temp = a.getData().catch((err) => {
-                if (err) {
-                    return err
-                }
-            })  
-            a.result = temp      
-            resolve("done")    
+            a.getData()
+                .then((data) => {
+                    a.result = data;
+                    resolve("done");
+                })
+                .catch((err) => {
+                    if (err) {
+                        reject(err);
+                        return err;
+                    }
+                });
         })
         
     }
