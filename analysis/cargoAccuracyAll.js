@@ -1,13 +1,13 @@
 const BaseAnalysis = require('./BaseAnalysis.js')
 // const Manager = require('./manager/dbmanager.js')
 
-class cargoAccuracy extends BaseAnalysis {
-    static name = `cargoAccuracy`
+class cargoAccuracyAll extends BaseAnalysis {
+    static name = `cargoAccuracyAll`
 
-    constructor(db, team) {
+    constructor(db) {
         super(db)
-        this.team = team
-        this.teamKey = "frc" + team
+        // this.team = team
+        // this.teamKey = "frc" + team
         // this.start = start
         // this.end = end
         this.result
@@ -23,10 +23,9 @@ class cargoAccuracy extends BaseAnalysis {
                 FROM data
             JOIN (SELECT matches.key
                 FROM matches 
-                JOIN teams ON teams.key = matches.teamKey
-                WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
+                JOIN teams ON teams.key = matches.teamKey) AS  newMatches ON  data.matchKey = newMatches.key
           `;
-                a.db.all(sql, [a.team], (err, rows) =>
+                a.db.all(sql, [], (err, rows) =>
                 {
                     if(err)
                     {
@@ -85,9 +84,9 @@ class cargoAccuracy extends BaseAnalysis {
         {
             return { 
                 "result": this.result,
-                "team": this.team
+                // "team": this.team
             }
         }
 
 }
-module.exports = cargoAccuracy
+module.exports = cargoAccuracyAll

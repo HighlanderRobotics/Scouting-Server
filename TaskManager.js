@@ -14,6 +14,18 @@ const cargoAccuracy = require('./analysis/cargoAccuracy.js')
 const scores = require('./analysis/averageScore.js')
 const predictWinning = require('./analysis/predictWinning.js')
 const overview = require('./analysis/overview.js')
+const positionalAccuracy = require('./analysis/positionalAccuracy.js')
+const positionalCount = require('./analysis/positionalCount.js')
+const cargoAccuracyAll = require('./analysis/cargoAccuracyAll.js')
+const cargoCountAll = require('./analysis/cargoCountAll.js')
+const defenseQualityAll = require('./analysis/defenseQualityAll.js')
+const defenseQuantityll = require('./analysis/defenseQuantityAll.js')
+const climberSucsessAll = require('./analysis/climberSucsessAll.js')
+
+
+
+
+
 
 class TaskManager {
 
@@ -103,7 +115,33 @@ class TaskManager {
                 case(overview.name):
                     returnAnalysis.push(new overview(Manager.db, task.team))
                     break
+                case(positionalAccuracy.name):
+                    returnAnalysis.push(new positionalAccuracy(Manager.db, task.team))
+                    break
+                case(positionalCount.name):
+                    returnAnalysis.push(new positionalCount(Manager.db, task.team))
+                    break
+                case(positionalCount.name):
+                    returnAnalysis.push(new positionalCount(Manager.db, task.team))
+                    break
+                case(cargoAccuracyAll.name):
+                    returnAnalysis.push(new cargoAccuracyAll(Manager.db))
+                    break
+                case(cargoCountAll.name):
+                    returnAnalysis.push(new cargoCountAll(Manager.db))
+                    break
+                case(defenseQualityAll.name):
+                    returnAnalysis.push(new defenseQualityAll(Manager.db))
+                    break
+                case(defenseQuantityll):
+                    returnAnalysis.push(new defenseQualityAll(Manager.db))
+                    break
+                 case(climberSucsessAll):
+                    returnAnalysis.push(new climberSucsessAll(Manager.db))
+                    break
+                
                 default:
+
                     console.log(`${task.name} is not a valid task`)
             }
         })
