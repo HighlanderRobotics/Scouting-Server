@@ -1,5 +1,7 @@
 require('dotenv').config()
 
+const axios = require("axios");
+
 // To connect to the database
 const sqlite = require('sqlite3').verbose()
 
@@ -25,23 +27,26 @@ const DatabaseManager = require('./DatabaseManager.js')
 const app = express()
 app.use(express.json())
 
+// Terminal QR Code
+var qrcode = require('qrcode-terminal')
+
 // ngrok
 // const ngrok = require('ngrok')
 // const token = process.env.NGROK_TOKEN
 // Get constant url from paid ngrok
-const url = undefined
+let url = undefined
 
 
 setup = async () => {
-    const url = await ngrok.connect(4000, { 
-        proto: 'http',
-        addr: 4000,
-        authtoken: token 
+    url = await axios.get('http://localhost:4040/api/tunnels')
+    .then((res) => {
+        // console.log(res.data.tunnels[0])
+        return res.data.tunnels[0].public_url
     })
     console.log(url)
-
+    
     if (url.startsWith('https://')) {
-    const https = 'https://'
+        const https = 'https://'
         return url.slice(https.length)
     }
 
@@ -52,9 +57,6 @@ setup = async () => {
 
     return url
 }
-
-// Terminal QR Code
-const qrcode = require('qrcode-terminal');
 
 // Logging stuff
 var logStream = fs.createWriteStream(path.join(`${__dirname}/logs`, `Logs_${new Date()}.log`), { flags: 'a' })
@@ -82,7 +84,8 @@ app.use(morgan('readable', {
 }))
 
 // Temporary if others want to use old endpoints for integration test day, will force changing endpoints later
-const Manager = require('./manager/dbmanager.js')
+const Manager = require('./manager/dbmanager.js');
+const { json } = require('body-parser');
 
 // Tasks map
 const uuidToTask = new Map()
@@ -92,11 +95,9 @@ app.listen(port, async () => {
     console.log(`Collection Server running on ${port}...`)
 
     // Scannable qr code with ngrok link
-    // qrcode.generate(await setup())
-    if (url) {
+    if (await setup()) {
         qrcode.generate(url)
     }
-    
 
     // Init server here, idk what it would init but possibly could run + cache analysis engine, all it does is turn foreign keys on
     await new DatabaseManager().runTask('InitServer', {})
