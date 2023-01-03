@@ -98,7 +98,7 @@ class TaskManager {
                     returnAnalysis.push(new fullyScouted(Manager.db, task.team, task.start, task.end))
                     break
                 case(predictWinning.name):
-                    returnAnalysis.push(new predictWinning(Manager.db, task.team, task.start, task.end))
+                    returnAnalysis.push(new predictWinning(Manager.db, task.red1, task.red2, task.red3, task.blue1, task.blue2, task.blue3))
                     break
                 case(overview.name):
                     returnAnalysis.push(new overview(Manager.db, task.team))
