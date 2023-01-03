@@ -42,8 +42,8 @@ class defenseQuantity extends BaseAnalysis {
                 // console.log(a.array)
 
                 
+                resolve("done")
             })
-            resolve("done")
         })
     }
     runAnalysis()

@@ -25,7 +25,7 @@ class defenseQuality extends BaseAnalysis {
                 JOIN teams ON teams.key = matches.teamKey
                 WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
             `
-            a.db.all(sql, [a.team], (err, row)=>{
+            await a.db.all(sql, [a.team], (err, row)=>{
                 if(err)
                 {
                     reject(err)
@@ -42,8 +42,8 @@ class defenseQuality extends BaseAnalysis {
                 // console.log(a.array)
 
                 
+                resolve("done")
             })
-            resolve("done")
         })
     }
     runAnalysis()
