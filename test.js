@@ -2,7 +2,7 @@
 
 const Manager = require('./manager/dbmanager')
 
-const test = require('./analysis/defenseQuality')
+const test = require('./analysis/positionalCount')
 var x = new test(Manager.db, 4499)
 x.runAnalysis()
 let done = x.finalizeResults()

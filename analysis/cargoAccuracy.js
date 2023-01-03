@@ -10,7 +10,7 @@ class cargoAccuracy extends BaseAnalysis {
         this.teamKey = "frc" + team
         // this.start = start
         // this.end = end
-        
+        this.result
         
     }
     async getAccuracy()
@@ -39,7 +39,7 @@ class cargoAccuracy extends BaseAnalysis {
                         let curr = JSON.parse(row.scoutReport).events
                         for(var i = 0; i < curr.length; i++) {
                             let subArr = curr[i]
-                            if(subArr[1] === 1)
+                            if(subArr[2] === 0)
                             {
                                 len++
                             }

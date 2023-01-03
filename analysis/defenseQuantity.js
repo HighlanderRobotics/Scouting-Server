@@ -43,6 +43,7 @@ class defenseQuantity extends BaseAnalysis {
 
                 
             })
+            resolve("done")
         })
     }
     runAnalysis()

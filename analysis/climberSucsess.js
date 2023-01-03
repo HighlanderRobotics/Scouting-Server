@@ -68,6 +68,7 @@ class climberSucsess extends BaseAnalysis {
 
             console.log(all)
             resolve(1 - (failed/all))
+            
                 
 
         })

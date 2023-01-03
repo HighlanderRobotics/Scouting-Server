@@ -1,7 +1,7 @@
 const BaseAnalysis = require('./BaseAnalysis.js')
 
 class defenseQuality extends BaseAnalysis {
-    static name = `defenseQuantity`
+    static name = `defenseQuality`
 
     constructor(db, teamKey) {
         super(db)
@@ -43,6 +43,7 @@ class defenseQuality extends BaseAnalysis {
 
                 
             })
+            resolve("done")
         })
     }
     runAnalysis()
