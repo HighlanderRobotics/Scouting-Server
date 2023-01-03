@@ -2,11 +2,11 @@
 
 const Manager = require('./manager/dbmanager')
 
-const test = require('./analysis/overview')
+const test = require('./analysis/defenseQuality')
 var x = new test(Manager.db, 4499)
 x.runAnalysis()
 let done = x.finalizeResults()
 setTimeout(function() {
-    console.log(done.result.cargoAccuracy);
+    console.log(done);
   }, 2000);
   

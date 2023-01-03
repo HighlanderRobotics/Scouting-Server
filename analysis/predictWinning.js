@@ -1,4 +1,6 @@
 const BaseAnalysis = require('./BaseAnalysis.js')
+const scores = require('./averageScore.js')
+
 const math = require('jstat')
 
 class predictWinning extends BaseAnalysis {
@@ -6,6 +8,7 @@ class predictWinning extends BaseAnalysis {
 
     constructor(db, red1, red2, red3, blue1, blue2, blue3,) {
         super(db)
+
         this.red1 = red1
         this.red2 = red2
         this.red3 = red3
@@ -23,7 +26,7 @@ class predictWinning extends BaseAnalysis {
     async getWinner()
     {
         let a = this
-        return new Promise(function(resolve, reject)
+        return new Promise(async function(resolve, reject)
         {
             if(err)
             {
@@ -31,26 +34,45 @@ class predictWinning extends BaseAnalysis {
             }
              
             
-                red1SDV = math.std(red1)
-                red2SDV = math.std(red2)
-                red3SDV = math.std(red3)
+                var score1 = new scores(a.db, a.red1)
+                await score1.runAnalysis()
+                let redArr1= score1.finalizeResults().result
+                let red1SDV = math.stdev(stdRed1)
+                var score2 = new scores(a.db, a.red2)
+                await score2.runAnalysis()
+                let redArr2= score2.finalizeResults().result
+                let red2SDV = math.stdev(stdRed2)
+                var score3 = new scores(a.db, a.red3)
+                await score3.runAnalysis()
+                let redArr3= score3.finalizeResults().result
+                let red3SDV = math.stdev(stdRed3)
+            
                 
                 
             
-                redAllianceSDV = Math.sqrt(Math.pow(red1SDV, 2) + Math.pow(red2SDV, 2) + Math.pow(red3SDV, 2))
-                redAllianceMean = getMean(red1) + getMean(red2) + getMean(red3)
+                let  redAllianceSDV = Math.sqrt(Math.pow(red1SDV, 2) + Math.pow(red2SDV, 2) + Math.pow(red3SDV, 2))
+                let redAllianceMean = getMean(redArr1) + getMean(redArr2) + getMean(redArr3)
             
-                blue1SDV = math.std(blue1)
-                blue2SDV = math.std(blue2)
-                blue3SDV = math.std(blue3)
+                var score4 = new scores(a.db, a.blue1)
+                await score4.runAnalysis()
+                let blueArr1= score4.finalizeResults().result
+                let blue1SDV = math.stdev(stdBlue1)
+                var score5 = new scores(a.db, a.blue2)
+                await score5.runAnalysis()
+                let blueArr2= score5.finalizeResults().result
+                let blue2SDV = math.stdev(stdBlue2)
+                var score3 = new scores(a.db, a.blue3)
+                await score3.runAnalysis()
+                let blueArr3= score3.finalizeResults().result
+                let blue3SDV = math.stdev(stdBlue3)
             
-                blueAllianceSDV = Math.sqrt(Math.pow(blue1SDV, 2) + Math.pow(blue3SDV, 2) + Math.pow(blue2SDV, 2))
-                blueAllianceMean = getMean(blue1) + getMean(blue2) + getMean(blue3)
+                let blueAllianceSDV = Math.sqrt(Math.pow(blue1SDV, 2) + Math.pow(blue2SDV, 2) + Math.pow(blue3SDV, 2))
+                let blueAllianceMean = getMean(blueArr1) + getMean(blueArr2) + getMean(blueArr3)
             
-                differentialSDV = Math.sqrt(Math.pow(redAllianceSDV, 2) + Math.pow(blueAllianceSDV, 2))
-                differentialMean = redAllianceMean - blueAllianceMean
+                let differentialSDV = Math.sqrt(Math.pow(redAllianceSDV, 2) + Math.pow(blueAllianceSDV, 2))
+                let differentialMean = redAllianceMean - blueAllianceMean
                 
-                redLoosing =   GetZPercent((0 - differentialMean)/ differentialSDV)
+                let redLoosing =   GetZPercent((0 - differentialMean)/ differentialSDV)
                 resolve(1- redLoosing)
             
                 

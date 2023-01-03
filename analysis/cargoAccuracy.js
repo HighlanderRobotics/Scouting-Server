@@ -10,7 +10,7 @@ class cargoAccuracy extends BaseAnalysis {
         this.teamKey = "frc" + team
         // this.start = start
         // this.end = end
-        this.result = 0
+        
         
     }
     async getAccuracy()
@@ -50,6 +50,7 @@ class cargoAccuracy extends BaseAnalysis {
                         }
                     }
                     // console.log(makes/len)
+
                     resolve(makes/len)                
                 })
                    
