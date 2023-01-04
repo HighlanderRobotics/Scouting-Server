@@ -47,11 +47,11 @@ class overview extends BaseAnalysis {
 
             var defenseFreq = new defenseAmmount(a.db, a.team)
                 await defenseFreq.runAnalysis()
-                result.defenseQuantity = defenseFreq.finalizeResults().average
+                result.defenseQuantity = defenseFreq.finalizeResults()
 
             var defenseQaul = new defenseQuality(a.db, a.team)
                 await defenseQaul.runAnalysis()
-                result.defenseQuality = defenseQaul.finalizeResults().average
+                result.defenseQuality = defenseQaul.finalizeResults()
             var note = new notes(a.db, a.team)
                 await note.runAnalysis()
                 result.notes = note.finalizeResults()
