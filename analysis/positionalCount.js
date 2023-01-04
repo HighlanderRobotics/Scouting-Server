@@ -158,7 +158,11 @@ class positionalCount extends BaseAnalysis {
         finalizeResults()
         {
             return { 
-                "result": this.result,
+                "tarmac": this.tarmac,
+                "hub": this.hub,
+                "feild": this.feild,
+                "feildEnd": this.feildEnd,
+                "launchPad": this.launchPad,
                 "team": this.team
             }
         }

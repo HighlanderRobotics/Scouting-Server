@@ -1,4 +1,6 @@
 const BaseAnalysis = require('./BaseAnalysis.js')
+const defenseQualityAll = require('./defenseQualityAll.js')
+
 
 class defenseQuality extends BaseAnalysis {
     static name = `defenseQuality`
@@ -9,6 +11,7 @@ class defenseQuality extends BaseAnalysis {
         // this.start = start
         // this.end = end
         // this.result = 0
+        this.difference = 0
         this.average = 0
         this.array = []
     }
@@ -38,6 +41,7 @@ class defenseQuality extends BaseAnalysis {
                 const sum = arr.reduce((partialSum, a) => partialSum + a, 0);
                 a.average = sum/arr.length
                 a.array = arr
+                
                 // console.log(a.average)
                 // console.log(a.array)
 

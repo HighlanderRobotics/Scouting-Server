@@ -10,7 +10,8 @@ class cargoAccuracy extends BaseAnalysis {
         this.teamKey = "frc" + team
         // this.start = start
         // this.end = end
-        this.result
+        this.result = 0
+        this.array = []
         
     }
     async getAccuracy()
@@ -32,26 +33,37 @@ class cargoAccuracy extends BaseAnalysis {
                     {
                         console.log(err)
                     }
+                    let arr = []
                     let len = 0
                     let makes = 0
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array){
                         let curr = JSON.parse(row.scoutReport).events
+                        let lenTemp = 0
+                        let makesTemp = 0
                         for(var i = 0; i < curr.length; i++) {
+                           
                             let subArr = curr[i]
                             if(subArr[1] === 1)
                             {
+                                lenTemp++
                                 len++
                             }
                             if (subArr[1] === 0) {
+                                makesTemp++
+                                lenTemp++
                               makes++
                               len++
                             }
                         }
+                        arr.push(makesTemp/lenTemp)
+                       
                     }
                     // console.log(makes/len)
-
-                    resolve(makes/len)                
+                    a.array = arr
+                    a.result = makes/len   
+                    resolve("done") 
+                    
                 })
                    
                 })
@@ -76,7 +88,7 @@ class cargoAccuracy extends BaseAnalysis {
                         return err
                     }
                 })  
-                a.result = temp  
+                // a.result = temp  
                 resolve("done")        
             })
             
@@ -85,7 +97,8 @@ class cargoAccuracy extends BaseAnalysis {
         {
             return { 
                 "result": this.result,
-                "team": this.team
+                "team": this.team,
+                "array" : this.array
             }
         }
 

@@ -3,13 +3,14 @@ const BaseAnalysis = require('./BaseAnalysis.js')
 class climberMax extends BaseAnalysis {
     static name = `climberMax`
 
-    constructor(db, team, start, end) {
+    constructor(db, team) {
         super(db)
         this.team = team
         this.teamKey = "ftc" + team
-        this.start = start
-        this.end = end
+        // this.start = start
+        // this.end = end
         this.result = 0
+        this.array = []
         
     }
     async getClimberMax()
@@ -17,7 +18,7 @@ class climberMax extends BaseAnalysis {
         let a = this
         return new Promise(async(resolve, reject) =>
         {
-            //why does await not work when it works in  bestAverageForMetric
+            let arr = []
            
             var sql = `SELECT scoutReport
                 FROM data
@@ -26,6 +27,8 @@ class climberMax extends BaseAnalysis {
                     JOIN teams ON teams.key = matches.teamKey
                     WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
               `
+              let max = 0
+
             a.db.all(sql, [a.team], (err, rows) =>
             {
                 if(err)
@@ -37,19 +40,23 @@ class climberMax extends BaseAnalysis {
                 {
                     // console.log(row)
 
-                    let max = 0
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array){
                         let curr = JSON.parse(row.scoutReport)
+                        arr.push(curr.challengeResult)
                         if(curr.challengeResult > max)
                         {
                             max = curr.challengeResult
                         }
+                        
                        
                     }
-                    resolve(max)
+                
 
             }
+            a.result = max
+            a.array = arr
+            resolve("done")
                 
 
         })
@@ -69,7 +76,6 @@ class climberMax extends BaseAnalysis {
                         return err
                     }
                 })  
-                a.result = temp  
                 resolve("done")        
             })
             

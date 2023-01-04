@@ -111,14 +111,14 @@ class positionalAccuracy extends BaseAnalysis {
                     a.launchPad = launchpadMakes/launchpadCount
                     a.feildEnd = fieldEndMakes/feildEndCount
                     a.feild = fieldMakes/feildCount
-                    console.log(a.hub)
-                    console.log(a.feildEnd)
+                    // console.log(a.hub)
+                    // console.log(a.feildEnd)
 
-                    console.log(a.tarmac)
+                    // console.log(a.tarmac)
 
-                    console.log(a.launchPad)
+                    // console.log(a.launchPad)
 
-                    console.log(a.feild)
+                    // console.log(a.feild)
                     // console.log(makes/len)
 
                     resolve("done")                
@@ -153,7 +153,11 @@ class positionalAccuracy extends BaseAnalysis {
         finalizeResults()
         {
             return { 
-                "result": this.result,
+                "tarmac": this.tarmac,
+                "hub": this.hub,
+                "feild": this.feild,
+                "feildEnd": this.feildEnd,
+                "launchPad": this.launchPad,
                 "team": this.team
             }
         }

@@ -10,7 +10,6 @@ class defenseQuantityAll extends BaseAnalysis {
         // this.end = end
         // this.result = 0
         this.average = 0
-        this.array = []
     }
     async getDefenseQuantity()
     {

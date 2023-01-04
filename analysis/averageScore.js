@@ -8,7 +8,8 @@ class averageScore extends BaseAnalysis {
         this.team = team
         // this.start = start
         // this.end = end
-        this.result = []
+        this.array = []
+        this.average = 0
     }
     async scoresOverTime()
     {
@@ -78,8 +79,11 @@ class averageScore extends BaseAnalysis {
                 }
                 
                 // a.result = arr
-
-                resolve(answer)
+                a.array = answer
+                const sum = answer.reduce((partialSum, a) => partialSum + a, 0)
+                a.average = sum/answer.length
+             
+                resolve("done")
 
             })
         })
@@ -94,7 +98,7 @@ class averageScore extends BaseAnalysis {
                     return err
                 }
             })  
-            a.result = temp  
+            // a.result = temp  
             resolve("done")        
         })
         
@@ -102,8 +106,9 @@ class averageScore extends BaseAnalysis {
     finalizeResults()
     {
         return { 
-            "result": this.result,
-            "team": this.team
+            "array": this.array,
+            "team": this.team,
+            "average" : this.average
         }
     }
 }
