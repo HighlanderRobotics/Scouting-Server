@@ -133,7 +133,7 @@ class TaskManager {
                 case(defenseQualityAll.name):
                     returnAnalysis.push(new defenseQualityAll(Manager.db))
                     break
-                case(defenseQuantityll):
+                case(defenseQuantityll.name):
                     returnAnalysis.push(new defenseQualityAll(Manager.db))
                     break
                  case(climberSucsessAll):
