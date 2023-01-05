@@ -21,6 +21,13 @@ const cargoCountAll = require('./analysis/cargoCountAll.js')
 const defenseQualityAll = require('./analysis/defenseQualityAll.js')
 const defenseQuantityll = require('./analysis/defenseQuantityAll.js')
 const climberSucsessAll = require('./analysis/climberSucsessAll.js')
+const cargoCountDifference = require('./analysis/cargoCountDifference.js')
+const cargoAccuracyDifference = require('./analysis/cargoAccuracyDifference.js')
+const defenseQualityDifference = require('./analysis/defenseQualityDifference.js')
+const defenseQuantityDifference = require('./analysis/defenseQuantityDifference.js')
+const averageScoreDifference = require('./analysis/averageScoreDifference.js')
+const averageScoreAll = require('./analysis/averageScoreAll.js')
+
 
 
 
@@ -136,9 +143,28 @@ class TaskManager {
                 case(defenseQuantityll.name):
                     returnAnalysis.push(new defenseQualityAll(Manager.db))
                     break
-                 case(climberSucsessAll):
+                 case(climberSucsessAll.name):
                     returnAnalysis.push(new climberSucsessAll(Manager.db))
                     break
+                case(averageScoreAll.name):
+                    returnAnalysis.push(new averageScoreAll(Manager.db))
+                    break
+                case(cargoCountDifference.name):
+                    returnAnalysis.push(new cargoCountDifference(Manager.db, task.team))
+                    break
+                case(cargoAccuracyDifference.name):
+                    returnAnalysis.push(new cargoAccuracyDifference(Manager.db, task.team))
+                    break
+                case(defenseQualityDifference.name):
+                    returnAnalysis.push(new defenseQualityDifference(Manager.db, task.team))
+                    break
+                case(defenseQualityDifference.name):
+                    returnAnalysis.push(new defenseQualityDifference(Manager.db, task.team))
+                    break
+                case(averageScoreDifference.name):
+                    returnAnalysis.push(new averageScoreDifference(Manager.db, task.team))
+                    break
+                
                 
                 default:
 

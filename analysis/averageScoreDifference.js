@@ -1,11 +1,11 @@
 const BaseAnalysis = require('./BaseAnalysis.js')
-const teamStat = require('./defenseQuality.js')
-const all = require('./defenseQuantityAll.js')
+const teamStat = require('./averageScore.js')
+const all = require('./averageScoreAll.js')
 
 // const Manager = require('./manager/dbmanager.js')
 
-class defenseQuantityDiffernce extends BaseAnalysis {
-    static name = `defenseQuantityDiffernce`
+class averageScoreDifference extends BaseAnalysis {
+    static name = `averageScoreDifference`
 
     constructor(db, team) {
         super(db)
@@ -56,4 +56,4 @@ class defenseQuantityDiffernce extends BaseAnalysis {
         }
 
 }
-module.exports = defenseQuantityDiffernce
+module.exports = averageScoreDifference

@@ -22,12 +22,12 @@ class cargoCountAll extends BaseAnalysis {
                 FROM data
                 JOIN (SELECT matches.key, matches.matchNumber
                     FROM matches 
-                    JOIN teams ON teams.key = matches.teamKey
-                    WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
+                    JOIN teams ON teams.key = matches.teamKey)
+                     AS  newMatches ON  data.matchKey = newMatches.key
               `
               let len = 0
               let makes = 0
-                a.db.all(sql, [a.team], (err, rows) =>
+                a.db.all(sql, [], (err, rows) =>
                 {
                     
 

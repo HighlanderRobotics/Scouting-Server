@@ -23,7 +23,7 @@ class cargoCountDifference extends BaseAnalysis {
         let x = new teamStat(a.db, a.team)
         await x.runAnalysis()
         let teamAvg = x.finalizeResults
-        let y = new teamStat(a.db)
+        let y = new all(a.db)
         await y.runAnalysis()
         let overallAvg = y.finalizeResults
 

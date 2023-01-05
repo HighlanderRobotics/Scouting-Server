@@ -26,49 +26,38 @@ class climberSucsess extends BaseAnalysis {
                     WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
                 `;
             let failed = 0
+            let all = 0
             this.db.all(sql, [a.team], (err, rows) =>
             {
                 if(err)
                 {
+                    console.log(err)
                     reject(err)
                 }
                 else
                 {
+
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array){
                         let curr = JSON.parse(row.scoutReport).challengeResult
+                        console.log(curr)
+
+                        all++
                             if(curr === 0 || curr === 1)
                             {
+                                
                                 failed++
                             }
                         
                     }
+                    a.result = 1-(failed/all)
+                    resolve("done")
+                    
                 }
             })
-            let all = 0
-            var sql2 = `SELECT COUNT(*) as count
-            FROM data
-            JOIN (SELECT matches.key, matches.matchNumber
-                FROM matches 
-                JOIN teams ON teams.key = matches.teamKey
-                WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
-          `;
-            this.db.all(sql2, [a.team], (err, row) =>
-            {
-                if(err)
-                {
-                    reject(err)
-                }
-                else
-                {
-                    console.log(row)
-                    all = row[0].count
-                }
-            })
-
+           
             // console.log(all)
-            resolve(1 - (failed/all))
-            
+           
                 
 
         })
@@ -93,8 +82,7 @@ class climberSucsess extends BaseAnalysis {
                     return err
                 }
             })  
-            a.result = temp  
-            console.log("cllimber Sucsess ")
+            // a.result = temp  
             resolve("done")        
         })
         
