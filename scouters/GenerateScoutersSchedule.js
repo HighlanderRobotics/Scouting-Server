@@ -13,8 +13,10 @@ if (undefined != previous && previous.includes('version')) {
 }
 
 const tournamentKey = '2022cc'
+const amountOfQms = 65
 const shiftSize = 5
-const busy = ['Vaughn Khouri', 'Alex Ware', 'Reece Beck', 'Peter Stokes']
+let nonqual = 0
+const busy = ['Vaughn Khouri', 'Alex Ware', 'Reece Beck', 'Peter Stokes', 'Jasper Tripp']
 
 
 run = async () => {
@@ -35,19 +37,44 @@ run = async () => {
         }
     })
 
-    for (var i = 0; i < (shifts.length/6)/shiftSize; i++) {
-        if (i+shiftSize > shifts.length/6) {
-            newData.shifts[i] = {
-                'start': i*shiftSize + 1,
-                'end': (shifts.length/6),
-                'scouts': []
-            }
+    for (var i = 0; i < (amountOfQms/shiftSize) + 4; i++) {
+        let startMatchKey = tournamentKey + '_'
+        let endMatchKey = tournamentKey + '_'
+
+        if ((i*shiftSize + 1) < amountOfQms && (i*shiftSize + shiftSize) < amountOfQms) {
+            // Before amount of qms
+            startMatchKey += "qm" + (i*shiftSize + 1)
+            endMatchKey += "qm" + (i*shiftSize + shiftSize)
+        } else if ((i*shiftSize + 1) < amountOfQms) {
+            // Stops at amount of qms because after would be pick
+            startMatchKey += "qm" + (i*shiftSize + 1)
+            endMatchKey += "qm" + amountOfQms
         } else {
-            newData.shifts[i] = {
-                'start': i*shiftSize + 1,
-                'end': (i*shiftSize + shiftSize),
-                'scouts': []
+            if (nonqual == 0) {
+                // First non qual match
+                startMatchKey += "qf0"
+                endMatchKey += "qf3"
+            } else if (nonqual == 1) {
+                startMatchKey += "ef0"
+                endMatchKey += "sf1"
+            } else if (nonqual == 2) {
+                startMatchKey += "ef2"
+                endMatchKey += "ef5"
+            } else if (nonqual == 3) {
+                startMatchKey += "gf0"
+                endMatchKey += "gf2"
+            } else {
+                // If it gets here I guess I can't count
+                console.log(`Barry can't count lmao`)
+                break;
             }
+            nonqual++
+        }
+
+        newData.shifts[i] = {
+            'start': startMatchKey,
+            'end': endMatchKey,
+            'scouts': []
         }
 
         while (newData.shifts[i].scouts.length < 6) {
