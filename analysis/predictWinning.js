@@ -51,7 +51,7 @@ class predictWinning extends BaseAnalysis {
                 
             
                 let  redAllianceSDV = Math.sqrt(Math.pow(red1SDV, 2) + Math.pow(red2SDV, 2) + Math.pow(red3SDV, 2))
-                let redAllianceMean = getMean(redArr1) + getMean(redArr2) + getMean(redArr3)
+                let redAllianceMean = await getMean(redArr1) + await getMean(redArr2) + await getMean(redArr3)
             
                 var score4 = new scores(a.db, a.blue1)
                 await score4.runAnalysis()
@@ -67,12 +67,12 @@ class predictWinning extends BaseAnalysis {
                 let blue3SDV = math.stdev(stdBlue3)
             
                 let blueAllianceSDV = Math.sqrt(Math.pow(blue1SDV, 2) + Math.pow(blue2SDV, 2) + Math.pow(blue3SDV, 2))
-                let blueAllianceMean = getMean(blueArr1) + getMean(blueArr2) + getMean(blueArr3)
+                let blueAllianceMean = await getMean(blueArr1) + await getMean(blueArr2) + await getMean(blueArr3)
             
                 let differentialSDV = Math.sqrt(Math.pow(redAllianceSDV, 2) + Math.pow(blueAllianceSDV, 2))
                 let differentialMean = redAllianceMean - blueAllianceMean
                 
-                let redLoosing =   GetZPercent((0 - differentialMean)/ differentialSDV)
+                let redLoosing =   await GetZPercent((0 - differentialMean)/ differentialSDV)
                 resolve(1- redLoosing)
             
                 
@@ -144,10 +144,11 @@ class predictWinning extends BaseAnalysis {
         {
             var temp = a.getWinner().catch((err) => {
                 if (err) {
+                    console.log(err)
                     return err
                 }
             })  
-            a.result = temp   
+            // a.result = temp   
             resolve("done")       
         })
         
