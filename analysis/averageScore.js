@@ -106,9 +106,9 @@ class averageScore extends BaseAnalysis {
     finalizeResults()
     {
         return { 
+            "result" : this.average,
             "array": this.array,
             "team": this.team,
-            "average" : this.average
         }
     }
 }

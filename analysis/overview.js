@@ -42,40 +42,43 @@ class overview extends BaseAnalysis {
         {
             
             //why does await not work when it works in  bestAverageForMetric
-            let result = {}
+            let metrics = {}
             // console.log(result)
 
             var defenseFreq = new defenseAmmount(a.db, a.team)
                 await defenseFreq.runAnalysis()
-                result.defenseQuantity = defenseFreq.finalizeResults()
+                metrics.defenseQuantity = defenseFreq.finalizeResults().result
 
             var defenseQaul = new defenseQuality(a.db, a.team)
                 await defenseQaul.runAnalysis()
-                result.defenseQuality = defenseQaul.finalizeResults()
-            var note = new notes(a.db, a.team)
-                await note.runAnalysis()
-                result.notes = note.finalizeResults()
+                metrics.defenseQuality = defenseQaul.finalizeResults().result
+
             var accuracy = new cargoAccuracy(a.db, a.team)
                 await accuracy.runAnalysis()
-                result.cargoAccuracy = accuracy.finalizeResults()
+                metrics.cargoAccuracy = accuracy.finalizeResults().result
             var ballCount = new cargoCount(a.db, a.team)
                 await ballCount.runAnalysis()
-                result.averageCount = ballCount.finalizeResults()
+                metrics.averageCount = ballCount.finalizeResults().result
             var climber = new climberMax(a.db, a.team)
 
                 await climber.runAnalysis()
 
-                result.climberHighest = climber.finalizeResults()
+                metrics.climberHighest = climber.finalizeResults().result
             var climberS = new climberSucsess(a.db, a.team)
                 await climberS.runAnalysis()
-                result.climberSucsesses = climberS.finalizeResults()
+                metrics.climberSucsesses = climberS.finalizeResults().result
 
             var scores = new averageScore(a.db, a.team)
                 await scores.runAnalysis()
-                result.arrayScores = scores.finalizeResults()
+                metrics.arrayScores = scores.finalizeResults().result
+            
+            
+            var note = new notes(a.db, a.team)
+                await note.runAnalysis()
+                const notesOutput = note.finalizeResults().result
 
 
-            resolve(result)
+            resolve({metrics, notes: notesOutput})
         })
     }
     runAnalysis()

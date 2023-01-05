@@ -63,8 +63,8 @@ class defenseQuantity extends BaseAnalysis {
     finalizeResults()
     {
         return { 
-            "defenseQuantityAverage": this.average,
-            "defenseQuantityArray": this.array,
+            "result": this.average,
+            "array": this.array,
             "team": this.team
         }
     }

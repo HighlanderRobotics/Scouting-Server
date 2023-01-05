@@ -67,8 +67,8 @@ class defenseQuality extends BaseAnalysis {
     finalizeResults()
     {
         return { 
-            "defenseQualityAverage": this.average,
-            "defenseQualityArray": this.array,
+            "result": this.average,
+            "array": this.array,
             "team": this.team
         }
     }
