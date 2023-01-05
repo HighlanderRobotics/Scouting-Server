@@ -16,7 +16,7 @@ class notes extends BaseAnalysis {
         let a = this
         return new Promise(function(resolve, reject)
         {
-                var sql = `SELECT notes, newMatches.matchNumber AS matchNum
+                var sql = `SELECT notes, newMatches.matchNumber AS matchNum, newMatches.key AS matchKey
                 FROM data
                 JOIN (SELECT matches.key, matches.matchNumber
                     FROM matches 
