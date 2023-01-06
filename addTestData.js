@@ -325,13 +325,177 @@ let run = async () => {
         "challengeResult": 5
     }))
 
-    // console.log(await new DatabaseManager().runTask('addScoutReport', {
-        
-    // }))
+    console.log(await new DatabaseManager().runTask('addScoutReport', {
+        "uuid": "4e1b9efc-954a-4e46-997f-b776014a757d",
+        "competitionKey": "2022cc",
+        "matchKey": "qm16",
+        "teamNumber": 973,
+        "scouterName": "Jacob Trentini",
+        "startTime": 1672952139086,
+        "events": [
+            [
+                1125,
+                0,
+                1
+            ],
+            [
+                1261,
+                0,
+                1
+            ],
+            [
+                1335,
+                0,
+                1
+            ],
+            [
+                1719,
+                0,
+                0
+            ],
+            [
+                1852,
+                0,
+                0
+            ],
+            [
+                1994,
+                0,
+                0
+            ],
+            [
+                2326,
+                0,
+                0
+            ],
+            [
+                2452,
+                0,
+                0
+            ],
+            [
+                2608,
+                0,
+                0
+            ],
+            [
+                2902,
+                0,
+                2
+            ],
+            [
+                3044,
+                0,
+                2
+            ],
+            [
+                3194,
+                0,
+                2
+            ],
+            [
+                3456,
+                0,
+                3
+            ],
+            [
+                3593,
+                0,
+                3
+            ],
+            [
+                3848,
+                0,
+                3
+            ]
+        ],
+        "robotRole": 0,
+        "overallDefenseRating": 0,
+        "defenseFrequencyRating": 0,
+        "notes": "Only played offense and did not miss any shot at all!!!",
+        "challengeResult": 5
+    }))
 
-    // console.log(await new DatabaseManager().runTask('addScoutReport', {
-        
-    // }))
+    console.log(await new DatabaseManager().runTask('addScoutReport', {
+        "uuid": "b340988c-bc8a-4c94-815f-dbcb4e468665",
+        "competitionKey": "2022cc",
+        "matchKey": "qm16",
+        "teamNumber": 973,
+        "scouterName": "Jacob Trentini",
+        "startTime": 1672953635957,
+        "events": [
+            [
+                2095,
+                0,
+                1
+            ],
+            [
+                2232,
+                0,
+                1
+            ],
+            [
+                2356,
+                0,
+                1
+            ],
+            [
+                2686,
+                0,
+                0
+            ],
+            [
+                2832,
+                0,
+                0
+            ],
+            [
+                2973,
+                0,
+                0
+            ],
+            [
+                3369,
+                0,
+                2
+            ],
+            [
+                3517,
+                0,
+                2
+            ],
+            [
+                4016,
+                0,
+                3
+            ],
+            [
+                4162,
+                0,
+                3
+            ],
+            [
+                4514,
+                0,
+                4
+            ],
+            [
+                4645,
+                0,
+                4
+            ],
+            [
+                4794,
+                0,
+                4
+            ]
+        ],
+        "robotRole": 1,
+        "overallDefenseRating": 5,
+        "defenseFrequencyRating": 3,
+        "notes": "bro does not know how to climb",
+        "challengeResult": 1
+    }))
 
     // console.log(await new DatabaseManager().runTask('addScoutReport', {
         
