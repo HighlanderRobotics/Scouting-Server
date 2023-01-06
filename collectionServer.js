@@ -38,22 +38,30 @@ let url = undefined
 
 
 setup = async () => {
-    url = await axios.get('http://localhost:4040/api/tunnels')
-    .then((res) => {
-        // console.log(res.data.tunnels[0])
-        return res.data.tunnels[0].public_url
-    })
-    console.log(url)
+
+    try {
+        url = await axios.get('http://localhost:4040/api/tunnels')
+        .then((res) => {
+            // console.log(res.data.tunnels[0])
+            return res.data.tunnels[0].public_url
+        })
+        console.log(url)
+        
+        if (url.startsWith('https://')) {
+            const https = 'https://'
+            return url.slice(https.length)
+        }
     
-    if (url.startsWith('https://')) {
-        const https = 'https://'
-        return url.slice(https.length)
+        if (url.startsWith('http://')) {
+            const http = 'http://'
+            return url.slice(http.length)
+        }
+    } catch (e) {
+        console.log(`\nngrok link is not setup/running\n`)
     }
 
-    if (url.startsWith('http://')) {
-        const http = 'http://'
-        return url.slice(http.length)
-    }
+
+    
 
     return url
 }
