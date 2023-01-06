@@ -33,14 +33,12 @@ class MatchesCompleted extends Manager {
                     reject(err)
                 }
 
-                if (playedMatches.length == 0) {
-                    playedMatches.forEach(matchKey => {
-                        if (!returnData.includes(matchKey.key)) {
-                            returnData.push(matchKey.key)
-                        }
-                    })
-                    resolve(returnData)
-                }
+                playedMatches.forEach(matchKey => {
+                    if (!returnData.includes(matchKey.key)) {
+                        returnData.push(matchKey.key)
+                    }
+                })
+                resolve(returnData)
             })
         })
         .catch((err) => {
