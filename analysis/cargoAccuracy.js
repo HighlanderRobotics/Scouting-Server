@@ -27,15 +27,16 @@ class cargoAccuracy extends BaseAnalysis {
                 JOIN teams ON teams.key = matches.teamKey
                 WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
           `;
+          let arr = []
+                    let len = 0
+                    let makes = 0
                 a.db.all(sql, [a.team], (err, rows) =>
                 {
                     if(err)
                     {
                         console.log(err)
                     }
-                    let arr = []
-                    let len = 0
-                    let makes = 0
+                    
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array){
                         let curr = JSON.parse(row.scoutReport).events
@@ -52,6 +53,7 @@ class cargoAccuracy extends BaseAnalysis {
                             if (subArr[1] === 0) {
                                 makesTemp++
                                 lenTemp++
+                                console.log(makes)
                               makes++
                               len++
                             }
@@ -59,7 +61,8 @@ class cargoAccuracy extends BaseAnalysis {
                         arr.push(makesTemp/lenTemp)
                        
                     }
-                    // console.log(makes/len)
+                    //  console.log(makes/len)
+                    //  console.log(arr)
                     a.array = arr
                     a.result = makes/len   
                     resolve("done") 

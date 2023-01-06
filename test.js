@@ -1,9 +1,10 @@
 //for testing
 
 const Manager = require('./manager/dbmanager')
+const y = require("./test")
 
-const test = require('./analysis/climberSucsess')
-var x = new test(Manager.db, 4499)
+const test = require('./analysis/cargoAccuracy')
+var x = new test(Manager.db, 8033)
 x.runAnalysis()
 let done = x.finalizeResults()
 setTimeout(function() {
