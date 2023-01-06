@@ -34,12 +34,6 @@ class MatchesCompleted extends Manager {
                 }
 
                 if (playedMatches.length == 0) {
-                    if (body.teamKey) {
-                        reject(`No matches completed yet for team ${body.teamKey}`)
-                    } else {
-                        reject(`No matches completed yet for team ${body.teamNumber}`)
-                    }
-                } else {
                     playedMatches.forEach(matchKey => {
                         if (!returnData.includes(matchKey.key)) {
                             returnData.push(matchKey.key)
