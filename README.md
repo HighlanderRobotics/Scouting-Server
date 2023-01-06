@@ -391,6 +391,16 @@ sinceTime is optional but will use epoch in milis
 ]
 ```
 
+## GET /API/manager/matchesCompleted?teamKey=frc6036&tournamentKey=2022cc
+Can omit tournamentKey if you want to search the entire database and can also use teamNumber if you want. Currently sends the stored matchKey but I can cut off the "_0" if need be.
+
+### Will return: Response code 200
+```json
+[
+    "2022cc_qm1_0"
+]
+```
+
 ## GET /API/manager/newScouter?scouterName=test&scouterNumber=4154154155&scouterEmail=asdf@gmail.com
 Due to this command editing the scouters.json file, it will forcibly restart the server. Unless we have paid ngrok the link will change
 
