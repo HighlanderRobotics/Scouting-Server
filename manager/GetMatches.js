@@ -44,14 +44,19 @@ class GetMatches extends Manager {
                                 } else if (nonQualNumber < 6) {
                                     match.matchNumber = 6 + nonQualNumber + largestQm
                                 } else {
-                                    match.matchNumber = 7 + nonQualNumber + largestQm
+                                    // When tba fixes their stuff to work with double elimination
+                                    // match.matchNumber = 7 + nonQualNumber + largestQm
+                                    match.matchNumber = 6 + nonQualNumber + largestQm
                                 }
                             } else if (match.matchType === 'sf') {
                                 match.matchNumber = 6 + nonQualNumber + largestQm
                             } else if (match.matchType === 'f') {
+                                // Should be winners finals but is labeled as f
                                 nonQualNumber = parseInt(match.key.substring(8, 9))
-                                match.matchNumber = 11 + nonQualNumber + largestQm
+                                // match.matchNumber = 11 + nonQualNumber + largestQm
+                                match.matchNumber = 12 + nonQualNumber + largestQm
                             } else if (match.matchType === 'gf') {
+                                // Taking creative liberty that finals will get the matchKey 'gf'
                                 match.matchNumber = 8 + nonQualNumber + largestQm
                             } else {
                                 // Not a match type we know of 
