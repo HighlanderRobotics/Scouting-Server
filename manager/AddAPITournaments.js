@@ -1,5 +1,5 @@
 const Manager = require('./Manager.js')
-const axios = require("axios");
+const axios = require("axios")
 
 class AddAPITournaments extends Manager {
     static name = "addAPITournaments"
