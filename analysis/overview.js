@@ -58,12 +58,12 @@ class overview extends BaseAnalysis {
                 metrics.cargoAccuracy = accuracy.finalizeResults().result
             var ballCount = new cargoCount(a.db, a.team)
                 await ballCount.runAnalysis()
-                metrics.averageCount = ballCount.finalizeResults().result
+                metrics.cargoCount = ballCount.finalizeResults().result
             var climber = new climberMax(a.db, a.team)
 
                 await climber.runAnalysis()
 
-                metrics.climberHighest = climber.finalizeResults().result
+                metrics.climberMax = climber.finalizeResults().result
             var climberS = new climberSucsess(a.db, a.team)
                 await climberS.runAnalysis()
                 metrics.climberSucsesses = climberS.finalizeResults().result
