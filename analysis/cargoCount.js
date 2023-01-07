@@ -52,6 +52,7 @@ class cargoCount extends BaseAnalysis {
                     }
                     a.result= makes/len
                     a.array = arr
+                    console.log(a.result)
                   resolve("done")
                 }) 
             

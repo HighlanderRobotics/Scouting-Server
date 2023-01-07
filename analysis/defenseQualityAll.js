@@ -38,7 +38,7 @@ class defenseQualityAll extends BaseAnalysis {
                 const sum = arr.reduce((partialSum, a) => partialSum + a, 0);
                 a.average = sum/arr.length
                 // a.array = arr
-                // console.log(a.average)
+                 console.log(a.average)
                 // console.log(a.array)
 
                 

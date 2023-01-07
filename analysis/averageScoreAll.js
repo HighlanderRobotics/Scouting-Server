@@ -15,26 +15,42 @@ class averageScoreAll extends BaseAnalysis {
         this.average
         
     }
-    async getAccuracy()
+     getAccuracy()
     {
         let a = this
         return new Promise(async function(resolve, reject)
         {
             var sql = `SELECT teamNumber
-            FROM teams`
+            FROM teams
+            LIMIT 5 `
             let arr = []
 
-            a.db.all(sql, [], (rows, err) =>
+            a.db.all(sql, [], async (err, rows) =>
             {
-                rows.forEach(functionAdder);
-                function functionAdder(row, index, array){
-                    arr.push(a.getAvg(team))
+                if(err)
+                {
+                    console.log(err)
+                   
+                }
+                console.log("before")
+                await rows.forEach(functionAdder);
+                console.log("after")
+
+                async function functionAdder(row, index, array){
+                    let temp = new averageScore(a.db, row.teamNumber)
+                    await temp.runAnalysis()
+                    arr.push(temp.average)
+                    console.log("last")
+
                 }
                 const sum = arr.reduce((partialSum, a) => partialSum + a, 0)
                 a.average = sum/arr.length
-
+                console.log("avg " + a.average)
+               
 
             })
+            
+
             resolve("done")
 
                     // console.log(makes/len)
@@ -54,6 +70,7 @@ class averageScoreAll extends BaseAnalysis {
         }
         async getAvg(team)
         {
+            let a = this
             let temp = new averageScore(a.db, team)
             await temp.runAnalysis()
             return temp.average

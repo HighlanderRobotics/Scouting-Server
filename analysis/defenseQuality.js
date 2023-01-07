@@ -42,7 +42,7 @@ class defenseQuality extends BaseAnalysis {
                 a.average = sum/arr.length
                 a.array = arr
                 
-                // console.log(a.average)
+                 console.log(a.average)
                 // console.log(a.array)
 
                 

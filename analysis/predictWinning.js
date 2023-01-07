@@ -28,51 +28,55 @@ class predictWinning extends BaseAnalysis {
         let a = this
         return new Promise(async function(resolve, reject)
         {
-            if(err)
-            {
-                reject(err);
-            }
+            // if(err)
+            // {
+            //     reject(err);
+            // }
              
             
                 var score1 = new scores(a.db, a.red1)
                 await score1.runAnalysis()
-                let redArr1= score1.finalizeResults().result
-                let red1SDV = math.stdev(stdRed1)
+                let redArr1= score1.finalizeResults().array
+                let red1SDV = math.stdev(redArr1)
                 var score2 = new scores(a.db, a.red2)
                 await score2.runAnalysis()
-                let redArr2= score2.finalizeResults().result
-                let red2SDV = math.stdev(stdRed2)
+                let redArr2= score2.finalizeResults().array
+                let red2SDV = math.stdev(redArr2)
                 var score3 = new scores(a.db, a.red3)
                 await score3.runAnalysis()
-                let redArr3= score3.finalizeResults().result
-                let red3SDV = math.stdev(stdRed3)
+                let redArr3= score3.finalizeResults().array
+                let red3SDV = math.stdev(redArr3)
             
                 
                 
             
                 let  redAllianceSDV = Math.sqrt(Math.pow(red1SDV, 2) + Math.pow(red2SDV, 2) + Math.pow(red3SDV, 2))
-                let redAllianceMean = await getMean(redArr1) + await getMean(redArr2) + await getMean(redArr3)
+                let redAllianceMean = await a.getMean(redArr1) + await a.getMean(redArr2) + await a. getMean(redArr3)
             
                 var score4 = new scores(a.db, a.blue1)
                 await score4.runAnalysis()
-                let blueArr1= score4.finalizeResults().result
-                let blue1SDV = math.stdev(stdBlue1)
+                let blueArr1= score4.finalizeResults().array
+                let blue1SDV = math.stdev(blueArr1)
                 var score5 = new scores(a.db, a.blue2)
                 await score5.runAnalysis()
-                let blueArr2= score5.finalizeResults().result
-                let blue2SDV = math.stdev(stdBlue2)
-                var score3 = new scores(a.db, a.blue3)
-                await score3.runAnalysis()
-                let blueArr3= score3.finalizeResults().result
-                let blue3SDV = math.stdev(stdBlue3)
+                let blueArr2= score5.finalizeResults().array
+                let blue2SDV = math.stdev(blueArr2)
+                var score6 = new scores(a.db, a.blue3)
+                await score6.runAnalysis()
+                let blueArr3= score6.finalizeResults().array
+                let blue3SDV = math.stdev(blueArr3)
             
                 let blueAllianceSDV = Math.sqrt(Math.pow(blue1SDV, 2) + Math.pow(blue2SDV, 2) + Math.pow(blue3SDV, 2))
-                let blueAllianceMean = await getMean(blueArr1) + await getMean(blueArr2) + await getMean(blueArr3)
-            
+                let blueAllianceMean = await a.getMean(blueArr1) + await a.getMean(blueArr2) + await a.getMean(blueArr3)
+                console.log(blue1SDV)
+
                 let differentialSDV = Math.sqrt(Math.pow(redAllianceSDV, 2) + Math.pow(blueAllianceSDV, 2))
                 let differentialMean = redAllianceMean - blueAllianceMean
-                
-                let redLoosing =   await GetZPercent((0 - differentialMean)/ differentialSDV)
+
+                let redLoosing =   await a.GetZPercent((0 - differentialMean)/ differentialSDV)
+
+                a.result = 1-redLoosing
+                // console.log("result " + a.result)
                 resolve(1- redLoosing)
             
                 
@@ -83,10 +87,10 @@ class predictWinning extends BaseAnalysis {
             {
                 return new Promise(function(resolve, reject)
                 {
-                    if(err)
-                    {
-                        reject(err);
-                    }
+                    // if(err)
+                    // {
+                    //     reject(err);
+                    // }
                     if ( z < -6.5)
                         resolve(0.0);
                     if( z > 6.5) 
@@ -140,13 +144,11 @@ class predictWinning extends BaseAnalysis {
         }
     runAnalysis()
     {
+        let a = this
         return new Promise(async (resolve, reject) =>
         {
-            var temp = a.getWinner().catch((err) => {
-                if (err) {
-                    console.log(err)
-                    return err
-                }
+            await a.getWinner().catch((err) => {
+              
             })  
             // a.result = temp   
             resolve("done")       

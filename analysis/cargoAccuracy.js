@@ -53,7 +53,6 @@ class cargoAccuracy extends BaseAnalysis {
                             if (subArr[1] === 0) {
                                 makesTemp++
                                 lenTemp++
-                                console.log(makes)
                               makes++
                               len++
                             }

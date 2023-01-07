@@ -22,10 +22,10 @@ class defenseQualityDiffernce extends BaseAnalysis {
         let a = this
         let x = new teamStat(a.db, a.team)
         await x.runAnalysis()
-        let teamAvg = x.finalizeResults.result
+        let teamAvg = x.result
         let y = new all(a.db)
         await y.runAnalysis()
-        let overallAvg = y.finalizeResults.result
+        let overallAvg = y.result
 
         a.result = teamAvg - overallAvg
         

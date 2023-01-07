@@ -45,6 +45,7 @@ class cargoCountAll extends BaseAnalysis {
                        
 
                     }
+                    console.log(makes/len)
                     resolve(makes/len)
                 }) 
             
