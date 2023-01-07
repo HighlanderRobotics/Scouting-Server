@@ -1,6 +1,6 @@
 require('dotenv').config()
 
-const axios = require("axios");
+const axios = require("axios")
 
 // To connect to the database
 const sqlite = require('sqlite3').verbose()
@@ -92,8 +92,8 @@ app.use(morgan('readable', {
 }))
 
 // Temporary if others want to use old endpoints for integration test day, will force changing endpoints later
-const Manager = require('./manager/dbmanager.js');
-const { json } = require('body-parser');
+const Manager = require('./manager/dbmanager.js')
+const { json } = require('body-parser')
 
 // Tasks map
 const uuidToTask = new Map()
@@ -211,7 +211,7 @@ app.post('/resetDB', async (req,res) => {
 // Old system
 const promiseWithTimeout = ((promise) => {
     // Times out after 1 ms, assumes promise is still pending (usually takes ~0ms)
-    var timeOutTime = 1;
+    var timeOutTime = 1
 
     const timeoutPromise = new Promise(async (resolve, reject) => {
         setTimeout(resolve, timeOutTime, `Requested task is unfinished, come back later`)

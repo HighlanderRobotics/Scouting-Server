@@ -1,9 +1,9 @@
-const axios = require('axios');
+const axios = require('axios')
 const sqlite = require('sqlite3').verbose()
 const db = new sqlite.Database('./test.db', sqlite.OPEN_READWRITE, (err) => {
   if (err)
       console.error(err)
-});
+})
 require('dotenv').config()
 
 const fs = require('fs')
