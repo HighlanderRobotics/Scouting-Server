@@ -31,7 +31,7 @@ class GetMatches extends Manager {
                     matches.forEach((match) => {
                         if (match.matchType === 'qm') {
                             // Remove tournamentKey from the matchKey as requested
-                            match.key = match.key.substring(body.tournamentKey.length + 1)
+                            match.matchKey = match.key.substring(body.tournamentKey.length + 1)
 
                             modifiedMatches.push(match)
                             if (match.matchNumber > largestQm) {
@@ -73,7 +73,7 @@ class GetMatches extends Manager {
                             }
 
                             // Remove tournamentKey from the matchKey as requested
-                            match.key = match.key.substring(body.tournamentKey.length + 1)
+                            match.matchKey = match.key.substring(body.tournamentKey.length + 1)
 
                             modifiedMatches.push(match)
                         }

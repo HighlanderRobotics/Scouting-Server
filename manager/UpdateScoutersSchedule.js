@@ -9,7 +9,6 @@ class UpdateScoutersSchedule extends Manager {
     }
 
     runTask(schedule) {
-        console.log()
         fs.writeFileSync(`${__dirname}/../scouters/./scoutersSchedule.json`, JSON.stringify(schedule), 'utf8', (err) => {
             if (err) {
                 console.log('Error writing to scouters file')
