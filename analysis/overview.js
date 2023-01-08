@@ -14,12 +14,6 @@ const cargoCount = require('./cargoCount.js')
 const cargoAccuracy = require('./cargoAccuracy.js')
 const averageScore = require('./averageScore.js')
 
-const { i } = require('mathjs')
-
-
-
-
-
 class overview extends BaseAnalysis {
     static name = `overveiw`
 
@@ -69,21 +63,16 @@ class overview extends BaseAnalysis {
                 result.arrayScores = scores.finalizeResults()
 
             resolve(result)
-
-            
-           
-                
-
         })
-        .catch((err) => {
-            if (err) {
-                return err
-            }
-        })
-        .then((data) => {
-            // console.log(data)
-            return data
-        })
+            .catch((err) => {
+                if (err) {
+                    return err
+                }
+            })
+            .then((data) => {
+                // console.log(data)
+                return data
+            })
     }
     runAnalysis()
     {

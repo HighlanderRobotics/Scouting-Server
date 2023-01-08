@@ -1,6 +1,5 @@
 const BaseAnalysis = require('./BaseAnalysis.js')
 
-
 class TeamsInTournament extends BaseAnalysis {
     static name = `teamsInTournament`
 
@@ -26,14 +25,14 @@ class TeamsInTournament extends BaseAnalysis {
                 }
             })
         })
-        .catch((err) => {
-            if (err) {
-                return err
-            }
-        })
-        .then((data) => {
-            return data
-        })
+            .catch((err) => {
+                if (err) {
+                    return err
+                }
+            })
+            .then((data) => {
+                return data
+            })
     }
 
     runAnalysis() {

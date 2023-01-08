@@ -16,29 +16,28 @@ class notes extends BaseAnalysis {
         let a = this
         return new Promise(function(resolve, reject)
         {
-                var sql = `SELECT notes, newMatches.matchNumber AS matchNum
-                FROM data
-                JOIN (SELECT matches.key, matches.matchNumber
-                    FROM matches 
-                    JOIN teams ON teams.key = matches.teamKey
-                    WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key`
-                let arr = []
-                // console.log(a.team)
-                a.db.all(sql, [a.team], (err, rows) => {
-                    if(err)
-                    {
-                        console.log(err)
-                        reject(err)
-                    }
-                    else
-                    {     
-                        console.log(rows)               
-                        a.result = rows
-                        resolve(rows)
-                    }
+            var sql = `SELECT notes, newMatches.matchNumber AS matchNum
+            FROM data
+            JOIN (SELECT matches.key, matches.matchNumber
+                FROM matches 
+                JOIN teams ON teams.key = matches.teamKey
+                WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key`
+            let arr = []
+            // console.log(a.team)
+            
+            a.db.all(sql, [a.team], (err, rows) => {
+                if(err)
+                {
+                    console.log(err)
+                    reject(err)
+                }
+                else
+                {     
+                    console.log(rows)               
+                    a.result = rows
+                    resolve(rows)
+                }
             })
-                
-
         })
     }
     runAnalysis()

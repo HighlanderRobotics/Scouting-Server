@@ -23,7 +23,7 @@ class BestAverageForMetric extends BaseAnalysis {
             FROM matches
             JOIN data ON data.matchKey = matches.key
             WHERE teamKey = ?`
-        
+
             let returnData = []
             var teams = new TeamsInTournament(a.db, a.tournamentKey)
             await teams.runAnalysis()
@@ -34,22 +34,22 @@ class BestAverageForMetric extends BaseAnalysis {
                 var teamAverage = new AverageForMetric(a.db, teamData.TeamsInTournament[i], a.metric)
                 await teamAverage.runAnalysis()
                 returnData.push([teamAverage.finalizeResults().AverageForMetric, teamAverage.finalizeResults().team])
-                
+
                 if (i == teamData.TeamsInTournament.length - 1) {
                     // console.log(returnData)
                     resolve(returnData)
                 }
             }
         })
-        .catch((err) => {
-            if (err) {
-                return err
-            }
-        })
-        .then((data) => {
-            // console.log(data)
-            return data
-        })
+            .catch((err) => {
+                if (err) {
+                    return err
+                }
+            })
+            .then((data) => {
+                // console.log(data)
+                return data
+            })
     }
 
     runAnalysis() {
@@ -60,7 +60,7 @@ class BestAverageForMetric extends BaseAnalysis {
                 if (err) {
                     return err
                 }
-            })            
+            })
             // console.log(data)
 
             if (data.length < 1) {
@@ -72,8 +72,8 @@ class BestAverageForMetric extends BaseAnalysis {
                         a.bestTeam = team[1]
                         a.bestResult = team[0]
                     }
-                })    
-                
+                })
+
                 resolve(`Task Completed`)
             }
         })

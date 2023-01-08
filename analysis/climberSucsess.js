@@ -10,15 +10,13 @@ class climberSucsess extends BaseAnalysis {
         this.start = start
         this.end = end
         this.result = 0
-        
+
     }
-    async getData()
-    {
+    async getData() {
         let a = this
-        return new Promise(async(resolve, reject) =>
-        {
+        return new Promise(async (resolve, reject) => {
             //why does await not work when it works in  bestAverageForMetric
-           
+
             var sql = `SELECT COUNT(*)
                 FROM data
                 WHERE (data.scoutReport = 1 OR data.scoutReport = 0)
@@ -29,17 +27,16 @@ class climberSucsess extends BaseAnalysis {
                 WHERE data.startTime BETWEEN COALESCE(?, (SELECT MIN(startTime) FROM data)) AND COALESCE(?, (SELECT MAX(startTime) FROM data))
                 ORDER BY data.startTime ASC`;
             let failed = 0
-            this.db.all(sql, [a.team, a.start, a.end], (err, row) =>
-            {
-                if(err)
-                {
+
+            this.db.all(sql, [a.team, a.start, a.end], (err, row) => {
+                if (err) {
                     reject(err)
                 }
-                else
-                {
+                else {
                     failed = row[0]
                 }
             })
+
             let all = 0
             var sql2 = `SELECT COUNT(*)
             FROM data
@@ -49,50 +46,43 @@ class climberSucsess extends BaseAnalysis {
                 WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
             WHERE data.startTime BETWEEN COALESCE(?, (SELECT MIN(startTime) FROM data)) AND COALESCE(?, (SELECT MAX(startTime) FROM data))
             ORDER BY data.startTime ASC`;
-            this.db.all(sql2, [a.team, a.start, a.end], (err, row) =>
-            {
-                if(err)
-                {
+
+            this.db.all(sql2, [a.team, a.start, a.end], (err, row) => {
+                if (err) {
                     reject(err)
                 }
-                else
-                {
+                else {
                     all = row[0]
                 }
             })
-            resolve(1 - (failed/all))
-                
-
+            resolve(1 - (failed / all))
         })
-        .catch((err) => {
-            if (err) {
-                return err
-            }
-        })
-        .then((data) => {
-            // console.log(data)
-            return data
-        })
+            .catch((err) => {
+                if (err) {
+                    return err
+                }
+            })
+            .then((data) => {
+                // console.log(data)
+                return data
+            })
     }
-    runAnalysis()
-    {
+    runAnalysis() {
         let a = this
 
-        return new Promise(function (resolve, reject)
-        {
+        return new Promise(function (resolve, reject) {
             var temp = a.getData().catch((err) => {
                 if (err) {
                     return err
                 }
-            })  
-            a.result = temp      
-            resolve("done")    
+            })
+            a.result = temp
+            resolve("done")
         })
-        
+
     }
-    finalizeResults()
-    {
-        return { 
+    finalizeResults() {
+        return {
             "team": this.team,
             "result": this.result
 

@@ -10,12 +10,10 @@ class AverageForMetric extends BaseAnalysis {
         this.teamKey = teamKey
         this.metric = metric
         //boolean, true = count, false = avg
-        if(countOrAvg.eqauls("count"))
-        {
+        if (countOrAvg.eqauls("count")) {
             this.count = true
         }
-        else
-        {
+        else {
             this.count = false
         }
         this.result = 0
@@ -26,20 +24,18 @@ class AverageForMetric extends BaseAnalysis {
         let a = this
 
         return new Promise((resolve, reject) => {
-        // CAST(replace(json_extract(data.scoutReport,'$.autoHighSucsess'), ''', '') AS INTEGER)
+            // CAST(replace(json_extract(data.scoutReport,'$.autoHighSucsess'), ''', '') AS INTEGER)
             var sql = `SELECT *
             FROM matches
             JOIN data ON data.matchKey = matches.key
             WHERE teamKey = ?`
-            
+
             // console.log(`Metric: ${a.metric}`)
 
             var returnData = []
 
-            a.db.all(sql, [a.teamKey], (err, rows) =>
-            {
-                if(err)
-                {
+            a.db.all(sql, [a.teamKey], (err, rows) => {
+                if (err) {
                     console.log(`Error getting data from ${a.teamKey}`)
                     reject(err);
                 } else {
@@ -51,18 +47,17 @@ class AverageForMetric extends BaseAnalysis {
                 }
             })
         })
-        .catch((err) => {
-            if (err) {
-                return err
-            }
-        })
-        .then((data) => {
-            return data
-        })
+            .catch((err) => {
+                if (err) {
+                    return err
+                }
+            })
+            .then((data) => {
+                return data
+            })
     }
-    async getAvg()
-    {
-        
+    async getAvg() {
+
     }
 
     runAnalysis() {
@@ -81,16 +76,15 @@ class AverageForMetric extends BaseAnalysis {
                 resolve(`No Data Found for ${a.metric}`)
             } else {
                 // Has Data and finds average  
-                a.result = data.reduce((a,b) => a + b, 0)/data.length
+                a.result = data.reduce((a, b) => a + b, 0) / data.length
                 // console.log(a.result)
                 resolve(`Task Completed`)
-    
             }
         })
     }
 
     finalizeResults() {
-        return { 
+        return {
             'metric': this.metric,
             'AverageForMetric': this.result,
             'team': this.teamKey

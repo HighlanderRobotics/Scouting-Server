@@ -21,4 +21,4 @@ class BaseAnalysis {
     }
 }
 
-module.exports  = BaseAnalysis
+module.exports = BaseAnalysis

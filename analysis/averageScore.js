@@ -10,11 +10,10 @@ class averageScore extends BaseAnalysis {
         this.end = end
         this.result = []
     }
-    async scoresOverTime()
-    {
+
+    async scoresOverTime() {
         let a = this
-        return new Promise(function(resolve, reject)
-        {
+        return new Promise(function (resolve, reject) {
             var sql = `SELECT scoutReport
             FROM data
             JOIN (SELECT matches.key
@@ -22,81 +21,67 @@ class averageScore extends BaseAnalysis {
                 JOIN teams ON teams.key = matches.teamKey
                 WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key`
             let arr = []
-            
-            a.db.all(sql, [a.team], (err, rows) =>
-            {
-                if(err)
-                {
+
+            a.db.all(sql, [a.team], (err, rows) => {
+                if (err) {
                     console.log(err)
                     reject(err)
                 }
-                else
-                {
+                else {
                     rows.forEach(functionAdder);
-                    function functionAdder(row, index, array){
+                    function functionAdder(row, index, array) {
                         let temp = []
-                         temp = data.events
-                        let total = 2 
-                        if(data.challengeResult == 2)
-                        {
+                        temp = data.events
+                        let total = 2
+                        if (data.challengeResult == 2) {
                             total += 4
                         }
-                        else if(data.challengeResult == 3)
-                        {
+                        else if (data.challengeResult == 3) {
                             total += 6
                         }
-                        else if(data.challengeResult == 4)
-                        {
+                        else if (data.challengeResult == 4) {
                             total += 10
                         }
-                        else if(data.challengeResult == 5)
-                        {
+                        else if (data.challengeResult == 5) {
                             total += 15
                         }
-                      
+
                         for (let i = 0; i < array.length; i++) {
-                            
+
                             const entry = array[i];
-                            if(entry[0] <= 3000 && entry[1] == 0)
-                            {
+                            if (entry[0] <= 3000 && entry[1] == 0) {
                                 total += 4
                             }
-                            else if(entry[1] == 0)
-                            {
+                            else if (entry[1] == 0) {
                                 total += 2
                             }
                         }
                         arr.push(total)
-
                     }
-                
-        
                 }
                 a.result = arr
                 resolve(arr)
-
             })
         })
     }
-    runAnalysis()
-    {
+
+    runAnalysis() {
         let a = this
-        return new Promise(async (resolve, reject) =>
-        {
+        return new Promise(async (resolve, reject) => {
             var temp = a.scoresOverTime().catch((err) => {
                 if (err) {
                     return err
                 }
-            })  
-            a.result = temp  
-            resolve(temp)        
+            })
+            a.result = temp
+            resolve(temp)
         })
-    
-        
+
+
     }
-    finalizeResults()
-    {
-        return { 
+
+    finalizeResults() {
+        return {
             "result": this.result,
             "team": this.team
         }

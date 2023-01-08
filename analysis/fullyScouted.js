@@ -1,6 +1,4 @@
-const Manager = require('../manager/dbmanager.js')
 const BaseAnalysis = require('./BaseAnalysis.js')
-
 
 class fullyScouted extends BaseAnalysis {
     static name = `fullyScouted`

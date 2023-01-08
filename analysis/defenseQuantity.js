@@ -10,11 +10,9 @@ class defenseQuantity extends BaseAnalysis {
         this.end = end
         this.result = 0
     }
-    async getDefenseQuantity()
-    {
+    async getDefenseQuantity() {
         let a = this
-        return new Promise(async function(resolve, reject)
-        {
+        return new Promise(async function (resolve, reject) {
             let sql = `SELECT SUM(defenseQuantity) AS dSum, COUNT(*) AS size
             FROM data
             JOIN (SELECT matches.key
@@ -23,35 +21,32 @@ class defenseQuantity extends BaseAnalysis {
                 WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
             WHERE data.startTime BETWEEN COALESCE(?, (SELECT MIN(startTime) FROM data)) AND COALESCE(?, (SELECT MAX(startTime) FROM data))
             ORDER BY data.startTime ASC`
-            a.db.all(sql, [a.team, a.start, a.end], (err, row)=>{
-                if(err)
-                {
+            a.db.all(sql, [a.team, a.start, a.end], (err, row) => {
+                if (err) {
                     reject(err)
                 }
+                
                 let temp = row[0].dSum / row[0].size
                 a.result = temp
                 resolve(temp)
             })
         })
     }
-    runAnalysis()
-    {
-        return new Promise(async (resolve, reject) =>
-        {
+    runAnalysis() {
+        return new Promise(async (resolve, reject) => {
             let a = this
             var temp = await a.getDefenseQuantity().catch((err) => {
                 if (err) {
                     return err
                 }
-            })  
-            a.result = temp  
-            resolve("done")        
+            })
+            a.result = temp
+            resolve("done")
         })
-        
+
     }
-    finalizeResults()
-    {
-        return { 
+    finalizeResults() {
+        return {
             "result": this.result,
             "team": this.team
         }

@@ -11,11 +11,9 @@ class defenseQuality extends BaseAnalysis {
         this.end = end
         this.result = 0
     }
-    async getDefenseQuality()
-    {
+    async getDefenseQuality() {
         let a = this
-        return new Promise(async function(resolve, reject)
-        {
+        return new Promise(async function (resolve, reject) {
             let sql = `SELECT SUM(defenseQuality) AS dSum, COUNT(*) AS size
             FFROM data
             JOIN (SELECT matches.key
@@ -23,9 +21,8 @@ class defenseQuality extends BaseAnalysis {
                 JOIN teams ON teams.key = matches.teamKey
                 WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
           `
-            a.db.all(sql, [a.team], (err, row)=>{
-                if(err)
-                {
+            a.db.all(sql, [a.team], (err, row) => {
+                if (err) {
                     reject(err)
                 }
                 console.log(a.team)
@@ -35,25 +32,22 @@ class defenseQuality extends BaseAnalysis {
             })
         })
     }
-    runAnalysis()
-    {
+    runAnalysis() {
         let a = this
 
-        return new Promise(async (resolve, reject) =>
-        {
+        return new Promise(async (resolve, reject) => {
             var temp = a.getDefenseQuality().catch((err) => {
                 if (err) {
                     return err
                 }
-            })  
-            a.result = temp    
+            })
+            a.result = temp
             resolve("done")
         })
-        
+
     }
-    finalizeResults()
-    {
-        return { 
+    finalizeResults() {
+        return {
             "result": this.result,
             "team": this.team
         }
