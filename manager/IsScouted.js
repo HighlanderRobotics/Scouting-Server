@@ -9,7 +9,8 @@ class IsScouted extends Manager {
     }
 
     runTask(tournamentKey, matchKey) {
-        
+        let errorCode = 400
+
         let a = this
 
         return new Promise(async (resolve, reject) => {
@@ -21,6 +22,7 @@ class IsScouted extends Manager {
             })
 
             if (matches === undefined) {
+                let errorCode = 406
                 reject('Something went wrong')
             } else {
                 matches.forEach(scouter => {
@@ -34,7 +36,8 @@ class IsScouted extends Manager {
             if (err) {
                 return {
                     "results": err,
-                    "errorStatus": true
+                    "errorStatus": true,
+                    "customCode": errorCode
                 }
             } else {
                 return {
@@ -59,12 +62,14 @@ class IsScouted extends Manager {
         return new Promise((resolve, reject) => {
             Manager.db.all(sql, (err, matches) => {
                 if (err) {
+                    let errorCode = 500
                     console.log(err)
                     reject(err)
                 }
                 if (matches) {
                     resolve(matches)
                 } else {
+                    let errorCode = 406
                     reject('No matches found')
                 }
             })      

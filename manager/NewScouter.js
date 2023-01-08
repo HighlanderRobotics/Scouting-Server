@@ -9,10 +9,9 @@ class NewScouter extends Manager {
     }
 
     async runTask(scouterName, scouterNumber, scouterEmail) {
-        let message = ""
         fs.readFile(`${__dirname}/../scouters/./scouters.json`, 'utf8', function readFileCallback(err, data){
             if (err){
-                message = err
+                console.log(err)
             } else {
                 data = JSON.parse(data)
                 try {
@@ -41,12 +40,10 @@ class NewScouter extends Manager {
                         }
                     })
                 } catch (e) {
-                    message = e
-                    console.log(message)
+                    console.log(e)
                 }
             }
         })
-        // console.log(message)
 
         return {
             "result": "Recieved",

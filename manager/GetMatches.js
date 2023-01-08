@@ -12,15 +12,18 @@ class GetMatches extends Manager {
             WHERE gameKey = '${body.tournamentKey}'
             ORDER BY matchNumber`
 
+        let errorCode = 400
 
         return new Promise((resolve, reject) => {
             Manager.db.all(sql, (err, matches) => {
                 let modifiedMatches = []
                 if (err) {
                     console.error(`Error with getMatches(): ${err}`)
+                    let errorCode = 500
                     reject(`Error with getMatches(): ${err}`)
                 } else if (matches.length == 0) {
                     // No matches found
+                    let errorCode = 406
                     console.log(`No matches found for ${body.tournamentKey}`)
                     reject(modifiedMatches)
                 } else {

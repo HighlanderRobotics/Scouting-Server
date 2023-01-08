@@ -40,6 +40,9 @@ class ResetAndPopulate extends Manager {
             email VARCHAR(100),
             UNIQUE (name)
         )`
+
+        let errorCode = 400
+
         return new Promise((resolve, reject) => {
             this.removeAndAddTables(createTeams, createTournaments, createMatches, createData, createScouters)
             .catch((err) => {
@@ -48,7 +51,6 @@ class ResetAndPopulate extends Manager {
                 }
             })
             .then(async () => {
-                
                 await a.getTeams()
                 await a.getTournaments(2022)
                 await a.getTournaments(2023)
@@ -59,7 +61,8 @@ class ResetAndPopulate extends Manager {
                 if (err) {
                     return {
                         "results": err,
-                        "errorStatus": true
+                        "errorStatus": true,
+                        "customCode": errorCode
                     }
                 } else {
                     return {
@@ -119,6 +122,7 @@ class ResetAndPopulate extends Manager {
         return new Promise((resolve, reject) => {
             Manager.db.all(sql, (err, storedTeams) => {
                 if (err) {
+                    errorCode = 500
                     console.error(`Error with getTeams(): ${err}`)
                     reject(`Error with getTeams(): ${err}`)
                 } else {
@@ -145,6 +149,7 @@ class ResetAndPopulate extends Manager {
             return new Promise((resolve, reject) => {
                 Manager.db.run(sql, [response.data[i].name, response.data[i].city, response.data[i].start_date, response.data[i].key], (err) => {
                     if (err) {
+                        errorCode = 500
                         console.error(`Error inserting tournament: ${err}`)
                         reject(`Error inserting tournament: ${err}`)
                     } else {
@@ -162,6 +167,7 @@ class ResetAndPopulate extends Manager {
                 await insertTournament(sql, response, i)
                 .catch((err) => {
                     if (err) {
+                        errorCode = 500
                         console.log(`Error with inserting tournament: ${err}`)
                         reject(err)
                     }
@@ -188,6 +194,7 @@ class ResetAndPopulate extends Manager {
             return new Promise((resolve, reject) => {
                 Manager.db.run(sql, [scout.name, scout.number, scout.email], (err) => {
                     if (err) {
+                        errorCode = 500
                         console.error(`Error inserting scouters: ${err}`)
                         reject(`Error inserting scouters: ${err}`)
                     } else {
@@ -213,6 +220,7 @@ class ResetAndPopulate extends Manager {
         await runInsertScouters()
         .catch(err => {
             if (err) {
+                errorCode = 500
                 console.error(`Error with inserting Scouters: ${err}`)
                 return(`Error with inserting Scouters: ${err}`)    
             }

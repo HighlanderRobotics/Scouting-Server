@@ -85,7 +85,10 @@ class DatabaseManager {
         })
         .catch((err) => {
             if (err) {
-                return err
+                return {
+                    "results": err,
+                    "errorStatus": true,
+                }
             }
         })
         .then((results) => {

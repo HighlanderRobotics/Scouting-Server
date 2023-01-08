@@ -108,9 +108,9 @@ app.listen(port, async () => {
     }
 
     // Init server here, idk what it would init but possibly could run + cache analysis engine, all it does is turn foreign keys on
-    await new DatabaseManager().runTask('InitServer', {})
+    await new DatabaseManager().runTask('initServer', {})
     .then((results) => {
-        if (results.errorStatus) {
+        if (results) {
             console.log(results)
         } else {
             console.log(`Initializing server`)

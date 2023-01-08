@@ -9,6 +9,8 @@ class AddTournamentMatches extends Manager {
     }
 
     runTask(name, date) {
+        let errorCode = 400
+
         var url = 'https://www.thebluealliance.com/api/v3'
 
         var sql = `SELECT * FROM tournaments WHERE name = '${name}' AND date = '${date}'`
@@ -17,9 +19,11 @@ class AddTournamentMatches extends Manager {
             Manager.db.all(sql, (err, tournament) => {
                 if (err) {
                     console.error(`Error with addMatches(): ${err}`)
+                    errorCode = 500
                     reject(`Error with addMatches(): ${err}`)
                 }
                 if (tournament[0] == undefined) {
+                    errorCode = 406
                     console.error(`Error with addMatches(): Tournament not found`)
                     reject(`Error with addMatches(): Tournament not found`)
                 } else {
@@ -46,6 +50,7 @@ class AddTournamentMatches extends Manager {
                                     .catch((err) => {
                                         if (err) {
                                             console.log(err)
+                                            errorCode = 500
                                             reject(err)
                                         }
                                     })
@@ -68,6 +73,7 @@ class AddTournamentMatches extends Manager {
                                         if (err) {
                                             // console.log(response.data[i].team_keys)
                                             // console.log(response.data[i].match_number)
+                                            errorCode - 500
                                             console.log(err)
                                             reject(err)
                                         }
@@ -88,7 +94,8 @@ class AddTournamentMatches extends Manager {
             if (err) {
                 return {
                     "results": err,
-                    "errorStatus": true
+                    "errorStatus": true,
+                    "customCode": errorCode
                 }
             } else {
                 return {

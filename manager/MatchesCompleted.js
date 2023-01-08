@@ -19,9 +19,9 @@ class MatchesCompleted extends Manager {
         } else {
             return {
                 "results": `Missing teamKey or teamNumber`,
-                "errorStatus": true
-            }
-            
+                "errorStatus": true,
+                "customCode": 400
+            }            
         }
 
         if (body.tournamentKey) {
@@ -30,10 +30,13 @@ class MatchesCompleted extends Manager {
 
         let returnData = []
 
+        let errorCode = 400
+
         return new Promise((resolve, reject) => {
             Manager.db.all(sql, (err, playedMatches) => {
                 if (err) {
                     console.log(err)
+                    errorCode = 500
                     reject(err)
                 }
 
@@ -49,7 +52,8 @@ class MatchesCompleted extends Manager {
             if (err) {
                 return {
                     "results": err,
-                    "errorStatus": true
+                    "errorStatus": true,
+                    "customCode": errorCode
                 }
             } else {
                 return {

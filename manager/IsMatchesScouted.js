@@ -10,6 +10,8 @@ class IsMatchesScouted extends Manager {
     runTask(tournamentKey, scouterName, matchKeys) {
         let a = this
 
+        let errorCode = 400
+
         matchKeys = JSON.parse(matchKeys)
 
         return new Promise(async (resolve, reject) => {
@@ -22,6 +24,7 @@ class IsMatchesScouted extends Manager {
 
             if (data == undefined) {
                 console.log('No data')
+                errorCode = 406
                 reject(`No data`)
             } else {
                 let returnVals = []
@@ -90,12 +93,14 @@ class IsMatchesScouted extends Manager {
         return new Promise((resolve, reject) => {
             Manager.db.all(sql, (err, data) => {
                 if (err) {
+                    let errorCode = 500
                     console.log(err)
                     reject(err)
                 }
                 if (data) {
                     resolve(data)
                 } else {
+                    let errorCode = 406
                     reject("No matches found")
                 }
             })

@@ -13,7 +13,8 @@ class GetScoutersSchedule extends Manager {
             if (err) {
                 return {
                     "results": 'Error reading scouters file',
-                    "errorStatus": true
+                    "errorStatus": true,
+                    "customCode": 500
                 } 
             }
         })
