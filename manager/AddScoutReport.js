@@ -34,7 +34,7 @@ class AddScoutReport extends Manager {
                     this.insertData(match.key, data)
                     .catch((err) => {
                         if (err) {
-                            bruv = "SQLITE UNIQUE ERROR, run node testapi.js"
+                            bruv = "SQLITE UNIQUE ERROR, run node resetDataTable.js"
                             console.log(err)
                             errorCode = 500
                             reject(err)
