@@ -30,6 +30,9 @@ class GetMatches extends Manager {
                     let largestQm = matches[0].matchNumber
                     matches.forEach((match) => {
                         if (match.matchType === 'qm') {
+                            // Remove tournamentKey from the matchKey as requested
+                            match.key = match.key.substring(body.tournamentKey.length + 1)
+
                             modifiedMatches.push(match)
                             if (match.matchNumber > largestQm) {
                                 largestQm = match.matchNumber
@@ -68,6 +71,9 @@ class GetMatches extends Manager {
                                 // Not a match type we know of 
                                 console.log(match)
                             }
+
+                            // Remove tournamentKey from the matchKey as requested
+                            match.key = match.key.substring(body.tournamentKey.length + 1)
 
                             modifiedMatches.push(match)
                         }
