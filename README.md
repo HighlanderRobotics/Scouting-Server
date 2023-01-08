@@ -341,35 +341,35 @@ If the name is null then it means there's a scoutreport missing for that matchKe
 [
   {
     "key": "2022cc_qm65_3",
-    "gameKey": "2022cc",
+    "tournamentKey": "2022cc",
     "matchNumber": 65,
     "teamKey": "frc7157",
     "matchType": "qm"
   },
   {
     "key": "2022cc_qm65_1",
-    "gameKey": "2022cc",
+    "tournamentKey": "2022cc",
     "matchNumber": 65,
     "teamKey": "frc972",
     "matchType": "qm"
   },
   {
     "key": "2022cc_ef1_1",
-    "gameKey": "2022cc",
+    "tournamentKey": "2022cc",
     "matchNumber": 70,
     "teamKey": "frc1678",
     "matchType": "ef"
   },
   {
     "key": "2022cc_qf1_1",
-    "gameKey": "2022cc",
+    "tournamentKey": "2022cc",
     "matchNumber": 66,
     "teamKey": "frc1678",
     "matchType": "qf"
   },
   {
     "key": "2022cc_f1_1",
-    "gameKey": "2022cc",
+    "tournamentKey": "2022cc",
     "matchNumber": 78,
     "teamKey": "frc1690",
     "matchType": "f"

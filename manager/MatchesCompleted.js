@@ -25,7 +25,7 @@ class MatchesCompleted extends Manager {
         }
 
         if (body.tournamentKey) {
-            sql += ` AND matches.gameKey = '${body.tournamentKey}'`
+            sql += ` AND matches.tournamentKey = '${body.tournamentKey}'`
         }
 
         let returnData = []

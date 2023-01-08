@@ -55,7 +55,7 @@ class IsScouted extends Manager {
         let sql = `SELECT matches.key, name FROM matches
             LEFT JOIN data ON matches.key = data.matchKey
             LEFT JOIN scouters ON data.scouterName = scouters.name
-            WHERE matches.gameKey = '${tournamentKey}'
+            WHERE matches.tournamentKey = '${tournamentKey}'
             AND INSTR(matches.key, '${matchKey}_')
             `
 

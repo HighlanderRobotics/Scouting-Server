@@ -16,7 +16,7 @@ class TeamsInTournament extends BaseAnalysis {
         return new Promise((resolve, reject) => {
             var sql = `SELECT teamKey
             FROM matches
-            WHERE gameKey = ?`
+            WHERE tournamentKey = ?`
 
             a.db.all(sql, [a.tournamentKey], (err, rows) => {
                 if (err) {

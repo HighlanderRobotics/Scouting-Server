@@ -44,7 +44,7 @@ class AddTournamentMatches extends Manager {
                                             matches = matches.substring(0, matches.length - 2)
                                         }
                                     }
-                                    var sql = `INSERT INTO matches (key, gameKey, matchNumber, teamKey, matchType) VALUES ${matches}`
+                                    var sql = `INSERT INTO matches (key, tournamentKey, matchNumber, teamKey, matchType) VALUES ${matches}`
                                     // console.log(sql)
                                     await this.whyGodInsert(sql)
                                     .catch((err) => {
@@ -66,7 +66,7 @@ class AddTournamentMatches extends Manager {
                                             matches = matches.substring(0, matches.length - 2)
                                         }
                                     }
-                                    var sql = `INSERT INTO matches (key, gameKey, matchNumber, teamkey, matchType) VALUES ${matches}`
+                                    var sql = `INSERT INTO matches (key, tournamentKey, matchNumber, teamkey, matchType) VALUES ${matches}`
                                     // console.log(sql)
                                     await this.whyGodInsert(sql)
                                     .catch((err) => {

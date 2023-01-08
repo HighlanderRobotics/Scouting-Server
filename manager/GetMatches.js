@@ -9,7 +9,7 @@ class GetMatches extends Manager {
 
     runTask(body) {
         var sql = `SELECT * FROM matches
-            WHERE gameKey = '${body.tournamentKey}'
+            WHERE tournamentKey = '${body.tournamentKey}'
             ORDER BY matchNumber`
 
         let errorCode = 400

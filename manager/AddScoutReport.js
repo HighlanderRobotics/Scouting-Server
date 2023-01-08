@@ -19,7 +19,7 @@ class AddScoutReport extends Manager {
         SELECT * FROM matches 
         WHERE
             teamKey = '${teamKey}'
-            AND gameKey = '${tournamentKey}'
+            AND tournamentKey = '${tournamentKey}'
             AND SUBSTRING(key, 1, LENGTH(key)-1) = '${localMatchKey}_'
         `
 
