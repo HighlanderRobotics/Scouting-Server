@@ -11,7 +11,7 @@ let run = async () => {
     console.log(await new DatabaseManager().runTask('addScoutReport', {
         "uuid": "8d35ff89-4ecb-4a14-a6f7-206560fff9b0",
         "competitionKey": "2022cc",
-        "matchKey": "qm1",
+        "key": "qm1",
         "teamNumber": 6036,
         "scouterName": "Jacob Trentini",
         "startTime": 1672524014232,
@@ -167,7 +167,7 @@ let run = async () => {
     console.log(await new DatabaseManager().runTask('addScoutReport', {
         "uuid": "e7e4e7f9-16d4-4e5b-b571-5bd1ce30a2c4",
         "competitionKey": "2022cc",
-        "matchKey": "qm3",
+        "key": "qm3",
         "teamNumber": 4499,
         "scouterName": "Jacob Trentini",
         "startTime": 1672524439183,
@@ -328,7 +328,7 @@ let run = async () => {
     console.log(await new DatabaseManager().runTask('addScoutReport', {
         "uuid": "4e1b9efc-954a-4e46-997f-b776014a757d",
         "competitionKey": "2022cc",
-        "matchKey": "qm16",
+        "key": "qm16",
         "teamNumber": 973,
         "scouterName": "Jacob Trentini",
         "startTime": 1672952139086,
@@ -419,7 +419,7 @@ let run = async () => {
     console.log(await new DatabaseManager().runTask('addScoutReport', {
         "uuid": "b340988c-bc8a-4c94-815f-dbcb4e468665",
         "competitionKey": "2022cc",
-        "matchKey": "qm16",
+        "key": "qm16",
         "teamNumber": 973,
         "scouterName": "Jacob Trentini",
         "startTime": 1672953635957,

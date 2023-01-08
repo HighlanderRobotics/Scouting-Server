@@ -102,7 +102,7 @@ Will accept if a teamKey, tournamentKey, and data
 {
   "uuid": "e7e4e7f9-16d4-4e5b-b571-5bd1ce30a2c4",
   "competitionKey": "2022cc",
-  "matchKey": "qm3",
+  "key": "qm3",
   "teamNumber": 4499,
   "scouterName": "Jacob Trentini",
   "startTime": 1672524439183,

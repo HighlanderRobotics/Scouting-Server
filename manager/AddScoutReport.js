@@ -11,7 +11,7 @@ class AddScoutReport extends Manager {
     runTask(teamKey, tournamentKey, data) {
         let bruv = ""
         let errorCode = 400
-        let localMatchKey = `${tournamentKey}_${data.matchKey}`
+        let localMatchKey = `${tournamentKey}_${data.key}`
         // console.log(localMatchKey)
         // console.log(teamKey)
         // console.log(tournamentKey)
