@@ -9,6 +9,8 @@ class AddScoutReport extends Manager {
     }
 
     runTask(teamKey, tournamentKey, data) {
+        let bruv = ""
+        let errorCode = 400
         let localMatchKey = `${tournamentKey}_${data.matchKey}`
         // console.log(localMatchKey)
         // console.log(teamKey)
@@ -26,12 +28,15 @@ class AddScoutReport extends Manager {
                 // console.log(match)
                 if (err) {
                     console.error(err)
+                    errorCode = 500
                     reject(err)
                 } else if (match != undefined) {
                     this.insertData(match.key, data)
                     .catch((err) => {
                         if (err) {
+                            bruv = "SQLITE UNIQUE ERROR, run node testapi.js"
                             console.log(err)
+                            errorCode = 500
                             reject(err)
                         }
                     })
@@ -42,6 +47,7 @@ class AddScoutReport extends Manager {
                 } else {
                     console.log(`Couldn't find match for:`)
                     console.log(data)
+                    errorCode = 406
                     reject(`Match doesn't exist`)
                 }
             })
@@ -50,7 +56,9 @@ class AddScoutReport extends Manager {
             if (err) {
                 return {
                     "results": err,
-                    "errorStatus": true
+                    "errorStatus": true,
+                    "customCode": errorCode,
+                    "justForJacob": bruv
                 }
             } else {
                 return {
