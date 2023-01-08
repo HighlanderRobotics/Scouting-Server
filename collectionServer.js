@@ -128,16 +128,24 @@ app.post('/API/manager/:task', async (req, res) => {
         let results = await new DatabaseManager().runTask(req.params.task, req.body)
         
         if (!results.errorStatus) {
-            res.status(200).send(results)
+            if (results.customCode) {
+                res.status(results.customCode).send(results)
+            } else {
+                res.status(200).send(results)
+            }
         } else {
             console.log(`Detected error`)
-            res.status(400).send(results.results)
+            if (results.customCode) {
+                res.status(results.customCode).send(results)
+            } else {
+                res.status(400).send(results)
+            }
         }
 
         // console.log(results)
         
     } else {
-        res.status(400).send(`Missing Task Name`)
+        res.status(404).send(`Missing Task Name`)
     }
 })
 
@@ -146,15 +154,23 @@ app.get('/API/manager/:task', async (req, res) => {
         let results = await new DatabaseManager().runTask(req.params.task, req.query)
         
         if (!results.errorStatus) {
-            res.status(200).send(results)
+            if (results.customCode) {
+                res.status(results.customCode).send(results)
+            } else {
+                res.status(200).send(results)
+            }
         } else {
             console.log(`Detected error`)
-            res.status(400).send(results.results)
+            if (results.customCode) {
+                res.status(results.customCode).send(results)
+            } else {
+                res.status(400).send(results)
+            }
         }
 
         // console.log(results)
     } else {
-        res.status(400).send(`Missing Task Name`)
+        res.status(404).send(`Missing Task Name`)
     }
 })
 
@@ -199,7 +215,6 @@ app.get('/API/analysis/:task', async (req, res) => {
 
 // Reset DB (testing only)
 app.post('/resetDB', async (req,res) => {
-7
     if (req.body.uuid) {
         let taskNumber = uuidToTask.size
         uuidToTask.set(req.body.uuid, taskNumber)
