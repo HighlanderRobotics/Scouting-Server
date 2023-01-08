@@ -1,3 +1,8 @@
+# NAMING SCHEME
+key = 2022cc_qm3_1
+tournamentKey = 2022cc
+matchKey = qm3
+
 # Installation process on Ubuntu (sorry don't know how installation works on windows)
 (on mac, it sqlite3 should already come installed)
 ```
@@ -379,7 +384,7 @@ If the name is null then it means there's a scoutreport missing for that matchKe
 [
   {
     "matchKey": "2022cc_qm1",
-    "specificMatchKey": "2022cc_qm1_1",
+    "key": "2022cc_qm1_1",
     "status": true
   },
   {

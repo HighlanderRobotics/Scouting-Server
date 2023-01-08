@@ -36,7 +36,7 @@ class IsMatchesScouted extends Manager {
                         if (exists && data[j].scouterName == scouterName && data[j].matchKey.includes(`${matchKeys[i]}_`)) {
                             returnVals.push({
                                 "matchKey": matchKeys[i],
-                                "specificMatchKey": data[j].matchKey,
+                                "key": data[j].matchKey,
                                 "status": true
                             })
                             exists = false
