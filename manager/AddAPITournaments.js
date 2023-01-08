@@ -1,5 +1,5 @@
 const Manager = require('./Manager.js')
-const axios = require("axios");
+const axios = require("axios")
 
 class AddAPITournaments extends Manager {
     static name = "addAPITournaments"
@@ -39,15 +39,23 @@ class AddAPITournaments extends Manager {
                     }
                 })
             }
-        }).catch(err => {
+            return
+        })
+        .catch((err) => {
             if (err) {
-                console.error(`Error with inserting API Tournaments: ${err}`)
-                return(`Error with inserting API Tournaments: ${err}`)    
+                return {
+                    "results": err,
+                    "errorStatus": true
+                }
+            } else {
+                return {
+                    "results": "Successfully added API tournaments",
+                    "errorStatus": false
+                }
             }
         })
-        .then(() => {
-            console.log(`Finished inserting tournaments`)
-            return
+        .then((results) => {
+            return results
         })
     }
 }

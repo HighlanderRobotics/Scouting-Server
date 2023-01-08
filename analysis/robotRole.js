@@ -1,8 +1,9 @@
 const { image } = require('d3')
+const { help } = require('mathjs')
 const BaseAnalysis = require('./BaseAnalysis.js')
 
-class climberSucsessAll extends BaseAnalysis {
-    static name = `climberSucsessAll`
+class climberSucsess extends BaseAnalysis {
+    static name = `climberSucsess`
 
     constructor(db, team) {
         super(db)
@@ -10,10 +11,11 @@ class climberSucsessAll extends BaseAnalysis {
         this.teamKey = "ftc" + team
         // this.start = start
         // this.end = end
-        this.tipped = 0
-        this.off = 0
-        this.level = 0
+        this.defense = 0
+        this.offense = 0
+        this.helper = 0
         this.array = []
+        this.mixed = 0
         
     }
     async getData()
@@ -26,15 +28,16 @@ class climberSucsessAll extends BaseAnalysis {
                     FROM data
                 JOIN (SELECT matches.key, matches.matchNumber
                     FROM matches 
-                    JOIN teams ON teams.key = matches.teamKey)
-                     AS  newMatches ON  data.matchKey = newMatches.key
+                    JOIN teams ON teams.key = matches.teamKey
+                    WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
                 `;
-            let fullyOn = 0
-            let tipped = 0
-            let off = 0
+            let helper = 0
+            let offense = 0
+            let defense = 0
+            let mixed = 0
             let arr = []
 
-            this.db.all(sql, [], (err, rows) =>
+            this.db.all(sql, [a.team], (err, rows) =>
             {
                 if(err)
                 {
@@ -62,9 +65,10 @@ class climberSucsessAll extends BaseAnalysis {
                         }
                         
                     }
-                    a.tipped = tipped/arr.length
-                    a.level = fullyOn/arr.length
-                    a.off = off/arr.length
+                    a.offense = offense/arr.length
+                    a.defense = defense/arr.length
+                    a.helper = helper/arr.length
+                    a.mixed = d
                     a.array = arr
 
                     
@@ -105,13 +109,10 @@ class climberSucsessAll extends BaseAnalysis {
     finalizeResults()
     {
         return { 
-            "off": this.off,
-            "level": this.level,
-            "tipped" : this.tipped,
-            "array" : this.array,
+            "role": this.role,
             "team": this.team
         }
     }
 }
-module.exports = climberSucsessAll
+module.exports = climberSucsess
 

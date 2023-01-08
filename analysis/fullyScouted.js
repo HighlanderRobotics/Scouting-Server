@@ -5,9 +5,9 @@ const BaseAnalysis = require('./BaseAnalysis.js')
 class fullyScouted extends BaseAnalysis {
     static name = `fullyScouted`
 
-    constructor(db, gameKey, matchNum) {
+    constructor(db, tournamentKey, matchNum) {
         super(db)
-        this.gameKey = gameKey
+        this.tournamentKey = tournamentKey
         this.matchNumber = matchNum
         this.result = false
     }
@@ -18,8 +18,8 @@ class fullyScouted extends BaseAnalysis {
         {
             let sql = `SELECT COUNT(*) AS rowCount
             FROM matches
-            WHERE gameKey = ? AND matchNumber  = ?`
-            a.db.all(sql, [a.gameKey, a.matchNumber], (err, rows) =>
+            WHERE tournamentKey = ? AND matchNumber  = ?`
+            a.db.all(sql, [a.tournamentKey, a.matchNumber], (err, rows) =>
             {
                 if(err)
                 {

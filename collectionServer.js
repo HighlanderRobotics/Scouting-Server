@@ -1,5 +1,7 @@
 require('dotenv').config()
 
+const axios = require("axios")
+
 // To connect to the database
 const sqlite = require('sqlite3').verbose()
 
@@ -25,36 +27,42 @@ const DatabaseManager = require('./DatabaseManager.js')
 const app = express()
 app.use(express.json())
 
+// Terminal QR Code
+var qrcode = require('qrcode-terminal')
+
 // ngrok
-// const ngrok = require('ngrok')
-// const token = process.env.NGROK_TOKEN
 // Get constant url from paid ngrok
-const url = undefined
+let url = undefined
 
 
 setup = async () => {
-    const url = await ngrok.connect(4000, { 
-        proto: 'http',
-        addr: 4000,
-        authtoken: token 
-    })
-    console.log(url)
 
-    if (url.startsWith('https://')) {
-    const https = 'https://'
-        return url.slice(https.length)
+    try {
+        url = await axios.get('http://localhost:4040/api/tunnels')
+        .then((res) => {
+            // console.log(res.data.tunnels[0])
+            return res.data.tunnels[0].public_url
+        })
+        console.log(url)
+        
+        if (url.startsWith('https://')) {
+            const https = 'https://'
+            return url.slice(https.length)
+        }
+    
+        if (url.startsWith('http://')) {
+            const http = 'http://'
+            return url.slice(http.length)
+        }
+    } catch (e) {
+        console.log(`\nngrok link is not setup/running\n`)
     }
 
-    if (url.startsWith('http://')) {
-        const http = 'http://'
-        return url.slice(http.length)
-    }
+
+    
 
     return url
 }
-
-// Terminal QR Code
-const qrcode = require('qrcode-terminal');
 
 // Logging stuff
 var logStream = fs.createWriteStream(path.join(`${__dirname}/logs`, `Logs_${new Date()}.log`), { flags: 'a' })
@@ -83,6 +91,7 @@ app.use(morgan('readable', {
 
 // Temporary if others want to use old endpoints for integration test day, will force changing endpoints later
 const Manager = require('./manager/dbmanager.js')
+const { json } = require('body-parser')
 
 // Tasks map
 const uuidToTask = new Map()
@@ -92,21 +101,18 @@ app.listen(port, async () => {
     console.log(`Collection Server running on ${port}...`)
 
     // Scannable qr code with ngrok link
-    // qrcode.generate(await setup())
-    if (url) {
+    if (await setup()) {
         qrcode.generate(url)
     }
-    
 
     // Init server here, idk what it would init but possibly could run + cache analysis engine, all it does is turn foreign keys on
-    await new DatabaseManager().runTask('InitServer', {})
-    .catch((err) => {
-        if (err) {
-            console.log(err)
+    await new DatabaseManager().runTask('initServer', {})
+    .then((results) => {
+        if (results) {
+            console.log(results)
+        } else {
+            console.log(`Initializing server`)
         }
-    })
-    .then(() => {
-        console.log(`Initializing server`)
     })
 })
 
@@ -118,32 +124,51 @@ app.get('/', async (req, res) => {
 app.post('/API/manager/:task', async (req, res) => {
     if (req.params.task) {
         let results = await new DatabaseManager().runTask(req.params.task, req.body)
-        .catch((err) => {
-            if (err) {
-                res.status(400).send(err)
+        
+        if (!results.errorStatus) {
+            if (results.customCode) {
+                res.status(results.customCode).send(results)
+            } else {
+                res.status(200).send(results)
             }
-        })
+        } else {
+            console.log(`Detected error`)
+            if (results.customCode) {
+                res.status(results.customCode).send(results)
+            } else {
+                res.status(400).send(results)
+            }
+        }
 
         // console.log(results)
-        res.status(200).send(results)
+        
     } else {
-        res.status(400).send(`Missing Task Name`)
+        res.status(404).send(`Missing Task Name`)
     }
 })
 
 app.get('/API/manager/:task', async (req, res) => {
     if (req.params.task) {
         let results = await new DatabaseManager().runTask(req.params.task, req.query)
-        .catch((err) => {
-            if (err) {
-                res.status(400).send(err)
+        
+        if (!results.errorStatus) {
+            if (results.customCode) {
+                res.status(results.customCode).send(results)
+            } else {
+                res.status(200).send(results)
             }
-        })
+        } else {
+            console.log(`Detected error`)
+            if (results.customCode) {
+                res.status(results.customCode).send(results)
+            } else {
+                res.status(400).send(results)
+            }
+        }
 
         // console.log(results)
-        res.status(200).send(results)
     } else {
-        res.status(400).send(`Missing Task Name`)
+        res.status(404).send(`Missing Task Name`)
     }
 })
 
@@ -188,7 +213,6 @@ app.get('/API/analysis/:task', async (req, res) => {
 
 // Reset DB (testing only)
 app.post('/resetDB', async (req,res) => {
-7
     if (req.body.uuid) {
         let taskNumber = uuidToTask.size
         uuidToTask.set(req.body.uuid, taskNumber)
@@ -202,7 +226,7 @@ app.post('/resetDB', async (req,res) => {
 // Old system
 const promiseWithTimeout = ((promise) => {
     // Times out after 1 ms, assumes promise is still pending (usually takes ~0ms)
-    var timeOutTime = 1;
+    var timeOutTime = 1
 
     const timeoutPromise = new Promise(async (resolve, reject) => {
         setTimeout(resolve, timeOutTime, `Requested task is unfinished, come back later`)

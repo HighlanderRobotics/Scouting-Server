@@ -1,8 +1,8 @@
 const { image } = require('d3')
 const BaseAnalysis = require('./BaseAnalysis.js')
 
-class climberSucsessAll extends BaseAnalysis {
-    static name = `climberSucsessAll`
+class climberSucsessAuto extends BaseAnalysis {
+    static name = `climberSucsessAuto`
 
     constructor(db, team) {
         super(db)
@@ -26,15 +26,15 @@ class climberSucsessAll extends BaseAnalysis {
                     FROM data
                 JOIN (SELECT matches.key, matches.matchNumber
                     FROM matches 
-                    JOIN teams ON teams.key = matches.teamKey)
-                     AS  newMatches ON  data.matchKey = newMatches.key
+                    JOIN teams ON teams.key = matches.teamKey
+                    WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
                 `;
             let fullyOn = 0
             let tipped = 0
             let off = 0
             let arr = []
 
-            this.db.all(sql, [], (err, rows) =>
+            this.db.all(sql, [a.team], (err, rows) =>
             {
                 if(err)
                 {
@@ -46,7 +46,7 @@ class climberSucsessAll extends BaseAnalysis {
 
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array){
-                        let curr = JSON.parse(row.scoutReport).challengeResult
+                        let curr = JSON.parse(row.scoutReport).challengeResultAuto
                         arr.push(curr)
                         if(curr === 0)
                         {
@@ -65,7 +65,7 @@ class climberSucsessAll extends BaseAnalysis {
                     a.tipped = tipped/arr.length
                     a.level = fullyOn/arr.length
                     a.off = off/arr.length
-                    a.array = arr
+                    a.array = arr/arr.length
 
                     
                 }
@@ -113,5 +113,5 @@ class climberSucsessAll extends BaseAnalysis {
         }
     }
 }
-module.exports = climberSucsessAll
+module.exports = climberSucsessAuto
 

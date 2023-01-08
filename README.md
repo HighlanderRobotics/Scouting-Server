@@ -1,3 +1,8 @@
+# NAMING SCHEME
+key = 2022cc_qm3_1
+tournamentKey = 2022cc
+matchKey = qm3
+
 # Installation process on Ubuntu (sorry don't know how installation works on windows)
 (on mac, it sqlite3 should already come installed)
 ```
@@ -102,7 +107,7 @@ Will accept if a teamKey, tournamentKey, and data
 {
   "uuid": "e7e4e7f9-16d4-4e5b-b571-5bd1ce30a2c4",
   "competitionKey": "2022cc",
-  "matchKey": "qm3",
+  "key": "qm3",
   "teamNumber": 4499,
   "scouterName": "Jacob Trentini",
   "startTime": 1672524439183,
@@ -335,25 +340,39 @@ If the name is null then it means there's a scoutreport missing for that matchKe
 ```json
 [
   {
-    "key": "2022cc_qm1_4",
-    "gameKey": "2022cc",
-    "matchNumber": 1,
-    "teamKey": "frc254",
+    "key": "2022cc_qm65_3",
+    "tournamentKey": "2022cc",
+    "matchNumber": 65,
+    "teamKey": "frc7157",
     "matchType": "qm"
   },
   {
-    "key": "2022cc_qm1_3",
-    "gameKey": "2022cc",
-    "matchNumber": 1,
-    "teamKey": "frc3647",
+    "key": "2022cc_qm65_1",
+    "tournamentKey": "2022cc",
+    "matchNumber": 65,
+    "teamKey": "frc972",
     "matchType": "qm"
   },
   {
-    "key": "2022cc_qm1_0",
-    "gameKey": "2022cc",
-    "matchNumber": 1,
-    "teamKey": "frc6036",
-    "matchType": "qm"
+    "key": "2022cc_ef1_1",
+    "tournamentKey": "2022cc",
+    "matchNumber": 70,
+    "teamKey": "frc1678",
+    "matchType": "ef"
+  },
+  {
+    "key": "2022cc_qf1_1",
+    "tournamentKey": "2022cc",
+    "matchNumber": 66,
+    "teamKey": "frc1678",
+    "matchType": "qf"
+  },
+  {
+    "key": "2022cc_f1_1",
+    "tournamentKey": "2022cc",
+    "matchNumber": 78,
+    "teamKey": "frc1690",
+    "matchType": "f"
   }
 ]
 ```
@@ -365,7 +384,7 @@ If the name is null then it means there's a scoutreport missing for that matchKe
 [
   {
     "matchKey": "2022cc_qm1",
-    "specificMatchKey": "2022cc_qm1_1",
+    "key": "2022cc_qm1_1",
     "status": true
   },
   {
@@ -388,6 +407,16 @@ sinceTime is optional but will use epoch in milis
   "Very Purple",
   "Got bodied by defense",
   "Bad climb"
+]
+```
+
+## GET /API/manager/matchesCompleted?teamKey=frc6036&tournamentKey=2022cc
+Can omit tournamentKey if you want to search the entire database and can also use teamNumber if you want. Currently sends the stored matchKey but I can cut off the "_0" if need be.
+
+### Will return: Response code 200
+```json
+[
+    "2022cc_qm1_0"
 ]
 ```
 

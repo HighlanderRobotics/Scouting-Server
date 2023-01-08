@@ -22,17 +22,27 @@ class AddAPITeams extends Manager {
             .then(async (response) => {
                 for (var i = 0; i < response.data.length; i++) {
                     await insertTeam(sql, response, i)
+                    .catch((err) => {
+                        return err
+                    })
                 }
-            }).catch(err => {
+                return
+            })
+            .catch((err) => {
                 if (err) {
-                    console.error(`Error with getting teams from TBA API: ${err}`)
-                    return err                    
+                    return {
+                        "results": err,
+                        "errorStatus": true
+                    }
+                } else {
+                    return {
+                        "results": "Successfully added teams",
+                        "errorStatus": false
+                    }
                 }
-            }).then(() => {
-                if (j === 17) {
-                    console.log(`Finished inserting API teams`)
-                    return
-                }
+            })
+            .then((results) => {
+                return results
             })
         }
     }

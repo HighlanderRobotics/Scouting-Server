@@ -8,13 +8,15 @@ const availability = Papa.parse(fs.readFileSync('./scouters/Availability.csv', '
 let version = 1
 let previous = fs.readFileSync(`./scouters/scoutersSchedule.json`, 'utf8')
 if (undefined != previous && previous.includes('version')) {
-    console.log(`exists`)
+    console.log(`Previous version already exists`)
     version = JSON.parse(previous).version + 1
 }
 
 const tournamentKey = '2022cc'
+const amountOfQms = 65
 const shiftSize = 5
-const busy = ['Vaughn Khouri', 'Alex Ware', 'Reece Beck', 'Peter Stokes']
+let nonqual = 0
+const busy = ['Vaughn Khouri', 'Alex Ware', 'Reece Beck', 'Peter Stokes', 'Jasper Tripp']
 
 
 run = async () => {
@@ -35,19 +37,65 @@ run = async () => {
         }
     })
 
-    for (var i = 0; i < (shifts.length/6)/shiftSize; i++) {
-        if (i+shiftSize > shifts.length/6) {
-            newData.shifts[i] = {
-                'start': i*shiftSize + 1,
-                'end': (shifts.length/6),
-                'scouts': []
-            }
+    for (var i = 0; i < (amountOfQms/shiftSize) + 4; i++) {
+        let startMatchKey = tournamentKey + '_'
+        let endMatchKey = tournamentKey + '_'
+
+        let startMatchNumber = 0
+        let endMatchNumber = 0
+
+        if ((i*shiftSize + 1) < amountOfQms && (i*shiftSize + shiftSize) < amountOfQms) {
+            // Before amount of qms
+            startMatchNumber = (i*shiftSize + 1)
+            endMatchNumber = (i*shiftSize + shiftSize)
+            startMatchKey += "qm" + (i*shiftSize + 1)
+            endMatchKey += "qm" + (i*shiftSize + shiftSize)
+        } else if ((i*shiftSize + 1) < amountOfQms) {
+            // Stops at amount of qms because after would be pick
+            startMatchNumber = (i*shiftSize + 1)
+            endMatchNumber = amountOfQms
+            startMatchKey += "qm" + (i*shiftSize + 1)
+            endMatchKey += "qm" + amountOfQms
         } else {
-            newData.shifts[i] = {
-                'start': i*shiftSize + 1,
-                'end': (i*shiftSize + shiftSize),
-                'scouts': []
+            if (nonqual == 0) {
+                // First non qual match
+                startMatchNumber = amountOfQms + 1
+                endMatchNumber = amountOfQms + 4
+                startMatchKey += "qf0"
+                endMatchKey += "qf3"
+            } else if (nonqual == 1) {
+                // Figured out startMatchNumber and endMatchNumber like this because it's easier to keep track of how many matches in a non-qual shift (since double elimination)
+                startMatchNumber = amountOfQms + 4 + 1
+                endMatchNumber = amountOfQms + 4 + 4
+                startMatchKey += "ef0"
+                endMatchKey += "sf1"
+            } else if (nonqual == 2) {
+                // Winners finals happens between ef2 and ef5
+                startMatchNumber = amountOfQms + 4 + 4 + 1
+                endMatchNumber = amountOfQms + 4 + 4 + 5
+                startMatchKey += "ef2"
+                // ef5 is also known as Losers Finals, but isn't labelled differently ig
+                endMatchKey += "ef5"
+            } else if (nonqual == 3) {
+                // Grand Finals
+                startMatchNumber = amountOfQms + 4 + 4 + 5 + 1
+                endMatchNumber = amountOfQms + 4 + 4 + 5 + 3
+                startMatchKey += "gf0"
+                endMatchKey += "gf2"
+            } else {
+                // If it gets here I guess I can't count
+                console.log(`Barry can't count lmao`)
+                break;
             }
+            nonqual++
+        }
+
+        newData.shifts[i] = {
+            'start': startMatchNumber,
+            'end': endMatchNumber,
+            'startKey': startMatchKey,
+            'endKey': endMatchKey,
+            'scouts': []
         }
 
         while (newData.shifts[i].scouts.length < 6) {

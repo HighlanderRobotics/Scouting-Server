@@ -47,7 +47,7 @@ class Manager {
         var sql = `
         SELECT * FROM matches WHERE
             teamKey = '${teamKey}' AND
-            gameKey = '${tournamentKey}' AND
+            tournamentKey = '${tournamentKey}' AND
             matchNumber = ${data.matchNumber}
         `
 
@@ -129,7 +129,7 @@ class Manager {
 
         var createTournaments = `CREATE TABLE tournaments (key TEXT ONLY PRIMARY KEY, name TEXT ONLY, location VARCHAR(50), date TEXT ONLY VARCHAR(20), UNIQUE (key, date));`
 
-        var createMatches = `CREATE TABLE matches (key PRIMARY KEY, gameKey TEXT ONLY NOT NULL, matchNumber INTEGER, teamKey TEXT ONLY NOT NULL, matchType TEXT ONLY NOT NULL, UNIQUE (gameKey, teamKey), FOREIGN KEY(gameKey) REFERENCES tournaments(key), FOREIGN KEY(teamKey) REFERENCES teams(key));`
+        var createMatches = `CREATE TABLE matches (key PRIMARY KEY, tournamentKey TEXT ONLY NOT NULL, matchNumber INTEGER, teamKey TEXT ONLY, matchType TEXT ONLY NOT NULL, UNIQUE (tournamentKey, teamKey, matchType, matchNumber), FOREIGN KEY(tournamentKey) REFERENCES tournaments(key), FOREIGN KEY(teamKey) REFERENCES teams(key));`
 
         // Probably finalized lmk if there's any other datapoints
         var createData = `
@@ -393,7 +393,7 @@ class Manager {
                                             matches = matches.substring(0, matches.length - 2)
                                         }
                                     }
-                                    var sql = `INSERT INTO matches (key, gameKey, matchNumber, teamKey, matchType) VALUES ${matches}`
+                                    var sql = `INSERT INTO matches (key, tournamentKey, matchNumber, teamKey, matchType) VALUES ${matches}`
                                     // console.log(sql)
                                     await whyGodInsert(sql)
                                     .catch((err) => {

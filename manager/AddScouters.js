@@ -12,18 +12,26 @@ class AddScouters extends Manager {
 
         var scouters = this.getScouters()
 
-
+        let errorCode = 400
+        
         await this.runInsertScouters()
-        .catch(err => {
+        .catch((err) => {
             if (err) {
-                console.error(`Error with inserting Scouters: ${err}`)
-                return(`Error with inserting Scouters: ${err}`)    
+                return {
+                    "results": err,
+                    "errorStatus": true,
+                    "customCode": errorCode
+                }
+            } else {
+                return {
+                    "results": "Successfully added scouters",
+                    "errorStatus": false
+                }
             }
         })
-        .then(() => {
-            console.log(`Finished inserting Scouters`)
-            return
-        }) 
+        .then((results) => {
+            return results
+        })
     }
     
     getScouters() {
@@ -35,6 +43,7 @@ class AddScouters extends Manager {
         return new Promise((resolve, reject) => {
             Manager.db.run(sql, [scout.name, scout.number, scout.email], (err) => {
                 if (err) {
+                    errorCode = 500
                     console.error(`Error inserting scouters: ${err}`)
                     reject(`Error inserting scouters: ${err}`)
                 } else {
@@ -50,6 +59,7 @@ class AddScouters extends Manager {
             await this.insertScouter(sql, scouters[i], i)
             .catch((err) => {
                 if (err) {
+                    errorCode = 500
                     console.log(`Error with inserting scouter: ${err}`)
                     reject(err)
                 }

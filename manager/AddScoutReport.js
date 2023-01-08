@@ -9,7 +9,9 @@ class AddScoutReport extends Manager {
     }
 
     runTask(teamKey, tournamentKey, data) {
-        let localMatchKey = `${tournamentKey}_${data.matchKey}`
+        let bruv = ""
+        let errorCode = 400
+        let localMatchKey = `${tournamentKey}_${data.key}`
         // console.log(localMatchKey)
         // console.log(teamKey)
         // console.log(tournamentKey)
@@ -17,7 +19,7 @@ class AddScoutReport extends Manager {
         SELECT * FROM matches 
         WHERE
             teamKey = '${teamKey}'
-            AND gameKey = '${tournamentKey}'
+            AND tournamentKey = '${tournamentKey}'
             AND SUBSTRING(key, 1, LENGTH(key)-1) = '${localMatchKey}_'
         `
 
@@ -26,12 +28,15 @@ class AddScoutReport extends Manager {
                 // console.log(match)
                 if (err) {
                     console.error(err)
+                    errorCode = 500
                     reject(err)
                 } else if (match != undefined) {
                     this.insertData(match.key, data)
                     .catch((err) => {
                         if (err) {
+                            bruv = "SQLITE UNIQUE ERROR, run node resetDataTable.js"
                             console.log(err)
+                            errorCode = 500
                             reject(err)
                         }
                     })
@@ -42,18 +47,28 @@ class AddScoutReport extends Manager {
                 } else {
                     console.log(`Couldn't find match for:`)
                     console.log(data)
+                    errorCode = 406
                     reject(`Match doesn't exist`)
                 }
             })
         })
         .catch((err) => {
             if (err) {
-                // console.error(err)
-                return err
+                return {
+                    "results": err,
+                    "errorStatus": true,
+                    "customCode": errorCode,
+                    "justForJacob": bruv
+                }
+            } else {
+                return {
+                    "results": err,
+                    "errorStatus": false
+                }
             }
         })
-        .finally(() => {
-            return `Success`
+        .then((results) => {
+            return results
         })
     }
 

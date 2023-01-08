@@ -1,8 +1,8 @@
 const { image } = require('d3')
 const BaseAnalysis = require('./BaseAnalysis.js')
 
-class climberSucsessAll extends BaseAnalysis {
-    static name = `climberSucsessAll`
+class climberSucsessAutoAll extends BaseAnalysis {
+    static name = `climberSucsessAutoAll`
 
     constructor(db, team) {
         super(db)
@@ -46,7 +46,7 @@ class climberSucsessAll extends BaseAnalysis {
 
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array){
-                        let curr = JSON.parse(row.scoutReport).challengeResult
+                        let curr = JSON.parse(row.scoutReport).challengeResultAuto
                         arr.push(curr)
                         if(curr === 0)
                         {
@@ -113,5 +113,5 @@ class climberSucsessAll extends BaseAnalysis {
         }
     }
 }
-module.exports = climberSucsessAll
+module.exports = climberSucsessAutoAll
 

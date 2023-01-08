@@ -15,6 +15,7 @@ const GetMatches = require('./manager/GetMatches.js')
 const IsMatchesScouted = require('./manager/IsMatchesScouted.js')
 const GetAllNotes = require('./manager/GetAllNotes.js')
 const NewScouter = require('./manager/NewScouter.js')
+const MatchesCompleted = require('./manager/MatchesCompleted.js')
 
 class DatabaseManager {
     constructor() {
@@ -73,6 +74,9 @@ class DatabaseManager {
                 case NewScouter.name:
                     resolve(await new NewScouter().runTask(body.scouterName, body.scouterNumber, body.scouterEmail))
                     break
+                case MatchesCompleted.name:
+                    resolve(await new MatchesCompleted().runTask(body))
+                    break
                 default:
                     reject(`${task} is not a task`)
                     break
@@ -81,7 +85,10 @@ class DatabaseManager {
         })
         .catch((err) => {
             if (err) {
-                return err
+                return {
+                    "results": err,
+                    "errorStatus": true,
+                }
             }
         })
         .then((results) => {

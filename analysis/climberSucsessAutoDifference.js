@@ -1,11 +1,11 @@
 const BaseAnalysis = require('./BaseAnalysis.js')
-const teamStat = require('./cargoCount.js')
-const all = require('./cargoCountAll.js')
+const teamStat = require('./climberSucsessAuto.js')
+const all = require('./climberSucsessAutoAll.js')
 
 // const Manager = require('./manager/dbmanager.js')
 
-class cargoCountDifference extends BaseAnalysis {
-    static name = `cargoCountDifference`
+class climberSucsessAutoDifference extends BaseAnalysis {
+    static name = `climberSucsessAutoDifference`
 
     constructor(db, team) {
         super(db)
@@ -13,7 +13,9 @@ class cargoCountDifference extends BaseAnalysis {
         // this.teamKey = "frc" + team
         // this.start = start
         // this.end = end
-        this.result = 0
+        this.off = 0
+        this.tipped = 0
+        this.level = 0
         // this.array = []
         
     }
@@ -25,10 +27,11 @@ class cargoCountDifference extends BaseAnalysis {
         let teamAvg = x.result
         let y = new all(a.db)
         await y.runAnalysis()
-        let overallAvg = y.result
+        
 
-        a.result = teamAvg - overallAvg
-        console.log(a.result)
+        a.off = teamAvg.off - overallAvg.off
+        a.tipped = teamAvg.tipped - overallAvg.tipped
+        a.level = teamAvg.level - overallAvg.level
         
     }
     
@@ -51,10 +54,12 @@ class cargoCountDifference extends BaseAnalysis {
         finalizeResults()
         {
             return { 
-                "result": this.result,
+                "off": this.off,
+                "tipped": this.tipped,
+                "level" : this.level,
                 "team": this.team,
             }
         }
 
 }
-module.exports = cargoCountDifference
+module.exports = climberSucsessAutoDifference

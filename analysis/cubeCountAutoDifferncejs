@@ -1,11 +1,11 @@
 const BaseAnalysis = require('./BaseAnalysis.js')
-const teamStat = require('./climberSucsess.js')
-const all = require('./climberSucsessAll.js')
+const teamStat = require('./cubeCountAuto.js')
+const all = require('./cubeCountAutoAll.js')
 
 // const Manager = require('./manager/dbmanager.js')
 
-class climberSucsessDifference extends BaseAnalysis {
-    static name = `climberSucsessDifference`
+class cubeCountAutoDifference extends BaseAnalysis {
+    static name = `cubeCountAutoDifference`
 
     constructor(db, team) {
         super(db)
@@ -13,9 +13,7 @@ class climberSucsessDifference extends BaseAnalysis {
         // this.teamKey = "frc" + team
         // this.start = start
         // this.end = end
-        this.off = 0
-        this.tipped = 0
-        this.level = 0
+        this.result = 0
         // this.array = []
         
     }
@@ -27,11 +25,10 @@ class climberSucsessDifference extends BaseAnalysis {
         let teamAvg = x.result
         let y = new all(a.db)
         await y.runAnalysis()
-        
+        let overallAvg = y.result
 
-        a.off = teamAvg.off - overallAvg.off
-        a.tipped = teamAvg.tipped - overallAvg.tipped
-        a.level = teamAvg.level - overallAvg.level
+        a.result = teamAvg - overallAvg
+        console.log(a.result)
         
     }
     
@@ -54,12 +51,10 @@ class climberSucsessDifference extends BaseAnalysis {
         finalizeResults()
         {
             return { 
-                "off": this.off,
-                "tipped": this.tipped,
-                "level" : this.level,
+                "result": this.result,
                 "team": this.team,
             }
         }
 
 }
-module.exports = climberSucsessDifference
+module.exports = cubeCountAutoDifference

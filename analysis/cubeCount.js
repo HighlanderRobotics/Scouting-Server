@@ -1,63 +1,73 @@
 const BaseAnalysis = require('./BaseAnalysis.js')
+// const Manager = require('./manager/dbmanager.js')
 
-class cargoCount extends BaseAnalysis {
-    static name = `cargoCount`
+class cubeCount extends BaseAnalysis {
+    static name = `cubeCount`
 
     constructor(db, team) {
         super(db)
         this.team = team
+        this.teamKey = "frc" + team
         // this.start = start
         // this.end = end
-        this.teamKey = "ftc" + team
         this.result = 0
         this.array = []
         
     }
-    async getCount()
+    async getAccuracy()
     {
         let a = this
         return new Promise(async function(resolve, reject)
         {
-            //why does await not work when it works in  bestAverageForMetric
+
                 var sql = `SELECT scoutReport
                 FROM data
-                JOIN (SELECT matches.key, matches.matchNumber
-                    FROM matches 
-                    JOIN teams ON teams.key = matches.teamKey
-                    WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
-              `
-              let len = 0
-              let makes = 0
-              let arr = []
+            JOIN (SELECT matches.key
+                FROM matches 
+                JOIN teams ON teams.key = matches.teamKey
+                WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
+          `;
+          let arr = []
+                    let len = 0
+                    let makes = 0
                 a.db.all(sql, [a.team], (err, rows) =>
                 {
+                    if(err)
+                    {
+                        console.log(err)
+                    }
                     
-
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array){
                         let curr = JSON.parse(row.scoutReport).events
+                        let lenTemp = 0
+                        let makesTemp = 0
                         for(var i = 0; i < curr.length; i++) {
+                           //change numbers
                             let subArr = curr[i]
-                            if (subArr[1] === 0) {
-                              makes++
-                                
+                            if(subArr[1] === 1)
+                            {
+                                lenTemp++
+                                len++
                             }
-                            
-                            
+                            if (subArr[1] === 0) {
+                                makesTemp++
+                                lenTemp++
+                              makes++
+                              len++
+                            }
                         }
-                        arr.push(makes)
-                        len++
+                        arr.push(makesTemp/lenTemp)
                        
-
                     }
-                    a.result= makes/len
+                    //  console.log(makes/len)
+                    //  console.log(arr)
                     a.array = arr
-                    console.log(a.result)
-                  resolve("done")
-                }) 
-            
-                
-                              
+                    a.result = makes/len   
+                    resolve("done") 
+                    
+                })
+                   
                 })
                 .catch((err) => {
                     if (err) {
@@ -74,12 +84,9 @@ class cargoCount extends BaseAnalysis {
         {
             return new Promise(async (resolve, reject) =>
             {
-                console.log("here")
                 let a = this
-                var temp = await a.getCount().catch((err) => {
+                var temp = await a.getAccuracy().catch((err) => {
                     if (err) {
-
-                        console.log(err)
                         return err
                     }
                 })  
@@ -98,4 +105,4 @@ class cargoCount extends BaseAnalysis {
         }
 
 }
-module.exports = cargoCount
+module.exports = cubeCount
