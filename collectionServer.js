@@ -31,8 +31,6 @@ app.use(express.json())
 var qrcode = require('qrcode-terminal')
 
 // ngrok
-// const ngrok = require('ngrok')
-// const token = process.env.NGROK_TOKEN
 // Get constant url from paid ngrok
 let url = undefined
 
