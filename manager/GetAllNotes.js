@@ -24,16 +24,32 @@ class GetAllNotes extends Manager {
                     reject(err)
                 }
 
-                if (notes) {
+                if (notes.length) {
                     notes.forEach((note) => {
                         returnNotes.push(note.notes)
                     })
                     
                     resolve(returnNotes)
                 } else {
-                    reject(`No notes found for ${teamkey}`)
+                    reject(`No notes found for ${teamKey}`)
                 }
             })
+        })
+        .catch((err) => {
+            if (err) {
+                return {
+                    "results": err,
+                    "errorStatus": true
+                }
+            } else {
+                return {
+                    "results": err,
+                    "errorStatus": false
+                }
+            }
+        })
+        .then((results) => {
+            return results
         })
         
     }

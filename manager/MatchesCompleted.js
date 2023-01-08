@@ -17,7 +17,11 @@ class MatchesCompleted extends Manager {
         } else if (body.teamNumber) {
             sql += `matches.teamKey = 'frc${body.teamNumber}'`
         } else {
-            return `Missing teamKey or teamNumber`
+            return {
+                "results": `Missing teamKey or teamNumber`,
+                "errorStatus": true
+            }
+            
         }
 
         if (body.tournamentKey) {
@@ -43,7 +47,15 @@ class MatchesCompleted extends Manager {
         })
         .catch((err) => {
             if (err) {
-                return err
+                return {
+                    "results": err,
+                    "errorStatus": true
+                }
+            } else {
+                return {
+                    "results": err,
+                    "errorStatus": false
+                }
             }
         })
         .then((results) => {

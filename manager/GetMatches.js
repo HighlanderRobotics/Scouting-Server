@@ -15,13 +15,16 @@ class GetMatches extends Manager {
 
         return new Promise((resolve, reject) => {
             Manager.db.all(sql, (err, matches) => {
+                let modifiedMatches = []
                 if (err) {
                     console.error(`Error with getMatches(): ${err}`)
                     reject(`Error with getMatches(): ${err}`)
+                } else if (matches.length == 0) {
+                    // No matches found
+                    console.log(`No matches found for ${body.tournamentKey}`)
+                    reject(modifiedMatches)
                 } else {
-                    let modifiedMatches = []
                     let largestQm = matches[0].matchNumber
-
                     matches.forEach((match) => {
                         if (match.matchType === 'qm') {
                             modifiedMatches.push(match)
@@ -74,7 +77,15 @@ class GetMatches extends Manager {
         })
         .catch((err) => {
             if (err) {
-                return err
+                return {
+                    "results": err,
+                    "errorStatus": true
+                }
+            } else {
+                return {
+                    "results": err,
+                    "errorStatus": false
+                }
             }
         })
         .then((results) => {

@@ -109,13 +109,12 @@ app.listen(port, async () => {
 
     // Init server here, idk what it would init but possibly could run + cache analysis engine, all it does is turn foreign keys on
     await new DatabaseManager().runTask('InitServer', {})
-    .catch((err) => {
-        if (err) {
-            console.log(err)
+    .then((results) => {
+        if (results.errorStatus) {
+            console.log(results)
+        } else {
+            console.log(`Initializing server`)
         }
-    })
-    .then(() => {
-        console.log(`Initializing server`)
     })
 })
 
@@ -127,14 +126,16 @@ app.get('/', async (req, res) => {
 app.post('/API/manager/:task', async (req, res) => {
     if (req.params.task) {
         let results = await new DatabaseManager().runTask(req.params.task, req.body)
-        .catch((err) => {
-            if (err) {
-                res.status(400).send(err)
-            }
-        })
+        
+        if (!results.errorStatus) {
+            res.status(200).send(results)
+        } else {
+            console.log(`Detected error`)
+            res.status(400).send(results.results)
+        }
 
         // console.log(results)
-        res.status(200).send(results)
+        
     } else {
         res.status(400).send(`Missing Task Name`)
     }
@@ -143,14 +144,15 @@ app.post('/API/manager/:task', async (req, res) => {
 app.get('/API/manager/:task', async (req, res) => {
     if (req.params.task) {
         let results = await new DatabaseManager().runTask(req.params.task, req.query)
-        .catch((err) => {
-            if (err) {
-                res.status(400).send(err)
-            }
-        })
+        
+        if (!results.errorStatus) {
+            res.status(200).send(results)
+        } else {
+            console.log(`Detected error`)
+            res.status(400).send(results.results)
+        }
 
         // console.log(results)
-        res.status(200).send(results)
     } else {
         res.status(400).send(`Missing Task Name`)
     }

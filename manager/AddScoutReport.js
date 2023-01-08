@@ -48,12 +48,19 @@ class AddScoutReport extends Manager {
         })
         .catch((err) => {
             if (err) {
-                // console.error(err)
-                return err
+                return {
+                    "results": err,
+                    "errorStatus": true
+                }
+            } else {
+                return {
+                    "results": err,
+                    "errorStatus": false
+                }
             }
         })
-        .finally(() => {
-            return `Success`
+        .then((results) => {
+            return results
         })
     }
 

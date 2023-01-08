@@ -86,9 +86,18 @@ class AddTournamentMatches extends Manager {
         })
         .catch((err) => {
             if (err) {
-                return err
+                return {
+                    "results": err,
+                    "errorStatus": true
+                }
+            } else {
+                return {
+                    "results": err,
+                    "errorStatus": false
+                }
             }
-        }).then((results) => {
+        })
+        .then((results) => {
             return results
         })
     }

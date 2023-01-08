@@ -12,11 +12,13 @@ class UpdateScoutersSchedule extends Manager {
         console.log()
         fs.writeFileSync(`${__dirname}/../scouters/./scoutersSchedule.json`, JSON.stringify(schedule), 'utf8', (err) => {
             if (err) {
-                return 'Error writing to scouters file'
+                console.log('Error writing to scouters file')
             }
         })
-
-        return 'scoutersSchedule is updated'
+        return {
+            "results": "Recieved",
+            "errorStatus": false
+        }
     }
 }
 

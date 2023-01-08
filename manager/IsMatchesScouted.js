@@ -20,39 +20,48 @@ class IsMatchesScouted extends Manager {
                 }
             })
 
-            let returnVals = []
-            let exists = true
+            if (data == undefined) {
+                console.log('No data')
+                reject(`No data`)
+            } else {
+                let returnVals = []
+                let exists = true
 
-
-            for (let i = 0; i < matchKeys.length; i++) {
-                for (let j = 0; j < data.length; j++) {
-                    // console.log(data[j].scouterName + " " + data[j].matchKey)
-                    if (exists && data[j].scouterName == scouterName && data[j].matchKey.includes(`${matchKeys[i]}_`)) {
+                for (let i = 0; i < matchKeys.length; i++) {
+                    for (let j = 0; j < data.length; j++) {
+                        // console.log(data[j].scouterName + " " + data[j].matchKey)
+                        if (exists && data[j].scouterName == scouterName && data[j].matchKey.includes(`${matchKeys[i]}_`)) {
+                            returnVals.push({
+                                "matchKey": matchKeys[i],
+                                "specificMatchKey": data[j].matchKey,
+                                "status": true
+                            })
+                            exists = false
+                        }
+                    }
+                    if (exists) {
                         returnVals.push({
                             "matchKey": matchKeys[i],
-                            "specificMatchKey": data[j].matchKey,
-                            "status": true
+                            "status": false
                         })
-                        exists = false
                     }
+                    exists = true
                 }
 
-                if (exists) {
-                    returnVals.push({
-                        "matchKey": matchKeys[i],
-                        "status": false
-                    })
-                }
-                exists = true
+                resolve(returnVals)
             }
-
-            
-
-            resolve(returnVals)
         })
         .catch((err) => {
             if (err) {
-                return err
+                return {
+                    "results": err,
+                    "errorStatus": true
+                }
+            } else {
+                return {
+                    "results": err,
+                    "errorStatus": false
+                }
             }
         })
         .then((results) => {
@@ -65,7 +74,7 @@ class IsMatchesScouted extends Manager {
         LEFT JOIN data ON matches.key = data.matchKey
         LEFT JOIN scouters ON data.scouterName = scouters.name
         WHERE matches.gameKey = '${tournamentKey}'
-        AND data.scouterName = ${scouterName}
+        AND data.scouterName = '${scouterName}'
         AND (`
         
         for (let i = 0; i < matchKeys.length; i++) {

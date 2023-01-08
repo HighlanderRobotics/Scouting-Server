@@ -14,16 +14,22 @@ class AddScouters extends Manager {
 
 
         await this.runInsertScouters()
-        .catch(err => {
+        .catch((err) => {
             if (err) {
-                console.error(`Error with inserting Scouters: ${err}`)
-                return(`Error with inserting Scouters: ${err}`)    
+                return {
+                    "results": err,
+                    "errorStatus": true
+                }
+            } else {
+                return {
+                    "results": "Successfully added scouters",
+                    "errorStatus": false
+                }
             }
         })
-        .then(() => {
-            console.log(`Finished inserting Scouters`)
-            return
-        }) 
+        .then((results) => {
+            return results
+        })
     }
     
     getScouters() {

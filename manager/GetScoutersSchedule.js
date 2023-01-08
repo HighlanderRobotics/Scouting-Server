@@ -11,7 +11,10 @@ class GetScoutersSchedule extends Manager {
     runTask() {
         let data = fs.readFileSync(`${__dirname}/../scouters/./scoutersSchedule.json`, 'utf8', (err) => {
             if (err) {
-                return 'Error reading scouters file'
+                return {
+                    "results": 'Error reading scouters file',
+                    "errorStatus": true
+                } 
             }
         })
 

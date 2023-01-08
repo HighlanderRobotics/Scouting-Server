@@ -55,8 +55,21 @@ class ResetAndPopulate extends Manager {
                 await a.getScouters()
                 await a.turnOnForeignKeys()
             })
-            .then(() => {
-                resolve(`Successfully reset tables`)
+            .catch((err) => {
+                if (err) {
+                    return {
+                        "results": err,
+                        "errorStatus": true
+                    }
+                } else {
+                    return {
+                        "results": err,
+                        "errorStatus": false
+                    }
+                }
+            })
+            .then((results) => {
+                return results
             })
         })
     }
