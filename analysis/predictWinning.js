@@ -48,7 +48,10 @@ class predictWinning extends BaseAnalysis {
                 let red3SDV = math.stdev(redArr3)
             
                 
-                
+                if(red1SDV === 0 || red2SDV === 0 || red3SDV)
+                {
+                    resolve("not enough data")
+                }
             
                 let  redAllianceSDV = Math.sqrt(Math.pow(red1SDV, 2) + Math.pow(red2SDV, 2) + Math.pow(red3SDV, 2))
                 let redAllianceMean = await a.getMean(redArr1) + await a.getMean(redArr2) + await a. getMean(redArr3)
@@ -65,6 +68,11 @@ class predictWinning extends BaseAnalysis {
                 await score6.runAnalysis()
                 let blueArr3= score6.finalizeResults().array
                 let blue3SDV = math.stdev(blueArr3)
+
+                if(blue1SDV === 0 || blue2SDV === 0 || blue3SDV)
+                {
+                    resolve("not enough data")
+                }
             
                 let blueAllianceSDV = Math.sqrt(Math.pow(blue1SDV, 2) + Math.pow(blue2SDV, 2) + Math.pow(blue3SDV, 2))
                 let blueAllianceMean = await a.getMean(blueArr1) + await a.getMean(blueArr2) + await a.getMean(blueArr3)
