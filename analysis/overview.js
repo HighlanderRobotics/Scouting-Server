@@ -16,6 +16,7 @@ const averageScore = require('./averageScore.js')
 const cubeCountAuto = require('./cubeCountAuto.js')
 const coneCountAuto = require('./coneCountAuto.js')
 const robotRole = require('./robotRole')
+const cycling = require('./cycling.js')
 
 
 
@@ -98,6 +99,18 @@ class overview extends BaseAnalysis {
                 metrics.offenseRole = role.offense
                 metrics.mixedRole = role.mixed
                 metrics.helperRole = role.helper
+            var cycleCubeTeam = new cycling(a.db, a.team, 1, 5)
+                await cycleCubeTeam.runAnalysis()
+                metrics.cycleCubeTeam  = cycleCubeTeam.result
+            var cycleConeTeam = new cycling(a.db, a.team, 2, 5)
+                await cycleConeTeam.runAnalysis()
+                metrics.cycleConeTeam  = cycleConeTeam.result
+            var cycleConeScore = new cycling(a.db, a.team, 2, 3)
+                await cycleConeScore.runAnalysis()
+                metrics.cycleConeScore  = cycleConeScore.result
+            var cycleCubeeScore = new cycling(a.db, a.team, 1, 3)
+                await cycleCubeeScore.runAnalysis()
+                metrics.cycleCubeeScore  = cycleCubeeScore.result
             resolve({metrics, notes: notesOutput})
         })
     }

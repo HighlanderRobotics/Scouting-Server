@@ -36,6 +36,9 @@ const climberSucsessDifference = require('./analysis/climberSucsessDifference.js
 const climberSucsessAutoAll = require('./analysis/climberSucsessAutoAll.js')
 const climberSucsessAutoDifference = require('./analysis/climberSucsessAutoDifference.js')
 const robotRole = require('./analysis/robotRole')
+const cycling = require('./analysis/cycling.js')
+const cyclingAll = require('./analysis/cyclingAll.js')
+const cyclingDifference = require('./analysis/cyclingDifference.js')
 
 
 
@@ -211,7 +214,17 @@ class TaskManager {
                 case(robotRole.name):
                     returnAnalysis.push(new robotRole(Manager.db, task.team))
                     break
-                
+                //MAKE SURE COLLIN KNOWS TO SEND TYPE (1 = CUBE, 2 = CONE) AND LOCATION (3 = SCORE 5 = GIVE TO TEAM)
+                case(cycling.name):
+                    returnAnalysis.push(new cycling(Manager.db, task.team, task.type, task.location))
+                    break
+                case(cyclingAll.name):
+                    returnAnalysis.push(new cyclingAll(Manager.db, task.type, task.location))
+                    break
+                case(cyclingDifference.name):
+                    returnAnalysis.push(new cyclingDifference(Manager.db, task.team, task.type, task.location))
+                    break
+
                 
                 
                 default:
