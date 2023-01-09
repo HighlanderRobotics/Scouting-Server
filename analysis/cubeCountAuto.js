@@ -41,8 +41,7 @@ class cubeCountAuto extends BaseAnalysis {
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array){
                         let curr = JSON.parse(row.scoutReport).events
-                        let lenTemp = 0
-                        let makesTemp = 0
+                       
                         for(var i = 0; i < curr.length; i++) {
                             
                                //check 1500
@@ -50,24 +49,18 @@ class cubeCountAuto extends BaseAnalysis {
  
                                  if(subArr[2] < 1500)
                                  {
-                                     if(subArr[1] === 1)
-                                     {
-                                         lenTemp++
-                                         len++
-                                     }
-                                     if (subArr[1] === 0) {
-                                         makesTemp++
-                                         lenTemp++
-                                     makes++
-                                     len++
-                                     }
+                                    if (subArr[1] === 3 && curr[i-1] === 1) {
+                                               
+                                        makes++
+                                    }
                                      else{
                                          break
                                      }
                                  }
                             
                         }
-                        arr.push(makesTemp/lenTemp)
+                        len++
+                        arr.push(makes)
                        
                     }
                     //  console.log(makes/len)

@@ -39,7 +39,10 @@ class coneCountAutoAll extends BaseAnalysis {
                             if (subArr[1] === 0) {
                                 if(subArr[2] < 1500)
                                 {
-                                    makes++
+                                    if (subArr[1] === 3 && curr[i-1][1] === 2) {
+                               
+                                        makes++
+                                    }
                                 }
                                 else
                                 {

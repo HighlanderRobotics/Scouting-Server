@@ -49,26 +49,30 @@ class climberSucsess extends BaseAnalysis {
 
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array){
-                        let curr = JSON.parse(row.scoutReport).challengeResult
+                        let curr = JSON.parse(row.scoutReport).robotRole
                         arr.push(curr)
-                        if(curr === 0)
+                        if(curr === 3)
                         {
-                            off ++
+                            helper ++
                         }
                         if(curr === 1)
                         {
-                            tipped ++
+                            offense ++
+                        }
+                        if(curr === 0)
+                        {
+                            defense ++
                         }
                         if(curr === 2)
                         {
-                            fullyOn ++
+                            mixed ++
                         }
                         
                     }
                     a.offense = offense/arr.length
                     a.defense = defense/arr.length
                     a.helper = helper/arr.length
-                    a.mixed = d
+                    a.mixed = helper
                     a.array = arr
 
                     
@@ -109,7 +113,10 @@ class climberSucsess extends BaseAnalysis {
     finalizeResults()
     {
         return { 
-            "role": this.role,
+            "defense": this.defense,
+            "offense" : this.offense,
+            "mixed" : this.mixed,
+            "helper" : this.helper,
             "team": this.team
         }
     }

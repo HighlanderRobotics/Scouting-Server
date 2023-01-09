@@ -50,24 +50,19 @@ class coneCountAuto extends BaseAnalysis {
  
                                  if(subArr[2] < 1500)
                                  {
-                                     if(subArr[1] === 1)
-                                     {
-                                         lenTemp++
-                                         len++
-                                     }
-                                     if (subArr[1] === 0) {
-                                         makesTemp++
-                                         lenTemp++
-                                     makes++
-                                     len++
-                                     }
-                                     else{
-                                         break
-                                     }
+                                    if (subArr[1] === 3 && curr[i-1][1] === 2) {
+                               
+                                        makes++
+                                    }
+                                 }
+                                 else
+                                 {
+                                    break
                                  }
                             
                         }
-                        arr.push(makesTemp/lenTemp)
+                        arr.push(makes)
+                        len++
                        
                     }
                     //  console.log(makes/len)

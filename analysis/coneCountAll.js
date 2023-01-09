@@ -36,9 +36,9 @@ class coneCountAll extends BaseAnalysis {
                         let curr = JSON.parse(row.scoutReport).events
                         for(var i = 0; i < curr.length; i++) {
                             let subArr = curr[i]
-                            if (subArr[1] === 0) {
-                              makes++
-                            
+                            if (subArr[1] === 3 && curr[i-1][1] === 2) {
+                               
+                                makes++
                             }
                         }
                         len++

@@ -35,6 +35,8 @@ const climberSucsessAll = require('./analysis/climberSucsessAll.js')
 const climberSucsessDifference = require('./analysis/climberSucsessDifference.js')
 const climberSucsessAutoAll = require('./analysis/climberSucsessAutoAll.js')
 const climberSucsessAutoDifference = require('./analysis/climberSucsessAutoDifference.js')
+const robotRole = require('./analysis/robotRole')
+
 
 
 
@@ -205,6 +207,9 @@ class TaskManager {
                     break
                 case(climberSucsessAutoDifference.name):
                     returnAnalysis.push(new climberSucsessAutoDifference(Manager.db, task.team))
+                    break
+                case(robotRole.name):
+                    returnAnalysis.push(new robotRole(Manager.db, task.team))
                     break
                 
                 

@@ -15,6 +15,7 @@ const climberSucsessAuto = require('./climberSucsessAuto')
 const averageScore = require('./averageScore.js')
 const cubeCountAuto = require('./cubeCountAuto.js')
 const coneCountAuto = require('./coneCountAuto.js')
+const robotRole = require('./robotRole')
 
 
 
@@ -91,6 +92,12 @@ class overview extends BaseAnalysis {
             var coneAuto = new coneCountAuto(a.db, a.team)
                 await coneAuto.runAnalysis()
                 metrics.coneCountAuto = coneAuto.finalizeResults().result
+            var role = new robotRole(a.db, a.team)
+                await role.runAnalysis()
+                metrics.defenseRole = role.defense
+                metrics.offenseRole = role.offense
+                metrics.mixedRole = role.mixed
+                metrics.helperRole = role.helper
             resolve({metrics, notes: notesOutput})
         })
     }

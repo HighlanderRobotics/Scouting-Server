@@ -45,19 +45,13 @@ class coneCount extends BaseAnalysis {
                         for(var i = 0; i < curr.length; i++) {
                            //change numbers
                             let subArr = curr[i]
-                            if(subArr[1] === 1)
-                            {
-                                lenTemp++
-                                len++
-                            }
-                            if (subArr[1] === 0) {
-                                makesTemp++
-                                lenTemp++
-                              makes++
-                              len++
+                            if (subArr[1] === 3 && curr[i-1][1] === 2) {
+                               
+                                makes++
                             }
                         }
-                        arr.push(makesTemp/lenTemp)
+                        len++
+                        arr.push(makes)
                        
                     }
                     //  console.log(makes/len)
