@@ -12,6 +12,7 @@ class coneCount extends BaseAnalysis {
         // this.end = end
         this.result = 0
         this.array = []
+        this.max = 0
         
     }
     async getAccuracy()
@@ -30,6 +31,7 @@ class coneCount extends BaseAnalysis {
           let arr = []
                     let len = 0
                     let makes = 0
+                    let highest = 0
                 a.db.all(sql, [a.team], (err, rows) =>
                 {
                     if(err)
@@ -48,7 +50,12 @@ class coneCount extends BaseAnalysis {
                             if (subArr[1] === 3 && curr[i-1][1] === 2) {
                                
                                 makes++
+                                if(subArr[2] > highest)
+                                {
+                                    highest = subArr[2]
+                                }
                             }
+                            
                         }
                         len++
                         arr.push(makes)
@@ -58,6 +65,7 @@ class coneCount extends BaseAnalysis {
                     //  console.log(arr)
                     a.array = arr
                     a.result = makes/len   
+                    a.max = Math.ceil(highest/3)
                     resolve("done") 
                     
                 })
@@ -94,7 +102,8 @@ class coneCount extends BaseAnalysis {
             return { 
                 "result": this.result,
                 "team": this.team,
-                "array" : this.array
+                "array" : this.array,
+                "max" : this.highest
             }
         }
 

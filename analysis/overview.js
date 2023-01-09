@@ -74,9 +74,12 @@ class overview extends BaseAnalysis {
             var cones = new coneCount(a.db, a.team)
                 await cones.runAnalysis()
                 metrics.coneCount = cones.finalizeResults().result
+                metrics.conesMax = cubes.finalizeResults().max
+
             var cubes = new cubeCount(a.db, a.team)
                 await cubes.runAnalysis()
                 metrics.cubeCount = cubes.finalizeResults().result
+                metrics.cubeMax = cubes.finalizeResults().max
             var climber = new climberSucsess(a.db, a.team)
                 await climber.runAnalysis()
                 metrics.climberOff = climber.finalizeResults().off

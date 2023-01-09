@@ -11,6 +11,7 @@ class cubeCount extends BaseAnalysis {
         // this.start = start
         // this.end = end
         this.result = 0
+        this.max = 0
         this.array = []
         
     }
@@ -30,6 +31,7 @@ class cubeCount extends BaseAnalysis {
           let arr = []
                     let len = 0
                     let makes = 0
+                    let highest = 0
                 a.db.all(sql, [a.team], (err, rows) =>
                 {
                     if(err)
@@ -48,16 +50,21 @@ class cubeCount extends BaseAnalysis {
                             if (subArr[1] === 3 && curr[i-1][1] === 1) {
                                
                                 makes++
+                                if(subArr[2] > highest)
+                                {
+                                    highest = subArr[2]
+                                }
                             }
+                           
                         }
                         len ++
                         arr.push(makes)
                        
                     }
-                    //  console.log(makes/len)
-                    //  console.log(arr)
+                   //CHECK MATH.CEIL()
                     a.array = arr
                     a.result = makes/len   
+                    a.max = Math.ceil(highest)
                     resolve("done") 
                     
                 })
@@ -94,7 +101,8 @@ class cubeCount extends BaseAnalysis {
             return { 
                 "result": this.result,
                 "team": this.team,
-                "array" : this.array
+                "array" : this.array,
+                "max" : this.max
             }
         }
 
