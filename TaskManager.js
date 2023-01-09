@@ -39,6 +39,9 @@ const robotRole = require('./analysis/robotRole')
 const cycling = require('./analysis/cycling.js')
 const cyclingAll = require('./analysis/cyclingAll.js')
 const cyclingDifference = require('./analysis/cyclingDifference.js')
+const defenseEvents = require('./analysis/defenseEvents.js')
+const defenseEventAll = require('./analysis/defenseEventAll.js')
+const defenseEventDifference = require('./analysis/defenseEventDifference.js')
 
 
 
@@ -223,6 +226,17 @@ class TaskManager {
                     break
                 case(cyclingDifference.name):
                     returnAnalysis.push(new cyclingDifference(Manager.db, task.team, task.type, task.location))
+                    break
+                //defense = 6 (pin) or 7 (block)
+                //put into task.type
+                case(defenseEvents.name):
+                    returnAnalysis.push(new defenseEvents(Manager.db, task.team, task.type))
+                    break
+                case(defenseEventAll.name):
+                    returnAnalysis.push(new defenseEvents(Manager.db, task.type))
+                    break
+                case(defenseEventDifference.name):
+                    returnAnalysis.push(new defenseEventDifference(Manager.db, task.team, task.type))
                     break
 
                 

@@ -17,6 +17,7 @@ const cubeCountAuto = require('./cubeCountAuto.js')
 const coneCountAuto = require('./coneCountAuto.js')
 const robotRole = require('./robotRole')
 const cycling = require('./cycling.js')
+const defense = require('./defenseEvents.js')
 
 
 
@@ -111,6 +112,13 @@ class overview extends BaseAnalysis {
             var cycleCubeeScore = new cycling(a.db, a.team, 1, 3)
                 await cycleCubeeScore.runAnalysis()
                 metrics.cycleCubeeScore  = cycleCubeeScore.result
+            var pinCount = new cycling(a.db, a.team, 6)
+                await pinCount.runAnalysis()
+                metrics.pinCount  = pinCount.result
+            var blockCount = new cycling(a.db, a.team, 7)
+                await blockCount.runAnalysis()
+                metrics.blockCount  = blockCount.result
+            
             resolve({metrics, notes: notesOutput})
         })
     }
