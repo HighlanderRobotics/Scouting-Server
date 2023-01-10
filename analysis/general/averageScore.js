@@ -11,17 +11,19 @@ class averageScore extends BaseAnalysis {
         // this.end = end
         this.array = []
         this.average = 0
+        this.matches = []
     }
     async scoresOverTime() {
         let a = this
         return new Promise(function (resolve, reject) {
-            var sql = `SELECT scoutReport
+            var sql = `SELECT scoutReport, newMatches.key AS key
             FROM data
-            JOIN (SELECT matches.key
+            JOIN (SELECT matches.key AS key
                 FROM matches 
                 JOIN teams ON teams.key = matches.teamKey
                 WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key`
             let answer = []
+            let match = []
 
             a.db.all(sql, [a.team], (err, rows) => {
                 if (err) {
@@ -32,7 +34,7 @@ class averageScore extends BaseAnalysis {
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array) {
                         let data = JSON.parse(row.scoutReport)
-
+                        matches.push(row.key)
                         let total = 0
                         if (data.leftCommunity === 0) {
                             total += 3
@@ -97,6 +99,7 @@ class averageScore extends BaseAnalysis {
                 a.array = answer
                 const sum = answer.reduce((partialSum, a) => partialSum + a, 0)
                 a.average = sum / answer.length
+                a.matches = match
 
                 resolve("done")
 
@@ -120,6 +123,7 @@ class averageScore extends BaseAnalysis {
         return {
             "result": this.average,
             "array": this.array,
+            "matches" : this.matches,
             "team": this.team,
         }
     }

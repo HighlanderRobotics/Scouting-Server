@@ -11,7 +11,7 @@ class cargoCountAuto extends BaseAnalysis {
         this.type = type
         // this.start = start
         // this.end = end
-
+        this.matches = []
         this.result = 0
         this.array = []
 
@@ -20,14 +20,15 @@ class cargoCountAuto extends BaseAnalysis {
         let a = this
         return new Promise(async function (resolve, reject) {
 
-            var sql = `SELECT scoutReport
+            var sql = `SELECT scoutReport, newMatches.key AS key
                 FROM data
-            JOIN (SELECT matches.key
+            JOIN (SELECT matches.key AS key
                 FROM matches 
                 JOIN teams ON teams.key = matches.teamKey
                 WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
           `;
             let arr = []
+            let match = []
             let len = 0
             let makes = 0
             a.db.all(sql, [a.team], (err, rows) => {
@@ -38,7 +39,7 @@ class cargoCountAuto extends BaseAnalysis {
                 rows.forEach(functionAdder);
                 function functionAdder(row, index, array) {
                     let curr = JSON.parse(row.scoutReport).events
-
+                    match.push(row.key)
                     for (var i = 0; i < curr.length; i++) {
 
                         //check 1500
@@ -63,6 +64,7 @@ class cargoCountAuto extends BaseAnalysis {
                 //  console.log(arr)
                 a.array = arr
                 a.result = makes / len
+                a.matches = match
                 resolve("done")
 
             })
@@ -96,7 +98,8 @@ class cargoCountAuto extends BaseAnalysis {
         return {
             "result": this.result,
             "team": this.team,
-            "array": this.array
+            "array": this.array,
+            "matches" : this.matches
         }
     }
 

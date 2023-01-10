@@ -14,15 +14,16 @@ class climberSucsess extends BaseAnalysis {
         this.off = 0
         this.level = 0
         this.array = []
+        this.matches = []
 
     }
     async getData() {
         let a = this
         return new Promise(async (resolve, reject) => {
             //why does await not work when it works in  bestAverageForMetric
-            var sql = `SELECT scoutReport
+            var sql = `SELECT scoutReport, newMatches.key AS key
                     FROM data
-                JOIN (SELECT matches.key, matches.matchNumber
+                JOIN (SELECT matches.key AS key, matches.matchNumber
                     FROM matches 
                     JOIN teams ON teams.key = matches.teamKey
                     WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
@@ -31,6 +32,7 @@ class climberSucsess extends BaseAnalysis {
             let tipped = 0
             let off = 0
             let arr = []
+            let match = []
 
             this.db.all(sql, [a.team], (err, rows) => {
                 if (err) {
@@ -42,6 +44,7 @@ class climberSucsess extends BaseAnalysis {
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array) {
                         let curr = JSON.parse(row.scoutReport).challengeResult
+                        match.push(row.key)
                         arr.push(curr)
                         if (curr === 0) {
                             off++
@@ -58,6 +61,7 @@ class climberSucsess extends BaseAnalysis {
                     a.level = fullyOn / arr.length
                     a.off = off / arr.length
                     a.array = arr
+                    a.matches = match
 
 
                 }
@@ -98,6 +102,7 @@ class climberSucsess extends BaseAnalysis {
             "level": this.level,
             "tipped": this.tipped,
             "array": this.array,
+            "matches" : this.matches,
             "team": this.team
         }
     }

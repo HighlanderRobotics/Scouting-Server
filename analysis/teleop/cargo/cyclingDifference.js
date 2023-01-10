@@ -17,10 +17,9 @@ class cyclingDifference extends BaseAnalysis {
         // this.end = end
         this.result = 0
         // this.array = []
-        
+
     }
-    async getAccuracy()
-    {
+    async getAccuracy() {
         let a = this
         let x = new teamStat(a.db, a.team, a.type, a.location)
         await x.runAnalysis()
@@ -31,32 +30,29 @@ class cyclingDifference extends BaseAnalysis {
 
         a.result = teamAvg - overallAvg
         console.log(a.result)
-        
+
     }
-    
-    
-        runAnalysis()
-        {
-            return new Promise(async (resolve, reject) =>
-            {
-                let a = this
-                var temp = await a.getAccuracy().catch((err) => {
-                    if (err) {
-                        return err
-                    }
-                })  
-                // a.result = temp  
-                resolve("done")        
+
+
+    runAnalysis() {
+        return new Promise(async (resolve, reject) => {
+            let a = this
+            var temp = await a.getAccuracy().catch((err) => {
+                if (err) {
+                    return err
+                }
             })
-            
+            // a.result = temp  
+            resolve("done")
+        })
+
+    }
+    finalizeResults() {
+        return {
+            "result": this.result,
+            "team": this.team,
         }
-        finalizeResults()
-        {
-            return { 
-                "result": this.result,
-                "team": this.team,
-            }
-        }
+    }
 
 }
 module.exports = cyclingDifference

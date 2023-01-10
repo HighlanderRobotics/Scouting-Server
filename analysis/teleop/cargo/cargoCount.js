@@ -14,15 +14,16 @@ class cargoCount extends BaseAnalysis {
         this.result = 0
         this.max = 0
         this.array = []
+        this.matches = []
 
     }
     async getAccuracy() {
         let a = this
         return new Promise(async function (resolve, reject) {
 
-            var sql = `SELECT scoutReport
+            var sql = `SELECT scoutReport, newMatches.key AS key
                 FROM data
-            JOIN (SELECT matches.key
+            JOIN (SELECT matches.key AS key
                 FROM matches 
                 JOIN teams ON teams.key = matches.teamKey
                 WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
@@ -31,6 +32,7 @@ class cargoCount extends BaseAnalysis {
             let len = 0
             let makes = 0
             let highest = 0
+            let match = []
             a.db.all(sql, [a.team], (err, rows) => {
                 if (err) {
                     console.log(err)
@@ -38,6 +40,7 @@ class cargoCount extends BaseAnalysis {
 
                 rows.forEach(functionAdder);
                 function functionAdder(row, index, array) {
+                    match.push(row.key)
                     let curr = JSON.parse(row.scoutReport).events
 
                     for (var i = 0; i < curr.length; i++) {
@@ -61,6 +64,7 @@ class cargoCount extends BaseAnalysis {
                 a.array = arr
                 a.result = makes / len
                 a.max = Math.ceil(highest)
+                a.matches = match
                 resolve("done")
 
             })
@@ -95,6 +99,7 @@ class cargoCount extends BaseAnalysis {
             "result": this.result,
             "team": this.team,
             "array": this.array,
+            "matches" : this.matches,
             "max": this.max
         }
     }

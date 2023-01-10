@@ -26,14 +26,14 @@ class TeamsInTournament extends BaseAnalysis {
                 }
             })
         })
-        .catch((err) => {
-            if (err) {
-                return err
-            }
-        })
-        .then((data) => {
-            return data
-        })
+            .catch((err) => {
+                if (err) {
+                    return err
+                }
+            })
+            .then((data) => {
+                return data
+            })
     }
 
     runAnalysis() {

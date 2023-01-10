@@ -15,18 +15,17 @@ class climberSucsess extends BaseAnalysis {
         this.offense = 0
         this.helper = 0
         this.array = []
+        this.matches = []
         this.mixed = 0
-        
+
     }
-    async getData()
-    {
+    async getData() {
         let a = this
-        return new Promise(async(resolve, reject) =>
-        {
+        return new Promise(async (resolve, reject) => {
             //why does await not work when it works in  bestAverageForMetric
-            var sql = `SELECT scoutReport
+            var sql = `SELECT scoutReport, newMatches.key AS key
                     FROM data
-                JOIN (SELECT matches.key, matches.matchNumber
+                JOIN (SELECT matches.key AS key, matches.matchNumber
                     FROM matches 
                     JOIN teams ON teams.key = matches.teamKey
                     WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
@@ -36,87 +35,81 @@ class climberSucsess extends BaseAnalysis {
             let defense = 0
             let mixed = 0
             let arr = []
+            let match = []
 
-            this.db.all(sql, [a.team], (err, rows) =>
-            {
-                if(err)
-                {
+            this.db.all(sql, [a.team], (err, rows) => {
+                if (err) {
                     console.log(err)
                     reject(err)
                 }
-                else
-                {
+                else {
 
                     rows.forEach(functionAdder);
-                    function functionAdder(row, index, array){
+                    function functionAdder(row, index, array) {
                         let curr = JSON.parse(row.scoutReport).robotRole
+                        match.push(row.key)
                         arr.push(curr)
-                        if(curr === 3)
-                        {
-                            helper ++
+                        if (curr === 3) {
+                            helper++
                         }
-                        if(curr === 1)
-                        {
-                            offense ++
+                        if (curr === 1) {
+                            offense++
                         }
-                        if(curr === 0)
-                        {
-                            defense ++
+                        if (curr === 0) {
+                            defense++
                         }
-                        if(curr === 2)
-                        {
-                            mixed ++
+                        if (curr === 2) {
+                            mixed++
                         }
-                        
+
                     }
-                    a.offense = offense/arr.length
-                    a.defense = defense/arr.length
-                    a.helper = helper/arr.length
+                    a.offense = offense / arr.length
+                    a.defense = defense / arr.length
+                    a.helper = helper / arr.length
                     a.mixed = helper
                     a.array = arr
+                    a.matches = match
 
-                    
+
                 }
             })
-           
+
             // console.log(all)
-           
-                
+
+
 
         })
-        .catch((err) => {
-            if (err) {
-                return err
-            }
-        })
-        .then((data) => {
-            // console.log(data)
-            return data
-        })
+            .catch((err) => {
+                if (err) {
+                    return err
+                }
+            })
+            .then((data) => {
+                // console.log(data)
+                return data
+            })
     }
-    runAnalysis()
-    {
-        return new Promise(async (resolve, reject) =>
-        {
+    runAnalysis() {
+        return new Promise(async (resolve, reject) => {
             let a = this
             var temp = await a.getData().catch((err) => {
                 if (err) {
                     console.log(err)
                     return err
                 }
-            })  
+            })
             // a.result = temp  
-            resolve("done")        
+            resolve("done")
         })
-        
+
     }
-    finalizeResults()
-    {
-        return { 
+    finalizeResults() {
+        return {
             "defense": this.defense,
-            "offense" : this.offense,
-            "mixed" : this.mixed,
-            "helper" : this.helper,
+            "offense": this.offense,
+            "mixed": this.mixed,
+            "helper": this.helper,
+            "matches" : this.matches,
             "team": this.team
         }
     }
