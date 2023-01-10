@@ -130,25 +130,25 @@ const fs = require('fs')
 //   console.log(`${key.num}: ${value}`)
 // })
 
-var createData = `
-        CREATE TABLE data (
-            uuid PRIMARY KEY,
-            matchKey NOT NULL, 
-            scouterName TEXT ONLY VARCHAR(25) NOT NULL,
-            defenseQuality INTEGER NOT NULL,
-            defenseQuantity INTEGER NOT NULL, 
-            startTime INTEGER NOT NULL,
-            scoutReport VARCHAR(5000),
-            notes BLOB VARCHAR (250),
-            UNIQUE (matchKey, scouterName, scoutReport), 
-            FOREIGN KEY(matchKey) REFERENCES matches(key),
-            FOREIGN KEY(scouterName) REFERENCES scouters(name)
-        );`
+// var createData = `
+//         CREATE TABLE data (
+//             uuid PRIMARY KEY,
+//             matchKey NOT NULL, 
+//             scouterName TEXT ONLY VARCHAR(25) NOT NULL,
+//             defenseQuality INTEGER NOT NULL,
+//             defenseQuantity INTEGER NOT NULL, 
+//             startTime INTEGER NOT NULL,
+//             scoutReport VARCHAR(5000),
+//             notes BLOB VARCHAR (250),
+//             UNIQUE (matchKey, scouterName, scoutReport), 
+//             FOREIGN KEY(matchKey) REFERENCES matches(key),
+//             FOREIGN KEY(scouterName) REFERENCES scouters(name)
+//         );`
 
-db.serialize(() => {
-  db.run('DROP TABLE IF EXISTS `data`', ((err) => {if (err){console.log(`dropData ${err}`)}}))
-  db.run(createData, ((err) => {if (err){console.log(`createData ${err}`)}}))
-})
+// db.serialize(() => {
+//   db.run('DROP TABLE IF EXISTS `data`', ((err) => {if (err){console.log(`dropData ${err}`)}}))
+//   db.run(createData, ((err) => {if (err){console.log(`createData ${err}`)}}))
+// })
 
 // let data = fs.readFileSync(`${__dirname}/scouters/./scouters.json`, 'utf8', (err) => {
 //   if (err) {
@@ -241,3 +241,32 @@ async function getScouters() {
 }
 */
 // console.log(JSON.parse(`{"matchKey":"'\\"qm1\\"'","events":"'[[1004,0,1],[1124,0,1],[1236,0,1],[1375,0,1],[1509,0,1],[1890,0,0],[2020,0,0],[2148,0,0],[2279,0,0],[2396,0,0],[2869,0,0],[3013,0,0],[3141,0,0],[3283,0,0],[3435,0,0],[3732,0,2],[4194,0,2],[4344,0,2],[4470,0,2],[4607,0,2],[5053,0,3],[5198,0,3],[5341,0,3],[5515,0,3],[8793,2,5],[8943,2,5],[9406,2,5],[9630,2,5]]'","robotRole":"'0'","challengeResult":"'0'"}`))
+
+var globalVar = false;
+var promiseTest = function () {
+    return new Promise(function (resolve, reject) {
+        if (globalVar === true)
+            resolve({
+                "results": `Success`,
+            })
+        else
+            reject({
+                "results": 'err',
+                "customCode": 1,
+                "justForJacob":  "SQLITE UNIQUE ERROR, run node resetDataTable.js"
+            })
+    })
+}
+var testFunc = promiseTest();
+testFunc
+    .then((results) => {
+        console.log(results)
+    })
+    .catch((err) => {
+        console.log(`Detected error`)
+        if (err.customCode) {
+            console.log(err)
+        } else {
+            console.log(err)
+        }
+    })

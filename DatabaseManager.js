@@ -23,77 +23,83 @@ class DatabaseManager {
     }
 
     runTask(task, body) {
-        return new Promise(async (resolve, reject) => {
+        // return new Promise(async (resolve, reject) => {
             switch (task) {
                 case AddScoutReport.name:
                     // Different naming scheme is because of Jacob
-                    resolve(await new AddScoutReport().runTask(`frc${body.teamNumber}`, body.competitionKey, body))
+                    return new AddScoutReport().runTask(`frc${body.teamNumber}`, body.competitionKey, body)
+                    // .catch((err) => {
+                    //     reject(err)
+                    // })
+                    // .then((result) =>{
+                    //     resolve(result)
+                    // })
                     break
-                case GetTeams.name:
-                    resolve(await new GetTeams().runTask())
-                    break
+            //     case GetTeams.name:
+            //         resolve(await new GetTeams().runTask())
+            //         break
                 case InitServer.name:
-                    resolve(await new InitServer().runTask())
+                    return new InitServer().runTask()
                     break
-                case ResetAndPopulate.name:
-                    resolve(await new ResetAndPopulate().runTask())
-                    break
-                // case AddAPITeams.name:
-                //     resolve(await new AddAPITeams().runTask())
-                //     break
-                case AddAPITournaments.name:
-                    resolve(await new AddAPITournaments().runTask(body.year))
-                    break
-                case AddScouters.name:
-                    resolve(await new AddScouters().runTask())
-                    break
-                case AddTournamentMatches.name:
-                    resolve(await new AddTournamentMatches().runTask(body.tournamentName, body.tournamentDate))
-                    break
-                case IsScouted.name:
-                    resolve(await new IsScouted().runTask(body.tournamentKey, body.matchKey))
-                    break
-                case GetScouters.name:
-                    resolve(await new GetScouters().runTask())
-                    break
-                case GetScoutersSchedule.name:
-                    resolve(await new GetScoutersSchedule().runTask())
-                    break
-                case UpdateScoutersSchedule.name:
-                    resolve(await new UpdateScoutersSchedule().runTask(body))
-                    break
-                case GetMatches.name:
-                    resolve(await new GetMatches().runTask(body))
-                    break
-                case IsMatchesScouted.name:
-                    resolve(await new IsMatchesScouted().runTask(body.tournamentKey, body.scouterName, body.matchKeys))
-                    break
-                case GetAllNotes.name:
-                    resolve(await new GetAllNotes().runTask(body.teamKey, body.sinceTime))
-                    break
-                case NewScouter.name:
-                    resolve(await new NewScouter().runTask(body.scouterName, body.scouterNumber, body.scouterEmail))
-                    break
-                case MatchesCompleted.name:
-                    resolve(await new MatchesCompleted().runTask(body))
-                    break
-                default:
-                    reject(`${task} is not a task`)
-                    break
-            }
+            //     case ResetAndPopulate.name:
+            //         resolve(await new ResetAndPopulate().runTask())
+            //         break
+            //     // case AddAPITeams.name:
+            //     //     resolve(await new AddAPITeams().runTask())
+            //     //     break
+            //     case AddAPITournaments.name:
+            //         resolve(await new AddAPITournaments().runTask(body.year))
+            //         break
+            //     case AddScouters.name:
+            //         resolve(await new AddScouters().runTask())
+            //         break
+            //     case AddTournamentMatches.name:
+            //         resolve(await new AddTournamentMatches().runTask(body.tournamentName, body.tournamentDate))
+            //         break
+            //     case IsScouted.name:
+            //         resolve(await new IsScouted().runTask(body.tournamentKey, body.matchKey))
+            //         break
+            //     case GetScouters.name:
+            //         resolve(await new GetScouters().runTask())
+            //         break
+            //     case GetScoutersSchedule.name:
+            //         resolve(await new GetScoutersSchedule().runTask())
+            //         break
+            //     case UpdateScoutersSchedule.name:
+            //         resolve(await new UpdateScoutersSchedule().runTask(body))
+            //         break
+            //     case GetMatches.name:
+            //         resolve(await new GetMatches().runTask(body))
+            //         break
+            //     case IsMatchesScouted.name:
+            //         resolve(await new IsMatchesScouted().runTask(body.tournamentKey, body.scouterName, body.matchKeys))
+            //         break
+            //     case GetAllNotes.name:
+            //         resolve(await new GetAllNotes().runTask(body.teamKey, body.sinceTime))
+            //         break
+            //     case NewScouter.name:
+            //         resolve(await new NewScouter().runTask(body.scouterName, body.scouterNumber, body.scouterEmail))
+            //         break
+            //     case MatchesCompleted.name:
+            //         resolve(await new MatchesCompleted().runTask(body))
+            //         break
+            //     default:
+            //         reject(`${task} is not a task`)
+            //         break
+            // }
     
-        })
-        .catch((err) => {
-            if (err) {
-                return {
-                    "results": err,
-                    "errorStatus": true,
-                }
-            }
-        })
-        .then((results) => {
-            return results
-        })
+        }//)
+        // .catch((err) => {
+        //     if (err) {
+        //         return {
+        //             "results": err,
+        //             "errorStatus": true,
+        //         }
+        //     }
+        // })
+        // .then((results) => {
+        //     return results
+        // })
     }
 }
 
