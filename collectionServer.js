@@ -142,24 +142,18 @@ app.post('/API/manager/:task', async (req, res) => {
 
 app.get('/API/manager/:task', async (req, res) => {
     if (req.params.task) {
-        let results = await new DatabaseManager().runTask(req.params.task, req.query)
-        
-        if (!results.errorStatus) {
-            if (results.customCode) {
-                res.status(results.customCode).send(results)
-            } else {
-                res.status(200).send(results)
-            }
-        } else {
-            console.log(`Detected error`)
-            if (results.customCode) {
-                res.status(results.customCode).send(results)
-            } else {
-                res.status(400).send(results)
-            }
-        }
-
-        // console.log(results)
+        await new DatabaseManager().runTask(req.params.task, req.query)
+            .then((result) => {
+                res.status(200).send(result)
+            })
+            .catch((err) => {
+                console.log(`Detected error`)
+                if (err.customCode) {
+                    res.status(err.customCode).send(err)
+                } else {
+                    res.status(400).send(err)
+                }
+            })
     } else {
         res.status(404).send(`Missing Task Name`)
     }

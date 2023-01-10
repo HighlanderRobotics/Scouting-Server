@@ -55,7 +55,7 @@ class AddScoutReport extends Manager {
                     console.log(`Couldn't find match for:`)
                     console.log(data)
                     errorCode = 406
-                    throw new Error({
+                    reject({
                         "results": `Match doesn't exist`,
                         "errorStatus": true,
                         "customCode": errorCode
@@ -76,28 +76,6 @@ class AddScoutReport extends Manager {
         //             "customCode": 1,
         //             "justForJacob":  "SQLITE UNIQUE ERROR, run node resetDataTable.js"
         //         })
-        // })
-        // .catch((err) => {
-        //     throw new Error(err)
-        // })
-
-        // .catch((err) => {
-        //     if (err) {
-        //         return {
-        //             "results": err,
-        //             "errorStatus": true,
-        //             "customCode": errorCode,
-        //             "justForJacob": bruv
-        //         }
-        //     } else {
-        //         return {
-        //             "results": err,
-        //             "errorStatus": false
-        //         }
-        //     }
-        // })
-        // .then((results) => {
-        //     return results
         // })
     }
 
