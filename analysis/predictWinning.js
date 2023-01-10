@@ -1,5 +1,5 @@
 const BaseAnalysis = require('./BaseAnalysis.js')
-const scores = require('./averageScore.js')
+const scores = require('./general/averageScore.js')
 
 const math = require('jstat')
 
@@ -50,6 +50,7 @@ class predictWinning extends BaseAnalysis {
                 
                 if(red1SDV === 0 || red2SDV === 0 || red3SDV)
                 {
+                    a.result = null
                     resolve("not enough data")
                 }
             
@@ -70,7 +71,8 @@ class predictWinning extends BaseAnalysis {
                 let blue3SDV = math.stdev(blueArr3)
 
                 if(blue1SDV === 0 || blue2SDV === 0 || blue3SDV)
-                {
+                {                a.result = null
+
                     resolve("not enough data")
                 }
             

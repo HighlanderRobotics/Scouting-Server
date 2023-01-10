@@ -1,47 +1,41 @@
 const Manager = require('./manager/dbmanager.js')
-const AverageForMetric = require('./analysis/AverageForMetric.js')
+// const AverageForMetric = require('./analysis/AverageForMetric.js')
 const TeamsInTournament = require('./analysis/TeamsInTournament.js')
-const BestAverageForMetric = require('./analysis/BestAverageForMetric.js')
+const BestAverageForMetric = require('./analysis/random/BestAverageForMetric.js')
 //const Overview = require('./overview.js')
-const fullyScouted = require('./analysis/fullyScouted.js')
-const defenseAmmount = require('./analysis/defenseQuantity.js')
-const defenseQuality = require('./analysis/defenseQuality.js')
-const notes = require('./analysis/notes.js')
-const scores = require('./analysis/averageScore.js')
+const fullyScouted = require('./analysis/general/fullyScouted.js')
+const defenseAmmount = require('./analysis/defense/defenseQuantity.js')
+const defenseQuality = require('./analysis/defense/defenseQuality.js')
+const notes = require('./analysis/general/notes.js')
+const scores = require('./analysis/general/averageScore.js')
 const predictWinning = require('./analysis/predictWinning.js')
 const overview = require('./analysis/overview.js')
 const positionalCount = require('./analysis/positionalCount.js')
-const defenseQualityAll = require('./analysis/defenseQualityAll.js')
-const defenseQuantityll = require('./analysis/defenseQuantityAll.js')
-const defenseQualityDifference = require('./analysis/defenseQualityDifference.js')
-const defenseQuantityDifference = require('./analysis/defenseQuantityDifference.js')
-const averageScoreDifference = require('./analysis/averageScoreDifference.js')
-const averageScoreAll = require('./analysis/averageScoreAll.js')
-const coneCount = require('./analysis/coneCount.js')
-const coneCountAll = require('./analysis/coneCountAll.js')
-const coneCountDifference = require('./analysis/coneCountDifference.js')
-const cubeCount = require('./analysis/cubeCount.js')
-const cubeCountAll = require('./analysis/cubeCountAll.js')
-const cubeCountDifference = require('./analysis/cubeCountDifference.js')
-const climberSucsess = require('./analysis/climberSucsess.js')
-const climberSucsessAuto = require('./analysis/climberSucsessAuto.js')
-const cubeCountAutoAll = require('./analysis/cubeCountAutoAll.js')
-const cubeCountAuto = require('./analysis/cubeCountAuto.js')
-const cubeCountAutoDiffernce = require('./analysis/coneCountAutoDiffernce.js')
-const coneCountAutoAll = require('./analysis/coneCountAutoAll.js')
-const coneCountAuto = require('./analysis/coneCountAuto.js')
-const coneCountAutoDiffernce = require('./analysis/coneCountAutoDiffernce.js')
-const climberSucsessAll = require('./analysis/climberSucsessAll.js')
-const climberSucsessDifference = require('./analysis/climberSucsessDifference.js')
-const climberSucsessAutoAll = require('./analysis/climberSucsessAutoAll.js')
-const climberSucsessAutoDifference = require('./analysis/climberSucsessAutoDifference.js')
-const robotRole = require('./analysis/robotRole')
-const cycling = require('./analysis/cycling.js')
-const cyclingAll = require('./analysis/cyclingAll.js')
-const cyclingDifference = require('./analysis/cyclingDifference.js')
-const defenseEvents = require('./analysis/defenseEvents.js')
-const defenseEventAll = require('./analysis/defenseEventAll.js')
-const defenseEventDifference = require('./analysis/defenseEventDifference.js')
+const defenseQualityAll = require('./analysis/defense/defenseQualityAll.js')
+const defenseQuantityll = require('./analysis/defense/defenseQuantityAll.js')
+const defenseQualityDifference = require('./analysis/defense/defenseQualityDifference.js')
+const defenseQuantityDifference = require('./analysis/defense/defenseQuantityDifference.js')
+const averageScoreDifference = require('./analysis/general/averageScoreDifference.js')
+const averageScoreAll = require('./analysis/general/averageScoreAll.js')
+const cargoCount = require('./analysis/teleop/cargo/cargoCount.js')
+const cargoCountAll = require('./analysis/teleop/cargo/cargoCountAll.js')
+const cargoCountDifference = require('./analysis/teleop/cargo/cargoCountDifference.js')
+const climberSucsess = require('./analysis/teleop/climber/climberSucsess.js')
+const climberSucsessAuto = require('./analysis/climb/climberSucsessAuto.js')
+const cargoCountAutoAll = require('./analysis/auto/cargo/cargoCountAutoAll.js')
+const cargoCountAuto = require('./analysis/auto/cargo/cargoCountAuto.js')
+const cargoCountAutoDifference = require('./analysis/auto/cargo/cargoCountAutoDifference.js')
+const climberSucsessAll = require('./analysis/teleop/climber/climberSucsessAll.js')
+const climberSucsessDifference = require('./analysis/teleop/climber/climberSucsessDifference.js')
+const climberSucsessAutoAll = require('./analysis/climb/climberSucsessAutoAll.js')
+const climberSucsessAutoDifference = require('./analysis/climb/climberSucsessAutoDifference.js')
+const robotRole = require('./analysis/general/robotRole')
+const cycling = require('./analysis/teleop/cargo/cycling.js')
+const cyclingAll = require('./analysis/teleop/cargo/cyclingAll.js')
+const cyclingDifference = require('./analysis/teleop/cargo/cyclingDifference.js')
+const defenseEvents = require('./analysis/defense/defenseEvents.js')
+const defenseEventAll = require('./analysis/defense/defenseEventAll.js')
+const defenseEventDifference = require('./analysis/defense/defenseEventDifference.js')
 
 
 
@@ -81,14 +75,14 @@ class TaskManager {
             }
             resolve(results)
         })
-        .catch((err) => {
-            if (err) {
-                return err
-            }
-        })
-        .then((results) => {
-            return results
-        })
+            .catch((err) => {
+                if (err) {
+                    return err
+                }
+            })
+            .then((results) => {
+                return results
+            })
     }
 
     addTasks(tasks) {
@@ -108,139 +102,122 @@ class TaskManager {
                     // console.log(task.name)
                     returnAnalysis.push(new BestAverageForMetric(Manager.db, task.tournamentKey, task.metric))
                     break
-            
-                
-               
-                
-                case(notes.name):
+
+
+
+
+                case (notes.name):
                     returnAnalysis.push(new notes(Manager.db, task.team, task.start, task.end))
                     break
-                case(defenseAmmount.name):
+                case (defenseAmmount.name):
                     returnAnalysis.push(new defenseAmmount(Manager.db, task.team, task.start, task.end))
                     break
-                case(defenseQuality.name):
+                case (defenseQuality.name):
                     returnAnalysis.push(new defenseQuality(Manager.db, task.team, task.start, task.end))
                     break
-                case(scores.name):
+                case (scores.name):
                     returnAnalysis.push(new scores(Manager.db, task.team, task.start, task.end))
                     break
-                case(fullyScouted.name):
+                case (fullyScouted.name):
                     returnAnalysis.push(new fullyScouted(Manager.db, task.team, task.start, task.end))
                     break
-                case(predictWinning.name):
+                case (predictWinning.name):
                     returnAnalysis.push(new predictWinning(Manager.db, task.red1, task.red2, task.red3, task.blue1, task.blue2, task.blue3))
                     break
-                case(overview.name):
+                case (overview.name):
                     returnAnalysis.push(new overview(Manager.db, task.team))
                     break
-                
-                case(positionalCount.name):
+
+                case (positionalCount.name):
                     returnAnalysis.push(new positionalCount(Manager.db, task.team))
                     break
-                case(positionalCount.name):
+                case (positionalCount.name):
                     returnAnalysis.push(new positionalCount(Manager.db, task.team))
                     break
-                case(climberSucsess.name):
+                case (climberSucsess.name):
                     returnAnalysis.push(new climberSucsess(Manager.db, task.team))
                     break
-                case(climberSucsessAuto.name):
+                case (climberSucsessAuto.name):
                     returnAnalysis.push(new climberSucsessAuto(Manager.db, task.team))
                     break
-                case(defenseQualityAll.name):
+                case (defenseQualityAll.name):
                     returnAnalysis.push(new defenseQualityAll(Manager.db))
                     break
-                case(defenseQuantityll.name):
+                case (defenseQuantityll.name):
                     returnAnalysis.push(new defenseQualityAll(Manager.db))
                     break
-               
-                case(averageScoreAll.name):
+
+                case (averageScoreAll.name):
                     returnAnalysis.push(new averageScoreAll(Manager.db))
                     break
-                
-                case(defenseQuantityDifference.name):
+
+                case (defenseQuantityDifference.name):
                     returnAnalysis.push(new defenseQualityDifference(Manager.db, task.team))
                     break
-                case(defenseQualityDifference.name):
+                case (defenseQualityDifference.name):
                     returnAnalysis.push(new defenseQualityDifference(Manager.db, task.team))
                     break
-                case(averageScoreDifference.name):
+                case (averageScoreDifference.name):
                     returnAnalysis.push(new averageScoreDifference(Manager.db, task.team))
                     break
-                case(coneCountDifference.name):
-                    returnAnalysis.push(new coneCountDifference(Manager.db, task.team))
+                case (cargoCountDifference.name):
+                    returnAnalysis.push(new cargoCountDifference(Manager.db, task.team, task.type))
                     break
-                case(coneCountAll.name):
-                    returnAnalysis.push(new coneCountDifference(Manager.db))
+                case (cargoCountAll.name):
+                    returnAnalysis.push(new cargoCountAll(Manager.db, task.type))
                     break
-                case(coneCount.name):
-                    returnAnalysis.push(new coneCount(Manager.db, task.team))
+                case (cargoCount.name):
+                    returnAnalysis.push(new cargoCount(Manager.db, task.team, task.type))
                     break
-                case(cubeCountDifference.name):
-                    returnAnalysis.push(new coneCountDifference(Manager.db, task.team))
+                case (cargoCountAutoDifference.name):
+                    returnAnalysis.push(new cargoCountAutoDifference(Manager.db, task.team, task.type))
                     break
-                case(cubeCountAll.name):
-                    returnAnalysis.push(new coneCountDifference(Manager.db))
+                case (cargoCountAutoAll.name):
+                    returnAnalysis.push(new cargoCountAutoAll(Manager.db, task.type))
                     break
-                case(cubeCount.name):
-                    returnAnalysis.push(new coneCount(Manager.db, task.team))
+                case (cargoCountAuto.name):
+                    returnAnalysis.push(new cargoCountAuto(Manager.db, task.team, task.type))
                     break
-                case(cubeCountAutoDiffernce.name):
-                    returnAnalysis.push(new cubeCountAutoDiffernce(Manager.db, task.team))
-                    break
-                case(cubeCountAutoAll.name):
-                    returnAnalysis.push(new cubeCountAutoAll(Manager.db))
-                    break
-                case(cubeCountAuto.name):
-                    returnAnalysis.push(new cubeCountAuto(Manager.db, task.team))
-                    break
-                case(coneCountAutoDiffernce.name):
-                    returnAnalysis.push(new coneCountAutoDiffernce(Manager.db, task.team))
-                    break
-                case(coneCountAutoAll.name):
-                    returnAnalysis.push(new coneCountAutoAll(Manager.db))
-                    break
-                case(coneCountAuto.name):
-                    returnAnalysis.push(new coneCountAuto(Manager.db, task.team))
-                    break
-                case(climberSucsessAll.name):
+
+                case (climberSucsessAll.name):
                     returnAnalysis.push(new climberSucsessAll(Manager.db))
                     break
-                case(climberSucsessDifference.name):
+                case (climberSucsessDifference.name):
                     returnAnalysis.push(new climberSucsessDifference(Manager.db, task.team))
                     break
-                case(climberSucsessAutoAll.name):
+                case (climberSucsessAutoAll.name):
                     returnAnalysis.push(new climberSucsessAutoAll(Manager.db))
                     break
-                case(climberSucsessAutoDifference.name):
+                case (climberSucsessAutoDifference.name):
                     returnAnalysis.push(new climberSucsessAutoDifference(Manager.db, task.team))
                     break
-                case(robotRole.name):
+                case (robotRole.name):
                     returnAnalysis.push(new robotRole(Manager.db, task.team))
                     break
                 //MAKE SURE COLLIN KNOWS TO SEND TYPE (1 = CUBE, 2 = CONE) AND LOCATION (3 = SCORE 5 = GIVE TO TEAM)
-                case(cycling.name):
+                case (cycling.name):
                     returnAnalysis.push(new cycling(Manager.db, task.team, task.type, task.location))
                     break
-                case(cyclingAll.name):
+                case (cyclingAll.name):
                     returnAnalysis.push(new cyclingAll(Manager.db, task.type, task.location))
                     break
-                case(cyclingDifference.name):
+                case (cyclingDifference.name):
                     returnAnalysis.push(new cyclingDifference(Manager.db, task.team, task.type, task.location))
                     break
                 //defense = 6 (pin) or 7 (block)
                 //put into task.type
-                case(defenseEvents.name):
+                case (defenseEvents.name):
                     returnAnalysis.push(new defenseEvents(Manager.db, task.team, task.type))
                     break
-                case(defenseEventAll.name):
+                case (defenseEventAll.name):
                     returnAnalysis.push(new defenseEvents(Manager.db, task.type))
                     break
-                case(defenseEventDifference.name):
+                case (defenseEventDifference.name):
                     returnAnalysis.push(new defenseEventDifference(Manager.db, task.team, task.type))
                     break
 
-                
-                
+
+
                 default:
 
                     console.log(`${task.name} is not a valid task`)
