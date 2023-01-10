@@ -15,30 +15,19 @@ class GetTeams extends Manager {
         return new Promise((resolve, reject) => {
             Manager.db.all(sql, (err, storedTeams) => {
                 if (err) {
-                    console.error(`Error with getTeams(): ${err}`)
                     errorCode = 500
-                    reject(`Error with getTeams(): ${err}`)
+                    reject({
+                        "results": err,
+                        "errorStatus": true,
+                        "customCode": errorCode
+                    })
                 } else {
-                    resolve(storedTeams);
+                    resolve({
+                        "results": storedTeams,
+                        "errorStatus": false
+                    })
                 }
             })
-        })
-        .catch((err) => {
-            if (err) {
-                return {
-                    "results": err,
-                    "errorStatus": true,
-                    "customCode": errorCode
-                }
-            } else {
-                return {
-                    "results": err,
-                    "errorStatus": false
-                }
-            }
-        })
-        .then((results) => {
-            return results
         })
     }
 }

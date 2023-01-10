@@ -28,19 +28,10 @@ class DatabaseManager {
                 case AddScoutReport.name:
                     // Different naming scheme is because of Jacob
                     return new AddScoutReport().runTask(`frc${body.teamNumber}`, body.competitionKey, body)
-                    // .catch((err) => {
-                    //     reject(err)
-                    // })
-                    // .then((result) =>{
-                    //     resolve(result)
-                    // })
-                    break
-            //     case GetTeams.name:
-            //         resolve(await new GetTeams().runTask())
-            //         break
+                case GetTeams.name:
+                    return new GetTeams().runTask()
                 case InitServer.name:
                     return new InitServer().runTask()
-                    break
             //     case ResetAndPopulate.name:
             //         resolve(await new ResetAndPopulate().runTask())
             //         break
