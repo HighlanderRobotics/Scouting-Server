@@ -34,42 +34,71 @@ class AddScoutReport extends Manager {
                     this.insertData(match.key, data)
                     .catch((err) => {
                         if (err) {
-                            bruv = "SQLITE UNIQUE ERROR, run node resetDataTable.js"
                             console.log(err)
                             errorCode = 500
-                            reject(err)
+                            reject({
+                                "results": err,
+                                "errorStatus": true,
+                                "customCode": errorCode,
+                                "justForJacob":  "SQLITE UNIQUE ERROR, run node resetDataTable.js"
+                            })
                         }
                     })
                     .then(() => {
                         console.log(`Data entry complete for ${match.key}`)
-                        resolve(`Data successfully entered`)
+                        resolve({
+                            "results": `Success`,
+                            "errorStatus": false,
+                        })
                     })
                 } else {
                     console.log(`Couldn't find match for:`)
                     console.log(data)
                     errorCode = 406
-                    reject(`Match doesn't exist`)
+                    throw new Error({
+                        "results": `Match doesn't exist`,
+                        "errorStatus": true,
+                        "customCode": errorCode
+                    })
                 }
             })
         })
-        .catch((err) => {
-            if (err) {
-                return {
-                    "results": err,
-                    "errorStatus": true,
-                    "customCode": errorCode,
-                    "justForJacob": bruv
-                }
-            } else {
-                return {
-                    "results": err,
-                    "errorStatus": false
-                }
-            }
-        })
-        .then((results) => {
-            return results
-        })
+        
+        // var globalVar = true
+        // return new Promise(function (resolve, reject) {
+        //     if (globalVar === true)
+        //         resolve({
+        //             "results": `Success`,
+        //         })
+        //     else
+        //         throw new Error({
+        //             "results": 'err',
+        //             "customCode": 1,
+        //             "justForJacob":  "SQLITE UNIQUE ERROR, run node resetDataTable.js"
+        //         })
+        // })
+        // .catch((err) => {
+        //     throw new Error(err)
+        // })
+
+        // .catch((err) => {
+        //     if (err) {
+        //         return {
+        //             "results": err,
+        //             "errorStatus": true,
+        //             "customCode": errorCode,
+        //             "justForJacob": bruv
+        //         }
+        //     } else {
+        //         return {
+        //             "results": err,
+        //             "errorStatus": false
+        //         }
+        //     }
+        // })
+        // .then((results) => {
+        //     return results
+        // })
     }
 
     async insertData(matchKey, data) {
