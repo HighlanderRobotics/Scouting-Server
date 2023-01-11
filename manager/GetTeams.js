@@ -18,13 +18,11 @@ class GetTeams extends Manager {
                     errorCode = 500
                     reject({
                         "results": err,
-                        "errorStatus": true,
                         "customCode": errorCode
                     })
                 } else {
                     resolve({
                         "results": storedTeams,
-                        "errorStatus": false
                     })
                 }
             })

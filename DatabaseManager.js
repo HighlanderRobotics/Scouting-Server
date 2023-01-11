@@ -47,12 +47,10 @@ class DatabaseManager {
             //     case AddTournamentMatches.name:
             //         resolve(await new AddTournamentMatches().runTask(body.tournamentName, body.tournamentDate))
             //         break
-            //     case IsScouted.name:
-            //         resolve(await new IsScouted().runTask(body.tournamentKey, body.matchKey))
-            //         break
-            //     case GetScouters.name:
-            //         resolve(await new GetScouters().runTask())
-            //         break
+                case IsScouted.name:
+                    return new IsScouted().runTask(body.tournamentKey, body.matchKey)
+                case GetScouters.name:
+                    return new GetScouters().runTask()
             //     case GetScoutersSchedule.name:
             //         resolve(await new GetScoutersSchedule().runTask())
             //         break

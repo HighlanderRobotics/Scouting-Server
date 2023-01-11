@@ -17,13 +17,19 @@ class IsScouted extends Manager {
             let matches = await a.getMatchKeys(tournamentKey, matchKey)
             .catch((err) => {
                 if (err) {
-                    reject(err)
+                    reject({
+                        "results": err,
+                        "customCode": errorCode
+                    })
                 }
             })
 
             if (matches === undefined) {
                 let errorCode = 406
-                reject('Something went wrong')
+                reject({
+                    "results": 'Something went wrong',
+                    "customCode": errorCode
+                })
             } else {
                 matches.forEach(scouter => {
                     a.result.push(scouter)
@@ -31,23 +37,6 @@ class IsScouted extends Manager {
                 
                 resolve(a.result)
             }
-        })
-        .catch((err) => {
-            if (err) {
-                return {
-                    "results": err,
-                    "errorStatus": true,
-                    "customCode": errorCode
-                }
-            } else {
-                return {
-                    "results": err,
-                    "errorStatus": false
-                }
-            }
-        })
-        .then((results) => {
-            return results
         })
     }
 
