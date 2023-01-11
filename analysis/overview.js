@@ -5,6 +5,7 @@ const Manager = require('../manager/dbmanager.js')
 // const BestAverageForMetric = require('./analysis/BestAverageForMetric.js')
 // const Overveiw = require('./overview.js')
 // const FullyScouted = require('./analysis/fullyScouted.js')
+<<<<<<< HEAD
 // const defenseAmmount = require('./defenseQuantity.js')
 // const defenseQuality = require('./defenseQuality.js')
 const notes = require('./general/notes.js')
@@ -24,6 +25,16 @@ const defense = require('./defense/defenseEvents.js')
 
 //2022cc_qm3_2	
 
+=======
+const defenseAmmount = require('./defenseQuantity.js')
+const defenseQuality = require('./defenseQuality.js')
+const notes = require('./notes.js')
+const climberSucsess = require('./climberSucsess.js')
+const climberMax = require('./climberMax.js')
+const cargoCount = require('./cargoCount.js')
+const cargoAccuracy = require('./cargoAccuracy.js')
+const averageScore = require('./averageScore.js')
+>>>>>>> e0df00b709fbdc2a1edca728a16bd95071ad2a57
 
 class overview extends BaseAnalysis {
     static name = `overview`
@@ -63,6 +74,7 @@ class overview extends BaseAnalysis {
             await scores.runAnalysis()
             metrics.arrayScores = scores.finalizeResults().result
 
+<<<<<<< HEAD
 
             var note = new notes(a.db, a.team)
             await note.runAnalysis()
@@ -119,7 +131,19 @@ class overview extends BaseAnalysis {
             metrics.blockCount = blockCount.result
 
             resolve({ metrics, notes: notesOutput })
+=======
+            resolve(result)
+>>>>>>> e0df00b709fbdc2a1edca728a16bd95071ad2a57
         })
+            .catch((err) => {
+                if (err) {
+                    return err
+                }
+            })
+            .then((data) => {
+                // console.log(data)
+                return data
+            })
     }
     runAnalysis() {
         let a = this

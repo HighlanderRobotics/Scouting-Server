@@ -1,6 +1,5 @@
 const BaseAnalysis = require('./BaseAnalysis.js')
 
-
 class TeamsInTournament extends BaseAnalysis {
     static name = `teamsInTournament`
 

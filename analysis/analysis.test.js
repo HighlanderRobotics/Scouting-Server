@@ -12,7 +12,7 @@ test(`AverageForMetric`, async () => {
             }
         ])
 
-        expect(result[0].AverageForMetric).toBe(14.333333333333334)
+    expect(result[0].AverageForMetric).toBe(14.333333333333334)
 })
 
 test(`BestAverageForMetric`, async () => {
@@ -25,6 +25,6 @@ test(`BestAverageForMetric`, async () => {
             }
         ])
 
-        expect(result[0].BestAverageForMetric).toBe(24.857142857142858)
-        expect(result[0].team).toBe('frc4414')
+    expect(result[0].BestAverageForMetric).toBe(24.857142857142858)
+    expect(result[0].team).toBe('frc4414')
 })
