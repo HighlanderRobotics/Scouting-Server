@@ -1,4 +1,3 @@
-const { image } = require('d3')
 const BaseAnalysis = require('../../BaseAnalysis.js')
 
 class climberSucsess extends BaseAnalysis {
