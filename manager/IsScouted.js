@@ -34,7 +34,6 @@ class IsScouted extends Manager {
                         reject(err)
                     }
                 })
-                
                 matches.forEach(scouter => {
                     a.result.push(scouter)
                 })
