@@ -1,8 +1,3 @@
-# NAMING SCHEME
-key = 2022cc_qm3_1
-tournamentKey = 2022cc
-matchKey = qm3
-
 # Installation process on Ubuntu (sorry don't know how installation works on windows)
 (on mac, it sqlite3 should already come installed)
 ```
