@@ -2,17 +2,11 @@ require('dotenv').config()
 
 const axios = require("axios")
 
-// To connect to the database
-const sqlite = require('sqlite3').verbose()
-
 // For writing logs
 const fs = require('fs')
 const path = require('path')
 const morgan = require('morgan')
 const Writable = require('stream').Writable
-
-// Promises
-const util = require('util')
 
 //this will allow us to pull params from .env file
 const express = require('express')

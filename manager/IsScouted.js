@@ -11,27 +11,22 @@ class IsScouted extends Manager {
     runTask(tournamentKey, matchKey) {
         let a = this
 
-        let errorCode = 400
-
         return new Promise(async (resolve, reject) => {
-            if (matchKey) {
-                let matches = await a.getMatchKeys(tournamentKey, matchKey)
-                .catch((err) => {
-                    if (err) {
-                        reject(err)
-                    }
-                })
-    
-                if (matches === undefined) {
-                    errorCode = 406
-                    reject('No matches found')
-                } else {
-                    matches.forEach(scouter => {
-                        a.result.push(scouter)
+            let matches = await a.getMatchKeys(tournamentKey, matchKey)
+            .catch((err) => {
+                if (err) {
+                    reject({
+                        "results": err,
+                        "customCode": 500
                     })
-                    
-                    resolve(a.result)
-                }    
+                }
+            })
+
+            if (matches === undefined) {
+                reject({
+                    "results": 'Something went wrong',
+                    "customCode": 406
+                })
             } else {
                 let matches = await a.getAllMatchKeys(tournamentKey)
                 .catch((err) => {
@@ -40,34 +35,12 @@ class IsScouted extends Manager {
                     }
                 })
 
-                if (matches === undefined) {
-                    errorCode = 406
-                    reject('No matches found')
-                } else {
-                    matches.forEach(scouter => {
-                        a.result.push(scouter)
-                    })
-                    
-                    resolve(a.result)
-                }    
+                matches.forEach(scouter => {
+                    a.result.push(scouter)
+                })
+                
+                resolve(a.result)
             }
-        })
-        .catch((err) => {
-            if (err) {
-                return {
-                    "results": err,
-                    "errorStatus": true,
-                    "customCode": errorCode
-                }
-            } else {
-                return {
-                    "results": err,
-                    "errorStatus": false
-                }
-            }
-        })
-        .then((results) => {
-            return results
         })
     }
 
