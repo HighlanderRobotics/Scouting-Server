@@ -19,13 +19,17 @@ class GetMatches extends Manager {
                 let modifiedMatches = []
                 if (err) {
                     console.error(`Error with getMatches(): ${err}`)
-                    let errorCode = 500
-                    reject(`Error with getMatches(): ${err}`)
+                    reject({
+                        "result": err,
+                        "customCode": 500
+                    })
                 } else if (matches.length == 0) {
                     // No matches found
-                    let errorCode = 406
                     console.log(`No matches found for ${body.tournamentKey}`)
-                    reject(modifiedMatches)
+                    reject({
+                        "result": `No matches found for ${body.tournamentKey}`,
+                        "customCode": 406
+                    })
                 } else {
                     let largestQm = matches[0].matchNumber
                     matches.forEach((match) => {
@@ -83,22 +87,6 @@ class GetMatches extends Manager {
                     resolve(modifiedMatches)
                 }
             })
-        })
-        .catch((err) => {
-            if (err) {
-                return {
-                    "results": err,
-                    "errorStatus": true
-                }
-            } else {
-                return {
-                    "results": err,
-                    "errorStatus": false
-                }
-            }
-        })
-        .then((results) => {
-            return results
         })
     }
 }

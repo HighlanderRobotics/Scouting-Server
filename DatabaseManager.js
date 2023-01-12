@@ -51,18 +51,14 @@ class DatabaseManager {
                     return new IsScouted().runTask(body.tournamentKey, body.matchKey)
                 case GetScouters.name:
                     return new GetScouters().runTask()
-            //     case GetScoutersSchedule.name:
-            //         resolve(await new GetScoutersSchedule().runTask())
-            //         break
-            //     case UpdateScoutersSchedule.name:
-            //         resolve(await new UpdateScoutersSchedule().runTask(body))
-            //         break
-            //     case GetMatches.name:
-            //         resolve(await new GetMatches().runTask(body))
-            //         break
-            //     case IsMatchesScouted.name:
-            //         resolve(await new IsMatchesScouted().runTask(body.tournamentKey, body.scouterName, body.matchKeys))
-            //         break
+                case GetScoutersSchedule.name:
+                    return new GetScoutersSchedule().runTask()
+                case UpdateScoutersSchedule.name:
+                    return new UpdateScoutersSchedule().runTask(body)
+                case GetMatches.name:
+                    return new GetMatches().runTask(body)
+                case IsMatchesScouted.name:
+                    return new IsMatchesScouted().runTask(body.tournamentKey, body.scouterName, body.matchKeys)
             //     case GetAllNotes.name:
             //         resolve(await new GetAllNotes().runTask(body.teamKey, body.sinceTime))
             //         break
