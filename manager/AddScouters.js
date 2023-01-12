@@ -8,30 +8,22 @@ class AddScouters extends Manager {
     }
 
     async runTask() {
-        let sql = `INSERT INTO scouters (name, phoneNumber, email) VALUES (?,?,?)`
+        let a = this 
 
-        var scouters = this.getScouters()
-
-        let errorCode = 400
-        
-        await this.runInsertScouters()
-        .catch((err) => {
-            if (err) {
-                return {
-                    "results": err,
-                    "errorStatus": true,
-                    "customCode": errorCode
+        return new Promise(async(resolve, reject) => {
+            await a.runInsertScouters()
+            .then((results) => {
+                resolve(results)
+            })
+            .catch((err) => {
+                if (err) {
+                    reject({
+                        "results": err,
+                        "customCode": 500
+                    })
                 }
-            } else {
-                return {
-                    "results": "Successfully added scouters",
-                    "errorStatus": false
-                }
-            }
-        })
-        .then((results) => {
-            return results
-        })
+            })
+        })        
     }
     
     getScouters() {
@@ -40,26 +32,28 @@ class AddScouters extends Manager {
     }
 
     async insertScouter(sql, scout, i) {
+        let sql = `INSERT INTO scouters (name, phoneNumber, email) VALUES (?,?,?)`
+
         return new Promise((resolve, reject) => {
             Manager.db.run(sql, [scout.name, scout.number, scout.email], (err) => {
                 if (err) {
-                    errorCode = 500
                     console.error(`Error inserting scouters: ${err}`)
                     reject(`Error inserting scouters: ${err}`)
                 } else {
-                    resolve()
+                    resolve(`Success`)
                 }
             })
         })
     }
 
     async runInsertScouters() {
+        var scouters = this.getScouters()
+
         for (var i = 0; i < scouters.length; i++) {
             // console.log(scouters[i])
             await this.insertScouter(sql, scouters[i], i)
             .catch((err) => {
                 if (err) {
-                    errorCode = 500
                     console.log(`Error with inserting scouter: ${err}`)
                     reject(err)
                 }

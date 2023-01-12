@@ -142,6 +142,7 @@ app.get('/API/manager/:task', async (req, res) => {
             })
             .catch((err) => {
                 console.log(`Detected error`)
+                console.log(err)
                 if (err.customCode) {
                     res.status(err.customCode).send(err)
                 } else {

@@ -12,8 +12,6 @@ class GetMatches extends Manager {
             WHERE tournamentKey = '${body.tournamentKey}'
             ORDER BY matchNumber`
 
-        let errorCode = 400
-
         return new Promise((resolve, reject) => {
             Manager.db.all(sql, (err, matches) => {
                 let modifiedMatches = []

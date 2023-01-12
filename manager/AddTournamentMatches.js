@@ -9,7 +9,6 @@ class AddTournamentMatches extends Manager {
     }
 
     runTask(name, date) {
-        let errorCode = 400
 
         var url = 'https://www.thebluealliance.com/api/v3'
 
@@ -19,13 +18,17 @@ class AddTournamentMatches extends Manager {
             Manager.db.all(sql, (err, tournament) => {
                 if (err) {
                     console.error(`Error with addMatches(): ${err}`)
-                    errorCode = 500
-                    reject(`Error with addMatches(): ${err}`)
+                    reject({
+                        "result": `Error with addMatches(): ${err}`,
+                        "customCode": 500
+                    })
                 }
                 if (tournament[0] == undefined) {
-                    errorCode = 406
                     console.error(`Error with addMatches(): Tournament not found`)
-                    reject(`Error with addMatches(): Tournament not found`)
+                    reject({
+                        "result": `Error with addMatches(): Tournament not found`,
+                        "customCode": 406
+                    })
                 } else {
                     for (var i = 0; i < tournament.length; i++) {
                         // Get matches in tournament
@@ -49,9 +52,11 @@ class AddTournamentMatches extends Manager {
                                     await this.whyGodInsert(sql)
                                     .catch((err) => {
                                         if (err) {
-                                            console.log(err)
-                                            errorCode = 500
-                                            reject(err)
+                                            // console.log(err)
+                                            reject({
+                                                "result": err,
+                                                "customCode": 500
+                                            })
                                         }
                                     })
                                 } else {
@@ -73,39 +78,28 @@ class AddTournamentMatches extends Manager {
                                         if (err) {
                                             // console.log(response.data[i].team_keys)
                                             // console.log(response.data[i].match_number)
-                                            errorCode - 500
-                                            console.log(err)
-                                            reject(err)
+                                            // console.log(err)
+                                            reject({
+                                                "result": err,
+                                                "customCode": 500
+                                            })
                                         }
                                     })
                                 }
                             }
-                        }).catch(err => {
-                            console.error(err)
-                            reject(err)
-                        }).then(() => {
-                            resolve(`Success`)
+                        })
+                        .catch((err) => {
+                            if (err) {
+                                reject({
+                                    "result": "Could not connect to tba api",
+                                    "customCode": 500
+                                })
+    
+                            }
                         })
                     }
                 }
             })
-        })
-        .catch((err) => {
-            if (err) {
-                return {
-                    "results": err,
-                    "errorStatus": true,
-                    "customCode": errorCode
-                }
-            } else {
-                return {
-                    "results": err,
-                    "errorStatus": false
-                }
-            }
-        })
-        .then((results) => {
-            return results
         })
     }
     

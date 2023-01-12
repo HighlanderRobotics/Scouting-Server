@@ -41,12 +41,10 @@ class DatabaseManager {
             //     case AddAPITournaments.name:
             //         resolve(await new AddAPITournaments().runTask(body.year))
             //         break
-            //     case AddScouters.name:
-            //         resolve(await new AddScouters().runTask())
-            //         break
-            //     case AddTournamentMatches.name:
-            //         resolve(await new AddTournamentMatches().runTask(body.tournamentName, body.tournamentDate))
-            //         break
+                case AddScouters.name:
+                    return new AddScouters().runTask()
+                case AddTournamentMatches.name:
+                    return new AddTournamentMatches().runTask(body.tournamentName, body.tournamentDate)
                 case IsScouted.name:
                     return new IsScouted().runTask(body.tournamentKey, body.matchKey)
                 case GetScouters.name:
@@ -73,18 +71,7 @@ class DatabaseManager {
             //         break
             // }
     
-        }//)
-        // .catch((err) => {
-        //     if (err) {
-        //         return {
-        //             "results": err,
-        //             "errorStatus": true,
-        //         }
-        //     }
-        // })
-        // .then((results) => {
-        //     return results
-        // })
+        }
     }
 }
 
