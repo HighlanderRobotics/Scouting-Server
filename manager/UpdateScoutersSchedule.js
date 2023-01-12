@@ -9,15 +9,18 @@ class UpdateScoutersSchedule extends Manager {
     }
 
     runTask(schedule) {
-        fs.writeFileSync(`${__dirname}/../scouters/./scoutersSchedule.json`, JSON.stringify(schedule), 'utf8', (err) => {
-            if (err) {
-                console.log('Error writing to scouters file')
+        return new Promise((resolve, reject) => {
+            try {
+                fs.writeFileSync(`${__dirname}/../scouters/./scoutersSchedule.json`, JSON.stringify(schedule), 'utf8')
+                
+                resolve(`Success`)
+            } catch (e) {
+                reject({
+                    "results": `Error writing to file: ${e}`,
+                    "customCode": 500
+                })
             }
         })
-        return {
-            "results": "Recieved",
-            "errorStatus": false
-        }
     }
 }
 
