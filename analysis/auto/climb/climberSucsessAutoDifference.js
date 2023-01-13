@@ -28,7 +28,7 @@ class climberSucsessAutoDifference extends BaseAnalysis {
         await y.runAnalysis()
 
 
-        a.off = teamAvg.off - overallAvg.off
+        a.off = teamAvg.off - overallAvg.failed
         a.tipped = teamAvg.tipped - overallAvg.tipped
         a.level = teamAvg.level - overallAvg.level
 

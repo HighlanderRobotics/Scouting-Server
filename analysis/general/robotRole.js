@@ -1,7 +1,8 @@
+const { off } = require('npm')
 const BaseAnalysis = require('../BaseAnalysis.js')
 
-class climberSucsess extends BaseAnalysis {
-    static name = `climberSucsess`
+class robotRole extends BaseAnalysis {
+    static name = `robotRole`
 
     constructor(db, team) {
         super(db)
@@ -51,19 +52,19 @@ class climberSucsess extends BaseAnalysis {
                             helper++
                         }
                         if (curr === 1) {
-                            offense++
+                            defense++
                         }
                         if (curr === 0) {
-                            defense++
+                            offense++
                         }
                         if (curr === 2) {
                             mixed++
                         }
 
                     }
-                    a.offense = offense / arr.length
-                    a.defense = defense / arr.length
-                    a.helper = helper / arr.length
+                    a.offense = offense 
+                    a.defense = defense 
+                    a.helper = helper
                     a.mixed = helper
                     a.array = arr
                     a.matches = match
@@ -106,11 +107,11 @@ class climberSucsess extends BaseAnalysis {
             "defense": this.defense,
             "offense": this.offense,
             "mixed": this.mixed,
-            "helper": this.helper,
+            "feeder": this.helper,
             "matches" : this.matches,
             "team": this.team
         }
     }
 }
-module.exports = climberSucsess
+module.exports = robotRole
 

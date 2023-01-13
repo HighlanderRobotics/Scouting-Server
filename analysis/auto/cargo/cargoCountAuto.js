@@ -42,10 +42,9 @@ class cargoCountAuto extends BaseAnalysis {
                     match.push(row.key)
                     for (var i = 0; i < curr.length; i++) {
 
-                        //check 1500
                         let subArr = curr[i]
 
-                        if (subArr[2] < 1500) {
+                        if (subArr[2] < 15) {
                             if (subArr[1] === 3 && curr[i - 1][1] === a.type) {
 
                                 makes++
