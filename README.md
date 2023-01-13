@@ -185,6 +185,7 @@ Success
 ```
 
 ## GET /API/manager/isScouted?tournamentKey=2022cc&matchKey=2022cc_qm1
+Can also omit matchKey to get scouting status/name from all matches in the tournament.
 
 ### Will return: Response code 200
 If the name is null then it means there's a scoutreport missing for that matchKey
