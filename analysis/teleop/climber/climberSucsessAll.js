@@ -1,4 +1,4 @@
-const BaseAnalysis = require('../../BaseAnalysis.js')
+const BaseAnalysis = require('../BaseAnalysis.js')
 
 class climberSucsessAll extends BaseAnalysis {
     static name = `climberSucsessAll`
@@ -10,7 +10,8 @@ class climberSucsessAll extends BaseAnalysis {
         // this.start = start
         // this.end = end
         this.tipped = 0
-        this.off = 0
+        this.failed = 0
+        this.noClimb = 0
         this.level = 0
         this.array = []
 
@@ -29,11 +30,12 @@ class climberSucsessAll extends BaseAnalysis {
             let fullyOn = 0
             let tipped = 0
             let off = 0
+            let none = 0
             let arr = []
 
             this.db.all(sql, [], (err, rows) => {
                 if (err) {
-                    console.log(err)
+                    console.loag(err)
                     reject(err)
                 }
                 else {
@@ -43,7 +45,7 @@ class climberSucsessAll extends BaseAnalysis {
                         let curr = JSON.parse(row.scoutReport).challengeResult
                         arr.push(curr)
                         if (curr === 0) {
-                            off++
+                            none++
                         }
                         if (curr === 1) {
                             tipped++
@@ -51,11 +53,16 @@ class climberSucsessAll extends BaseAnalysis {
                         if (curr === 2) {
                             fullyOn++
                         }
+                        if(curr == 3)
+                        {
+                            failed++
+                        }
 
                     }
-                    a.tipped = tipped / arr.length
-                    a.level = fullyOn / arr.length
-                    a.off = off / arr.length
+                    a.tipped = tipped  
+                    a.level = fullyOn 
+                    a.failed = off 
+                    a.noClimb = none
                     a.array = arr
 
 
@@ -93,10 +100,11 @@ class climberSucsessAll extends BaseAnalysis {
     }
     finalizeResults() {
         return {
-            "off": this.off,
+            "failed": this.off,
             "level": this.level,
             "tipped": this.tipped,
             "array": this.array,
+            "noClimb" : this.none,
             "team": this.team
         }
     }
