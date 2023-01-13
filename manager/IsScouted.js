@@ -9,27 +9,47 @@ class IsScouted extends Manager {
     }
 
     runTask(tournamentKey, matchKey) {
-        let errorCode = 400
-
         let a = this
 
-        return new Promise(async (resolve, reject) => {
-            let matches = await a.getMatchKeys(tournamentKey, matchKey)
-            .catch((err) => {
-                if (err) {
-                    reject(err)
-                }
-            })
+        let errorCode = 400
 
-            if (matches === undefined) {
-                let errorCode = 406
-                reject('Something went wrong')
+        return new Promise(async (resolve, reject) => {
+            if (matchKey) {
+                let matches = await a.getMatchKeys(tournamentKey, matchKey)
+                .catch((err) => {
+                    if (err) {
+                        reject(err)
+                    }
+                })
+    
+                if (matches === undefined) {
+                    errorCode = 406
+                    reject('No matches found')
+                } else {
+                    matches.forEach(scouter => {
+                        a.result.push(scouter)
+                    })
+                    
+                    resolve(a.result)
+                }    
             } else {
-                matches.forEach(scouter => {
-                    a.result.push(scouter)
-                });
-                
-                resolve(a.result)
+                let matches = await a.getAllMatchKeys(tournamentKey)
+                .catch((err) => {
+                    if (err) {
+                        reject(err)
+                    }
+                })
+
+                if (matches === undefined) {
+                    errorCode = 406
+                    reject('No matches found')
+                } else {
+                    matches.forEach(scouter => {
+                        a.result.push(scouter)
+                    })
+                    
+                    resolve(a.result)
+                }    
             }
         })
         .catch((err) => {
@@ -57,19 +77,39 @@ class IsScouted extends Manager {
             LEFT JOIN scouters ON data.scouterName = scouters.name
             WHERE matches.tournamentKey = '${tournamentKey}'
             AND INSTR(matches.key, '${matchKey}_')
-            `
+        `
 
         return new Promise((resolve, reject) => {
             Manager.db.all(sql, (err, matches) => {
                 if (err) {
-                    let errorCode = 500
                     console.log(err)
                     reject(err)
                 }
                 if (matches) {
                     resolve(matches)
                 } else {
-                    let errorCode = 406
+                    reject('No matches found')
+                }
+            })      
+        })
+    }
+
+    async getAllMatchKeys(tournamentKey) {
+        let sql = `SELECT matches.key, name FROM matches
+            LEFT JOIN data ON matches.key = data.matchKey
+            LEFT JOIN scouters ON data.scouterName = scouters.name
+            WHERE matches.tournamentKey = '${tournamentKey}'
+        `
+
+        return new Promise((resolve, reject) => {
+            Manager.db.all(sql, (err, matches) => {
+                if (err) {
+                    console.log(err)
+                    reject(err)
+                }
+                if (matches) {
+                    resolve(matches)
+                } else {
                     reject('No matches found')
                 }
             })      
