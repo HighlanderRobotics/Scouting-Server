@@ -32,8 +32,6 @@ class AddScouters extends Manager {
     }
 
     async insertScouter(sql, scout, i) {
-        let sql = `INSERT INTO scouters (name, phoneNumber, email) VALUES (?,?,?)`
-
         return new Promise((resolve, reject) => {
             Manager.db.run(sql, [scout.name, scout.number, scout.email], (err) => {
                 if (err) {
@@ -48,6 +46,8 @@ class AddScouters extends Manager {
 
     async runInsertScouters() {
         var scouters = this.getScouters()
+
+        let sql = `INSERT INTO scouters (name, phoneNumber, email) VALUES (?,?,?)`
 
         for (var i = 0; i < scouters.length; i++) {
             // console.log(scouters[i])

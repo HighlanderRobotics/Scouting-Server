@@ -32,9 +32,8 @@ class DatabaseManager {
                     return new GetTeams().runTask()
                 case InitServer.name:
                     return new InitServer().runTask()
-            //     case ResetAndPopulate.name:
-            //         resolve(await new ResetAndPopulate().runTask())
-            //         break
+                case ResetAndPopulate.name:
+                    return new ResetAndPopulate().runTask()
             //     // case AddAPITeams.name:
             //     //     resolve(await new AddAPITeams().runTask())
             //     //     break
