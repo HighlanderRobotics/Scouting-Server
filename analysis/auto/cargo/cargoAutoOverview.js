@@ -8,11 +8,10 @@ const difference = require('./cargoCountAutoDifference.js')
 class cargoCountAutoOverview extends BaseAnalysis {
     static name = `cargoCountAutoOverview`
 
-    constructor(db, team, type, start) {
+    constructor(db, team, type) {
         super(db)
         this.team = team
         this.type = type
-        this.start = start
         // this.teamKey = "frc" + team
         // this.start = start
         // this.end = end
@@ -26,11 +25,11 @@ class cargoCountAutoOverview extends BaseAnalysis {
     }
     async getAccuracy() {
         let a = this
-        let x = new teamStat(a.db, a.team, a.type, a.start)
+        let x = new teamStat(a.db, a.team, a.type)
         await x.runAnalysis()
-        let y = new all(a.db, a.type, a.start)
+        let y = new all(a.db, a.type)
         await y.runAnalysis()
-        let z = new difference(a.db, a.team, a.type, a.start)
+        let z = new difference(a.db, a.team, a.type)
         await z.runAnalysis()
 
         a.result = x.result
