@@ -1,5 +1,6 @@
 const Manager = require('./Manager.js')
-const axios = require('axios');
+const axios = require('axios')
+const fs = require('fs')
 
 class ResetAndPopulate extends Manager {
     static name = 'resetAndPopulate'
@@ -41,17 +42,18 @@ class ResetAndPopulate extends Manager {
             UNIQUE (name)
         )`
 
-        let errorCode = 400
-
         return new Promise((resolve, reject) => {
             this.removeAndAddTables(createTeams, createTournaments, createMatches, createData, createScouters)
             .catch((err) => {
                 if (err) {
-                    reject(err)
+                    reject({
+                        "result": err,
+                        "customCode": 500
+                    })
                 }
             })
             .then(async () => {
-                await a.getTeams()
+                await a.addAPITeams()
                 await a.getTournaments(2022)
                 await a.getTournaments(2023)
                 await a.getScouters()
@@ -59,21 +61,13 @@ class ResetAndPopulate extends Manager {
             })
             .catch((err) => {
                 if (err) {
-                    return {
+                    reject({
                         "results": err,
-                        "errorStatus": true,
-                        "customCode": errorCode
-                    }
-                } else {
-                    return {
-                        "results": err,
-                        "errorStatus": false
-                    }
+                        "customCode": 500
+                    })
                 }
             })
-            .then((results) => {
-                return results
-            })
+            resolve(`Done`)
         })
     }
 
@@ -111,32 +105,53 @@ class ResetAndPopulate extends Manager {
                     resolve()
                 }}))
             })
-            // DON'T PUT THE RESOLVE HERE BECAUSE THE DB RUNS INSTRUCTIONS ASYNCHRONOUSLY AND THUS WILL RESOLVE BEFORE TABLES ARE RESET
-            // resolve()
+            .catch((err) => {
+                reject(err)
+            })
         })
     }
 
-    async getTeams() {
-        var sql = `SELECT * FROM teams ORDER BY teamnumber`
+    async addAPITeams() {
+        var url = 'https://www.thebluealliance.com/api/v3'
+        
+        var sql = `INSERT INTO teams (key, teamNumber, teamName) VALUES (?, ?, ?)`
 
-        return new Promise((resolve, reject) => {
-            Manager.db.all(sql, (err, storedTeams) => {
-                if (err) {
-                    errorCode = 500
-                    console.error(`Error with getTeams(): ${err}`)
-                    reject(`Error with getTeams(): ${err}`)
-                } else {
-                    resolve(storedTeams);
-                }
+        async function insertTeam(sql, response, i) {
+            return new Promise((resolve, reject) => {
+                Manager.db.run(sql, [response.data[i].key, response.data[i].team_number, response.data[i].nickname], (err) => {
+                    if (err) {
+                        console.error(`Error inserting teams: ${response.data[i]}`)
+                        reject(`Error inserting teams: ${response.data[i]}`)
+                    } else {
+                        resolve()
+                    }
+                })
             })
-        })
-        .catch((err) => {
-            if (err) {
-                return err
+        }
+
+        return new Promise(async (resolve, reject) => {
+            for (var j = 0; j < 18; j++) {
+                console.log(`Inserting teams ${Math.round((j/18)*100)}%`)
+                await axios.get(`${url}/teams/${j}/simple`, {
+                    headers: {'X-TBA-Auth-Key': process.env.KEY}
+                })
+                .then(async (response) => {
+                    for (var i = 0; i < response.data.length; i++) {
+                        await insertTeam(sql, response, i)
+                    }
+                }).catch(err => {
+                    if (err) {
+                        console.error(`Error with getting teams from TBA API: ${err}`)
+                        reject(err)
+                    }
+                }).then(() => {
+                    if (j === 17) {
+                        console.log(`Finished inserting API teams`)
+                        resolve()
+                    }
+                })
             }
-        })
-        .then((results) => {
-            return results
+            resolve()
         })
     }
 
@@ -149,7 +164,6 @@ class ResetAndPopulate extends Manager {
             return new Promise((resolve, reject) => {
                 Manager.db.run(sql, [response.data[i].name, response.data[i].city, response.data[i].start_date, response.data[i].key], (err) => {
                     if (err) {
-                        errorCode = 500
                         console.error(`Error inserting tournament: ${err}`)
                         reject(`Error inserting tournament: ${err}`)
                     } else {
@@ -159,42 +173,35 @@ class ResetAndPopulate extends Manager {
             })
         }
 
-        await axios.get(`${url}/events/${year}/simple`, {
-            headers: {'X-TBA-Auth-Key': process.env.KEY}
-        })
-        .then(async (response) => {
-            for (var i = 0; i < response.data.length; i++) {
-                await insertTournament(sql, response, i)
-                .catch((err) => {
-                    if (err) {
-                        errorCode = 500
-                        console.log(`Error with inserting tournament: ${err}`)
-                        reject(err)
-                    }
-                })
-            }
-        }).catch(err => {
-            if (err) {
-                console.error(`Error with inserting API Tournaments: ${err}`)
-                return(`Error with inserting API Tournaments: ${err}`)    
-            }
-        })
-        .then(() => {
-            console.log(`Finished inserting tournaments`)
-            return
-        })
+        return new Promise((resolve, reject) => {
+            axios.get(`${url}/events/${year}/simple`, {
+                headers: {'X-TBA-Auth-Key': process.env.KEY}
+            })
+            .then(async (response) => {
+                for (var i = 0; i < response.data.length; i++) {
+                    await insertTournament(sql, response, i)
+                    .catch((err) => {
+                        if (err) {
+                            console.log(`Error with inserting tournament: ${err}`)
+                            reject(err)
+                        }
+                    })
+                }
+                console.log(`Inserted Tournaments for ${year}`)
+                resolve()
+            })
+        })   
     }
 
     async getScouters() {
         let sql = `INSERT INTO scouters (name, phoneNumber, email) VALUES (?,?,?)`
-
-        var scouters = getScouters()
+        console.log('Scouters File exists: ' + fs.existsSync(`${__dirname}/../scouters/./scouters.json`))
+        let scouters = await JSON.parse(fs.readFileSync(`${__dirname}/../scouters/./scouters.json`, 'utf8')).scouters
 
         async function insertScouter(sql, scout, i) {
             return new Promise((resolve, reject) => {
                 Manager.db.run(sql, [scout.name, scout.number, scout.email], (err) => {
                     if (err) {
-                        errorCode = 500
                         console.error(`Error inserting scouters: ${err}`)
                         reject(`Error inserting scouters: ${err}`)
                     } else {
@@ -217,23 +224,16 @@ class ResetAndPopulate extends Manager {
             }
         }
 
-        await runInsertScouters()
-        .catch(err => {
-            if (err) {
-                errorCode = 500
-                console.error(`Error with inserting Scouters: ${err}`)
-                return(`Error with inserting Scouters: ${err}`)    
-            }
+        return new Promise(async (resolve, reject) => {
+            await runInsertScouters()
+            .catch(err => {
+                if (err) {
+                    reject(err)
+                }
+            })
+            console.log("Scouters inserted")
+            resolve()
         })
-        .then(() => {
-            console.log(`Finished inserting Scouters`)
-            return
-        })
-
-        function getScouters() {
-            let data = JSON.parse(fs.readFileSync(`${__dirname}/../scouters/./scouters.json`, 'utf8'))
-            return data.scouters
-        }
     }
 }
 
