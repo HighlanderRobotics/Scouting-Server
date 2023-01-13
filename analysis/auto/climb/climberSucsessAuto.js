@@ -10,8 +10,10 @@ class climberSucsessAuto extends BaseAnalysis {
         // this.start = start
         // this.end = end
         this.tipped = 0
-        this.off = 0
+        this.none = 0
         this.level = 0
+        this.failed = 0
+
         this.array = []
         this.matches = []
 
@@ -30,6 +32,7 @@ class climberSucsessAuto extends BaseAnalysis {
             let fullyOn = 0
             let tipped = 0
             let off = 0
+            let none = 0
             let arr = []
             let match = []
 
@@ -46,7 +49,7 @@ class climberSucsessAuto extends BaseAnalysis {
                         match.push(row.key)
                         arr.push(curr)
                         if (curr === 0) {
-                            off++
+                            none++
                         }
                         if (curr === 1) {
                             tipped++
@@ -54,12 +57,17 @@ class climberSucsessAuto extends BaseAnalysis {
                         if (curr === 2) {
                             fullyOn++
                         }
+                        if(curr == 3)
+                        {
+                            failed++
+                        }
 
                     }
-                    a.tipped = tipped / arr.length
-                    a.level = fullyOn / arr.length
-                    a.off = off / arr.length
-                    a.array = arr / arr.length
+                    a.tipped = tipped
+                    a.level = fullyOn 
+                    a.failed = off 
+                    a.none = none
+                    a.array = arr 
                     a.matches = match
 
 
@@ -97,9 +105,10 @@ class climberSucsessAuto extends BaseAnalysis {
     }
     finalizeResults() {
         return {
-            "off": this.off,
+            "failed": this.failed,
             "level": this.level,
             "tipped": this.tipped,
+            "noClimb" : this.none,
             "array": this.array,
             "matches" : this.matches,
             "team": this.team

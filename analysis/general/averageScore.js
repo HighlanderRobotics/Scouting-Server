@@ -60,7 +60,7 @@ class averageScore extends BaseAnalysis {
 
                             const entry = arr[i];
                             let max = Math.ceil(entry[3] / 3)
-                            if (entry[0] <= 1500 && entry[1] === 3) {
+                            if (entry[0] <= 15 && entry[1] === 3) {
                                 if (max === 3) {
                                     total += 6
                                 }

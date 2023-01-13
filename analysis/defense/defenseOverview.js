@@ -1,21 +1,25 @@
 const BaseAnalysis = require('../../BaseAnalysis.js')
 const teamStat = require('./cargoCountAuto.js')
 const all = require('./cargoCountAutoAll.js')
+const difference = require('./cargoCountAutoDifference.js')
 
 // const Manager = require('./manager/dbmanager.js')
 
-class cargoCountAutoDifference extends BaseAnalysis {
-    static name = `cargoCountAutoDifference`
+class defenseOverview extends BaseAnalysis {
+    static name = `defenseOverview`
 
     constructor(db, team, type) {
         super(db)
-        this.type  = type
         this.team = team
+        this.type = type
         // this.teamKey = "frc" + team
         // this.start = start
         // this.end = end
         this.result = 0
-        this.type = type
+        this.array = 0
+        this.all = 0
+        this.difference = 0
+        this.type = this.type
         // this.array = []
 
     }
@@ -23,13 +27,15 @@ class cargoCountAutoDifference extends BaseAnalysis {
         let a = this
         let x = new teamStat(a.db, a.team, a.type)
         await x.runAnalysis()
-        let teamAvg = x.result
         let y = new all(a.db, a.type)
         await y.runAnalysis()
-        let overallAvg = y.result
+        let z = new difference(a.db, a.team, a.type)
+        await z.runAnalysis()
 
-        a.result = teamAvg - overallAvg
-        console.log(a.result)
+        a.result = x.result
+        a.array = x.array
+        a.all = y.result
+        a.difference = z.result
 
     }
 
@@ -50,9 +56,12 @@ class cargoCountAutoDifference extends BaseAnalysis {
     finalizeResults() {
         return {
             "result": this.result,
+            "array" : this.array,
+            "difference" : this.difference,
+            "all" : this.all,
             "team": this.team,
         }
     }
 
 }
-module.exports = cargoCountAutoDifference
+module.exports = defenseOverview
