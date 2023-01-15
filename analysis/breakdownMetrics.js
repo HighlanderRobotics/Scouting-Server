@@ -7,15 +7,10 @@ const Manager = require('../manager/dbmanager.js')
 // const FullyScouted = require('./analysis/fullyScouted.js')
 // const defenseAmmount = require('./defenseQuantity.js')
 // const defenseQuality = require('./defenseQuality.js')
-const notes = require('./general/notes.js')
-const cargoCount = require('./teleop/cargo/cargoCount.js')
+
 const climberSucsess = require('./teleop/climber/climberSucsess')
-const climberSucsessAuto = require('./auto/climb/climberSucsessAuto')
-const averageScore = require('./general/averageScore.js')
-const cargoCountAuto = require('./auto/cargo/cargoCountAuto.js')
 const robotRole = require('./general/robotRole')
-const cycling = require('./teleop/cargo/cycling.js')
-const defense = require('./defense/defenseEvents.js')
+
 
 
 
