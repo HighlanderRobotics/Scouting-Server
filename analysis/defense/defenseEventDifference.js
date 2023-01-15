@@ -1,5 +1,5 @@
 const BaseAnalysis = require('../BaseAnalysis.js')
-const teamStat = require('./defenseEvents.js')
+const teamStat = require('./defenseEvent.js')
 const all = require('./defenseEventAll.js')
 
 // const Manager = require('./manager/dbmanager.js')
@@ -28,7 +28,6 @@ class defenseEventDifference extends BaseAnalysis {
         let overallAvg = y.result
 
         a.result = teamAvg - overallAvg
-        console.log(a.result)
 
     }
 

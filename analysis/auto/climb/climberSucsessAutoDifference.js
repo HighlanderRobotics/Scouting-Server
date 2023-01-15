@@ -1,4 +1,4 @@
-const BaseAnalysis = require('../BaseAnalysis.js')
+const BaseAnalysis = require('../../BaseAnalysis.js')
 const teamStat = require('./climberSucsessAuto.js')
 const all = require('./climberSucsessAutoAll.js')
 
