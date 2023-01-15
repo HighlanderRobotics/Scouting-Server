@@ -8,7 +8,7 @@ require('dotenv').config()
 
 const fs = require('fs')
 
-// var url = 'https://www.thebluealliance.com/api/v3'
+var url = 'https://www.thebluealliance.com/api/v3'
 // console.log(new Date())
 // var sql = `INSERT INTO teams (teamNumber, teamName, teamKey) VALUES (?, ?, ?)`
 // var sql = `INSERT INTO games (name, location, date, key) VALUES (?, ?, ?, ?)`
@@ -24,13 +24,13 @@ const fs = require('fs')
 //   }
 // })
 
-// for (var j = 0; j < 1; j++) {
+for (var j = 0; j < 1; j++) {
   // axios.get(`${url}/teams/${j}/simple`, {
   // axios.get(`${url}/events/2022/simple`, {
-  // axios.get(`${url}/event/2022cc/matches`, {
-  //   headers: {'X-TBA-Auth-Key': process.env.KEY}
-  // })
-  //   .then(response => {
+    axios.get(`${url}/events/2022/simple`, {
+        headers: {'X-TBA-Auth-Key': process.env.KEY}
+  })
+    .then(response => {
   //     for (var i = 0; i < response.data.length; i++) {
   //       // db.run(sql, [response.data[i].team_number, response.data[i].nickname, response.data[i].key])
   //       // db.run(sql, [response.data[i].name, response.data[i].city, response.data[i].start_date, response.data[i].key])
@@ -41,16 +41,15 @@ const fs = require('fs')
   //       // db.run(sql, [28, response.data[i].match_number, response.data[i].alliances.blue.team_keys[1], response.data[i].key])
   //       // db.run(sql, [28, response.data[i].match_number, response.data[i].alliances.blue.team_keys[2], response.data[i].key])
   //       console.log(response.data[i].alliances.blue.team_keys[0])
-
-  //     }
+        console.log(response)
       
       
-  // })
-  //   .catch(error => {
-  //     console.log(error);
-  //   });
+  })
+    .catch(error => {
+      console.log(error);
+    })
   // console.log(`Logged page ${j}`)
-// }
+}
 
 // const express = require('express')
 // const morgan = require('morgan')
@@ -271,9 +270,9 @@ async function getScouters() {
 //         }
 //     })
 
-let run = async () => {
-    let data = await JSON.parse(fs.readFileSync(`${__dirname}/scouters/./scouters.json`, 'utf8'))
-    console.log(data)
-}
+// let run = async () => {
+//     let data = await JSON.parse(fs.readFileSync(`${__dirname}/scouters/./scouters.json`, 'utf8'))
+//     console.log(data)
+// }
 
-run()
+// run()

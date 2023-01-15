@@ -9,12 +9,12 @@ class NewScouter extends Manager {
     }
 
     async runTask(scouterName, scouterNumber, scouterEmail) {
-        fs.readFile(`${__dirname}/../scouters/./scouters.json`, 'utf8', function readFileCallback(err, data){
-            if (err){
-                console.log(err)
-            } else {
-                data = JSON.parse(data)
-                try {
+        try {
+            fs.readFile(`${__dirname}/../scouters/./scouters.json`, 'utf8', function readFileCallback(err, data){
+                if (err){
+                    console.log(err)
+                } else {
+                    data = JSON.parse(data)
                     data.scouters.forEach((scouter) => {
                         if (scouter.name === scouterName) {
                             // console.log(`Scouter ${scouterName} already exists`)
@@ -39,15 +39,14 @@ class NewScouter extends Manager {
                             throw new Error(err)
                         }
                     })
-                } catch (e) {
-                    console.log(e)
                 }
-            }
-        })
+            })
 
-        return {
-            "result": "Recieved",
-            "errorStatus": false 
+            return {
+                "result": "Added Scouter ",
+            }
+        } catch (e) {
+            
         }
     }
 }
