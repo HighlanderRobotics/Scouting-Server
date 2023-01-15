@@ -9,74 +9,126 @@ const DatabaseManager = require('./DatabaseManager.js')
 let run = async () => {
 
     console.log(await new DatabaseManager().runTask('addScoutReport', {
-        "uuid": "71a8e343-39bf-495a-8bba-2da8b7375326",
-        "tournamentKey": "2022cc",
-        "matchKey": "qm1",
-        "scouterName": "Jacob Trentini",
-        "teamNumber": 254,
-        "startTime": 1673570312,
-        "autoChallengeResult": 2,
-        "events": [
-            [
-                2,
-                7,
-                3
-            ],
-            [
-                5,
-                10,
-                9
-            ],
-            [
-                8,
-                0,
-                1
-            ],
-            [
-                11,
-                0,
-                8
-            ],
-            [
-                15,
-                8,
-                3
-            ],
-            [
-                17,
-                0,
-                1
-            ],
-            [
-                19,
-                0,
-                8
-            ],
-            [
-                22,
-                9,
-                3
-            ],
-            [
-                23,
-                0,
-                1
-            ],
-            [
-                43,
-                0,
-                8
-            ],
-            [
-                32,
-                1,
-                3
-            ]
+    "uuid": "71a8e343-39bf-495a-8bba-2d44jh45kj6h456a8b7375326",
+    "tournamentKey": "2022cc",
+    "matchKey": "qm1",
+    "scouterName": "Jacob Trentini",
+    "teamNumber": 254,
+    "startTime": 1673570312,
+    "autoChallengeResult": 2,
+    "events": [
+        [
+            1,
+            2,
+            7
         ],
-        "challengeResult": 4,
-        "robotRole": 0,
-        "notes": "Robot did not climb but stayed in community."
-    })
+        [
+            3,
+            8,
+            12
+        ],
+        [
+            5,
+            0,
+            0
+        ],
+        [
+            7,
+            7,
+            10
+        ],
+        [
+            10,
+            2,
+            8
+        ],
+        [
+            12,
+            8,
+            12
+        ],
+        [
+            15,
+            1,
+            0
+        ],
+        [
+            18,
+            7,
+            10
+        ],
+        [
+            20,
+            2,
+            9
+        ],
+        [
+            22,
+            8,
+            12
+        ],
+        [
+            24,
+            0,
+            0
+        ],
+        [
+            28,
+            7,
+            10
+        ],
+        [
+            30,
+            2,
+            6
+        ],
+        [
+            34,
+            8,
+            12
+        ],
+        [
+            37,
+            1,
+            0
+        ],
+        [
+            40,
+            7,
+            0
+        ],
+        [
+            42,
+            2,
+            4
+        ],
+        [
+            56,
+            8,
+            11
+        ],
+        [
+            58,
+            1,
+            0
+        ],
+        [
+            60,
+            7,
+            11
+        ],
+        [
+            65,
+            2,
+            2
+        ]
+    ],
+    "autoClimbingChallenge": 0,
+    "climbingChallenge": 3,
+    "challengeResult": 4,
+    "robotRole": 0,
+    "notes": "Robot was cool"
+})
     .catch((err) => {
         console.log(err)
     }))
