@@ -47,7 +47,7 @@ class cargoCountAuto extends BaseAnalysis {
 
                         let subArr = curr[i]
 
-                        if (subArr[2] < 15) {
+                        if (subArr[2] < 17) {
                             if (subArr[1] === 3 && curr[i - 1][1] === a.type) {
 
                                 makes++

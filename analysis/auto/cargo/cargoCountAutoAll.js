@@ -29,7 +29,7 @@ class cargoCountAutoAll extends BaseAnalysis {
               `
             let len = 0
             let makes = 0
-            a.db.all(sql, [], (err, rows) => {
+            a.db.all(sql, [a.start], (err, rows) => {
                 if(err)
                 {
                     reject(err)
@@ -42,7 +42,7 @@ class cargoCountAutoAll extends BaseAnalysis {
                     for (var i = 0; i < curr.length; i++) {
                         let subArr = curr[i]
                         if (subArr[1] === 3 && curr[i - 1][1] === a.type) {
-                            if (subArr[2] < 15) {
+                            if (subArr[2] < 17) {
                                 makes++
                             }
                             else {
