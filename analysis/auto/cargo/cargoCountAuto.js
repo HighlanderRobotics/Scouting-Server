@@ -49,8 +49,9 @@ class cargoCountAuto extends BaseAnalysis {
 
                         if (subArr[2] < 17) {
                             if (subArr[1] === 3 && curr[i - 1][1] === a.type) {
-
                                 makes++
+                                console.log(makes)
+
                             }
                             else {
                                 break
@@ -67,6 +68,7 @@ class cargoCountAuto extends BaseAnalysis {
                 a.array = arr
                 a.result = makes / len
                 a.matches = match
+                console.log(a.array)
                 resolve("done")
 
             })

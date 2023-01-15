@@ -39,14 +39,15 @@ class defenseEvent extends BaseAnalysis {
                 rows.forEach(functionAdder);
                 function functionAdder(row, index, array) {
                     let curr = JSON.parse(row.scoutReport).events
-                    match.push(match)
+                    match.push(row.key)
                     for (var i = 0; i < curr.length; i++) {
                         //change numbers
                         let subArr = curr[i]
 
                         if (subArr[1] === a.type) {
-
                             makes++
+                            console.log(makes)
+
                         }
                     }
                     len++
@@ -58,6 +59,8 @@ class defenseEvent extends BaseAnalysis {
                 a.array = arr
                 a.result = makes / len
                 a.matches = match
+                console.log(a.array)
+
                 resolve("done")
 
             })

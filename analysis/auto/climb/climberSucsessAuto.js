@@ -1,4 +1,5 @@
-const BaseAnalysis = require('../BaseAnalysis.js')
+const { row } = require('jstat')
+const BaseAnalysis = require('../../BaseAnalysis.js')
 
 class climberSucsessAuto extends BaseAnalysis {
     static name = `climberSucsessAuto`
@@ -43,9 +44,9 @@ class climberSucsessAuto extends BaseAnalysis {
                 }
                 else {
 
-                    rows.forEach(functionAdder);
+                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array) {
-                        let curr = JSON.parse(row.scoutReport).challengeResultAuto
+                        let curr = JSON.parse(row.scoutReport).autoChallengeResult
                         match.push(row.key)
                         arr.push(curr)
                         if (curr === 0) {
@@ -69,7 +70,8 @@ class climberSucsessAuto extends BaseAnalysis {
                     a.none = none
                     a.array = arr 
                     a.matches = match
-
+                    console.log(a.matches)
+                    resolve("done")
 
                 }
             })

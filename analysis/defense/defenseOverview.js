@@ -1,7 +1,7 @@
-const BaseAnalysis = require('../../BaseAnalysis.js')
-const teamStat = require('./cargoCountAuto.js')
-const all = require('./cargoCountAutoAll.js')
-const difference = require('./cargoCountAutoDifference.js')
+const BaseAnalysis = require('../BaseAnalysis.js')
+const teamStat = require('./defenseEvents.js')
+const all = require('./defenseEventAll.js')
+const difference = require('./defenseEventDifference.js')
 
 // const Manager = require('./manager/dbmanager.js')
 
@@ -31,8 +31,9 @@ class defenseOverview extends BaseAnalysis {
         await y.runAnalysis()
         let z = new difference(a.db, a.team, a.type)
         await z.runAnalysis()
-
         a.result = x.result
+        console.log(a.result)
+
         a.array = x.array
         a.all = y.result
         a.difference = z.result

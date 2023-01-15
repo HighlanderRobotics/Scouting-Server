@@ -6,8 +6,6 @@ class defenseEventAll extends BaseAnalysis {
 
     constructor(db, type) {
         super(db)
-        this.team = team
-        this.teamKey = "frc" + team
         this.type = type
         // this.start = start
         // this.end = end
@@ -75,6 +73,8 @@ class defenseEventAll extends BaseAnalysis {
                     return err
                 }
             })
+            console.log(a.result)
+
             // a.result = temp  
             resolve("done")
         })
@@ -82,9 +82,9 @@ class defenseEventAll extends BaseAnalysis {
     }
     finalizeResults() {
         return {
-            "result": this.result,
-            "team": this.team
-        }
+            "result": this.result
+        
+                }
     }
 
 }

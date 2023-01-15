@@ -1,4 +1,4 @@
-const BaseAnalysis = require('../BaseAnalysis.js')
+const BaseAnalysis = require('../../BaseAnalysis.js')
 
 class climberSucsess extends BaseAnalysis {
     static name = `climberSucsess`

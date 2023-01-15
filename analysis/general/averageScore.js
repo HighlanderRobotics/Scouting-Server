@@ -32,25 +32,27 @@ class averageScore extends BaseAnalysis {
                 else {
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array) {
+
                         let data = JSON.parse(row.scoutReport)
-                        matches.push(row.key)
+                        match.push(row.key)
                         let total = 0
-                        if (data.leftCommunity === 0) {
-                            total += 3
-                        }
-
-
+                      
                         if (data.challengeResult === 1) {
                             total += 6
                         }
-                        else if (data.challengeResult === 2) {
+                         else if (data.challengeResult === 2) {
                             total += 10
                         }
+                        else if(data.challengeResult === 4)
+                        {
+                            //check this
+                            total += 3
+                        }
 
-                        if (data.challengeResultAuto === 1) {
+                         if (data.autoChallengeResult === 1) {
                             total += 8
                         }
-                        else if (data.challengeResultAuto === 2) {
+                        else if (data.autoChallengeResult === 2) {
                             total += 12
                         }
 
@@ -60,7 +62,7 @@ class averageScore extends BaseAnalysis {
 
                             const entry = arr[i];
                             let max = Math.ceil(entry[3] / 3)
-                            if (entry[0] <= 15 && entry[1] === 3) {
+                            if (entry[0] <= 17 && entry[1] === 3) {
                                 if (max === 3) {
                                     total += 6
                                 }
@@ -84,21 +86,20 @@ class averageScore extends BaseAnalysis {
                             }
 
                         }
-                        console.log(total)
-
                         answer.push(total)
 
-
                     }
+                    a.array = answer
+                    const sum = answer.reduce((partialSum, a) => partialSum + a, 0)
+                     a.average = sum / answer.length
+                     a.matches = match
+                     console.log("array " + a.array)
 
 
                 }
 
                 // a.result = arr
-                a.array = answer
-                const sum = answer.reduce((partialSum, a) => partialSum + a, 0)
-                a.average = sum / answer.length
-                a.matches = match
+                
 
                 resolve("done")
 

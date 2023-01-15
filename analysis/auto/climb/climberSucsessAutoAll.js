@@ -1,4 +1,4 @@
-const BaseAnalysis = require('../BaseAnalysis.js')
+const BaseAnalysis = require('../../BaseAnalysis.js')
 
 class climberSucsessAutoAll extends BaseAnalysis {
     static name = `climberSucsessAutoAll`
@@ -42,7 +42,7 @@ class climberSucsessAutoAll extends BaseAnalysis {
 
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array) {
-                        let curr = JSON.parse(row.scoutReport).challengeResultAuto
+                        let curr = JSON.parse(row.scoutReport).autoChallengeResult
                         arr.push(curr)
                         if (curr === 0) {
                             none++
