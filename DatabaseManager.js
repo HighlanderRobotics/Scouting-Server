@@ -27,7 +27,7 @@ class DatabaseManager {
             switch (task) {
                 case AddScoutReport.name:
                     // Different naming scheme is because of Jacob
-                    return new AddScoutReport().runTask(`frc${body.teamNumber}`, body.competitionKey, body)
+                    return new AddScoutReport().runTask(`frc${body.teamNumber}`, body.tournamentKey, body)
                 case GetTeams.name:
                     return new GetTeams().runTask()
                 case InitServer.name:

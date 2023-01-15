@@ -9,9 +9,7 @@ class AddScoutReport extends Manager {
     }
 
     runTask(teamKey, tournamentKey, data) {
-        let bruv = ""
-        let errorCode = 400
-        let localMatchKey = `${tournamentKey}_${data.key}`
+        let localMatchKey = `${tournamentKey}_${data.matchKey}`
         // console.log(localMatchKey)
         // console.log(teamKey)
         // console.log(tournamentKey)
@@ -23,9 +21,10 @@ class AddScoutReport extends Manager {
             AND SUBSTRING(key, 1, LENGTH(key)-1) = '${localMatchKey}_'
         `
 
+        // console.log(sql)
+
         return new Promise((resolve, reject) => {
             Manager.db.get(sql, (err, match) => {
-                // console.log(match)
                 if (err) {
                     console.error(err)
                     reject({
@@ -61,15 +60,15 @@ class AddScoutReport extends Manager {
     }
 
     async insertData(matchKey, data) {
-        var insert = `INSERT INTO data (uuid, matchKey, scouterName, defenseQuality, defenseQuantity, startTime, scoutReport, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
-        
+        var insert = `INSERT INTO data (uuid, matchKey, scouterName, startTime, scoutReport, notes) VALUES (?, ?, ?, ?, ?, ?)`
+        //  defenseQuality, defenseQuantity, also add 2 more ?, ?, if defense is added back
         // Rename game to competition
         try {
             var constantData = {
                 uuid: data.uuid,
                 scouterName: data.scouterName,
-                defenseQuality: data.overallDefenseRating,
-                defenseQuantity: data.defenseFrequencyRating,
+                // defenseQuality: data.overallDefenseRating,
+                // defenseQuantity: data.defenseFrequencyRating,
                 startTime: data.startTime,
                 notes: data.notes
             }
@@ -98,7 +97,7 @@ class AddScoutReport extends Manager {
 
 
         return new Promise((resolve, reject) => {
-            Manager.db.run(insert, [constantData.uuid, matchKey, constantData.scouterName, constantData.defenseQuality, constantData.defenseQuantity, constantData.startTime, JSON.stringify(gameDependent), constantData.notes], (err) => {
+            Manager.db.run(insert, [constantData.uuid, matchKey, constantData.scouterName, /*constantData.defenseQuality, constantData.defenseQuantity, */constantData.startTime, JSON.stringify(gameDependent), constantData.notes], (err) => {
                 if (err) {
                     reject(err)
                 } else {
