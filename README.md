@@ -100,39 +100,38 @@ Returns completed analyses as a list
 Will accept if a teamKey, tournamentKey, and data
 ```json
 {
-  "uuid": "e7e4e7f9-16d4-4e5b-b571-5bd1ce30a2c4",
-  "competitionKey": "2022cc",
-  "key": "qm3",
-  "teamNumber": 4499,
+  "uuid": "71a8e343-39bf-495a-8bba-2da8b7375326",
+  "tournamentKey": "2022cc",
+  "matchKey": "qm1",
   "scouterName": "Jacob Trentini",
-  "startTime": 1672524439183,
+  "teamNumber": 254,
+  "startTime": 1673570312,
+  "autoChallengeResult": 2,
   "events": [
     [
-      862,
-      0,
-      0
+      2,
+      7,
+      3
     ],
     [
-      985,
-      0,
-      0
+      5,
+      10,
+      9
     ],
     [
-      1129,
+      8,
       0,
-      0
+      1
     ],
     [
-      1246,
+      11,
       0,
-      0
+      8
     ]
   ],
+  "challengeResult": 4,
   "robotRole": 0,
-  "overallDefenseRating": 0,
-  "defenseFrequencyRating": 0,
-  "notes": "NGL, had a great climb but missed a lot of them shots.",
-  "challengeResult": 5
+  "notes": "Robot did not climb but stayed in community."
 }
 ```
 ### Will return: Response code 200
