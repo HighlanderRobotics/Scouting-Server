@@ -28,55 +28,36 @@ class AddScoutReport extends Manager {
                 // console.log(match)
                 if (err) {
                     console.error(err)
-                    errorCode = 500
-                    reject(err)
+                    reject({
+                        "result": err,
+                        "customCode": 500
+                    })
                 } else if (match != undefined) {
                     this.insertData(match.key, data)
                     .catch((err) => {
                         if (err) {
                             console.log(err)
-                            errorCode = 500
                             reject({
                                 "results": err,
-                                "errorStatus": true,
-                                "customCode": errorCode,
+                                "customCode": 500,
                                 "justForJacob":  "SQLITE UNIQUE ERROR, run node resetDataTable.js"
                             })
                         }
                     })
                     .then(() => {
                         console.log(`Data entry complete for ${match.key}`)
-                        resolve({
-                            "results": `Success`,
-                            "errorStatus": false,
-                        })
+                        resolve(`Success`)
                     })
                 } else {
                     console.log(`Couldn't find match for:`)
                     console.log(data)
-                    errorCode = 406
                     reject({
                         "results": `Match doesn't exist`,
-                        "errorStatus": true,
-                        "customCode": errorCode
+                        "customCode": 406
                     })
                 }
             })
         })
-        
-        // var globalVar = true
-        // return new Promise(function (resolve, reject) {
-        //     if (globalVar === true)
-        //         resolve({
-        //             "results": `Success`,
-        //         })
-        //     else
-        //         throw new Error({
-        //             "results": 'err',
-        //             "customCode": 1,
-        //             "justForJacob":  "SQLITE UNIQUE ERROR, run node resetDataTable.js"
-        //         })
-        // })
     }
 
     async insertData(matchKey, data) {

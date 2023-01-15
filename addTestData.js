@@ -162,6 +162,9 @@ let run = async () => {
         "defenseFrequencyRating": 0,
         "notes": "HOLA THESE ARE NOTES",
         "challengeResult": 0
+    })
+    .catch((err) => {
+        console.log(err)
     }))
 
     console.log(await new DatabaseManager().runTask('addScoutReport', {
@@ -323,6 +326,9 @@ let run = async () => {
         "defenseFrequencyRating": 0,
         "notes": "NGL, had a great climb but missed a lot of them shots.",
         "challengeResult": 5
+    })
+    .catch((err) => {
+        console.log(err)
     }))
 
     console.log(await new DatabaseManager().runTask('addScoutReport', {
@@ -414,6 +420,9 @@ let run = async () => {
         "defenseFrequencyRating": 0,
         "notes": "Only played offense and did not miss any shot at all!!!",
         "challengeResult": 5
+    })
+    .catch((err) => {
+        console.log(err)
     }))
 
     console.log(await new DatabaseManager().runTask('addScoutReport', {
@@ -495,48 +504,17 @@ let run = async () => {
         "defenseFrequencyRating": 3,
         "notes": "bro does not know how to climb",
         "challengeResult": 1
+    })
+    .catch((err) => {
+        console.log(err)
     }))
 
     // console.log(await new DatabaseManager().runTask('addScoutReport', {
         
+    // })
+    // .catch((err) => {
+    //     console.log(err)
     // }))
-
-    // console.log(await new DatabaseManager().runTask('addScoutReport', {
-        
-    // }))
-
-    // console.log(await new DatabaseManager().runTask('addScoutReport', {
-        
-    // }))
-
-    // console.log(await new DatabaseManager().runTask('addScoutReport', {
-        
-    // }))
-
-    // console.log(await new DatabaseManager().runTask('addScoutReport', {
-        
-    // }))
-
-    // console.log(await new DatabaseManager().runTask('addScoutReport', {
-        
-    // }))
-
-    // console.log(await new DatabaseManager().runTask('addScoutReport', {
-        
-    // }))
-
-    // console.log(await new DatabaseManager().runTask('addScoutReport', {
-        
-    // }))
-
-    // console.log(await new DatabaseManager().runTask('addScoutReport', {
-        
-    // }))
-
-    // console.log(await new DatabaseManager().runTask('addScoutReport', {
-        
-    // }))
-
 }
 
 run()

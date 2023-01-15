@@ -9,7 +9,7 @@ class AddAPITournaments extends Manager {
     }
 
     async runTask(year) {
-        var url = "https://www.thebluealliance.com/api/v3"
+        var url = 'https://www.thebluealliance.com/api/v3'
 
         var sql = `INSERT INTO tournaments (name, location, date, key) VALUES (?, ?, ?, ?)`
 
@@ -26,37 +26,37 @@ class AddAPITournaments extends Manager {
             })
         }
 
-        await axios.get(`${url}/events/${year}/simple`, {
-            headers: {'X-TBA-Auth-Key': process.env.KEY}
-        })
-        .then(async (response) => {
-            for (var i = 0; i < response.data.length; i++) {
-                await insertTournament(sql, response, i)
-                .catch((err) => {
-                    if (err) {
-                        console.log(`Error with inserting tournament: ${err}`)
-                        reject(err)
-                    }
-                })
-            }
-            return
-        })
-        .catch((err) => {
-            if (err) {
-                return {
-                    "results": err,
-                    "errorStatus": true
+        return new Promise((resolve, reject) => {
+            axios.get(`${url}/events/2022/simple`, {
+                headers: {'X-TBA-Auth-Key': process.env.KEY}
+            })
+            .then(async (response) => {
+                for (var i = 0; i < response.data.length; i++) {
+                    await insertTournament(sql, response, i)
+                    .catch((err) => {
+                        if (err) {
+                            // console.log(`Error with inserting tournament: ${err}`)
+                            reject({
+                                "result": `Error with inserting tournament: ${err}`,
+                                "customCode": 500
+                            })
+                        }
+                    })
                 }
-            } else {
-                return {
-                    "results": "Successfully added API tournaments",
-                    "errorStatus": false
+                console.log(`Inserted Tournaments for ${year}`)
+                resolve()
+            })
+            .catch((err) => {
+                if (err) {
+                    console.log(err)
+                    reject({
+                        "result": `Error with getting TBA data: ${err}`,
+                        "customCode": 500
+                    })
                 }
-            }
-        })
-        .then((results) => {
-            return results
-        })
+            })
+        })   
+
     }
 }
 

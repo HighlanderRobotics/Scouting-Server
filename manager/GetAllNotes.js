@@ -8,7 +8,6 @@ class GetAllNotes extends Manager {
     }
     
     runTask(teamKey, sinceTime) {
-        let errorCode = 400
         let sql = `SELECT notes FROM data
             LEFT JOIN matches ON matches.key = data.matchKey
             WHERE matches.teamKey = '${teamKey}'`
@@ -22,8 +21,10 @@ class GetAllNotes extends Manager {
 
             Manager.db.all(sql, (err, notes) => {
                 if (err) {
-                    errorCode = 500
-                    reject(err)
+                    reject({
+                        "result": err,
+                        "customCode": 500
+                    })
                 }
 
                 if (notes.length) {
@@ -33,29 +34,13 @@ class GetAllNotes extends Manager {
                     
                     resolve(returnNotes)
                 } else {
-                    errorCode = 406
-                    reject(`No notes found for ${teamKey}`)
+                    reject({
+                        "result": `No notes found for ${teamKey}`,
+                        "customCode": 406
+                    })
                 }
             })
         })
-        .catch((err) => {
-            if (err) {
-                return {
-                    "results": err,
-                    "errorStatus": true,
-                    "customCode": errorCode,
-                }
-            } else {
-                return {
-                    "results": err,
-                    "errorStatus": false
-                }
-            }
-        })
-        .then((results) => {
-            return results
-        })
-        
     }
 
 }
