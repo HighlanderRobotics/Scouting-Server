@@ -67,7 +67,7 @@ class TaskManager {
                     returnAnalysis.push(new cyclingOverview(Manager.db, task.team, task.type, task.location))
                     break
                 case(cargoCountAutoOverview.name):
-                    returnAnalysis.push(new cargoCountAutoOverview(Manager.db, task.team, task.type))
+                    returnAnalysis.push(new cargoCountAutoOverview(Manager.db, task.team, task.type, task.start))
                     break
                 case(cargoCountOverview.name):
                     returnAnalysis.push(new cargoCountOverview(Manager.db, task.team, task.type))

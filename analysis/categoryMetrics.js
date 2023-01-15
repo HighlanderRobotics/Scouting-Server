@@ -9,8 +9,6 @@ const Manager = require('../manager/dbmanager.js')
 // const defenseQuality = require('./defenseQuality.js')
 const notes = require('./general/notes.js')
 const cargoCount = require('./teleop/cargo/cargoCount.js')
-const climberSucsess = require('./teleop/climber/climberSucsess')
-const climberSucsessAuto = require('./auto/climb/climberSucsessAuto')
 const averageScore = require('./general/averageScore.js')
 const cargoCountAuto = require('./auto/cargo/cargoCountAuto.js')
 const robotRole = require('./general/robotRole')
@@ -83,10 +81,10 @@ class categoryMetrics extends BaseAnalysis {
             var cubeAuto = new cargoCountAuto(a.db, a.team, 1)
             await cubeAuto.runAnalysis()
             metrics.cubeCountAuto = cubeAuto.finalizeResults().result
-            var coneAuto = new cargoCountAuto(a.db, a.team, 2)
+            var coneAuto = new cargoCountAuto(a.db, a.team, 2, )
             await coneAuto.runAnalysis()
             metrics.coneCountAuto = coneAuto.finalizeResults().result
-           
+        
             var cycleCubeTeam = new cycling(a.db, a.team, 1, 5)
             await cycleCubeTeam.runAnalysis()
             metrics.cycleCubeTeam = cycleCubeTeam.result
