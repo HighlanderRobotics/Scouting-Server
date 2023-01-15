@@ -144,21 +144,49 @@ Data successfully entered
 ### Will return: Response code 200
 ```json
 [
-    {
-      "key": "frc1",
-      "teamNumber": 1,
-      "teamName": "The Juggernauts"
-    },
-    {
-      "key": "frc4",
-      "teamNumber": 4,
-      "teamName": "Team 4 ELEMENT"
-    },
-    {
-      "key": "frc5",
-      "teamNumber": 5,
-      "teamName": "Robocards"
-    }
+  {
+    "key": "frc1",
+    "teamNumber": 1,
+    "teamName": "The Juggernauts"
+  },
+  {
+    "key": "frc4",
+    "teamNumber": 4,
+    "teamName": "Team 4 ELEMENT"
+  },
+  {
+    "key": "frc5",
+    "teamNumber": 5,
+    "teamName": "Robocards"
+  }
+]
+```
+
+## GET /API/manager/getTeamsInTournament?tournamentKey=2022cc
+
+### Will return: Response code 200
+```json
+[
+  {
+    "key": "frc114",
+    "teamNumber": 114,
+    "teamName": "Eaglestrike"
+  },
+  {
+    "key": "frc254",
+    "teamNumber": 254,
+    "teamName": "The Cheesy Poofs"
+  },
+  {
+    "key": "frc359",
+    "teamNumber": 359,
+    "teamName": "Hawaiian Kids"
+  },
+  {
+    "key": "frc498",
+    "teamNumber": 498,
+    "teamName": "The Cobra Commanders"
+  }
 ]
 ```
 

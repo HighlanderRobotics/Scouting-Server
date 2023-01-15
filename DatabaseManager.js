@@ -16,6 +16,7 @@ const IsMatchesScouted = require('./manager/IsMatchesScouted.js')
 const GetAllNotes = require('./manager/GetAllNotes.js')
 const NewScouter = require('./manager/NewScouter.js')
 const MatchesCompleted = require('./manager/MatchesCompleted.js')
+const GetTeamsInTournament = require('./manager/GetTeamsInTournament.js')
 
 class DatabaseManager {
     constructor() {
@@ -60,6 +61,8 @@ class DatabaseManager {
                     return new NewScouter().runTask(body.scouterName, body.scouterNumber, body.scouterEmail)
                 case MatchesCompleted.name:
                     return new MatchesCompleted().runTask(body)
+                case GetTeamsInTournament.name:
+                    return new GetTeamsInTournament().runTask(body.tournamentKey)
                 default:
                     return new Promise((resolve, reject) => {
                         reject({

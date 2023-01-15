@@ -8,7 +8,9 @@ class GetTeams extends Manager {
     }
 
     runTask() {
-        var sql = `SELECT * FROM teams ORDER BY teamnumber`
+        var sql = `SELECT * FROM teams 
+            ORDER BY teamnumber
+        `
 
 
         return new Promise((resolve, reject) => {
@@ -18,10 +20,15 @@ class GetTeams extends Manager {
                         "results": err,
                         "customCode": 500
                     })
-                } else {
-                    resolve({
-                        "results": storedTeams,
+                }
+
+                if (storedTeams == undefined) {
+                    reject({
+                        "results": "No teams found (database is probably empty)",
+                        "customCode": 406
                     })
+                } else {
+                    resolve(storedTeams)
                 }
             })
         })
