@@ -106,7 +106,10 @@ class robotRole extends BaseAnalysis {
             "offense": this.offense,
             "mixed": this.mixed,
             "feeder": this.helper,
-            "matches" : this.matches,
+            "array": this.array.map((item, index) => ({
+                "match": this.matches[index],
+                "value": item,
+            })),
             "team": this.team
         }
     }

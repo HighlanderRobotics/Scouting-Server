@@ -70,7 +70,7 @@ class cycling extends BaseAnalysis {
                 a.result = arr.reduce((partialSum, a) => partialSum + a, 0) / arr.length
                 if(!a.result)
                 {
-                    a.result = 0
+                    a.result = null
                 }
                 a.matches = match
 
@@ -109,7 +109,10 @@ class cycling extends BaseAnalysis {
     finalizeResults() {
         return {
             "result": this.result,
-            "array": this.array,
+            "array": this.array.map((item, index) => ({
+                "match": this.matches[index],
+                "value": item,
+            })),
             "team": this.team
         }
     }

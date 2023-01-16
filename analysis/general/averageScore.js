@@ -122,8 +122,10 @@ class averageScore extends BaseAnalysis {
     finalizeResults() {
         return {
             "result": this.average,
-            "array": this.array,
-            "matches": this.matches,
+            "array": this.array.map((item, index) => ({
+                "match": this.matches[index],
+                "value": item,
+            })),
             "team": this.team,
         }
     }

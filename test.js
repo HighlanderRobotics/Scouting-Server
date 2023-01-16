@@ -5,10 +5,10 @@ const test = require('./analysis/teleop/cargo/cycling')
 
 // const y = require("./test")
 async function temp() {
-  var x = new test(Manager.db, 254, 5)
+  var x = new test(Manager.db, 254, 8)
  await x.runAnalysis()
 
-  console.log(x.finalizeResults().result)
+  console.log(x.finalizeResults().array)
 }
 temp()
 

@@ -92,8 +92,10 @@ class defenseEvent extends BaseAnalysis {
         return {
             "result": this.result,
             "team": this.team,
-            "matches": this.match,
-            "array": this.array
+            "array": this.array.map((item, index) => ({
+                "match": this.matches[index],
+                "value": item,
+            }))
         }
     }
 

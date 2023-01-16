@@ -112,8 +112,10 @@ class cargoCount extends BaseAnalysis {
         return {
             "result": this.result,
             "team": this.team,
-            "array": this.array,
-            "matches": this.matches,
+            "array": this.array.map((item, index) => ({
+                "match": this.matches[index],
+                "value": item,
+            })),
             "max": this.max
         }
     }

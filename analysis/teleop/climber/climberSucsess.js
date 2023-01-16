@@ -114,8 +114,10 @@ class climberSucsess extends BaseAnalysis {
             "level": this.level,
             "tipped": this.tipped,
             "noClimb": this.none,
-            "array": this.array,
-            "matches": this.matches,
+            "array": this.array.map((item, index) => ({
+                "match": this.matches[index],
+                "value": item,
+            })),
             "team": this.team
         }
     }
