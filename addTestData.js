@@ -9,126 +9,394 @@ const DatabaseManager = require('./DatabaseManager.js')
 let run = async () => {
 
     console.log(await new DatabaseManager().runTask('addScoutReport', {
-    "uuid": "71a8e343-39bf-495a-8bba-2d44jh45kj6h456a8b7375326",
-    "tournamentKey": "2022cc",
-    "matchKey": "qm1",
-    "scouterName": "Jacob Trentini",
-    "teamNumber": 254,
-    "startTime": 1673570312,
-    "autoChallengeResult": 2,
-    "events": [
-        [
-            1,
-            2,
-            7
+        "uuid": "71a8e343-39bf-495a-8bba-2da8b73skdjhlkj3h5kjhsdfgsdfg54jhsdflkjhsdfkljsdfjklsdf75326",
+        "tournamentKey": "2022cc",
+        "matchKey": "qm1",
+        "scouterName": "Jacob Trentini",
+        "teamNumber": 7157,
+        "startTime": 1673570312,
+        "autoChallengeResult": 2,
+        "events": [
+            [
+                1,
+                2,
+                7
+            ],
+            [
+                3,
+                8,
+                12
+            ],
+            [
+                5,
+                0,
+                0
+            ],
+            [
+                7,
+                7,
+                10
+            ],
+            [
+                10,
+                2,
+                8
+            ],
+            [
+                11,
+                8,
+                11
+            ],
+            [
+                25,
+                1,
+                0
+            ],
+            [
+                28,
+                7,
+                11
+            ],
+            [
+                40,
+                2,
+                2
+            ],
+            [
+                41,
+                8,
+                12
+            ],
+            [
+                46,
+                1,
+                0
+            ],
+            [
+                50,
+                7,
+                10
+            ],
+            [
+                52,
+                2,
+                9
+            ],
+            [
+                58,
+                8,
+                12
+            ],
+            [
+                60,
+                0,
+                0
+            ],
+            [
+                65,
+                7,
+                10
+            ],
+            [
+                69,
+                2,
+                6
+            ],
+            [
+                71,
+                8,
+                12
+            ],
+            [
+                75,
+                1,
+                0
+            ],
+            [
+                78,
+                7,
+                0
+            ],
+            [
+                80,
+                2,
+                4
+            ],
+            [
+                91,
+                8,
+                12
+            ],
+            [
+                101,
+                1,
+                0
+            ],
+            [
+                104,
+                7,
+                0
+            ],
+            [
+                110,
+                2,
+                4
+            ]
         ],
-        [
-            3,
-            8,
-            12
+        "autoClimbingChallenge": 2,
+        "climbingChallenge": 3,
+        "challengeResult": 4,
+        "robotRole": 0,
+        "notes": "Took mucho time"
+    })
+    .catch((err) => {
+        console.log(err)
+    }))
+
+    console.log(await new DatabaseManager().runTask('addScoutReport', {
+        "uuid": "71a8e343-39bf-495a-8bba-2da8b73skdjhljhsdflkjhsdfkljsdfjklsdf75326",
+        "tournamentKey": "2022cc",
+        "matchKey": "qm1",
+        "scouterName": "Jacob Trentini",
+        "teamNumber": 254,
+        "startTime": 1673570312,
+        "autoChallengeResult": 2,
+        "events": [
+            [
+                1,
+                2,
+                7
+            ],
+            [
+                3,
+                8,
+                12
+            ],
+            [
+                5,
+                0,
+                0
+            ],
+            [
+                7,
+                7,
+                10
+            ],
+            [
+                10,
+                2,
+                8
+            ],
+            [
+                12,
+                8,
+                12
+            ],
+            [
+                15,
+                1,
+                0
+            ],
+            [
+                18,
+                7,
+                0
+            ],
+            [
+                20,
+                2,
+                4
+            ],
+            [
+                22,
+                8,
+                11
+            ],
+            [
+                24,
+                1,
+                0
+            ],
+            [
+                28,
+                7,
+                11
+            ],
+            [
+                30,
+                2,
+                2
+            ],
+            [
+                35,
+                8,
+                12
+            ],
+            [
+                45,
+                1,
+                0
+            ],
+            [
+                48,
+                7,
+                10
+            ],
+            [
+                50,
+                2,
+                9
+            ],
+            [
+                51,
+                8,
+                12
+            ],
+            [
+                59,
+                0,
+                0
+            ],
+            [
+                61,
+                7,
+                10
+            ],
+            [
+                66,
+                2,
+                6
+            ]
         ],
-        [
-            5,
-            0,
-            0
+        "autoChallengeResult": 3,
+        "challengeResult": 4,
+        "robotRole": 0,
+        "notes": "More test data?"
+    })
+    .catch((err) => {
+        console.log(err)
+    }))
+
+    console.log(await new DatabaseManager().runTask('addScoutReport', {
+        "uuid": "71a8e343-39bf-495a-8bba-2d44jh45kj6h456a8b7375326",
+        "tournamentKey": "2022cc",
+        "matchKey": "qm1",
+        "scouterName": "Jacob Trentini",
+        "teamNumber": 604,
+        "startTime": 1673570312,
+        "autoChallengeResult": 2,
+        "events": [
+            [
+                1,
+                2,
+                7
+            ],
+            [
+                3,
+                8,
+                12
+            ],
+            [
+                5,
+                0,
+                0
+            ],
+            [
+                7,
+                7,
+                10
+            ],
+            [
+                10,
+                2,
+                8
+            ],
+            [
+                12,
+                8,
+                12
+            ],
+            [
+                15,
+                1,
+                0
+            ],
+            [
+                18,
+                7,
+                10
+            ],
+            [
+                20,
+                2,
+                9
+            ],
+            [
+                22,
+                8,
+                12
+            ],
+            [
+                24,
+                0,
+                0
+            ],
+            [
+                28,
+                7,
+                10
+            ],
+            [
+                30,
+                2,
+                6
+            ],
+            [
+                34,
+                8,
+                12
+            ],
+            [
+                37,
+                1,
+                0
+            ],
+            [
+                40,
+                7,
+                0
+            ],
+            [
+                42,
+                2,
+                4
+            ],
+            [
+                56,
+                8,
+                11
+            ],
+            [
+                58,
+                1,
+                0
+            ],
+            [
+                60,
+                7,
+                11
+            ],
+            [
+                65,
+                2,
+                2
+            ]
         ],
-        [
-            7,
-            7,
-            10
-        ],
-        [
-            10,
-            2,
-            8
-        ],
-        [
-            12,
-            8,
-            12
-        ],
-        [
-            15,
-            1,
-            0
-        ],
-        [
-            18,
-            7,
-            10
-        ],
-        [
-            20,
-            2,
-            9
-        ],
-        [
-            22,
-            8,
-            12
-        ],
-        [
-            24,
-            0,
-            0
-        ],
-        [
-            28,
-            7,
-            10
-        ],
-        [
-            30,
-            2,
-            6
-        ],
-        [
-            34,
-            8,
-            12
-        ],
-        [
-            37,
-            1,
-            0
-        ],
-        [
-            40,
-            7,
-            0
-        ],
-        [
-            42,
-            2,
-            4
-        ],
-        [
-            56,
-            8,
-            11
-        ],
-        [
-            58,
-            1,
-            0
-        ],
-        [
-            60,
-            7,
-            11
-        ],
-        [
-            65,
-            2,
-            2
-        ]
-    ],
-    "autoClimbingChallenge": 0,
-    "climbingChallenge": 3,
-    "challengeResult": 4,
-    "robotRole": 0,
-    "notes": "Robot was cool"
-})
+        "autoChallengeResult": 1,
+        "challengeResult": 3,
+        "robotRole": 0,
+        "notes": "Robot was cool"
+    })
     .catch((err) => {
         console.log(err)
     }))
