@@ -10,6 +10,7 @@ const categoryMetrics = require('./analysis/categoryMetrics.js')
 const cargoCountOverview = require('./analysis/teleop/cargo/cargoCountOverview')
 const cargoCountAutoOverview = require('./analysis/auto/cargo/cargoAutoOverview.js')
 const cyclingOverview = require('./analysis/teleop/cargo/cyclingOverview.js')
+const robotRole = require('./analysis/general/robotRole.js')
 
 
 class TaskManager {
@@ -76,7 +77,7 @@ class TaskManager {
                     returnAnalysis.push(new categoryMetrics(Manager.db, task.team))
                     break
                 case(breakdownMetrics.name):
-                    returnAnalysis.push(new breakdown(Manager.db, task.team))
+                    returnAnalysis.push(new breakdownMetrics(Manager.db, task.team))
                     break
                 case(defenseOverview.name):
                     returnAnalysis.push(new defenseOverview(Manager.db, task.team, task.type))
