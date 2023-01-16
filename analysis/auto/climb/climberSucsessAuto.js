@@ -43,6 +43,7 @@ class climberSucsessAuto extends BaseAnalysis {
                     reject(err)
                 }
                 else {
+                    if (rows != []) {
 
                      rows.forEach(functionAdder);
                     function functionAdder(row, index, array) {
@@ -64,6 +65,7 @@ class climberSucsessAuto extends BaseAnalysis {
                         }
 
                     }
+                }
                     a.tipped = tipped
                     a.level = fullyOn 
                     a.failed = off 
@@ -72,6 +74,7 @@ class climberSucsessAuto extends BaseAnalysis {
                     a.matches = match
                     console.log(a.matches)
                     resolve("done")
+
 
                 }
             })

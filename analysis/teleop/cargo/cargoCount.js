@@ -39,46 +39,44 @@ class cargoCount extends BaseAnalysis {
                     console.log(err)
                 }
 
-                rows.forEach(functionAdder);
-                function functionAdder(row, index, array) {
-                    match.push(row.key)
-                    let curr = JSON.parse(row.scoutReport).events
+                if (rows != []) {
+                    rows.forEach(functionAdder);
+                    function functionAdder(row, index, array) {
+                        match.push(row.key)
+                        let curr = JSON.parse(row.scoutReport).events
 
-                    for (var i = 0; i < curr.length; i++) {
-                        //change numbers
-                        let subArr = curr[i]
+                        for (var i = 0; i < curr.length; i++) {
+                            //change numbers
+                            let subArr = curr[i]
 
-                        if (subArr[1] === a.type) {
-                            object = true
-                         }
-                         if(subArr[1] === 3)
-                         {
-                             object = false
-                         }
-                         if(subArr[1] === 2 && object == true)
-                         {
-                             makes++
-                             if(subArr[2] > highest)
-                             {
-                                highest = subArr[2]
-                             }
-                             object = false
+                            if (subArr[1] === a.type) {
+                                object = true
+                            }
+                            if (subArr[1] === 3) {
+                                object = false
+                            }
+                            if (subArr[1] === 2 && object == true) {
+                                makes++
+                                if (subArr[2] > highest) {
+                                    highest = subArr[2]
+                                }
+                                object = false
 
-                         }
-                         if(subArr[1] === 4)
-                         {
-                             object = false
-                         }
+                            }
+                            if (subArr[1] === 4) {
+                                object = false
+                            }
 
+                        }
+                        len++
+                        arr.push(makes)
                     }
-                    len++
-                    arr.push(makes)
 
                 }
                 //CHECK MATH.CEIL()
                 a.array = arr
                 a.result = makes / len
-                a.max = Math.ceil(highest/3)
+                a.max = Math.ceil(highest / 3)
                 a.matches = match
                 console.log(a.result)
                 resolve("done")
@@ -115,7 +113,7 @@ class cargoCount extends BaseAnalysis {
             "result": this.result,
             "team": this.team,
             "array": this.array,
-            "matches" : this.matches,
+            "matches": this.matches,
             "max": this.max
         }
     }

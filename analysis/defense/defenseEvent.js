@@ -35,22 +35,24 @@ class defenseEvent extends BaseAnalysis {
                 if (err) {
                     console.log(err)
                 }
+                if (rows != []) {
 
-                rows.forEach(functionAdder);
-                function functionAdder(row, index, array) {
-                    let curr = JSON.parse(row.scoutReport).events
-                    match.push(row.key)
-                    for (var i = 0; i < curr.length; i++) {
-                        //change numbers
-                        let subArr = curr[i]
+                    rows.forEach(functionAdder);
+                    function functionAdder(row, index, array) {
+                        let curr = JSON.parse(row.scoutReport).events
+                        match.push(row.key)
+                        for (var i = 0; i < curr.length; i++) {
+                            //change numbers
+                            let subArr = curr[i]
 
-                        if (subArr[1] === a.type) {
-                            makes++
+                            if (subArr[1] === a.type) {
+                                makes++
 
+                            }
                         }
+                        len++
+                        arr.push(makes)
                     }
-                    len++
-                    arr.push(makes)
 
                 }
                 a.array = arr

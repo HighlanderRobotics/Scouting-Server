@@ -28,33 +28,30 @@ class cargoCountAll extends BaseAnalysis {
             let makes = 0
             let object = false
             a.db.all(sql, [], (err, rows) => {
+                if (rows != []) {
+                    rows.forEach(functionAdder);
+                    function functionAdder(row, index, array) {
+                        let curr = JSON.parse(row.scoutReport).events
+                        for (var i = 0; i < curr.length; i++) {
+                            let subArr = curr[i]
+                            if (subArr[1] === a.type) {
+                                object = true
+                            }
+                            if (subArr[1] === 3) {
+                                object = false
+                            }
+                            if (subArr[1] === 2 && object == true) {
+                                makes++
+                                object = false
 
-                rows.forEach(functionAdder);
-                function functionAdder(row, index, array) {
-                    let curr = JSON.parse(row.scoutReport).events
-                    for (var i = 0; i < curr.length; i++) {
-                        let subArr = curr[i]
-                        if (subArr[1] === a.type) {
-                           object = true
+                            }
+                            if (subArr[1] === 4) {
+                                object = false
+                            }
                         }
-                        if(subArr[1] === 3)
-                        {
-                            object = false
-                        }
-                        if(subArr[1] === 2 && object == true)
-                        {
-                            makes++
-                            object = false
+                        len++
 
-                        }
-                        if(subArr[1] === 4)
-                        {
-                            object = false
-                        }
                     }
-                    len++
-
-
                 }
                 a.result = makes / len
                 resolve("done")

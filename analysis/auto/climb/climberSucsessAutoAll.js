@@ -39,29 +39,30 @@ class climberSucsessAutoAll extends BaseAnalysis {
                     reject(err)
                 }
                 else {
+                    if (rows != []) {
 
-                    rows.forEach(functionAdder);
-                    function functionAdder(row, index, array) {
-                        let curr = JSON.parse(row.scoutReport).autoChallengeResult
-                        arr.push(curr)
-                        if (curr === 0) {
-                            none++
-                        }
-                        if (curr === 1) {
-                            tipped++
-                        }
-                        if (curr === 2) {
-                            fullyOn++
-                        }
-                        if(curr == 3)
-                        {
-                            failed++
-                        }
+                        rows.forEach(functionAdder);
+                        function functionAdder(row, index, array) {
+                            let curr = JSON.parse(row.scoutReport).autoChallengeResult
+                            arr.push(curr)
+                            if (curr === 0) {
+                                none++
+                            }
+                            if (curr === 1) {
+                                tipped++
+                            }
+                            if (curr === 2) {
+                                fullyOn++
+                            }
+                            if (curr == 3) {
+                                failed++
+                            }
 
+                        }
                     }
-                    a.tipped = tipped  
-                    a.level = fullyOn 
-                    a.failed = off 
+                    a.tipped = tipped
+                    a.level = fullyOn
+                    a.failed = off
                     a.noClimb = none
                     a.array = arr
 
@@ -104,7 +105,7 @@ class climberSucsessAutoAll extends BaseAnalysis {
             "level": this.level,
             "tipped": this.tipped,
             "array": this.array,
-            "noClimb" : this.none,
+            "noClimb": this.none,
             "team": this.team
         }
     }

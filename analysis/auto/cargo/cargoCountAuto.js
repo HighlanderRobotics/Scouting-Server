@@ -39,38 +39,41 @@ class cargoCountAuto extends BaseAnalysis {
                 if (err) {
                     console.log(err)
                 }
-                rows.forEach(functionAdder);
-                function functionAdder(row, index, array) {
-                    let curr = JSON.parse(row.scoutReport).events
-                    match.push(row.key)
-                    for (var i = 0; i < curr.length; i++) {
+                if (rows != []) {
+                    rows.forEach(functionAdder);
+                    function functionAdder(row, index, array) {
+                        let curr = JSON.parse(row.scoutReport).events
+                        match.push(row.key)
+                        for (var i = 0; i < curr.length; i++) {
 
-                        let subArr = curr[i]
+                            let subArr = curr[i]
 
-                        if (subArr[0] < 17) {
-                            if (subArr[1] === a.type) {
-                                object = true
+                            if (subArr[0] < 17) {
+                                if (subArr[1] === a.type) {
+                                    object = true
+                                }
+                                if (subArr[1] === 3) {
+                                    object = false
+                                }
+                                if (subArr[1] === 2 && object == true) {
+                                    makes++
+                                    object = false
+
+                                }
+                                if (subArr[1] === 4) {
+                                    object = false
+                                }
                             }
-                            if (subArr[1] === 3) {
-                                object = false
+                            else {
+                                break
                             }
-                            if (subArr[1] === 2 && object == true) {
-                                makes++
-                                object = false
-                                
-                            }
-                            if (subArr[1] === 4) {
-                                object = false
-                            }
+
+
+
                         }
-                        else {
-                            break
-                        }
-
-
+                        len++
+                        arr.push(makes)
                     }
-                    len++
-                    arr.push(makes)
 
                 }
                 //  console.log(makes/len)

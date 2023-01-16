@@ -29,21 +29,24 @@ class defenseEventAll extends BaseAnalysis {
                 if (err) {
                     console.log(err)
                 }
+                if (rows != []) {
 
-                rows.forEach(functionAdder);
-                function functionAdder(row, index, array) {
-                    let curr = JSON.parse(row.scoutReport).events
 
-                    for (var i = 0; i < curr.length; i++) {
-                        //change numbers
-                        let subArr = curr[i]
+                    rows.forEach(functionAdder);
+                    function functionAdder(row, index, array) {
+                        let curr = JSON.parse(row.scoutReport).events
 
-                        if (subArr[1] === a.type) {
+                        for (var i = 0; i < curr.length; i++) {
+                            //change numbers
+                            let subArr = curr[i]
 
-                            makes++
+                            if (subArr[1] === a.type) {
+
+                                makes++
+                            }
                         }
+                        len++
                     }
-                    len++
 
                 }
                 //  console.log(makes/len)
@@ -82,8 +85,8 @@ class defenseEventAll extends BaseAnalysis {
     finalizeResults() {
         return {
             "result": this.result
-        
-                }
+
+        }
     }
 
 }

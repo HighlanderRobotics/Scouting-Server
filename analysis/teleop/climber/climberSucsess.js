@@ -32,7 +32,7 @@ class climberSucsess extends BaseAnalysis {
             let fullyOn = 0
             let tipped = 0
             let off = 0
-            
+
             let none = 0
             let arr = []
             let match = []
@@ -43,36 +43,38 @@ class climberSucsess extends BaseAnalysis {
                     reject(err)
                 }
                 else {
+                    if (rows != []) {
 
-                    rows.forEach(functionAdder);
-                    function functionAdder(row, index, array) {
-                        let curr = JSON.parse(row.scoutReport).challengeResult
-                        console.log(curr)
-                        match.push(row.key)
-                        arr.push(curr)
-                        if (curr === 0|| curr === 4 ) {
-                            none++
-                        }
-                        if (curr === 1) {
-                            tipped++
-                        }
-                        if (curr === 2) {
-                            fullyOn++
-                        }
-                        if(curr == 3)
-                        {
-                            off++
-                        }
+                        rows.forEach(functionAdder);
+                        function functionAdder(row, index, array) {
+                            let curr = JSON.parse(row.scoutReport).challengeResult
+                            console.log(curr)
+                            match.push(row.key)
+                            arr.push(curr)
+                            if (curr === 0 || curr === 4) {
+                                none++
+                            }
+                            if (curr === 1) {
+                                tipped++
+                            }
+                            if (curr === 2) {
+                                fullyOn++
+                            }
+                            if (curr == 3) {
+                                off++
+                            }
 
+                        }
                     }
-                    a.tipped = tipped
-                    a.level = fullyOn 
-                    a.failed = off 
-                    a.none = none
-                    a.array = arr 
-                    a.matches = match
+                        a.tipped = tipped
+                        a.level = fullyOn
+                        a.failed = off
+                        a.none = none
+                        a.array = arr
+                        a.matches = match
+
+                     resolve("done")
                     
-                    resolve("done")
 
                 }
             })
@@ -111,9 +113,9 @@ class climberSucsess extends BaseAnalysis {
             "failed": this.failed,
             "level": this.level,
             "tipped": this.tipped,
-            "noClimb" : this.none,
+            "noClimb": this.none,
             "array": this.array,
-            "matches" : this.matches,
+            "matches": this.matches,
             "team": this.team
         }
     }

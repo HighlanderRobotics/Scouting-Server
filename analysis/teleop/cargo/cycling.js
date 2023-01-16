@@ -38,37 +38,37 @@ class cycling extends BaseAnalysis {
                 if (err) {
                     console.log(err)
                 }
+                if (rows != []) {
+                    rows.forEach(functionAdder);
+                    function functionAdder(row, index, array) {
+                        match.push(row.key)
+                        let curr = JSON.parse(row.scoutReport).events
+                        let prev = 0
+                        let total = 0
+                        let len = 0
+                        for (var i = 0; i < curr.length; i++) {
+                            let subArr = curr[i]
+                            if (subArr[1] === a.type) {
+                                prev = subArr[0]
+                            }
+                            if (subArr[1] == a.location) {
+                                total += subArr[0] - prev
+                                len++
+                            }
+                            if (subArr[1] === 3) {
+                                prev = 0
+                            }
 
-                rows.forEach(functionAdder);
-                function functionAdder(row, index, array) {
-                    match.push(row.key)
-                    let curr = JSON.parse(row.scoutReport).events
-                    let prev = 0
-                    let total = 0
-                    let len = 0
-                    for (var i = 0; i < curr.length; i++) {
-                        let subArr = curr[i]
-                        if (subArr[1] === a.type) {
-                            prev = subArr[0]
                         }
-                        if (subArr[1] == a.location) {
-                            total += subArr[0] - prev
-                            len++
-                        }
-                        if(subArr[1] === 3)
-                        {
-                            prev = 0
-                        }
-
+                        arr.push(total / len)
                     }
-                    arr.push(total / len)
 
                 }
-                
+
                 a.array = arr
                 a.result = arr.reduce((partialSum, a) => partialSum + a, 0) / arr.length
                 a.matches = match
-                
+
 
                 resolve("done")
 
