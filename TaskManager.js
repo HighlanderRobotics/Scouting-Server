@@ -88,9 +88,46 @@ class TaskManager {
                 case(robotRole.name):
                     returnAnalysis.push(new robotRole(Manager.db, task.team))
                     break
+                case("coneCount"):
+                    returnAnalysis.push(new cargoCountOverview(Manager.db, task.team, 1))
+                    break
+                 case("coneMax"):
+                    returnAnalysis.push(new cargoCountOverview(Manager.db, task.team, 1))
+                    break
+                case("cubeCount"):
+                    returnAnalysis.push(new cargoCountOverview(Manager.db, task.team, 0))
+                    break
+                case("cubeMax"):
+                    returnAnalysis.push(new cargoCountOverview(Manager.db, task.team, 0))
+                    break
+                case("cubeCountAuto"):
+                    returnAnalysis.push(new cargoCountAutoOverview(Manager.db, task.team, 0))
+                    break
+                case("coneCountAuto"):
+                    returnAnalysis.push(new cargoCountAutoOverview(Manager.db, task.team, 1))
+                    break
+                case("cycleCubeTeam"):
+                    returnAnalysis.push(new cyclingOverview(Manager.db, task.team, 0, 4))
+                    break
+                case("cycleConeTeam"):
+                    returnAnalysis.push(new cyclingOverview(Manager.db, task.team, 1, 4))
+                    break
+                case("cycleCubeScore"):
+                    returnAnalysis.push(new cyclingOverview(Manager.db, task.team, 0, 2))
+                    break
+                case("cycleConeScore"):
+                    returnAnalysis.push(new cyclingOverview(Manager.db, task.team, 1, 2))
+                    break
+                case("pinCount"):
+                    returnAnalysis.push(new defenseOverview(Manager.db, task.team, 6))
+                    break
+                case("blockCount"):
+                    returnAnalysis.push(new defenseOverview(Manager.db, task.team, 5))
+                    break
                 case(notes.name):
                     returnAnalysis.push(new notes(Manager.db, task.team))
                     break
+                
                 default:
                     console.log(`${task.name} is not a valid task`)
             }
