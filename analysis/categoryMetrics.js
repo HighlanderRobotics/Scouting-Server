@@ -7,7 +7,6 @@ const Manager = require('../manager/dbmanager.js')
 // const FullyScouted = require('./analysis/fullyScouted.js')
 // const defenseAmmount = require('./defenseQuantity.js')
 // const defenseQuality = require('./defenseQuality.js')
-const notes = require('./general/notes.js')
 const cargoCount = require('./teleop/cargo/cargoCount.js')
 const averageScore = require('./general/averageScore.js')
 const cargoCountAuto = require('./auto/cargo/cargoCountAuto.js')
@@ -103,9 +102,6 @@ class categoryMetrics extends BaseAnalysis {
             await blockCount.runAnalysis()
             metrics.blockCount = blockCount.result
 
-            var note = new notes(a.db, a.team)
-            await note.runAnalysis()
-            metrics.notes = note.finalizeResults().result
 
             var cones = new cargoCount(a.db, a.team, 1)
             await cones.runAnalysis()

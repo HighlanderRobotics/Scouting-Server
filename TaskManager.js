@@ -11,6 +11,7 @@ const cargoCountOverview = require('./analysis/teleop/cargo/cargoCountOverview')
 const cargoCountAutoOverview = require('./analysis/auto/cargo/cargoAutoOverview.js')
 const cyclingOverview = require('./analysis/teleop/cargo/cyclingOverview.js')
 const robotRole = require('./analysis/general/robotRole.js')
+const notes = require('./analysis/general/notes')
 
 
 class TaskManager {
@@ -86,6 +87,9 @@ class TaskManager {
                     returnAnalysis.push(new fullyScouted(Manager.db, task.team))
                 case(robotRole.name):
                     returnAnalysis.push(new robotRole(Manager.db, task.team))
+                    break
+                case(notes.name):
+                    returnAnalysis.push(new notes(Manager.db, task.team))
                     break
                 default:
                     console.log(`${task.name} is not a valid task`)

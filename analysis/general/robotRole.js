@@ -64,7 +64,7 @@ class robotRole extends BaseAnalysis {
                     a.offense = offense 
                     a.defense = defense 
                     a.helper = helper
-                    a.mixed = helper
+                    a.mixed = mixed
                     a.array = arr
                     a.matches = match
 

@@ -61,14 +61,14 @@ class breakdownMetrics extends BaseAnalysis {
           
             var climber = new climberSucsess(a.db, a.team)
             await climber.runAnalysis()
-            metrics.climberOff = climber.finalizeResults().failed
+            metrics.climberFailed = climber.finalizeResults().failed
             metrics.climberTipped = climber.finalizeResults().tipped
             metrics.climberSucsess = climber.finalizeResults().level
             metrics.noClimb = climber.finalizeResults().noClimb
 
             var climberAuto = new climberSucsessAuto(a.db, a.team)
             await climberAuto.runAnalysis()
-            metrics.climberOffAuto = climberAuto.finalizeResults().failed
+            metrics.climberFailedAuto = climberAuto.finalizeResults().failed
             metrics.climberTippedAuto = climberAuto.finalizeResults().tipped
             metrics.climberSucsessAuto = climberAuto.finalizeResults().level
             metrics.noClimbAuto = climberAuto.finalizeResults().noClimb
@@ -108,7 +108,30 @@ class breakdownMetrics extends BaseAnalysis {
     }
     finalizeResults() {
         return {
-            "result": this.result,
+            "result": {
+                "role": {
+                    "feeder": this.result.metrics.feeder,
+                    "defense" : this.result.metrics.defenseRole,
+                    "ofense" : this.result.metrics.offenseRole,
+                    "mixed" : this.result.metrics.mixedRole
+                },
+                "climberAuto":
+                {
+                    "off" : this.result.metrics.noClimbAuto,
+                    "failed" : this.result.metrics.climberFailedAuto,
+                    "docked" : this.result.metrics.climberTippedAuto,
+                    "engaged" : this.result.metrics.climberSucsessAuto,
+
+                },
+                "climber":
+                {
+                    "off" : this.result.metrics.noClimb,
+                    "failed" : this.result.metrics.climberFailed,
+                    "docked" : this.result.metrics.climberTipped,
+                    "engaged" : this.result.metrics.climberSucsess,
+
+                }
+            },
             "team": this.team
         }
     }
