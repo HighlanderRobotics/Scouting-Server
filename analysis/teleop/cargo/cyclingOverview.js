@@ -35,7 +35,7 @@ class cyclingOverview extends BaseAnalysis {
         await z.runAnalysis()
 
         a.result = x.result
-        a.array = x.array
+        a.array = x.finalizeResults().array
         a.all = y.result
         a.difference = z.result
         

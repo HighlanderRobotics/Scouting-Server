@@ -32,7 +32,7 @@ class defenseOverview extends BaseAnalysis {
         let z = new difference(a.db, a.team, a.type)
         await z.runAnalysis()
         a.result = x.result
-        a.array = x.array
+        a.array = x.finalizeResults().array
         a.all = y.result
         a.difference = z.result
         console.log(a.array)

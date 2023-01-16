@@ -34,7 +34,8 @@ class cargoCountAutoOverview extends BaseAnalysis {
         await z.runAnalysis()
 
         a.result = x.result
-        a.array = x.array
+        a.array = x.finalizeResults().array
+        console.log(a.array)
         a.all = y.result
         a.difference = z.result
         console.log(a.all)

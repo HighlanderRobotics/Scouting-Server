@@ -33,7 +33,7 @@ class cargoCountOverview extends BaseAnalysis {
         await z.runAnalysis()
 
         a.result = x.result
-        a.array = x.array
+        a.array = x.finalizeResults().array
         a.matches = x.matches
         a.max = x.max
         a.all = y.result
