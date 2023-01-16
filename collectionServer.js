@@ -158,37 +158,17 @@ app.get('/API/manager/:task', async (req, res) => {
     }
 })
 
-// Analysis
-app.post('/API/analysis', async (req, res) => {
-    // Run analysis engine
-    if (req.body.uuid) {
-        if (req.body.tasks) {
-            let taskNumber = uuidToTask.size
-            uuidToTask.set(req.body.uuid, taskNumber)
-            tasks.set(taskNumber, new TaskManager().runTasks(req.body.tasks))
-
-            res.status(200).send(`Task Number: ${taskNumber}`)
-        } else {
-            res.status(400).send(`Missing tasks`)
-        }
-    } else {
-        res.status(400).send(`Missing uuid`)
-    }
-})
-
 app.get('/API/analysis/:task', async (req, res) => {
     // Run analysis engine
     if (req.query) {
-        singleTask = [
-            {
-                'name': req.params.task,
-            }
-        ]
+        let task = {
+            "name": req.params.task
+        }
         Object.keys(req.query).forEach((key) => {
-            singleTask[0][`${key}`] = req.query[key]
+            task[key] = req.query[key]
         })
 
-        let results = await new TaskManager().runTasks(singleTask)
+        let results = await new TaskManager().runTasks(task)
 
         // console.log(`Results: ${JSON.stringify(results)}`)
         res.status(200).send(results)
