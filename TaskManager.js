@@ -1,4 +1,4 @@
-const Manager = require('./manager/dbmanager.js')
+const Manager = require('./manager/Manager.js')
 // const AverageForMetric = require('./analysis/AverageForMetric.js')
 // const AverageForMetric = require('./analysis/AverageForMetric.js')
 // const TeamsInTournament = require('./analysis/TeamsInTournament.js')
@@ -67,12 +67,6 @@ class TaskManager {
             await analysis.runAnalysis()
             resolve(analysis.finalizeResults())
         })
-            // Wtf is this
-            .catch((err) => {
-                if (err) {
-                    return err
-                }
-            })
             .then((results) => {
                 return results
             })
@@ -80,9 +74,6 @@ class TaskManager {
                 if (err) {
                     return err
                 }
-            })
-            .then((results) => {
-                return results
             })
     }
 
@@ -90,77 +81,53 @@ class TaskManager {
         switch (task) {
             case (notes.name):
                 return new notes(Manager.db, task.team, task.start, task.end)
-                break
             case (defenseAmmount.name):
                 return new defenseAmmount(Manager.db, task.team, task.start, task.end)
-                break
             case (defenseQuality.name):
                 return new defenseQuality(Manager.db, task.team, task.start, task.end)
-                break
             case (scores.name):
                 return new scores(Manager.db, task.team, task.start, task.end)
-                break
             case (fullyScouted.name):
                 return new fullyScouted(Manager.db, task.team, task.start, task.end)
-                break
             case (predictWinning.name):
                 return new predictWinning(Manager.db, task.red1, task.red2, task.red3, task.blue1, task.blue2, task.blue3)
-                break
             case (overview.name):
                 return new overview(Manager.db, task.team)
-                break
             case (positionalCount.name):
                 return new positionalCount(Manager.db, task.team)
-                break
             case (climberSucsess.name):
                 return new climberSucsess(Manager.db, task.team)
-                break
             // case (climberSucsessAuto.name):
             //     return new climberSucsessAuto(Manager.db, task.team))
             //     break
             case (defenseQualityAll.name):
                 return new defenseQualityAll(Manager.db)
-                break
             case (defenseQuantityll.name):
                 return new defenseQualityAll(Manager.db)
-                break
             case (averageScoreAll.name):
                 return new averageScoreAll(Manager.db)
-                break
             case (defenseQuantityDifference.name):
                 return new defenseQualityDifference(Manager.db, task.team)
-                break
             case (defenseQualityDifference.name):
                 return new defenseQualityDifference(Manager.db, task.team)
-                break
             case (averageScoreDifference.name):
                 return new averageScoreDifference(Manager.db, task.team)
-                break
             case (cargoCountDifference.name):
                 return new cargoCountDifference(Manager.db, task.team, task.type)
-                break
             case (cargoCountAll.name):
                 return new cargoCountAll(Manager.db, task.type)
-                break
             case (cargoCount.name):
                 return new cargoCount(Manager.db, task.team, task.type)
-                break
             case (cargoCountAutoDifference.name):
                 return new cargoCountAutoDifference(Manager.db, task.team, task.type)
-                break
             case (cargoCountAutoAll.name):
                 return new cargoCountAutoAll(Manager.db, task.type)
-                break
             case (cargoCountAuto.name):
                 return new cargoCountAuto(Manager.db, task.team, task.type)
-                break
-
             case (climberSucsessAll.name):
                 return new climberSucsessAll(Manager.db)
-                break
             case (climberSucsessDifference.name):
                 return new climberSucsessDifference(Manager.db, task.team)
-                break
             // case (climberSucsessAutoAll.name):
             //     return new climberSucsessAutoAll(Manager.db))
             //     break
@@ -169,87 +136,62 @@ class TaskManager {
             //     break
             case (robotRole.name):
                 return new robotRole(Manager.db, task.team)
-                break
             //MAKE SURE COLLIN KNOWS TO SEND TYPE (1 = CUBE, 2 = CONE) AND LOCATION (3 = SCORE 5 = GIVE TO TEAM)
             case (cycling.name):
                 return new cycling(Manager.db, task.team, task.type, task.location)
-                break
             case (cyclingAll.name):
                 return new cyclingAll(Manager.db, task.type, task.location)
-                break
             case (cyclingDifference.name):
                 return new cyclingDifference(Manager.db, task.team, task.type, task.location)
-                break
             //defense = 6 (pin) or 7 (block)
             //put into task.type
             case (defenseEvents.name):
                 return new defenseEvents(Manager.db, task.team, task.type)
-                break
             case (defenseEventAll.name):
                 return new defenseEvents(Manager.db, task.type)
-                break
             case (defenseEventDifference.name):
                 return new defenseEventDifference(Manager.db, task.team, task.type)
             case (predictWinning.name):
                 return new predictWinning(Manager.db, task.red1, task.red2, task.red3, task.blue1, task.blue2, task.blue3)
-                break
             case (overview.name):
                 return new overview(Manager.db, task.team)
-                break
             case (positionalCount.name):
                 return new positionalCount(Manager.db, task.team)
-                break
             case (positionalCount.name):
                 return new positionalCount(Manager.db, task.team)
-                break
             case (climberSucsess.name):
                 return new climberSucsess(Manager.db, task.team)
-                break
             // case (climberSucsessAuto.name):
             //     return new climberSucsessAuto(Manager.db, task.team)
                 // break
             case (defenseQualityAll.name):
                 return new defenseQualityAll(Manager.db)
-                break
             case (defenseQuantityll.name):
                 return new defenseQualityAll(Manager.db)
-                break
             case (averageScoreAll.name):
                 return new averageScoreAll(Manager.db)
-                break
             case (defenseQuantityDifference.name):
                 return new defenseQualityDifference(Manager.db, task.team)
-                break
             case (defenseQualityDifference.name):
                 return new defenseQualityDifference(Manager.db, task.team)
-                break
             case (averageScoreDifference.name):
                 return new averageScoreDifference(Manager.db, task.team)
-                break
             case (cargoCountDifference.name):
                 return new cargoCountDifference(Manager.db, task.team, task.type)
-                break
             case (cargoCountAll.name):
                 return new cargoCountAll(Manager.db, task.type)
-                break
             case (cargoCount.name):
                 return new cargoCount(Manager.db, task.team, task.type)
-                break
             case (cargoCountAutoDifference.name):
                 return new cargoCountAutoDifference(Manager.db, task.team, task.type)
-                break
             case (cargoCountAutoAll.name):
                 return new cargoCountAutoAll(Manager.db, task.type)
-                break
             case (cargoCountAuto.name):
                 return new cargoCountAuto(Manager.db, task.team, task.type)
-                break
             case (climberSucsessAll.name):
                 return new climberSucsessAll(Manager.db)
-                break
             case (climberSucsessDifference.name):
                 return new climberSucsessDifference(Manager.db, task.team)
-                break
             // case (climberSucsessAutoAll.name):
             //     return new climberSucsessAutoAll(Manager.db)
             //     break
@@ -258,28 +200,21 @@ class TaskManager {
             //     break
             case (robotRole.name):
                 return new robotRole(Manager.db, task.team)
-                break
             //MAKE SURE COLLIN KNOWS TO SEND TYPE (1 = CUBE, 2 = CONE) AND LOCATION (3 = SCORE 5 = GIVE TO TEAM)
             case (cycling.name):
                 return new cycling(Manager.db, task.team, task.type, task.location)
-                break
             case (cyclingAll.name):
                 return new cyclingAll(Manager.db, task.type, task.location)
-                break
             case (cyclingDifference.name):
                 return new cyclingDifference(Manager.db, task.team, task.type, task.location)
-                break
             //defense = 6 (pin) or 7 (block)
             //put into task.type
             case (defenseEvents.name):
                 return new defenseEvents(Manager.db, task.team, task.type)
-                break
             case (defenseEventAll.name):
                 return new defenseEvents(Manager.db, task.type)
-                break
             case (defenseEventDifference.name):
                 return new defenseEventDifference(Manager.db, task.team, task.type)
-                break
             default:
                 return new Error("Task doesn't exist")
             }
