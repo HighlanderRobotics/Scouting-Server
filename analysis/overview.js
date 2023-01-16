@@ -9,8 +9,8 @@ const Manager = require('../manager/dbmanager.js')
 // const defenseQuality = require('./defenseQuality.js')
 const notes = require('./general/notes.js')
 const cargoCount = require('./teleop/cargo/cargoCount.js')
-const climberSucsess = require('./teleop/climber/climberSucsess')
-// const climberSucsessAuto = require('./climb/climberSucsessAuto')
+const climberSuccess = require('./teleop/climber/climberSuccess')
+// const climberSuccessAuto = require('./climb/climberSuccessAuto')
 const averageScore = require('./general/averageScore.js')
 const cargoCountAuto = require('./auto/cargo/cargoCountAuto.js')
 const robotRole = require('./general/robotRole')
@@ -78,17 +78,17 @@ class overview extends BaseAnalysis {
             await cubes.runAnalysis()
             metrics.cubeCount = cubes.finalizeResults().result
             metrics.cubeMax = cubes.finalizeResults().max
-            var climber = new climberSucsess(a.db, a.team)
+            var climber = new climberSuccess(a.db, a.team)
             await climber.runAnalysis()
             metrics.climberOff = climber.finalizeResults().off
             metrics.climberTipped = climber.finalizeResults().tipped
-            metrics.climberSucsess = climber.finalizeResults().level
+            metrics.climberSuccess = climber.finalizeResults().level
 
-            var climber = new climberSucsessAuto(a.db, a.team)
+            var climber = new climberSuccessAuto(a.db, a.team)
             await climber.runAnalysis()
             metrics.climberOff = climber.finalizeResults().off
             metrics.climberTipped = climber.finalizeResults().tipped
-            metrics.climberSucsess = climber.finalizeResults().level
+            metrics.climberSuccess = climber.finalizeResults().level
             var cubeAuto = new cargoCountAuto(a.db, a.team, 1)
             await cubeAuto.runAnalysis()
             metrics.cubeCountAuto = cubeAuto.finalizeResults().result
@@ -130,17 +130,17 @@ class overview extends BaseAnalysis {
             await cubes.runAnalysis()
             metrics.cubeCount = cubes.finalizeResults().result
             metrics.cubeMax = cubes.finalizeResults().max
-            var climber = new climberSucsess(a.db, a.team)
+            var climber = new climberSuccess(a.db, a.team)
             await climber.runAnalysis()
             metrics.climberOff = climber.finalizeResults().off
             metrics.climberTipped = climber.finalizeResults().tipped
-            metrics.climberSucsess = climber.finalizeResults().level
+            metrics.climberSuccess = climber.finalizeResults().level
 
-            var climber = new climberSucsessAuto(a.db, a.team)
+            var climber = new climberSuccessAuto(a.db, a.team)
             await climber.runAnalysis()
             metrics.climberOff = climber.finalizeResults().off
             metrics.climberTipped = climber.finalizeResults().tipped
-            metrics.climberSucsess = climber.finalizeResults().level
+            metrics.climberSuccess = climber.finalizeResults().level
             var cubeAuto = new cargoCountAuto(a.db, a.team, 1)
             await cubeAuto.runAnalysis()
             metrics.cubeCountAuto = cubeAuto.finalizeResults().result

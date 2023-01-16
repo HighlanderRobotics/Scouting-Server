@@ -1,7 +1,7 @@
-const BaseAnalysis = require('../BaseAnalysis.js')
+const BaseAnalysis = require('../../BaseAnalysis.js')
 
-class climberSucsessAuto extends BaseAnalysis {
-    static name = `climberSucsessAuto`
+class climberSuccessAll extends BaseAnalysis {
+    static name = `climberSuccessAll`
 
     constructor(db, team) {
         super(db)
@@ -13,27 +13,25 @@ class climberSucsessAuto extends BaseAnalysis {
         this.off = 0
         this.level = 0
         this.array = []
-        this.matches = []
 
     }
     async getData() {
         let a = this
         return new Promise(async (resolve, reject) => {
             //why does await not work when it works in  bestAverageForMetric
-            var sql = `SELECT scoutReport, newMatches.key AS key
+            var sql = `SELECT scoutReport
                     FROM data
-                JOIN (SELECT matches.key AS key, matches.matchNumber
+                JOIN (SELECT matches.key, matches.matchNumber
                     FROM matches 
-                    JOIN teams ON teams.key = matches.teamKey
-                    WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
+                    JOIN teams ON teams.key = matches.teamKey)
+                     AS  newMatches ON  data.matchKey = newMatches.key
                 `;
             let fullyOn = 0
             let tipped = 0
             let off = 0
             let arr = []
-            let match = []
 
-            this.db.all(sql, [a.team], (err, rows) => {
+            this.db.all(sql, [], (err, rows) => {
                 if (err) {
                     console.log(err)
                     reject(err)
@@ -42,8 +40,7 @@ class climberSucsessAuto extends BaseAnalysis {
 
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array) {
-                        let curr = JSON.parse(row.scoutReport).challengeResultAuto
-                        match.push(row.key)
+                        let curr = JSON.parse(row.scoutReport).challengeResult
                         arr.push(curr)
                         if (curr === 0) {
                             off++
@@ -59,8 +56,7 @@ class climberSucsessAuto extends BaseAnalysis {
                     a.tipped = tipped / arr.length
                     a.level = fullyOn / arr.length
                     a.off = off / arr.length
-                    a.array = arr / arr.length
-                    a.matches = match
+                    a.array = arr
 
 
                 }
@@ -101,10 +97,9 @@ class climberSucsessAuto extends BaseAnalysis {
             "level": this.level,
             "tipped": this.tipped,
             "array": this.array,
-            "matches" : this.matches,
             "team": this.team
         }
     }
 }
-module.exports = climberSucsessAuto
+module.exports = climberSuccessAll
 

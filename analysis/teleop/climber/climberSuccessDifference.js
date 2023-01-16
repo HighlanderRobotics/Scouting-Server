@@ -1,11 +1,11 @@
 const BaseAnalysis = require('../../BaseAnalysis.js')
-const teamStat = require('./climberSucsess.js')
-const all = require('./climberSucsessAll.js')
+const teamStat = require('./climberSuccess.js')
+const all = require('./climberSuccessAll.js')
 
 // const Manager = require('./manager/dbmanager.js')
 
-class climberSucsessDifference extends BaseAnalysis {
-    static name = `climberSucsessDifference`
+class climberSuccessDifference extends BaseAnalysis {
+    static name = `climberSuccessDifference`
 
     constructor(db, team) {
         super(db)
@@ -58,4 +58,4 @@ class climberSucsessDifference extends BaseAnalysis {
     }
 
 }
-module.exports = climberSucsessDifference
+module.exports = climberSuccessDifference

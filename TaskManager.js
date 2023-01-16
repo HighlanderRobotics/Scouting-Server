@@ -28,15 +28,15 @@ const averageScoreAll = require('./analysis/general/averageScoreAll.js')
 const cargoCount = require('./analysis/teleop/cargo/cargoCount.js')
 const cargoCountAll = require('./analysis/teleop/cargo/cargoCountAll.js')
 const cargoCountDifference = require('./analysis/teleop/cargo/cargoCountDifference.js')
-const climberSucsess = require('./analysis/teleop/climber/climberSucsess.js')
-// const climberSucsessAuto = require('./analysis/climb/climberSucsessAuto.js')
+const climberSuccess = require('./analysis/teleop/climber/climberSuccess.js')
+// const climberSuccessAuto = require('./analysis/climb/climberSuccessAuto.js')
 const cargoCountAutoAll = require('./analysis/auto/cargo/cargoCountAutoAll.js')
 const cargoCountAuto = require('./analysis/auto/cargo/cargoCountAuto.js')
 const cargoCountAutoDifference = require('./analysis/auto/cargo/cargoCountAutoDifference.js')
-const climberSucsessAll = require('./analysis/teleop/climber/climberSucsessAll.js')
-const climberSucsessDifference = require('./analysis/teleop/climber/climberSucsessDifference.js')
-// const climberSucsessAutoAll = require('./analysis/climb/climberSucsessAutoAll.js')
-// const climberSucsessAutoDifference = require('./analysis/climb/climberSucsessAutoDifference.js')
+const climberSuccessAll = require('./analysis/teleop/climber/climberSuccessAll.js')
+const climberSuccessDifference = require('./analysis/teleop/climber/climberSuccessDifference.js')
+// const climberSuccessAutoAll = require('./analysis/climb/climberSuccessAutoAll.js')
+// const climberSuccessAutoDifference = require('./analysis/climb/climberSuccessAutoDifference.js')
 const robotRole = require('./analysis/general/robotRole')
 const cycling = require('./analysis/teleop/cargo/cycling.js')
 const cyclingAll = require('./analysis/teleop/cargo/cyclingAll.js')
@@ -95,10 +95,10 @@ class TaskManager {
                 return new overview(Manager.db, task.team)
             case (positionalCount.name):
                 return new positionalCount(Manager.db, task.team)
-            case (climberSucsess.name):
-                return new climberSucsess(Manager.db, task.team)
-            // case (climberSucsessAuto.name):
-            //     return new climberSucsessAuto(Manager.db, task.team))
+            case (climberSuccess.name):
+                return new climberSuccess(Manager.db, task.team)
+            // case (climberSuccessAuto.name):
+            //     return new climberSuccessAuto(Manager.db, task.team))
             //     break
             case (defenseQualityAll.name):
                 return new defenseQualityAll(Manager.db)
@@ -124,15 +124,15 @@ class TaskManager {
                 return new cargoCountAutoAll(Manager.db, task.type)
             case (cargoCountAuto.name):
                 return new cargoCountAuto(Manager.db, task.team, task.type)
-            case (climberSucsessAll.name):
-                return new climberSucsessAll(Manager.db)
-            case (climberSucsessDifference.name):
-                return new climberSucsessDifference(Manager.db, task.team)
-            // case (climberSucsessAutoAll.name):
-            //     return new climberSucsessAutoAll(Manager.db))
+            case (climberSuccessAll.name):
+                return new climberSuccessAll(Manager.db)
+            case (climberSuccessDifference.name):
+                return new climberSuccessDifference(Manager.db, task.team)
+            // case (climberSuccessAutoAll.name):
+            //     return new climberSuccessAutoAll(Manager.db))
             //     break
-            // case (climberSucsessAutoDifference.name):
-            //     return new climberSucsessAutoDifference(Manager.db, task.team))
+            // case (climberSuccessAutoDifference.name):
+            //     return new climberSuccessAutoDifference(Manager.db, task.team))
             //     break
             case (robotRole.name):
                 return new robotRole(Manager.db, task.team)
@@ -159,10 +159,10 @@ class TaskManager {
                 return new positionalCount(Manager.db, task.team)
             case (positionalCount.name):
                 return new positionalCount(Manager.db, task.team)
-            case (climberSucsess.name):
-                return new climberSucsess(Manager.db, task.team)
-            // case (climberSucsessAuto.name):
-            //     return new climberSucsessAuto(Manager.db, task.team)
+            case (climberSuccess.name):
+                return new climberSuccess(Manager.db, task.team)
+            // case (climberSuccessAuto.name):
+            //     return new climberSuccessAuto(Manager.db, task.team)
                 // break
             case (defenseQualityAll.name):
                 return new defenseQualityAll(Manager.db)
@@ -188,15 +188,15 @@ class TaskManager {
                 return new cargoCountAutoAll(Manager.db, task.type)
             case (cargoCountAuto.name):
                 return new cargoCountAuto(Manager.db, task.team, task.type)
-            case (climberSucsessAll.name):
-                return new climberSucsessAll(Manager.db)
-            case (climberSucsessDifference.name):
-                return new climberSucsessDifference(Manager.db, task.team)
-            // case (climberSucsessAutoAll.name):
-            //     return new climberSucsessAutoAll(Manager.db)
+            case (climberSuccessAll.name):
+                return new climberSuccessAll(Manager.db)
+            case (climberSuccessDifference.name):
+                return new climberSuccessDifference(Manager.db, task.team)
+            // case (climberSuccessAutoAll.name):
+            //     return new climberSuccessAutoAll(Manager.db)
             //     break
-            // case (climberSucsessAutoDifference.name):
-            //     return new climberSucsessAutoDifference(Manager.db, task.team)
+            // case (climberSuccessAutoDifference.name):
+            //     return new climberSuccessAutoDifference(Manager.db, task.team)
             //     break
             case (robotRole.name):
                 return new robotRole(Manager.db, task.team)

@@ -1,7 +1,7 @@
 const BaseAnalysis = require('../BaseAnalysis.js')
 
-class climberSucsess extends BaseAnalysis {
-    static name = `climberSucsess`
+class climberSuccess extends BaseAnalysis {
+    static name = `climberSuccess`
 
     constructor(db, team) {
         super(db)
@@ -112,5 +112,5 @@ class climberSucsess extends BaseAnalysis {
         }
     }
 }
-module.exports = climberSucsess
+module.exports = climberSuccess
 

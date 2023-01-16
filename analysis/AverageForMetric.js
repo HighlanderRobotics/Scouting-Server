@@ -24,7 +24,7 @@ class AverageForMetric extends BaseAnalysis {
         let a = this
 
         return new Promise((resolve, reject) => {
-            // CAST(replace(json_extract(data.scoutReport,'$.autoHighSucsess'), ''', '') AS INTEGER)
+            // CAST(replace(json_extract(data.scoutReport,'$.autoHighSuccess'), ''', '') AS INTEGER)
             var sql = `SELECT *
             FROM matches
             JOIN data ON data.matchKey = matches.key
