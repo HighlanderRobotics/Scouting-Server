@@ -43,7 +43,7 @@ class climberSucsess extends BaseAnalysis {
                     reject(err)
                 }
                 else {
-                    if (rows != []) {
+                    if (rows != undefined) {
 
                         rows.forEach(functionAdder);
                         function functionAdder(row, index, array) {

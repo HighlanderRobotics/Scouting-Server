@@ -29,7 +29,7 @@ class defenseEventAll extends BaseAnalysis {
                 if (err) {
                     console.log(err)
                 }
-                if (rows != []) {
+                if (rows != undefined) {
 
 
                     rows.forEach(functionAdder);
@@ -47,6 +47,7 @@ class defenseEventAll extends BaseAnalysis {
                         }
                         len++
                     }
+                
 
                 }
                 //  console.log(makes/len)

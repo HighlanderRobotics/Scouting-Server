@@ -39,7 +39,7 @@ class cargoCountAuto extends BaseAnalysis {
                 if (err) {
                     console.log(err)
                 }
-                if (rows != []) {
+                if (rows != undefined) {
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array) {
                         let curr = JSON.parse(row.scoutReport).events

@@ -34,8 +34,7 @@ class cargoCountAutoAll extends BaseAnalysis {
                 if (err) {
                     reject(err)
                 }
-
-                if (rows != []) {
+                if (rows != undefined) {
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array) {
                         let curr = JSON.parse(row.scoutReport).events
@@ -67,11 +66,15 @@ class cargoCountAutoAll extends BaseAnalysis {
 
                         }
 
+
+
                         len++
+
                     }
-
-
                 }
+
+
+
                 a.result = makes / len
 
 

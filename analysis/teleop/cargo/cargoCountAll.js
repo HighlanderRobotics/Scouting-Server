@@ -28,7 +28,7 @@ class cargoCountAll extends BaseAnalysis {
             let makes = 0
             let object = false
             a.db.all(sql, [], (err, rows) => {
-                if (rows != []) {
+                if (rows != undefined) {
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array) {
                         let curr = JSON.parse(row.scoutReport).events

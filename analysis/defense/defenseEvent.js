@@ -35,7 +35,8 @@ class defenseEvent extends BaseAnalysis {
                 if (err) {
                     console.log(err)
                 }
-                if (rows != []) {
+                if (rows != undefined) {
+                    forEach(functionAdder);
 
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array) {
@@ -52,8 +53,9 @@ class defenseEvent extends BaseAnalysis {
                         }
                         len++
                         arr.push(makes)
-                    }
 
+
+                    }
                 }
                 a.array = arr
                 a.result = makes / len

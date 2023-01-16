@@ -39,7 +39,7 @@ class climberSucsessAutoAll extends BaseAnalysis {
                     reject(err)
                 }
                 else {
-                    if (rows != []) {
+                    (rows || []).forEach(functionAdder);
 
                         rows.forEach(functionAdder);
                         function functionAdder(row, index, array) {
@@ -59,7 +59,7 @@ class climberSucsessAutoAll extends BaseAnalysis {
                             }
 
                         }
-                    }
+                    
                     a.tipped = tipped
                     a.level = fullyOn
                     a.failed = off

@@ -38,7 +38,7 @@ class cycling extends BaseAnalysis {
                 if (err) {
                     console.log(err)
                 }
-                if (rows != []) {
+                if (rows != undefined) {
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array) {
                         match.push(row.key)
@@ -109,7 +109,7 @@ class cycling extends BaseAnalysis {
     finalizeResults() {
         return {
             "result": this.result,
-            "array": this.array.map((item, index) => ({
+             "array": this.array.map((item, index) => ({
                 "match": this.matches[index],
                 "value": item,
             })),

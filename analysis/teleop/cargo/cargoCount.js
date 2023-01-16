@@ -39,7 +39,7 @@ class cargoCount extends BaseAnalysis {
                     console.log(err)
                 }
 
-                if (rows != []) {
+                if (rows != undefined) {
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array) {
                         match.push(row.key)

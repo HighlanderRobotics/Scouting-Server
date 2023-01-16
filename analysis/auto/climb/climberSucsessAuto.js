@@ -43,8 +43,7 @@ class climberSucsessAuto extends BaseAnalysis {
                     reject(err)
                 }
                 else {
-                    if (rows != []) {
-
+                    (rows || []).forEach(functionAdder);
                      rows.forEach(functionAdder);
                     function functionAdder(row, index, array) {
                         let curr = JSON.parse(row.scoutReport).autoChallengeResult
@@ -65,7 +64,7 @@ class climberSucsessAuto extends BaseAnalysis {
                         }
 
                     }
-                }
+                
                     a.tipped = tipped
                     a.level = fullyOn 
                     a.failed = off 
