@@ -34,10 +34,9 @@ class defenseQuality extends BaseAnalysis {
                     reject(err)
                 }
                 let arr = []
-                row.forEach(functionAdder);
-                    function functionAdder(rows, index, array){
+                row.forEach((rows, index, array) => {
                             arr.push(rows.defenseQuality)
-                    }
+                    })
                 const sum = arr.reduce((partialSum, a) => partialSum + a, 0);
                 a.average = sum/arr.length
                 a.array = arr

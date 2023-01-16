@@ -11,8 +11,8 @@ class cargoCountAutoAll extends BaseAnalysis {
         // this.teamKey = "ftc" + team
         this.type = type
         this.result = 0
-
     }
+
     async getCount() {
         let a = this
         return new Promise(async function (resolve, reject) {
@@ -27,10 +27,7 @@ class cargoCountAutoAll extends BaseAnalysis {
             let len = 0
             let makes = 0
             a.db.all(sql, [], (err, rows) => {
-
-
-                rows.forEach(functionAdder);
-                function functionAdder(row, index, array) {
+                rows.forEach((row, index, array) => {
                     let curr = JSON.parse(row.scoutReport).events
                     for (var i = 0; i < curr.length; i++) {
                         let subArr = curr[i]
@@ -41,19 +38,14 @@ class cargoCountAutoAll extends BaseAnalysis {
                             else {
                                 break
                             }
-
                         }
                     }
                     len++
+                })
 
-
-                }
                 console.log(makes / len)
                 resolve(makes / len)
             })
-
-
-
         })
             .catch((err) => {
                 if (err) {
@@ -72,7 +64,6 @@ class cargoCountAutoAll extends BaseAnalysis {
             let a = this
             var temp = await a.getCount().catch((err) => {
                 if (err) {
-
                     console.log(err)
                     return err
                 }

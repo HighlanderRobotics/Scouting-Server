@@ -7,7 +7,6 @@
   "scripts": {
     "start": "nodemon collectionServer.js",
     "linuxstart": "gnome-terminal -- ./ngrok.sh; nodemon collectionServer.js",
-    "macstart": "open -a Terminal.app ngrok.sh; nodemon collectionServer.js",
     "windowsstart": "wt -p \"ngrok\" bash ngrok.sh ; split-pane -p \"CollectionServer\" nodemon collectionServer.js",
     "test": "jest"
   },

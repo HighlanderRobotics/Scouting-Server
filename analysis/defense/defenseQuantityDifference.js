@@ -17,6 +17,7 @@ class defenseQuantityDiffernce extends BaseAnalysis {
         // this.array = []
 
     }
+    
     async getAccuracy() {
         let a = this
         let x = new teamStat(a.db, a.team)
@@ -29,7 +30,6 @@ class defenseQuantityDiffernce extends BaseAnalysis {
         a.result = teamAvg - overallAvg
 
     }
-
 
     runAnalysis() {
         return new Promise(async (resolve, reject) => {
@@ -44,6 +44,7 @@ class defenseQuantityDiffernce extends BaseAnalysis {
         })
 
     }
+
     finalizeResults() {
         return {
             "result": this.result,

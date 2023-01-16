@@ -22,9 +22,9 @@ class fullyScouted extends BaseAnalysis {
                     console.log(err)
                     reject(err)
                 }
+                
                 a.result = rows.rowCount == 6
                 resolve(a.result)
-
             })
         })
     }

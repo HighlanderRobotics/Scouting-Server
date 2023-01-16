@@ -22,11 +22,12 @@ class cargoCountAuto extends BaseAnalysis {
 
             var sql = `SELECT scoutReport, newMatches.key AS key
                 FROM data
-            JOIN (SELECT matches.key AS key
+                JOIN (SELECT matches.key AS key
                 FROM matches 
                 JOIN teams ON teams.key = matches.teamKey
                 WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
-          `;
+            `
+            
             let arr = []
             let match = []
             let len = 0
@@ -66,7 +67,6 @@ class cargoCountAuto extends BaseAnalysis {
                 a.result = makes / len
                 a.matches = match
                 resolve("done")
-
             })
 
         })
@@ -94,6 +94,7 @@ class cargoCountAuto extends BaseAnalysis {
         })
 
     }
+    
     finalizeResults() {
         return {
             "result": this.result,

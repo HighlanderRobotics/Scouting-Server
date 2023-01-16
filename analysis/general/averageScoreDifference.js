@@ -17,6 +17,7 @@ class averageScoreDifference extends BaseAnalysis {
         // this.array = []
 
     }
+
     async getAccuracy() {
         let a = this
         let x = new teamStat(a.db, a.team)
@@ -29,7 +30,6 @@ class averageScoreDifference extends BaseAnalysis {
         a.result = teamAvg - overallAvg
 
     }
-
 
     runAnalysis() {
         return new Promise(async (resolve, reject) => {
@@ -44,12 +44,12 @@ class averageScoreDifference extends BaseAnalysis {
         })
 
     }
+
     finalizeResults() {
         return {
             "result": this.result,
             "team": this.team,
         }
     }
-
 }
 module.exports = averageScoreDifference

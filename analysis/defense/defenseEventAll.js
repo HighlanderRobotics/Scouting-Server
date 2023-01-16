@@ -32,8 +32,7 @@ class defenseEventAll extends BaseAnalysis {
                     console.log(err)
                 }
 
-                rows.forEach(functionAdder);
-                function functionAdder(row, index, array) {
+                rows.forEach((row, index, array) => {
                     let curr = JSON.parse(row.scoutReport).events
 
                     for (var i = 0; i < curr.length; i++) {
@@ -47,7 +46,7 @@ class defenseEventAll extends BaseAnalysis {
                     }
                     len++
 
-                }
+                })
                 //  console.log(makes/len)
                 //  console.log(arr)
                 a.result = makes / len

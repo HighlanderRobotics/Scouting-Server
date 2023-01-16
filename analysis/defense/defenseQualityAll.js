@@ -12,6 +12,7 @@ class defenseQualityAll extends BaseAnalysis {
         this.average = 0
         // this.array = []
     }
+
     async getDefenseQuality() {
         let a = this
         return new Promise(async function (resolve, reject) {
@@ -43,6 +44,7 @@ class defenseQualityAll extends BaseAnalysis {
             })
         })
     }
+
     runAnalysis() {
         return new Promise(async (resolve, reject) => {
             let a = this
@@ -53,12 +55,11 @@ class defenseQualityAll extends BaseAnalysis {
             })
             resolve("done")
         })
-
     }
+
     finalizeResults() {
         return {
             "defenseQualityAverage": this.average,
-
         }
     }
 }

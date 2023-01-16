@@ -33,10 +33,9 @@ class notes extends BaseAnalysis {
                     resolve(rows)
                 }
             })
-
-
         })
     }
+    
     runAnalysis() {
         let a = this
         return new Promise(async (resolve, reject) => {
@@ -50,6 +49,7 @@ class notes extends BaseAnalysis {
         })
 
     }
+
     finalizeResults() {
         return {
             "result": this.result,

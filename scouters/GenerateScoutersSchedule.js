@@ -1,7 +1,6 @@
 const fs = require('fs')
 const Papa = require('papaparse')
 const DatabaseManager = require('../DatabaseManager.js')
-const { addScouters } = require('../manager/dbmanager.js')
 
 const scouters = JSON.parse(fs.readFileSync(`./scouters/scouters.json`, 'utf8')).scouters
 const availability = Papa.parse(fs.readFileSync('./scouters/Availability.csv', 'utf8'), { header: true }).data

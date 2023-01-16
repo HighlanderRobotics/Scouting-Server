@@ -29,31 +29,21 @@ class averageScoreAll extends BaseAnalysis {
 
                 }
                 console.log("before")
-                await rows.forEach(functionAdder);
-                console.log("after")
-
-                async function functionAdder(row, index, array) {
+                await rows.forEach(async (row, index, array) => {
                     let temp = new averageScore(a.db, row.teamNumber)
                     await temp.runAnalysis()
                     arr.push(temp.average)
                     console.log("last")
+                })
+                console.log("after")
 
-                }
                 const sum = arr.reduce((partialSum, a) => partialSum + a, 0)
                 a.average = sum / arr.length
                 console.log("avg " + a.average)
-
-
             })
 
-
             resolve("done")
-
-            // console.log(makes/len)
-
         })
-
-
             .catch((err) => {
                 if (err) {
                     return err
@@ -64,6 +54,7 @@ class averageScoreAll extends BaseAnalysis {
                 return data
             })
     }
+    
     async getAvg(team) {
         let a = this
         let temp = new averageScore(a.db, team)

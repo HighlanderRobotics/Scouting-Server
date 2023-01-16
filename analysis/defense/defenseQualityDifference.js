@@ -27,7 +27,6 @@ class defenseQualityDiffernce extends BaseAnalysis {
         let overallAvg = y.result
 
         a.result = teamAvg - overallAvg
-
     }
 
 
@@ -44,6 +43,7 @@ class defenseQualityDiffernce extends BaseAnalysis {
         })
 
     }
+    
     finalizeResults() {
         return {
             "result": this.result,

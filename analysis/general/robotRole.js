@@ -15,8 +15,8 @@ class climberSuccess extends BaseAnalysis {
         this.array = []
         this.matches = []
         this.mixed = 0
-
     }
+
     async getData() {
         let a = this
         return new Promise(async (resolve, reject) => {
@@ -67,15 +67,8 @@ class climberSuccess extends BaseAnalysis {
                     a.mixed = helper
                     a.array = arr
                     a.matches = match
-
-
                 }
             })
-
-            // console.log(all)
-
-
-
         })
             .catch((err) => {
                 if (err) {
@@ -87,6 +80,7 @@ class climberSuccess extends BaseAnalysis {
                 return data
             })
     }
+
     runAnalysis() {
         return new Promise(async (resolve, reject) => {
             let a = this
@@ -112,5 +106,5 @@ class climberSuccess extends BaseAnalysis {
         }
     }
 }
-module.exports = climberSuccess
 
+module.exports = climberSuccess

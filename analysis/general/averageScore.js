@@ -30,8 +30,7 @@ class averageScore extends BaseAnalysis {
                     reject(err)
                 }
                 else {
-                    rows.forEach(functionAdder);
-                    function functionAdder(row, index, array) {
+                    rows.forEach((row, index, array) => {
                         let data = JSON.parse(row.scoutReport)
                         matches.push(row.key)
                         let total = 0
@@ -87,11 +86,7 @@ class averageScore extends BaseAnalysis {
                         console.log(total)
 
                         answer.push(total)
-
-
-                    }
-
-
+                    })
                 }
 
                 // a.result = arr
@@ -105,6 +100,7 @@ class averageScore extends BaseAnalysis {
             })
         })
     }
+
     runAnalysis() {
         return new Promise(async (resolve, reject) => {
             let a = this
@@ -118,6 +114,7 @@ class averageScore extends BaseAnalysis {
         })
 
     }
+    
     finalizeResults() {
         return {
             "result": this.average,

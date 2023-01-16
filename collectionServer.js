@@ -173,7 +173,7 @@ app.get('/API/analysis/:task', async (req, res) => {
         // console.log(`Results: ${JSON.stringify(results)}`)
         res.status(200).send(results)
     } else {
-        res.status(400).send(`Missing tasks`)
+        res.status(404).send(`Missing task`)
     }
 })
 

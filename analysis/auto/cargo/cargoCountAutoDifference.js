@@ -16,8 +16,8 @@ class cargoCountAutoDifference extends BaseAnalysis {
         this.result = 0
         this.type
         // this.array = []
-
     }
+
     async getAccuracy() {
         let a = this
         let x = new teamStat(a.db, a.team, a.type)
@@ -29,9 +29,7 @@ class cargoCountAutoDifference extends BaseAnalysis {
 
         a.result = teamAvg - overallAvg
         console.log(a.result)
-
     }
-
 
     runAnalysis() {
         return new Promise(async (resolve, reject) => {
@@ -44,8 +42,8 @@ class cargoCountAutoDifference extends BaseAnalysis {
             // a.result = temp  
             resolve("done")
         })
-
     }
+    
     finalizeResults() {
         return {
             "result": this.result,
