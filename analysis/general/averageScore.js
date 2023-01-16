@@ -61,8 +61,8 @@ class averageScore extends BaseAnalysis {
                         for (let i = 0; i < arr.length; i++) {
 
                             const entry = arr[i];
-                            let max = Math.ceil(entry[3] / 3)
-                            if (entry[0] <= 17 && entry[1] === 3) {
+                            let max = Math.ceil(entry[2] / 3)
+                            if (entry[0] <= 17 && entry[1] === 2) {
                                 if (max === 3) {
                                     total += 6
                                 }
@@ -73,7 +73,7 @@ class averageScore extends BaseAnalysis {
                                     total += 3
                                 }
                             }
-                            else if (entry[1] === 0) {
+                            else if (entry[1] === 2) {
                                 if (max === 3) {
                                     total += 5
                                 }
@@ -93,7 +93,6 @@ class averageScore extends BaseAnalysis {
                     const sum = answer.reduce((partialSum, a) => partialSum + a, 0)
                      a.average = sum / answer.length
                      a.matches = match
-                     console.log("array " + a.array)
 
 
                 }

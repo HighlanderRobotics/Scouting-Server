@@ -21,11 +21,11 @@ class averageScoreDifference extends BaseAnalysis {
         let a = this
         let x = new teamStat(a.db, a.team)
         await x.runAnalysis()
-        let teamAvg = x.result
+        let teamAvg = x.average
         let y = new all(a.db)
         await y.runAnalysis()
-        let overallAvg = y.result
-
+        let overallAvg = y.average
+        
         a.result = teamAvg - overallAvg
 
     }
@@ -40,6 +40,8 @@ class averageScoreDifference extends BaseAnalysis {
                 }
             })
             // a.result = temp  
+            console.log(a.result)
+
             resolve("done")
         })
 

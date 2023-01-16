@@ -46,7 +46,6 @@ class defenseEvent extends BaseAnalysis {
 
                         if (subArr[1] === a.type) {
                             makes++
-                            console.log(makes)
 
                         }
                     }
@@ -54,12 +53,9 @@ class defenseEvent extends BaseAnalysis {
                     arr.push(makes)
 
                 }
-                //  console.log(makes/len)
-                //  console.log(arr)
                 a.array = arr
                 a.result = makes / len
                 a.matches = match
-                console.log(a.array)
 
                 resolve("done")
 

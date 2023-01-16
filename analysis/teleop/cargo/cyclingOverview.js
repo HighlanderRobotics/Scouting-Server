@@ -1,6 +1,6 @@
 const BaseAnalysis = require('../../BaseAnalysis.js')
 const teamStat = require('./cycling.js')
-const all = require('./cycling.js')
+const all = require('./cyclingAll.js')
 const difference = require('./cyclingDifference.js')
 
 // const Manager = require('./manager/dbmanager.js')
@@ -38,6 +38,7 @@ class cyclingOverview extends BaseAnalysis {
         a.array = x.array
         a.all = y.result
         a.difference = z.result
+        
 
     }
 
@@ -50,8 +51,9 @@ class cyclingOverview extends BaseAnalysis {
                     return err
                 }
             })
-            // a.result = temp  
+            console.log(a.result)
             resolve("done")
+
         })
 
     }

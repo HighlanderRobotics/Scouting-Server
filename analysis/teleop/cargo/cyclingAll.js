@@ -8,14 +8,12 @@ class cyclingAll extends BaseAnalysis {
 
     constructor(db, type, location) {
         super(db)
-        this.team = team
         // this.teamKey = "frc" + team
         // this.start = start
         // this.end = end
         this.type = type
         this.location = location
         this.result = 0
-        this.array
         // this.array = []
 
     }
@@ -32,7 +30,7 @@ class cyclingAll extends BaseAnalysis {
           `;
             let arr = []
             let len = 0
-            let total = 0
+           
             a.db.all(sql, [], (err, rows) => {
                 if (err) {
                     console.log(err)
@@ -52,15 +50,16 @@ class cyclingAll extends BaseAnalysis {
                             total += subArr[0] - prev
                             len++
                         }
+                        if(subArr[1] === 3)
+                        {
+                            prev = 0
+                        }
 
                     }
+                    arr.push(total/len)
 
                 }
-                //  console.log(makes/len)
-                //  console.log(arr)
-                a.array = arr
                 a.result = arr.reduce((partialSum, a) => partialSum + a, 0) / arr.length
-
                 resolve("done")
 
             })
@@ -72,7 +71,6 @@ class cyclingAll extends BaseAnalysis {
                 }
             })
             .then((data) => {
-                // console.log(data)
                 return data
             })
 
@@ -87,7 +85,7 @@ class cyclingAll extends BaseAnalysis {
                     return err
                 }
             })
-            // a.result = temp  
+
             resolve("done")
         })
 
@@ -95,7 +93,6 @@ class cyclingAll extends BaseAnalysis {
     finalizeResults() {
         return {
             "result": this.result,
-            "array": this.array,
             "team": this.team
         }
     }

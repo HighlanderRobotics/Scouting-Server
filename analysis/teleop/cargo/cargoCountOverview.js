@@ -34,6 +34,8 @@ class cargoCountOverview extends BaseAnalysis {
 
         a.result = x.result
         a.array = x.array
+        a.matches = x.matches
+        a.max = x.max
         a.all = y.result
         a.difference = z.result
 

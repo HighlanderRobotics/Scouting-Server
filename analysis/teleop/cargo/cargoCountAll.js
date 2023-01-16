@@ -26,25 +26,38 @@ class cargoCountAll extends BaseAnalysis {
               `
             let len = 0
             let makes = 0
+            let object = false
             a.db.all(sql, [], (err, rows) => {
-
 
                 rows.forEach(functionAdder);
                 function functionAdder(row, index, array) {
                     let curr = JSON.parse(row.scoutReport).events
                     for (var i = 0; i < curr.length; i++) {
                         let subArr = curr[i]
-                        if (subArr[1] === 0 && curr[i - 1][1] === a.type) {
+                        if (subArr[1] === a.type) {
+                           object = true
+                        }
+                        if(subArr[1] === 3)
+                        {
+                            object = false
+                        }
+                        if(subArr[1] === 2 && object == true)
+                        {
                             makes++
+                            object = false
 
+                        }
+                        if(subArr[1] === 4)
+                        {
+                            object = false
                         }
                     }
                     len++
 
 
                 }
-                console.log(makes / len)
-                resolve(makes / len)
+                a.result = makes / len
+                resolve("done")
             })
 
 
@@ -63,7 +76,6 @@ class cargoCountAll extends BaseAnalysis {
 
     runAnalysis() {
         return new Promise(async (resolve, reject) => {
-            console.log("here")
             let a = this
             var temp = await a.getCount().catch((err) => {
                 if (err) {
@@ -72,7 +84,6 @@ class cargoCountAll extends BaseAnalysis {
                     return err
                 }
             })
-            a.result = temp
             resolve("done")
         })
 

@@ -11,9 +11,8 @@ const notes = require('./general/notes.js')
 const cargoCount = require('./teleop/cargo/cargoCount.js')
 const averageScore = require('./general/averageScore.js')
 const cargoCountAuto = require('./auto/cargo/cargoCountAuto.js')
-const robotRole = require('./general/robotRole')
 const cycling = require('./teleop/cargo/cycling.js')
-const defense = require('./defense/defenseEvents.js')
+const defense = require('./defense/defenseEvent.js')
 
 
 
@@ -60,59 +59,62 @@ class categoryMetrics extends BaseAnalysis {
 
             var scores = new averageScore(a.db, a.team)
             await scores.runAnalysis()
-            metrics.arrayScores = scores.finalizeResults().result
+            metrics.avgScore = scores.finalizeResults().result
 
-
-            var note = new notes(a.db, a.team)
-            await note.runAnalysis()
-            metrics.notes = note.finalizeResults().result
             var cones = new cargoCount(a.db, a.team, 1)
             await cones.runAnalysis()
             metrics.coneCount = cones.finalizeResults().result
-            metrics.conesMax = cubes.finalizeResults().max
+            metrics.conesMax = cones.finalizeResults().max
 
             var cubes = new cargoCount(a.db, a.team, 0)
             await cubes.runAnalysis()
             metrics.cubeCount = cubes.finalizeResults().result
             metrics.cubeMax = cubes.finalizeResults().max
            
-
-          //put in large num for auto
-            var cubeAuto = new cargoCountAuto(a.db, a.team, 0, 1000000)
+            var cubeAuto = new cargoCountAuto(a.db, a.team, 0, 10000000)
             await cubeAuto.runAnalysis()
             metrics.cubeCountAuto = cubeAuto.finalizeResults().result
-            var coneAuto = new cargoCountAuto(a.db, a.team, 1, 1000000)
+
+            var coneAuto = new cargoCountAuto(a.db, a.team, 1, 10000000)
             await coneAuto.runAnalysis()
             metrics.coneCountAuto = coneAuto.finalizeResults().result
         
             var cycleCubeTeam = new cycling(a.db, a.team, 1, 4)
             await cycleCubeTeam.runAnalysis()
             metrics.cycleCubeTeam = cycleCubeTeam.result
+
             var cycleConeTeam = new cycling(a.db, a.team, 2, 4)
             await cycleConeTeam.runAnalysis()
             metrics.cycleConeTeam = cycleConeTeam.result
-            var cycleConeScore = new cycling(a.db, a.team, 2, 2)
+
+            var cycleConeScore = new cycling(a.db, a.team, 1, 2)
             await cycleConeScore.runAnalysis()
             metrics.cycleConeScore = cycleConeScore.result
-            var cycleCubeeScore = new cycling(a.db, a.team, 1, 2)
-            await cycleCubeeScore.runAnalysis()
-            metrics.cycleCubeeScore = cycleCubeeScore.result
+
+            var cycleCubeScore = new cycling(a.db, a.team, 0, 2)
+            await cycleCubeScore.runAnalysis()
+            metrics.cycleCubeScore = cycleCubeScore.result
+
             var pinCount = new defense(a.db, a.team, 5)
             await pinCount.runAnalysis()
             metrics.pinCount = pinCount.result
+
             var blockCount = new defense(a.db, a.team, 6)
             await blockCount.runAnalysis()
             metrics.blockCount = blockCount.result
+
+            var note = new notes(a.db, a.team)
             await note.runAnalysis()
             metrics.notes = note.finalizeResults().result
-            var cones = new cargoCount(a.db, a.team, 2)
+
+            var cones = new cargoCount(a.db, a.team, 1)
             await cones.runAnalysis()
             metrics.coneCount = cones.finalizeResults().result
             metrics.conesMax = cubes.finalizeResults().max
 
           
-
-            resolve({ metrics, notes: notesOutput })
+// notes: notesOutput 
+            resolve({metrics})
         })
     }
 

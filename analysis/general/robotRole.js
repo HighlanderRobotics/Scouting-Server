@@ -1,4 +1,3 @@
-const { off } = require('npm')
 const BaseAnalysis = require('../BaseAnalysis.js')
 
 class robotRole extends BaseAnalysis {
@@ -70,10 +69,10 @@ class robotRole extends BaseAnalysis {
                     a.matches = match
 
 
+                    resolve("done")
                 }
             })
 
-            // console.log(all)
 
 
 
@@ -84,8 +83,7 @@ class robotRole extends BaseAnalysis {
                 }
             })
             .then((data) => {
-                // console.log(data)
-                return data
+             return data
             })
     }
     runAnalysis() {
@@ -97,7 +95,7 @@ class robotRole extends BaseAnalysis {
                     return err
                 }
             })
-            // a.result = temp  
+            console.log(a.defense)
             resolve("done")
         })
 

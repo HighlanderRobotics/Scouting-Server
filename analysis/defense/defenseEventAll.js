@@ -73,7 +73,6 @@ class defenseEventAll extends BaseAnalysis {
                     return err
                 }
             })
-            console.log(a.result)
 
             // a.result = temp  
             resolve("done")

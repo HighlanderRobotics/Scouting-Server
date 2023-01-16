@@ -67,7 +67,6 @@ class climberMax extends BaseAnalysis {
         {
             return new Promise(async (resolve, reject) =>
             {
-                // console.log("here")
                 let a = this
                 var temp = await a.getClimberMax().catch((err) => {
                     if (err) {

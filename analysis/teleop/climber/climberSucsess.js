@@ -32,6 +32,7 @@ class climberSucsess extends BaseAnalysis {
             let fullyOn = 0
             let tipped = 0
             let off = 0
+            
             let none = 0
             let arr = []
             let match = []
@@ -46,9 +47,10 @@ class climberSucsess extends BaseAnalysis {
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array) {
                         let curr = JSON.parse(row.scoutReport).challengeResult
+                        console.log(curr)
                         match.push(row.key)
                         arr.push(curr)
-                        if (curr === 0) {
+                        if (curr === 0|| curr === 4 ) {
                             none++
                         }
                         if (curr === 1) {
@@ -59,7 +61,7 @@ class climberSucsess extends BaseAnalysis {
                         }
                         if(curr == 3)
                         {
-                            failed++
+                            off++
                         }
 
                     }
@@ -69,7 +71,8 @@ class climberSucsess extends BaseAnalysis {
                     a.none = none
                     a.array = arr 
                     a.matches = match
-
+                    
+                    resolve("done")
 
                 }
             })

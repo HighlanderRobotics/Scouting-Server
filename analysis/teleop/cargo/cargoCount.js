@@ -33,6 +33,7 @@ class cargoCount extends BaseAnalysis {
             let makes = 0
             let highest = 0
             let match = []
+            let object = false
             a.db.all(sql, [a.team], (err, rows) => {
                 if (err) {
                     console.log(err)
@@ -47,13 +48,27 @@ class cargoCount extends BaseAnalysis {
                         //change numbers
                         let subArr = curr[i]
 
-                        if (subArr[1] === 3 && curr[i - 1][1] === a.type) {
-
-                            makes++
-                            if (subArr[2] > highest) {
+                        if (subArr[1] === a.type) {
+                            object = true
+                         }
+                         if(subArr[1] === 3)
+                         {
+                             object = false
+                         }
+                         if(subArr[1] === 2 && object == true)
+                         {
+                             makes++
+                             if(subArr[2] > highest)
+                             {
                                 highest = subArr[2]
-                            }
-                        }
+                             }
+                             object = false
+
+                         }
+                         if(subArr[1] === 4)
+                         {
+                             object = false
+                         }
 
                     }
                     len++
@@ -63,8 +78,9 @@ class cargoCount extends BaseAnalysis {
                 //CHECK MATH.CEIL()
                 a.array = arr
                 a.result = makes / len
-                a.max = Math.ceil(highest)
+                a.max = Math.ceil(highest/3)
                 a.matches = match
+                console.log(a.result)
                 resolve("done")
 
             })

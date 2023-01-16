@@ -9,6 +9,7 @@ const Manager = require('../manager/dbmanager.js')
 // const defenseQuality = require('./defenseQuality.js')
 
 const climberSucsess = require('./teleop/climber/climberSucsess')
+const climberSucsessAuto = require('./auto/climb/climberSucsessAuto')
 const robotRole = require('./general/robotRole')
 
 
@@ -67,22 +68,22 @@ class breakdownMetrics extends BaseAnalysis {
 
             var climberAuto = new climberSucsessAuto(a.db, a.team)
             await climberAuto.runAnalysis()
-            metrics.climberOff = climbclimberAutor.finalizeResults().failed
-            metrics.climberTipped = climberAuto.finalizeResults().tipped
-            metrics.climberSucsess = climberAuto.finalizeResults().level
-            metrics.noClimb = climberAuto.finalizeResults().noClimb
+            metrics.climberOffAuto = climberAuto.finalizeResults().failed
+            metrics.climberTippedAuto = climberAuto.finalizeResults().tipped
+            metrics.climberSucsessAuto = climberAuto.finalizeResults().level
+            metrics.noClimbAuto = climberAuto.finalizeResults().noClimb
 
             var role = new robotRole(a.db, a.team)
             await role.runAnalysis()
             metrics.defenseRole = role.defense
             metrics.offenseRole = role.offense
             metrics.mixedRole = role.mixed
-            metrics.feeder = role.feeder
+            metrics.feeder = role.helper
           
 
           
 
-            resolve({ metrics, notes: notesOutput })
+            resolve({ metrics})
         })
     }
 

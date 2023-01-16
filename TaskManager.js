@@ -7,7 +7,7 @@ const fullyScouted = require('./analysis/general/fullyScouted.js')
 const defenseOverview = require('./analysis/defense/defenseOverview.js')
 const breakdownMetrics = require('./analysis/breakdownMetrics.js')
 const categoryMetrics = require('./analysis/categoryMetrics.js')
-const cargoCountOverview = require('./analysis/teleop/cargo/cargoOverview.js')
+const cargoCountOverview = require('./analysis/teleop/cargo/cargoCountOverview')
 const cargoCountAutoOverview = require('./analysis/auto/cargo/cargoAutoOverview.js')
 const cyclingOverview = require('./analysis/teleop/cargo/cyclingOverview.js')
 

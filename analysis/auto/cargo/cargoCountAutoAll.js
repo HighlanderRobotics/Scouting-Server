@@ -29,6 +29,7 @@ class cargoCountAutoAll extends BaseAnalysis {
               `
             let len = 0
             let makes = 0
+            let object = true
             a.db.all(sql, [a.start], (err, rows) => {
                 if(err)
                 {
@@ -39,23 +40,44 @@ class cargoCountAutoAll extends BaseAnalysis {
                 rows.forEach(functionAdder);
                 function functionAdder(row, index, array) {
                     let curr = JSON.parse(row.scoutReport).events
+
                     for (var i = 0; i < curr.length; i++) {
                         let subArr = curr[i]
-                        if (subArr[1] === 3 && curr[i - 1][1] === a.type) {
-                            if (subArr[2] < 17) {
-                                makes++
-                            }
+                            if (subArr[0] < 17) {
+                                if (subArr[1] === a.type) {
+                                    object = true
+                                 }
+                                 if(subArr[1] === 3)
+                                 {
+                                     object = false
+                                 }
+                                 if(subArr[1] === 2 && object == true)
+                                 {
+                                     makes++
+                                     object = false
+
+                                     
+                                 }
+                                 if(subArr[1] === 4)
+                                 {
+                                     object = false
+                                 }
+        
+                                }
                             else {
                                 break
                             }
 
-                        }
+                        
                     }
+
                     len++
 
 
                 }
-                console.log(makes / len)
+                a.result = makes /len
+
+
                 resolve(makes / len)
             })
 
@@ -75,7 +97,6 @@ class cargoCountAutoAll extends BaseAnalysis {
 
     runAnalysis() {
         return new Promise(async (resolve, reject) => {
-            console.log("here")
             let a = this
             var temp = await a.getCount().catch((err) => {
                 if (err) {
@@ -84,7 +105,6 @@ class cargoCountAutoAll extends BaseAnalysis {
                     return err
                 }
             })
-            a.result = temp
             resolve("done")
         })
 

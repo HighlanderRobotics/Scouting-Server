@@ -60,7 +60,7 @@ class climberSucsessAuto extends BaseAnalysis {
                         }
                         if(curr == 3)
                         {
-                            failed++
+                            off++
                         }
 
                     }

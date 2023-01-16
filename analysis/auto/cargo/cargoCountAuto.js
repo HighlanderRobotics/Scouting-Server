@@ -34,11 +34,11 @@ class cargoCountAuto extends BaseAnalysis {
             let match = []
             let len = 0
             let makes = 0
+            let object = true
             a.db.all(sql, [a.team, a.start], (err, rows) => {
                 if (err) {
                     console.log(err)
                 }
-
                 rows.forEach(functionAdder);
                 function functionAdder(row, index, array) {
                     let curr = JSON.parse(row.scoutReport).events
@@ -47,16 +47,26 @@ class cargoCountAuto extends BaseAnalysis {
 
                         let subArr = curr[i]
 
-                        if (subArr[2] < 17) {
-                            if (subArr[1] === 3 && curr[i - 1][1] === a.type) {
-                                makes++
-                                console.log(makes)
-
+                        if (subArr[0] < 17) {
+                            if (subArr[1] === a.type) {
+                                object = true
                             }
-                            else {
-                                break
+                            if (subArr[1] === 3) {
+                                object = false
+                            }
+                            if (subArr[1] === 2 && object == true) {
+                                makes++
+                                object = false
+                                
+                            }
+                            if (subArr[1] === 4) {
+                                object = false
                             }
                         }
+                        else {
+                            break
+                        }
+
 
                     }
                     len++
@@ -68,7 +78,6 @@ class cargoCountAuto extends BaseAnalysis {
                 a.array = arr
                 a.result = makes / len
                 a.matches = match
-                console.log(a.array)
                 resolve("done")
 
             })
@@ -103,7 +112,7 @@ class cargoCountAuto extends BaseAnalysis {
             "result": this.result,
             "team": this.team,
             "array": this.array,
-            "matches" : this.matches
+            "matches": this.matches
         }
     }
 

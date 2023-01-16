@@ -67,7 +67,6 @@ class cargoCountAll extends BaseAnalysis {
         {
             return new Promise(async (resolve, reject) =>
             {
-                console.log("here")
                 let a = this
                 var temp = await a.getCount().catch((err) => {
                     if (err) {

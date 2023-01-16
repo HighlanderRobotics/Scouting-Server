@@ -20,6 +20,7 @@ class cargoCountDifference extends BaseAnalysis {
     }
     async getAccuracy() {
         let a = this
+
         let x = new teamStat(a.db, a.team, a.type)
         await x.runAnalysis()
         let teamAvg = x.result
@@ -28,7 +29,7 @@ class cargoCountDifference extends BaseAnalysis {
         let overallAvg = y.result
 
         a.result = teamAvg - overallAvg
-        console.log(a.result)
+        
 
     }
 

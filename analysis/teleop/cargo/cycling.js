@@ -55,16 +55,20 @@ class cycling extends BaseAnalysis {
                             total += subArr[0] - prev
                             len++
                         }
+                        if(subArr[1] === 3)
+                        {
+                            prev = 0
+                        }
 
                     }
                     arr.push(total / len)
 
                 }
-                //  console.log(makes/len)
-                //  console.log(arr)
+                
                 a.array = arr
                 a.result = arr.reduce((partialSum, a) => partialSum + a, 0) / arr.length
                 a.matches = match
+                
 
                 resolve("done")
 
