@@ -64,9 +64,14 @@ class cycling extends BaseAnalysis {
                     }
 
                 }
+              
 
                 a.array = arr
                 a.result = arr.reduce((partialSum, a) => partialSum + a, 0) / arr.length
+                if(!a.result)
+                {
+                    a.result = 0
+                }
                 a.matches = match
 
 

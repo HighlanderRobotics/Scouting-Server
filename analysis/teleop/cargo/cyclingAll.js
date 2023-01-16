@@ -62,6 +62,10 @@ class cyclingAll extends BaseAnalysis {
 
                 }
                 a.result = arr.reduce((partialSum, a) => partialSum + a, 0) / arr.length
+                if(!a.result)
+                {
+                    a.result = 0
+                }
                 resolve("done")
 
             })

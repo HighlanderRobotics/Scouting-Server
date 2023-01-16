@@ -63,7 +63,7 @@ class categoryMetrics extends BaseAnalysis {
             var cones = new cargoCount(a.db, a.team, 1)
             await cones.runAnalysis()
             metrics.coneCount = cones.finalizeResults().result
-            metrics.conesMax = cones.finalizeResults().max
+            metrics.coneMax = cones.finalizeResults().max
 
             var cubes = new cargoCount(a.db, a.team, 0)
             await cubes.runAnalysis()
