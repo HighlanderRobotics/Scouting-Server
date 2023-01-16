@@ -26,12 +26,6 @@ class predictWinning extends BaseAnalysis {
     async getWinner() {
         let a = this
         return new Promise(async function (resolve, reject) {
-            // if(err)
-            // {
-            //     reject(err);
-            // }
-
-
             var score1 = new scores(a.db, a.red1)
             await score1.runAnalysis()
             let redArr1 = score1.finalizeResults().array
