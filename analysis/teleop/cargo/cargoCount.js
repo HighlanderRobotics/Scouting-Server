@@ -74,11 +74,13 @@ class cargoCount extends BaseAnalysis {
 
                 }
                 //CHECK MATH.CEIL()
-                a.array = arr
+                a.array =arr.map((item, index) => ({
+                    "match": match[index],
+                    "value": item,
+                }))
                 a.result = makes / len
                 a.max = Math.ceil(highest / 3)
                 a.matches = match
-                console.log(a.result)
                 resolve("done")
 
             })
@@ -103,6 +105,7 @@ class cargoCount extends BaseAnalysis {
                     return err
                 }
             })
+            console.log(a.array)
             // a.result = temp  
             resolve("done")
         })
@@ -112,12 +115,10 @@ class cargoCount extends BaseAnalysis {
         return {
             "result": this.result,
             "team": this.team,
-            "array": this.array.map((item, index) => ({
-                "match": this.matches[index],
-                "value": item,
-            })),
+            "array": this.array,
             "max": this.max
         }
+        
     }
 
 }

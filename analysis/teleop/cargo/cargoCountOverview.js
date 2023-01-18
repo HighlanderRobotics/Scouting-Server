@@ -31,9 +31,9 @@ class cargoCountOverview extends BaseAnalysis {
         await y.runAnalysis()
         let z = new difference(a.db, a.team, a.type)
         await z.runAnalysis()
-
+        
         a.result = x.result
-        a.array = x.finalizeResults().array
+        a.array = x.array
         a.matches = x.matches
         a.max = x.max
         a.all = y.result

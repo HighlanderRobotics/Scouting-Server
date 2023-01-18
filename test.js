@@ -5,10 +5,9 @@ const test = require('./analysis/auto/cargo/cargoAutoOverview')
 
 // const y = require("./test")
 async function temp() {
-  var x = new test(Manager.db, 254, 0, 10000)
+  var x = new test(Manager.db, 254, 0, 100000)
  await x.runAnalysis()
-
-  console.log("output from test " + x.finalizeResults().array)
+  console.log( x.finalizeResults().array)
 }
 temp()
 
