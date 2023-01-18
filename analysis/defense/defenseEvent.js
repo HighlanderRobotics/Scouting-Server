@@ -36,8 +36,6 @@ class defenseEvent extends BaseAnalysis {
                     console.log(err)
                 }
                 if (rows != undefined) {
-                    forEach(functionAdder);
-
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array) {
                         let curr = JSON.parse(row.scoutReport).events
