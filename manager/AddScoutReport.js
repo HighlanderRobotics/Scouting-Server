@@ -27,6 +27,7 @@ class AddScoutReport extends Manager {
             Manager.db.get(sql, (err, match) => {
                 if (err) {
                     console.error(err)
+                    // console.log('asdf')
                     reject({
                         "result": err,
                         "customCode": 500
@@ -81,20 +82,21 @@ class AddScoutReport extends Manager {
 
         for (var key of Object.keys(data)) {
             if (key !== `uuid` 
-                && key !== 'competitionKey'
-                && key !== 'matchNumber'
+                && key !== 'tournamentKey'
+                && key !== 'matchKey'
                 && key !== 'teamNumber'
                 && key !== 'scouterName'
                 && key !== 'startTime'
                 && key !== 'defenseFrequencyRating'
                 && key !== 'overallDefenseRating'
                 && key !== 'notes'
+                && key !== 'hasSavedToCloud'
                 ) {
 
                 gameDependent[key] = data[key]
             }
         }
-
+        // console.log(gameDependent)
 
         return new Promise((resolve, reject) => {
             Manager.db.run(insert, [constantData.uuid, matchKey, constantData.scouterName, /*constantData.defenseQuality, constantData.defenseQuantity, */constantData.startTime, JSON.stringify(gameDependent), constantData.notes], (err) => {

@@ -29,7 +29,7 @@ class ResetAndPopulate extends Manager {
             notes BLOB VARCHAR (250),
             UNIQUE (matchKey, scouterName, scoutReport), 
             FOREIGN KEY(matchKey) REFERENCES matches(key),
-            FOREIGN KEY(scouterName) REFERENCES scouters(id)
+            FOREIGN KEY(scouterName) REFERENCES scouters(name)
         );`
 
         var createScouters = `

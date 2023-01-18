@@ -10,8 +10,6 @@ var createData = `
             uuid PRIMARY KEY,
             matchKey NOT NULL, 
             scouterName TEXT ONLY VARCHAR(25) NOT NULL,
-            defenseQuality INTEGER NOT NULL,
-            defenseQuantity INTEGER NOT NULL, 
             startTime INTEGER NOT NULL,
             scoutReport VARCHAR(5000),
             notes BLOB VARCHAR (250),
