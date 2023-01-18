@@ -20,15 +20,15 @@ class GetTeamsInTournament extends Manager {
             Manager.db.all(sql, (err, storedTeams) => {
                 if (err) {
                     reject({
-                        "results": err,
-                        "customCode": 500
+                        'results': err,
+                        'customCode': 500
                     })
                 }
                 
                 if (storedTeams == undefined) {
                     reject({
-                        "results": "No teams found for the tournament",
-                        "customCode": 406
+                        'results': 'No teams found for the tournament',
+                        'customCode': 406
                     })
                 } else {
                     let teams = []

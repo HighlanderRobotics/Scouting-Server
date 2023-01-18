@@ -1,5 +1,4 @@
 const Manager = require('./Manager.js')
-const axios = require('axios');
 
 class AddScoutReport extends Manager {
     static name = 'addScoutReport'
@@ -29,31 +28,31 @@ class AddScoutReport extends Manager {
                     console.error(err)
                     // console.log('asdf')
                     reject({
-                        "result": err,
-                        "customCode": 500
+                        'result': err,
+                        'customCode': 500
                     })
                 } else if (match != undefined) {
                     this.insertData(match.key, data)
-                    .catch((err) => {
-                        if (err) {
-                            console.log(err)
-                            reject({
-                                "results": err,
-                                "customCode": 500,
-                                "justForJacob":  "SQLITE UNIQUE ERROR, run node resetDataTable.js"
-                            })
-                        }
-                    })
-                    .then(() => {
-                        console.log(`Data entry complete for ${match.key}`)
-                        resolve(`Success`)
-                    })
+                        .catch((err) => {
+                            if (err) {
+                                console.log(err)
+                                reject({
+                                    'results': err,
+                                    'customCode': 500,
+                                    'justForJacob':  'SQLITE UNIQUE ERROR, run node resetDataTable.js'
+                                })
+                            }
+                        })
+                        .then(() => {
+                            console.log(`Data entry complete for ${match.key}`)
+                            resolve('Success')
+                        })
                 } else {
-                    console.log(`Couldn't find match for:`)
+                    console.log('Couldn\'t find match for:')
                     console.log(data)
                     reject({
-                        "results": `Match doesn't exist`,
-                        "customCode": 406
+                        'results': 'Match doesn\'t exist',
+                        'customCode': 406
                     })
                 }
             })
@@ -61,7 +60,7 @@ class AddScoutReport extends Manager {
     }
 
     async insertData(matchKey, data) {
-        var insert = `INSERT INTO data (uuid, matchKey, scouterName, startTime, scoutReport, notes) VALUES (?, ?, ?, ?, ?, ?)`
+        var insert = 'INSERT INTO data (uuid, matchKey, scouterName, startTime, scoutReport, notes) VALUES (?, ?, ?, ?, ?, ?)'
         //  defenseQuality, defenseQuantity, also add 2 more ?, ?, if defense is added back
         // Rename game to competition
         try {
@@ -81,7 +80,7 @@ class AddScoutReport extends Manager {
         var gameDependent = {}
 
         for (var key of Object.keys(data)) {
-            if (key !== `uuid` 
+            if (key !== 'uuid' 
                 && key !== 'tournamentKey'
                 && key !== 'matchKey'
                 && key !== 'teamNumber'

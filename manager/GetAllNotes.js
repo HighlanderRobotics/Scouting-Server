@@ -22,8 +22,8 @@ class GetAllNotes extends Manager {
             Manager.db.all(sql, (err, notes) => {
                 if (err) {
                     reject({
-                        "result": err,
-                        "customCode": 500
+                        'result': err,
+                        'customCode': 500
                     })
                 }
 
@@ -35,8 +35,8 @@ class GetAllNotes extends Manager {
                     resolve(returnNotes)
                 } else {
                     reject({
-                        "result": `No notes found for ${teamKey}`,
-                        "customCode": 406
+                        'result': `No notes found for ${teamKey}`,
+                        'customCode': 406
                     })
                 }
             })

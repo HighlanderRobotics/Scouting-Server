@@ -17,15 +17,15 @@ class GetTeams extends Manager {
             Manager.db.all(sql, (err, storedTeams) => {
                 if (err) {
                     reject({
-                        "results": err,
-                        "customCode": 500
+                        'results': err,
+                        'customCode': 500
                     })
                 }
 
                 if (storedTeams == undefined) {
                     reject({
-                        "results": "No teams found (database is probably empty)",
-                        "customCode": 406
+                        'results': 'No teams found (database is probably empty)',
+                        'customCode': 406
                     })
                 } else {
                     resolve(storedTeams)

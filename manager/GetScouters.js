@@ -23,8 +23,8 @@ class GetScouters extends Manager {
             return scoutersList
         } catch (e) {
             return new Error({
-                "results": `Error reading scouters file: ${e}`,
-                "customCode": 500
+                'results': `Error reading scouters file: ${e}`,
+                'customCode': 500
             })
         }
     }

@@ -18,15 +18,15 @@ class GetMatches extends Manager {
                 if (err) {
                     console.error(`Error with getMatches(): ${err}`)
                     reject({
-                        "result": err,
-                        "customCode": 500
+                        'result': err,
+                        'customCode': 500
                     })
                 } else if (matches.length == 0) {
                     // No matches found
                     console.log(`No matches found for ${body.tournamentKey}`)
                     reject({
-                        "result": `No matches found for ${body.tournamentKey}`,
-                        "customCode": 406
+                        'result': `No matches found for ${body.tournamentKey}`,
+                        'customCode': 406
                     })
                 } else {
                     let largestQm = matches[0].matchNumber

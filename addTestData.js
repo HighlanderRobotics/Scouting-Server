@@ -1,8 +1,3 @@
-const sqlite = require('sqlite3').verbose()
-const db = new sqlite.Database('./test.db', sqlite.OPEN_READWRITE, (err) => {
-  if (err)
-      console.error(err)
-})
 require('dotenv').config()
 const DatabaseManager = require('./DatabaseManager.js')
 
@@ -149,9 +144,9 @@ let run = async () => {
         "robotRole": 0,
         "notes": "Took mucho time"
     })
-    .catch((err) => {
-        console.log(err)
-    }))
+        .catch((err) => {
+            console.log(err)
+        }))
 
     console.log(await new DatabaseManager().runTask('addScoutReport', {
         "uuid": "71a8e343-39bf-495a-8bba-2da8b73skdjhljhsdflkjhsdfkljsdfjklsdf75326",
@@ -160,7 +155,6 @@ let run = async () => {
         "scouterName": "Jacob Trentini",
         "teamNumber": 254,
         "startTime": 1673570312,
-        "autoChallengeResult": 2,
         "events": [
             [
                 1,
@@ -273,9 +267,9 @@ let run = async () => {
         "robotRole": 0,
         "notes": "More test data?"
     })
-    .catch((err) => {
-        console.log(err)
-    }))
+        .catch((err) => {
+            console.log(err)
+        }))
 
     console.log(await new DatabaseManager().runTask('addScoutReport', {
         "uuid": "71a8e343-39bf-495a-8bba-2d44jh45kj6h456a8b7375326",
@@ -284,7 +278,6 @@ let run = async () => {
         "scouterName": "Jacob Trentini",
         "teamNumber": 604,
         "startTime": 1673570312,
-        "autoChallengeResult": 2,
         "events": [
             [
                 1,
@@ -397,9 +390,9 @@ let run = async () => {
         "robotRole": 0,
         "notes": "Robot was cool"
     })
-    .catch((err) => {
-        console.log(err)
-    }))
+        .catch((err) => {
+            console.log(err)
+        }))
 
     // console.log(await new DatabaseManager().runTask('addScoutReport', {
     //     "uuid": "8d35ff89-4ecb-4a14-a6f7-206560fff9b0",

@@ -1,7 +1,7 @@
 //for testing
 
 const Manager = require('./manager/dbmanager')
-// const y = require("./test")
+// const y = require('./test')
 
 const test = require('./analysis/averageScoreAll')
 var x = new test(Manager.db)

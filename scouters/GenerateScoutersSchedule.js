@@ -1,13 +1,12 @@
 const fs = require('fs')
 const Papa = require('papaparse')
-const DatabaseManager = require('../DatabaseManager.js')
 
-const scouters = JSON.parse(fs.readFileSync(`./scouters/scouters.json`, 'utf8')).scouters
-const availability = Papa.parse(fs.readFileSync('./scouters/Availability.csv', 'utf8'), { header: true }).data
+// const scouters = JSON.parse(fs.readFileSync(`./scouters.json`, 'utf8')).scouters
+const availability = Papa.parse(fs.readFileSync('./Availability.csv', 'utf8'), { header: true }).data
 let version = 1
-let previous = fs.readFileSync(`./scouters/scoutersSchedule.json`, 'utf8')
+let previous = fs.readFileSync('./scoutersSchedule.json', 'utf8')
 if (undefined != previous && previous.includes('version')) {
-    console.log(`Previous version already exists`)
+    console.log('Previous version already exists')
     version = JSON.parse(previous).version + 1
 }
 
@@ -18,10 +17,8 @@ let nonqual = 0
 const busy = ['Vaughn Khouri', 'Alex Ware', 'Reece Beck', 'Peter Stokes', 'Jasper Tripp']
 
 
-run = async () => {
-    const matches = await new DatabaseManager().runTask('getMatches', tournamentKey)
+let run = async () => {
     let viables = []
-    let recents = []
 
     let newData = {
         'version': version,
@@ -47,44 +44,44 @@ run = async () => {
             // Before amount of qms
             startMatchNumber = (i*shiftSize + 1)
             endMatchNumber = (i*shiftSize + shiftSize)
-            startMatchKey += "qm" + (i*shiftSize + 1)
-            endMatchKey += "qm" + (i*shiftSize + shiftSize)
+            startMatchKey += 'qm' + (i*shiftSize + 1)
+            endMatchKey += 'qm' + (i*shiftSize + shiftSize)
         } else if ((i*shiftSize + 1) < amountOfQms) {
             // Stops at amount of qms because after would be pick
             startMatchNumber = (i*shiftSize + 1)
             endMatchNumber = amountOfQms
-            startMatchKey += "qm" + (i*shiftSize + 1)
-            endMatchKey += "qm" + amountOfQms
+            startMatchKey += 'qm' + (i*shiftSize + 1)
+            endMatchKey += 'qm' + amountOfQms
         } else {
             if (nonqual == 0) {
                 // First non qual match
                 startMatchNumber = amountOfQms + 1
                 endMatchNumber = amountOfQms + 4
-                startMatchKey += "qf0"
-                endMatchKey += "qf3"
+                startMatchKey += 'qf0'
+                endMatchKey += 'qf3'
             } else if (nonqual == 1) {
                 // Figured out startMatchNumber and endMatchNumber like this because it's easier to keep track of how many matches in a non-qual shift (since double elimination)
                 startMatchNumber = amountOfQms + 4 + 1
                 endMatchNumber = amountOfQms + 4 + 4
-                startMatchKey += "ef0"
-                endMatchKey += "sf1"
+                startMatchKey += 'ef0'
+                endMatchKey += 'sf1'
             } else if (nonqual == 2) {
                 // Winners finals happens between ef2 and ef5
                 startMatchNumber = amountOfQms + 4 + 4 + 1
                 endMatchNumber = amountOfQms + 4 + 4 + 5
-                startMatchKey += "ef2"
+                startMatchKey += 'ef2'
                 // ef5 is also known as Losers Finals, but isn't labelled differently ig
-                endMatchKey += "ef5"
+                endMatchKey += 'ef5'
             } else if (nonqual == 3) {
                 // Grand Finals
                 startMatchNumber = amountOfQms + 4 + 4 + 5 + 1
                 endMatchNumber = amountOfQms + 4 + 4 + 5 + 3
-                startMatchKey += "gf0"
-                endMatchKey += "gf2"
+                startMatchKey += 'gf0'
+                endMatchKey += 'gf2'
             } else {
                 // If it gets here I guess I can't count
-                console.log(`Barry can't count lmao`)
-                break;
+                console.log('Barry can\'t count lmao')
+                break
             }
             nonqual++
         }
@@ -112,7 +109,7 @@ run = async () => {
     }
 
     console.log('Writing to file')
-    fs.writeFileSync('scouters/./scoutersSchedule.json', JSON.stringify(newData), 'utf8', (err) => {
+    fs.writeFileSync('./scoutersSchedule.json', JSON.stringify(newData), 'utf8', (err) => {
         if (err) {
             return 'Error writing to scouters file'
         }

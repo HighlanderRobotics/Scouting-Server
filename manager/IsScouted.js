@@ -16,16 +16,16 @@ class IsScouted extends Manager {
             .catch((err) => {
                 if (err) {
                     reject({
-                        "results": err,
-                        "customCode": 500
+                        'results': err,
+                        'customCode': 500
                     })
                 }
             })
 
             if (matches === undefined) {
                 reject({
-                    "results": 'Something went wrong',
-                    "customCode": 406
+                    'results': 'Something went wrong',
+                    'customCode': 406
                 })
             } else {
                 let matches = await a.getAllMatchKeys(tournamentKey)

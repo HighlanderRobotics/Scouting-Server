@@ -13,20 +13,20 @@ class IsMatchesScouted extends Manager {
 
         return new Promise(async (resolve, reject) => {
             let data = await a.getData(tournamentKey, scouterName, matchKeys)
-            .catch((err) => {
-                if (err) {
-                    reject({
-                        "result": err,
-                        "customCode": 500
-                    })
-                }
-            })
+                .catch((err) => {
+                    if (err) {
+                        reject({
+                            'result': err,
+                            'customCode': 500
+                        })
+                    }
+                })
 
             if (data == undefined) {
                 console.log('No data')
                 reject({
-                    "result": `No data`,
-                    "customCOde": 406
+                    'result': 'No data',
+                    'customCOde': 406
                 })
             } else {
                 let returnVals = []
@@ -34,20 +34,20 @@ class IsMatchesScouted extends Manager {
 
                 for (let i = 0; i < matchKeys.length; i++) {
                     for (let j = 0; j < data.length; j++) {
-                        // console.log(data[j].scouterName + " " + data[j].matchKey)
+                        // console.log(data[j].scouterName + ' ' + data[j].matchKey)
                         if (exists && data[j].scouterName == scouterName && data[j].matchKey.includes(`${matchKeys[i]}_`)) {
                             returnVals.push({
-                                "matchKey": matchKeys[i],
-                                "key": data[j].matchKey,
-                                "status": true
+                                'matchKey': matchKeys[i],
+                                'key': data[j].matchKey,
+                                'status': true
                             })
                             exists = false
                         }
                     }
                     if (exists) {
                         returnVals.push({
-                            "matchKey": matchKeys[i],
-                            "status": false
+                            'matchKey': matchKeys[i],
+                            'status': false
                         })
                     }
                     exists = true
@@ -68,11 +68,11 @@ class IsMatchesScouted extends Manager {
         
         for (let i = 0; i < matchKeys.length; i++) {
             if (i !== 0) {
-                sql = sql + " OR "
+                sql = sql + ' OR '
             }
             sql = sql + `INSTR(matches.key, '${matchKeys[i]}_')`
         }
-        sql = sql + `)`
+        sql = sql + ')'
 
         // console.log(sql)
 
@@ -85,7 +85,7 @@ class IsMatchesScouted extends Manager {
                 if (data) {
                     resolve(data)
                 } else {
-                    reject("No matches found")
+                    reject('No matches found')
                 }
             })
         })

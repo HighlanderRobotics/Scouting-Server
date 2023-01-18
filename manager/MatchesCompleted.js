@@ -1,7 +1,7 @@
 const Manager = require('./Manager.js')
 
 class MatchesCompleted extends Manager {
-    static name = "matchesCompleted"
+    static name = 'matchesCompleted'
 
     constructor() {
         super()
@@ -18,8 +18,8 @@ class MatchesCompleted extends Manager {
             sql += `matches.teamKey = 'frc${body.teamNumber}'`
         } else {
             return new Error({
-                "results": `Missing teamKey or teamNumber`,
-                "customCode": 400
+                'results': 'Missing teamKey or teamNumber',
+                'customCode': 400
             })
         }
 
@@ -33,10 +33,9 @@ class MatchesCompleted extends Manager {
             Manager.db.all(sql, (err, playedMatches) => {
                 if (err) {
                     console.log(err)
-                    errorCode = 500
                     reject({
-                        "result": err,
-                        "customCode": 500
+                        'result': err,
+                        'customCode': 500
                     })
                 }
 

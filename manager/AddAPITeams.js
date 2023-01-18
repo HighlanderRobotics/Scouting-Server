@@ -1,8 +1,8 @@
 const Manager = require('./Manager.js')
-const axios = require("axios");
+const axios = require('axios')
 
 class AddAPITeams extends Manager {
-    static name = "addAPITeams"
+    static name = 'addAPITeams'
 
     constructor() {
         super()
@@ -11,7 +11,7 @@ class AddAPITeams extends Manager {
     async runTask() {
         var url = 'https://www.thebluealliance.com/api/v3'
         
-        var sql = `INSERT INTO teams (key, teamNumber, teamName) VALUES (?, ?, ?)`
+        var sql = 'INSERT INTO teams (key, teamNumber, teamName) VALUES (?, ?, ?)'
 
         async function insertTeam(sql, response, i) {
             return new Promise((resolve, reject) => {
@@ -32,29 +32,29 @@ class AddAPITeams extends Manager {
                 await axios.get(`${url}/teams/${j}/simple`, {
                     headers: {'X-TBA-Auth-Key': process.env.KEY}
                 })
-                .then(async (response) => {
-                    for (var i = 0; i < response.data.length; i++) {
-                        await insertTeam(sql, response, i)
-                        .catch((err) => {
+                    .then(async (response) => {
+                        for (var i = 0; i < response.data.length; i++) {
+                            await insertTeam(sql, response, i)
+                                .catch((err) => {
+                                    reject({
+                                        'result': `Error inserting team into database: ${err}`,
+                                        'customCode': 500
+                                    })
+                                })
+                        }
+                    }).catch(err => {
+                        if (err) {
+                            console.error(`Error with getting teams from TBA API: ${err}`)
                             reject({
-                                "result": `Error inserting team into database: ${err}`,
-                                "customCode": 500
+                                'result': `Error with getting teams from TBA API: ${err}`,
+                                'customCode': 500
                             })
-                        })
-                    }
-                }).catch(err => {
-                    if (err) {
-                        console.error(`Error with getting teams from TBA API: ${err}`)
-                        reject({
-                            "result": `Error with getting teams from TBA API: ${err}`,
-                            "customCode": 500
-                        })
-                    }
-                }).then(() => {
-                    if (j === 17) {
-                        console.log(`Finished inserting API teams`)
-                    }
-                })
+                        }
+                    }).then(() => {
+                        if (j === 17) {
+                            console.log('Finished inserting API teams')
+                        }
+                    })
             }
             resolve()
         })

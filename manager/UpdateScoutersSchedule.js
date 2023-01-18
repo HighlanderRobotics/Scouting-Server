@@ -13,11 +13,11 @@ class UpdateScoutersSchedule extends Manager {
             try {
                 fs.writeFileSync(`${__dirname}/../scouters/./scoutersSchedule.json`, JSON.stringify(schedule), 'utf8')
                 
-                resolve(`Success`)
+                resolve('Success')
             } catch (e) {
                 reject({
-                    "results": `Error writing to file: ${e}`,
-                    "customCode": 500
+                    'results': `Error writing to file: ${e}`,
+                    'customCode': 500
                 })
             }
         })

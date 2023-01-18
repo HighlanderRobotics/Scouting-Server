@@ -1,8 +1,8 @@
 const Manager = require('./Manager.js')
-const fs = require('fs');
+const fs = require('fs')
 
 class NewScouter extends Manager {
-    static name = "newScouter"
+    static name = 'newScouter'
 
     constructor() {
         super()
@@ -32,7 +32,7 @@ class NewScouter extends Manager {
     
                     fs.writeFile(`${__dirname}/../scouters/./scouters.json`, data, () => {console.log('Updated the file')})
 
-                    let sql = `INSERT INTO scouters (name, phoneNumber, email) VALUES (?, ?, ?)`
+                    let sql = 'INSERT INTO scouters (name, phoneNumber, email) VALUES (?, ?, ?)'
 
                     Manager.db.run(sql, [scouterName, scouterNumber, scouterEmail], (err) => {
                         if (err) {
@@ -42,11 +42,12 @@ class NewScouter extends Manager {
                 }
             })
 
-            return {
-                "result": "Added Scouter ",
-            }
+            return 'Added Scouter'
         } catch (e) {
-            
+            return {
+                'result': `Issue adding scouter: ${e}`,
+                'customCode': 500
+            }
         }
     }
 }
