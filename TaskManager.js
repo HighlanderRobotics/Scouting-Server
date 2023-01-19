@@ -72,7 +72,7 @@ class TaskManager {
                     returnAnalysis.push(new cargoCountAutoOverview(Manager.db, task.team, task.type, task.start))
                     break
                 case(cargoCountOverview.name):
-                    returnAnalysis.push(new cargoCountOverview(Manager.db, task.team, task.type))
+                    returnAnalysis.push(new cargoCountOverview(Manager.db, task.team, task.type, task.location))
                     break
                 case(categoryMetrics.name):
                     returnAnalysis.push(new categoryMetrics(Manager.db, task.team))
@@ -89,16 +89,16 @@ class TaskManager {
                     returnAnalysis.push(new robotRole(Manager.db, task.team))
                     break
                 case("coneCount"):
-                    returnAnalysis.push(new cargoCountOverview(Manager.db, task.team, 1))
+                    returnAnalysis.push(new cargoCountOverview(Manager.db, task.team, 1, 2))
                     break
                  case("coneMax"):
-                    returnAnalysis.push(new cargoCountOverview(Manager.db, task.team, 1))
+                    returnAnalysis.push(new cargoCountOverview(Manager.db, task.team, 1, 2))
                     break
                 case("cubeCount"):
-                    returnAnalysis.push(new cargoCountOverview(Manager.db, task.team, 0))
+                    returnAnalysis.push(new cargoCountOverview(Manager.db, task.team, 0, 2))
                     break
                 case("cubeMax"):
-                    returnAnalysis.push(new cargoCountOverview(Manager.db, task.team, 0))
+                    returnAnalysis.push(new cargoCountOverview(Manager.db, task.team, 0, 2))
                     break
                 case("cubeCountAuto"):
                     returnAnalysis.push(new cargoCountAutoOverview(Manager.db, task.team, 0, 100000))
@@ -107,17 +107,17 @@ class TaskManager {
                     returnAnalysis.push(new cargoCountAutoOverview(Manager.db, task.team, 1, 1000000))
                     break
                 case("cycleCubeTeam"):
-                    returnAnalysis.push(new cyclingOverview(Manager.db, task.team, 0, 4))
+                    returnAnalysis.push(new cyclingOverview(Manager.db, task.team))
                     break
                 case("cycleConeTeam"):
-                    returnAnalysis.push(new cyclingOverview(Manager.db, task.team, 1, 4))
+                    returnAnalysis.push(new cyclingOverview(Manager.db, task.team))
                     break
-                case("cycleCubeScore"):
-                    returnAnalysis.push(new cyclingOverview(Manager.db, task.team, 0, 2))
-                    break
-                case("cycleConeScore"):
-                    returnAnalysis.push(new cyclingOverview(Manager.db, task.team, 1, 2))
-                    break
+                // case("cycleCubeScore"):
+                //     returnAnalysis.push(new cyclingOverview(Manager.db, task.team, 0, 2))
+                //     break
+                // case("cycleConeScore"):
+                //     returnAnalysis.push(new cyclingOverview(Manager.db, task.team, 1, 2))
+                //     break
                 case("pinCount"):
                     returnAnalysis.push(new defenseOverview(Manager.db, task.team, 6))
                     break

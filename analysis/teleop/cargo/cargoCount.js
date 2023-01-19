@@ -4,12 +4,13 @@ const BaseAnalysis = require('../../BaseAnalysis.js')
 class cargoCount extends BaseAnalysis {
     static name = `cargoCount`
 
-    constructor(db, team, type) {
+    constructor(db, team, type, location) {
         super(db)
         this.team = team
         this.teamKey = "frc" + team
         // this.start = start
         // this.end = end
+        this.location = location
         this.type = type
         this.result = 0
         this.max = 0
@@ -49,21 +50,16 @@ class cargoCount extends BaseAnalysis {
                             //change numbers
                             let subArr = curr[i]
 
-                            if (subArr[1] === a.type) {
+                            if(subArr[1] === a.type)
+                            {
                                 object = true
                             }
-                            if (subArr[1] === 3) {
-                                object = false
-                            }
-                            if (subArr[1] === 2 && object == true) {
+                            if (subArr[1] === a.location && object == true) {
                                 makes++
-                                if (subArr[2] > highest) {
-                                    highest = subArr[2]
-                                }
                                 object = false
 
                             }
-                            if (subArr[1] === 4) {
+                            else if (subArr[1] >= 2 && subArr[1] <= 4) {
                                 object = false
                             }
 

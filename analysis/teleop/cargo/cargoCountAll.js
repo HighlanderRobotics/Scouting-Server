@@ -3,11 +3,12 @@ const BaseAnalysis = require('../../BaseAnalysis.js')
 class cargoCountAll extends BaseAnalysis {
     static name = `cargoCountAll`
 
-    constructor(db, type) {
+    constructor(db, type, location) {
         super(db)
         // this.team = team
         // // this.start = start
         // // this.end = end
+        this.location = location
         // this.teamKey = "ftc" + team
         this.result = 0
         this.type = type
@@ -34,20 +35,19 @@ class cargoCountAll extends BaseAnalysis {
                         let curr = JSON.parse(row.scoutReport).events
                         for (var i = 0; i < curr.length; i++) {
                             let subArr = curr[i]
-                            if (subArr[1] === a.type) {
+                            if(subArr[1] === a.type)
+                            {
                                 object = true
                             }
-                            if (subArr[1] === 3) {
-                                object = false
-                            }
-                            if (subArr[1] === 2 && object == true) {
+                            if (subArr[1] === a.location && object == true) {
                                 makes++
                                 object = false
 
                             }
-                            if (subArr[1] === 4) {
+                            else if (subArr[1] >= 2 && subArr[1] <= 4) {
                                 object = false
                             }
+                          
                         }
                         len++
 

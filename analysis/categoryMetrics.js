@@ -60,12 +60,12 @@ class categoryMetrics extends BaseAnalysis {
             await scores.runAnalysis()
             metrics.avgScore = scores.finalizeResults().result
 
-            var cones = new cargoCount(a.db, a.team, 1)
+            var cones = new cargoCount(a.db, a.team, 1, 2)
             await cones.runAnalysis()
             metrics.coneCount = cones.finalizeResults().result
             metrics.coneMax = cones.finalizeResults().max
 
-            var cubes = new cargoCount(a.db, a.team, 0)
+            var cubes = new cargoCount(a.db, a.team, 0, 2)
             await cubes.runAnalysis()
             metrics.cubeCount = cubes.finalizeResults().result
             metrics.cubeMax = cubes.finalizeResults().max
@@ -80,15 +80,13 @@ class categoryMetrics extends BaseAnalysis {
         
             var cycleCubeTeam = new cycling(a.db, a.team, 1, 4)
             await cycleCubeTeam.runAnalysis()
-            metrics.cycleCubeTeam = cycleCubeTeam.result
 
             var cycleConeTeam = new cycling(a.db, a.team, 2, 4)
             await cycleConeTeam.runAnalysis()
-            metrics.cycleConeTeam = cycleConeTeam.result
+            metrics.cycleTeam = (cycleConeScore.result + cycleCubeTeam)/2
 
             var cycleConeScore = new cycling(a.db, a.team, 1, 2)
             await cycleConeScore.runAnalysis()
-            metrics.cycleConeScore = cycleConeScore.result
 
             var cycleCubeScore = new cycling(a.db, a.team, 0, 2)
             await cycleCubeScore.runAnalysis()
@@ -102,12 +100,12 @@ class categoryMetrics extends BaseAnalysis {
             await blockCount.runAnalysis()
             metrics.blockCount = blockCount.result
 
-
-            var cones = new cargoCount(a.db, a.team, 1)
-            await cones.runAnalysis()
-            metrics.coneCount = cones.finalizeResults().result
-            metrics.coneMax = cubes.finalizeResults().max
-
+            var cyclingCountCube = new cargoCount(a.db, a.team, 0, 4)
+            await cyclingCountCube.runAnalysis()
+            var cyclingCountCone = new cargoCount(a.db, a.team, 1, 4)
+            await cyclingCountCone.runAnalysis()
+            metrics.cyclingCount =(cyclingCountCone.result + cyclingCountCube.result)/2
+            
           
 // notes: notesOutput 
             resolve({metrics})

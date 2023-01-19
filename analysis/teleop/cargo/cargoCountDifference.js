@@ -7,12 +7,13 @@ const all = require('./cargoCountAll.js')
 class cargoCountDifference extends BaseAnalysis {
     static name = `cargoCountDifference`
 
-    constructor(db, team, type) {
+    constructor(db, team, type, location) {
         super(db)
         this.team = team
         // this.teamKey = "frc" + team
         // this.start = start
         // this.end = end
+        this.location = location
         this.result = 0
         this.type = type
         // this.array = []
@@ -21,10 +22,10 @@ class cargoCountDifference extends BaseAnalysis {
     async getAccuracy() {
         let a = this
 
-        let x = new teamStat(a.db, a.team, a.type)
+        let x = new teamStat(a.db, a.team, a.type, a.location)
         await x.runAnalysis()
         let teamAvg = x.result
-        let y = new all(a.db, a.type)
+        let y = new all(a.db, a.type, a.location)
         await y.runAnalysis()
         let overallAvg = y.result
 
