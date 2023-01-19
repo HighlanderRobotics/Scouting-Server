@@ -6,13 +6,17 @@ const averageScore = require('./averageScore.js')
 class averageScoreAll extends BaseAnalysis {
     static name = `averageScoreAll`
 
-    constructor(db) {
+    constructor(db, autoOrTele) {
         super(db)
         // this.team = team
         // this.teamKey = "frc" + team
         // this.start = start
         // this.end = end
         this.average
+        // auto = 0
+        // teleop = 1
+        this.autoOrTele = autoOrTele
+        this.array = []
 
     }
     getAccuracy() {
@@ -38,23 +42,29 @@ class averageScoreAll extends BaseAnalysis {
                         let data = JSON.parse(row.scoutReport)
                         let total = 0
 
-                        if (data.challengeResult === 1) {
-                            total += 6
+                        if (a.autoOrTele === 0) {
+                            if (data.autoChallengeResult === 1) {
+                                total += 8
+                            }
+                            else if (data.autoChallengeResult === 2) {
+                                total += 12
+                            }
+
                         }
-                        else if (data.challengeResult === 2) {
-                            total += 10
-                        }
-                        else if (data.challengeResult === 4) {
-                            //check this
-                            total += 3
+                        else if(a.autoOrTele === 1){
+                            if (data.challengeResult === 1) {
+                                total += 6
+                            }
+                            else if (data.challengeResult === 2) {
+                                total += 10
+                            }
+                            else if (data.challengeResult === 4) {
+                                //check this
+                                total += 3
+                            }
                         }
 
-                        if (data.autoChallengeResult === 1) {
-                            total += 8
-                        }
-                        else if (data.autoChallengeResult === 2) {
-                            total += 12
-                        }
+
 
 
                         let arr = data.events
@@ -62,7 +72,7 @@ class averageScoreAll extends BaseAnalysis {
 
                             const entry = arr[i];
                             let max = Math.ceil(entry[2] / 3)
-                            if (entry[0] <= 17 && entry[1] === 2) {
+                            if (entry[0] <= 17 && entry[1] === 2 && a.autoOrTele === 0) {
                                 if (max === 3) {
                                     total += 6
                                 }
@@ -73,7 +83,7 @@ class averageScoreAll extends BaseAnalysis {
                                     total += 3
                                 }
                             }
-                            else if (entry[1] === 2) {
+                            else if (entry[1] === 2 && a.autoOrTele === 1) {
                                 if (max === 3) {
                                     total += 5
                                 }
@@ -91,6 +101,7 @@ class averageScoreAll extends BaseAnalysis {
                     }
                     const sum = answer.reduce((partialSum, a) => partialSum + a, 0)
                     a.average = sum / answer.length
+                    a.array = answer
                     resolve("done")
 
 
@@ -99,48 +110,48 @@ class averageScoreAll extends BaseAnalysis {
 
 
 
-                
 
 
+
+        })
+
+
+            .catch((err) => {
+                if (err) {
+                    return err
+                }
             })
-
-
-                .catch((err) => {
-                    if (err) {
-                        return err
-                    }
-                })
-                .then((data) => {
-                    // console.log(data)
-                    return data
-                })
-        }
+            .then((data) => {
+                // console.log(data)
+                return data
+            })
+    }
     async getAvg(team) {
-            let a = this
+        let a = this
         let temp = new averageScore(a.db, team)
         await temp.runAnalysis()
         return temp.average
-        }
+    }
 
     runAnalysis() {
-            return new Promise(async (resolve, reject) => {
-                let a = this
-                var temp = await a.getAccuracy().catch((err) => {
-                    if (err) {
-                        return err
-                    }
-                })
-                a.result = temp
-                resolve("done")
+        return new Promise(async (resolve, reject) => {
+            let a = this
+            var temp = await a.getAccuracy().catch((err) => {
+                if (err) {
+                    return err
+                }
             })
+            resolve("done")
+        })
 
-        }
+    }
     finalizeResults() {
-            return {
-                "result": this.average,
-                // "team": this.team
-            }
+        return {
+            "result": this.average,
+            "array": this.array
+            // "team": this.team
         }
+    }
 
 }
 module.exports = averageScoreAll

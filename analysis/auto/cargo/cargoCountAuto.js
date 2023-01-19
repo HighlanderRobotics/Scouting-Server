@@ -34,7 +34,7 @@ class cargoCountAuto extends BaseAnalysis {
             let match = []
             let len = 0
             let makes = 0
-            let object = true
+            let object = false
             a.db.all(sql, [a.team, a.start], (err, rows) => {
                 if (err) {
                     console.log(err)

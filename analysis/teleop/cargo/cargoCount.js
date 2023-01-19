@@ -56,6 +56,10 @@ class cargoCount extends BaseAnalysis {
                             }
                             if (subArr[1] === a.location && object == true) {
                                 makes++
+                                if(subArr[2] > highest)
+                                {
+                                    highest = subArr[2]
+                                }
                                 object = false
 
                             }

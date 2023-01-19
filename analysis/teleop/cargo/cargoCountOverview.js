@@ -2,6 +2,8 @@ const BaseAnalysis = require('../../BaseAnalysis.js')
 const teamStat = require('./cargoCount.js')
 const all = require('./cargoCountAll.js')
 const difference = require('./cargoCountDifference.js')
+const math = require('jstat')
+
 
 // const Manager = require('./manager/dbmanager.js')
 
@@ -39,6 +41,8 @@ class cargoCountOverview extends BaseAnalysis {
         a.max = x.max
         a.all = y.result
         a.difference = z.result
+        let temp = math.stedv(y.array)
+        a.zScore = a.difference/temp
 
     }
 
@@ -61,6 +65,7 @@ class cargoCountOverview extends BaseAnalysis {
             "result": this.result,
             "array" : this.array,
             "difference" : this.difference,
+            "zScore" : this.zScore,
             "all" : this.all,
             "team": this.team,
         }

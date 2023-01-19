@@ -8,7 +8,7 @@ const Manager = require('../manager/dbmanager.js')
 // const defenseAmmount = require('./defenseQuantity.js')
 // const defenseQuality = require('./defenseQuality.js')
 const cargoCount = require('./teleop/cargo/cargoCount.js')
-const averageScore = require('./general/averageScore.js')
+const averageScore = require('./general/averageScoreOverview')
 const cargoCountAuto = require('./auto/cargo/cargoCountAuto.js')
 const cycling = require('./teleop/cargo/cycling.js')
 const defense = require('./defense/defenseEvent.js')
@@ -58,7 +58,7 @@ class categoryMetrics extends BaseAnalysis {
 
             var scores = new averageScore(a.db, a.team)
             await scores.runAnalysis()
-            metrics.avgScore = scores.finalizeResults().result
+            metrics.avgScore = scores.finalizeResults().score
 
             var cones = new cargoCount(a.db, a.team, 1, 2)
             await cones.runAnalysis()
@@ -83,7 +83,7 @@ class categoryMetrics extends BaseAnalysis {
 
             var cycleConeTeam = new cycling(a.db, a.team, 2, 4)
             await cycleConeTeam.runAnalysis()
-            metrics.cycleTeam = (cycleConeScore.result + cycleCubeTeam)/2
+            metrics.cycleTeam = (cycleConeTeam.result + cycleCubeTeam.result)/2
 
             var cycleConeScore = new cycling(a.db, a.team, 1, 2)
             await cycleConeScore.runAnalysis()

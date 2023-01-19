@@ -12,6 +12,7 @@ class cargoCountAll extends BaseAnalysis {
         // this.teamKey = "ftc" + team
         this.result = 0
         this.type = type
+        this.array = []
 
     }
     async getCount() {
@@ -28,6 +29,7 @@ class cargoCountAll extends BaseAnalysis {
             let len = 0
             let makes = 0
             let object = false
+            let arr = []
             a.db.all(sql, [], (err, rows) => {
                 if (rows != undefined) {
                     rows.forEach(functionAdder);
@@ -49,6 +51,7 @@ class cargoCountAll extends BaseAnalysis {
                             }
                           
                         }
+                        arr.push(makes)
                         len++
 
                     }
@@ -88,6 +91,7 @@ class cargoCountAll extends BaseAnalysis {
     finalizeResults() {
         return {
             "result": this.result,
+            "array" : this.array,
             "team": this.team
         }
     }

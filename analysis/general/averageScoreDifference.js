@@ -7,22 +7,25 @@ const all = require('./averageScoreAll.js')
 class averageScoreDifference extends BaseAnalysis {
     static name = `averageScoreDifference`
 
-    constructor(db, team) {
+    constructor(db, team, autoOrTele) {
         super(db)
         this.team = team
         // this.teamKey = "frc" + team
         // this.start = start
         // this.end = end
         this.result = 0
+        //auto = 0
+        //teleop = 1
+        this.autoOrTele = autoOrTele
         // this.array = []
 
     }
     async getAccuracy() {
         let a = this
-        let x = new teamStat(a.db, a.team)
+        let x = new teamStat(a.db, a.team, a.autoOrTele)
         await x.runAnalysis()
         let teamAvg = x.average
-        let y = new all(a.db)
+        let y = new all(a.db, a.autoOrTele)
         await y.runAnalysis()
         let overallAvg = y.average
         

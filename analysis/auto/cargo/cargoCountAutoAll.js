@@ -29,7 +29,7 @@ class cargoCountAutoAll extends BaseAnalysis {
               `
             let len = 0
             let makes = 0
-            let object = true
+            let object = false
             a.db.all(sql, [a.start], (err, rows) => {
                 if (err) {
                     reject(err)
