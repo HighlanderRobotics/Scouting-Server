@@ -268,42 +268,62 @@ If the name is null then it means there's a scoutreport missing for that matchKe
 ### Will return: Response code 200
 ```json
 {
-  "version": 2,
+  "version": 1,
   "shifts": [
     {
       "start": 1,
       "end": 5,
+      "startKey": "2022cc_qm1",
+      "endKey": "2022cc_qm5",
       "scouts": [
-        "Jasper Tripp",
-        "Mckeane Mcbrearty",
-        "Torsten Olsen",
         "Evrim Duransoy",
         "Nate Hart",
-        "Jessica Liu"
+        "Asha Byers",
+        "Lewy Seiden",
+        "Beck Peterson",
+        "Barry Balasingham"
       ]
     },
     {
       "start": 6,
       "end": 10,
+      "startKey": "2022cc_qm6",
+      "endKey": "2022cc_qm10",
       "scouts": [
+        "Jessica Liu",
+        "Torsten Olsen",
         "Nathaniel Scher",
-        "Barry Balasingham",
-        "Collin Cameron",
-        "Valentina Prieto Black",
-        "Asha Byers",
-        "Lewy Seiden"
+        "Jacob Trentini",
+        "Nathaniel Welch",
+        "Cassandra Colby"
       ]
     },
     {
       "start": 11,
       "end": 15,
+      "startKey": "2022cc_qm11",
+      "endKey": "2022cc_qm15",
       "scouts": [
-        "Torsten Olsen",
-        "Jasper Tripp",
+        "Mckeane Mcbrearty",
+        "Asha Byers",
         "Nate Hart",
-        "Jessica Liu",
+        "Barry Balasingham",
         "Evrim Duransoy",
-        "Nathaniel Welch"
+        "Valentina Prieto Black"
+      ]
+    },
+    {
+      "start": 16,
+      "end": 20,
+      "startKey": "2022cc_qm16",
+      "endKey": "2022cc_qm20",
+      "scouts": [
+        "Nathaniel Welch",
+        "Collin Cameron",
+        "Jacob Trentini",
+        "Beck Peterson",
+        "Jessica Liu",
+        "Lewy Seiden"
       ]
     }
   ]
@@ -315,42 +335,62 @@ If the name is null then it means there's a scoutreport missing for that matchKe
 ### Will return: Response code 200
 ```json
 {
-  "version": 3,
+  "version": 2,
   "shifts": [
     {
       "start": 1,
       "end": 5,
+      "startKey": "2022cc_qm1",
+      "endKey": "2022cc_qm5",
       "scouts": [
-        "Jasper Tripp",
-        "Mckeane Mcbrearty",
-        "Torsten Olsen",
         "Evrim Duransoy",
         "Nate Hart",
-        "Jessica Liu"
+        "Asha Byers",
+        "Lewy Seiden",
+        "Beck Peterson",
+        "Barry Balasingham"
       ]
     },
     {
       "start": 6,
       "end": 10,
+      "startKey": "2022cc_qm6",
+      "endKey": "2022cc_qm10",
       "scouts": [
+        "Jessica Liu",
+        "Torsten Olsen",
         "Nathaniel Scher",
-        "Barry Balasingham",
-        "Collin Cameron",
-        "Valentina Prieto Black",
-        "Asha Byers",
-        "Lewy Seiden"
+        "Jacob Trentini",
+        "Nathaniel Welch",
+        "Cassandra Colby"
       ]
     },
     {
       "start": 11,
       "end": 15,
+      "startKey": "2022cc_qm11",
+      "endKey": "2022cc_qm15",
       "scouts": [
         "Mckeane Mcbrearty",
-        "Jasper Tripp",
+        "Asha Byers",
         "Nate Hart",
-        "Cassandra Colby",
+        "Barry Balasingham",
+        "Evrim Duransoy",
+        "Valentina Prieto Black"
+      ]
+    },
+    {
+      "start": 16,
+      "end": 20,
+      "startKey": "2022cc_qm16",
+      "endKey": "2022cc_qm20",
+      "scouts": [
+        "Nathaniel Welch",
+        "Collin Cameron",
+        "Jacob Trentini",
         "Beck Peterson",
-        "Nathaniel Welch"
+        "Jessica Liu",
+        "Lewy Seiden"
       ]
     }
   ]
