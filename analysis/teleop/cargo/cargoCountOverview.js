@@ -2,7 +2,8 @@ const BaseAnalysis = require('../../BaseAnalysis.js')
 const teamStat = require('./cargoCount.js')
 const all = require('./cargoCountAll.js')
 const difference = require('./cargoCountDifference.js')
-const math = require('jstat')
+const levelCargo = require('./levelCargo')
+const math = require('mathjs')
 
 
 // const Manager = require('./manager/dbmanager.js')
@@ -14,7 +15,7 @@ class cargoCountOverview extends BaseAnalysis {
         super(db)
         this.team = team
         this.type = type
-        this.location
+        this.location = location
         // this.teamKey = "frc" + team
         // this.start = start
         // this.end = end
@@ -23,6 +24,10 @@ class cargoCountOverview extends BaseAnalysis {
         this.all = 0
         this.difference = 0
         this.type = type
+        this.zScore = 0
+        this.one = 0
+        this.two = 0
+        this.three = 0
         // this.array = []
 
     }
@@ -30,18 +35,28 @@ class cargoCountOverview extends BaseAnalysis {
         let a = this
         let x = new teamStat(a.db, a.team, a.type, a.location)
         await x.runAnalysis()
-        let y = new all(a.db, a.typ, a.location)
+        let y = new all(a.db, a.type, a.location)
         await y.runAnalysis()
         let z = new difference(a.db, a.team, a.type, a.location)
         await z.runAnalysis()
-        
+        let levelOne = new levelCargo(a.db, a.team, a.type, 1)
+        await levelOne.runAnalysis()
+        let levelTwo = new levelCargo(a.db, a.team, a.type, 2)
+        await levelTwo.runAnalysis()
+        let levelThree = new levelCargo(a.db, a.team, a.type, 3)
+        await levelThree.runAnalysis()
+        console.log(x.result)
         a.result = x.result
         a.array = x.array
         a.matches = x.matches
         a.max = x.max
         a.all = y.result
         a.difference = z.result
-        let temp = math.stedv(y.array)
+        a.one = levelOne.result
+        a.two = levelTwo.result
+        a.three = levelThree.result
+        let temp = math.std(y.array)
+        console.log("std" + temp)
         a.zScore = a.difference/temp
 
     }
@@ -67,6 +82,9 @@ class cargoCountOverview extends BaseAnalysis {
             "difference" : this.difference,
             "zScore" : this.zScore,
             "all" : this.all,
+            "one" : this.one,
+            "two" : this.two,
+            "three" : this.three,
             "team": this.team,
         }
     }

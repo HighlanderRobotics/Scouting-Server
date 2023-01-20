@@ -1,21 +1,17 @@
 const BaseAnalysis = require('../../BaseAnalysis.js')
 // const Manager = require('./manager/dbmanager.js')
 
-class cargoCount extends BaseAnalysis {
-    static name = `cargoCount`
+class levelCargoAll extends BaseAnalysis {
+    static name = `levelCargoAll`
 
-    constructor(db, team, type, location) {
+    constructor(db, type, location) {
         super(db)
-        this.team = team
-        this.teamKey = "frc" + team
         // this.start = start
         // this.end = end
         this.location = location
         this.type = type
         this.result = 0
-        this.max = 0
         this.array = []
-        this.matches = []
 
     }
     async getAccuracy() {
@@ -27,23 +23,21 @@ class cargoCount extends BaseAnalysis {
             JOIN (SELECT matches.key AS key
                 FROM matches 
                 JOIN teams ON teams.key = matches.teamKey
-                WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
+               ) AS  newMatches ON  data.matchKey = newMatches.key
           `;
-            let arr = []
             let len = 0
             let makes = 0
-            let highest = 0
-            let match = []
             let object = false
-            a.db.all(sql, [a.team], (err, rows) => {
+            let arr = []
+            a.db.all(sql, [], (err, rows) => {
                 if (err) {
                     console.log(err)
                 }
 
                 if (rows != undefined) {
+
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array) {
-                        match.push(row.key)
                         let curr = JSON.parse(row.scoutReport).events
 
                         for (var i = 0; i < curr.length; i++) {
@@ -52,19 +46,16 @@ class cargoCount extends BaseAnalysis {
 
                             if(subArr[1] === a.type)
                             {
+
                                 object = true
                             }
-                            if (subArr[1] === a.location && object === true) {
-
+                           else if (subArr[1] === 2 && object == true && Math.ceil(subArr[2] / 3) === a.location ) {
                                 makes++
-                                if(subArr[2] > highest)
-                                {
-                                    highest = subArr[2]
-                                }
                                 object = false
 
+
                             }
-                            else if (subArr[1] >= 2 && subArr[1] <= 4 && object === true) {
+                            else if (subArr[1] === 3 || subArr[1] === 4) {
                                 object = false
                             }
 
@@ -74,14 +65,9 @@ class cargoCount extends BaseAnalysis {
                     }
 
                 }
-                //CHECK MATH.CEIL()
-                a.array =arr.map((item, index) => ({
-                    "match": match[index],
-                    "value": item,
-                }))
-                a.result = makes / len
-                a.max = Math.ceil(highest / 3)
-                a.matches = match
+                a.result = makes/len
+                a.array = arr
+              
                 resolve("done")
 
             })
@@ -106,7 +92,6 @@ class cargoCount extends BaseAnalysis {
                     return err
                 }
             })
-            console.log(a.array)
             // a.result = temp  
             resolve("done")
         })
@@ -115,12 +100,10 @@ class cargoCount extends BaseAnalysis {
     finalizeResults() {
         return {
             "result": this.result,
-            "team": this.team,
-            "array": this.array,
-            "max": this.max
+            "array" : this.array           
         }
         
     }
 
 }
-module.exports = cargoCount
+module.exports = levelCargoAll

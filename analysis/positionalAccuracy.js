@@ -90,15 +90,7 @@ class positionalAccuracy extends BaseAnalysis {
         a.launchPad = launchpadMakes / launchpadCount;
         a.feildEnd = fieldEndMakes / feildEndCount;
         a.feild = fieldMakes / feildCount;
-        // console.log(a.hub)
-        // console.log(a.feildEnd)
-
-        // console.log(a.tarmac)
-
-        // console.log(a.launchPad)
-
-        // console.log(a.feild)
-        // console.log(makes/len)
+      
 
         resolve("done");
       });
