@@ -62,6 +62,7 @@ class TaskManager {
     }
 
     addTasks(tasks) {
+        let a = this;
         let returnAnalysis = []
 
         tasks.forEach((task) => {
