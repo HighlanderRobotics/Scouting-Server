@@ -10,6 +10,17 @@ class GetScoutersSchedule extends Manager {
 
     runTask() {
         return new Promise((resolve, reject) => {
+            function keyFromOrdinalNumber(ordinalNumber) {
+                var sql = `SELECT tournamentKey, matchType FROM matches
+                    WHERE ? = matchNumber
+                    LIMIT 1`
+                Manager.db.all(sql, [ordinalNumber], (err, row) =>
+                {
+                    return row.tournamentKey + "_" + row.matchType 
+                })
+            }
+
+
             let data = fs.readFileSync(`${__dirname}/../scouters/./scoutersSchedule.json`, 'utf8', (err) => {
                 if (err) {
                     reject({
@@ -18,7 +29,22 @@ class GetScoutersSchedule extends Manager {
                     })
                 }
             })
-            resolve(data)
+
+            const object = JSON.parse(data);
+
+            const shifts = object.shifts
+            const newShifts = shifts.map((shift) => ({
+                ...shift,
+                startKey: keyFromOrdinalNumber(shift.start),
+                endKey: keyFromOrdinalNumber(shift.end),
+            }))
+
+            resolve(JSON.stringify(
+                {
+                    ...object,
+                    shifts: newShifts,
+                }
+            ))
         })
     }
 }

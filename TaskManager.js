@@ -103,10 +103,10 @@ class TaskManager {
                     returnAnalysis.push(new cargoCountOverview(Manager.db, task.team, 0, 2))
                     break
                 case("cubeCountAuto"):
-                    returnAnalysis.push(new cargoCountAutoOverview(Manager.db, task.team, 0, 100000))
+                    returnAnalysis.push(new cargoCountAutoOverview(Manager.db, task.team, 0))
                     break
                 case("coneCountAuto"):
-                    returnAnalysis.push(new cargoCountAutoOverview(Manager.db, task.team, 1, 1000000))
+                    returnAnalysis.push(new cargoCountAutoOverview(Manager.db, task.team, 1))
                     break
                 case("cycleCubeTeam"):
                     returnAnalysis.push(new cyclingOverview(Manager.db, task.team))

@@ -70,11 +70,11 @@ class categoryMetrics extends BaseAnalysis {
             metrics.cubeCount = cubes.finalizeResults().result
             metrics.cubeMax = cubes.finalizeResults().max
            
-            var cubeAuto = new cargoCountAuto(a.db, a.team, 0, 10000000)
+            var cubeAuto = new cargoCountAuto(a.db, a.team, 0)
             await cubeAuto.runAnalysis()
             metrics.cubeCountAuto = cubeAuto.finalizeResults().result
 
-            var coneAuto = new cargoCountAuto(a.db, a.team, 1, 10000000)
+            var coneAuto = new cargoCountAuto(a.db, a.team, 1)
             await coneAuto.runAnalysis()
             metrics.coneCountAuto = coneAuto.finalizeResults().result
         

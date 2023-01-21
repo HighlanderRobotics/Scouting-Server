@@ -4,7 +4,7 @@ const BaseAnalysis = require('../../BaseAnalysis.js')
 class cargoCountAuto extends BaseAnalysis {
     static name = `cargoCountAuto`
 
-    constructor(db, team, type, start) {
+    constructor(db, team, type) {
         super(db)
         this.team = team
         this.teamKey = "frc" + team
@@ -14,7 +14,6 @@ class cargoCountAuto extends BaseAnalysis {
         this.matches = []
         this.result = 0
         this.array = []
-        this.start = start
 
     }
     async getAccuracy() {
@@ -27,15 +26,14 @@ class cargoCountAuto extends BaseAnalysis {
                 FROM matches 
                 JOIN teams ON teams.key = matches.teamKey
                 WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
-                ORDER BY data.startTime
-                LIMIT ?
+               ?
           `;
             let arr = []
             let match = []
             let len = 0
             let makes = 0
             let object = false
-            a.db.all(sql, [a.team, a.start], (err, rows) => {
+            a.db.all(sql, [a.team], (err, rows) => {
                 if (err) {
                     console.log(err)
                 }
