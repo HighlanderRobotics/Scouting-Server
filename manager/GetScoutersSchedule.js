@@ -9,18 +9,15 @@ class GetScoutersSchedule extends Manager {
     }
 
     runTask() {
-        return new Promise((resolve, reject) => {
-            function keyFromOrdinalNumber(ordinalNumber) {
+        return new Promise(async (resolve, reject) => {
+            async function keyFromOrdinalNumber(ordinalNumber) {
                 let key = ""
                 var sql = `SELECT tournamentKey, matchType FROM matches
                     WHERE ? = matchNumber
                     LIMIT 1`
-                Manager.db.all(sql, [ordinalNumber], (err, row) =>
-                {
+                Manager.db.all(sql, [ordinalNumber], (err, row) => {
                     key += row.tournamentKey + "_" + row.matchType
                 })
-
-                return key
             }
 
 
@@ -36,10 +33,10 @@ class GetScoutersSchedule extends Manager {
             const object = JSON.parse(data);
 
             const shifts = object.shifts
-            const newShifts = shifts.map((shift) => ({
+            const newShifts = shifts.map(async (shift) => ({
                 ...shift,
-                startKey: keyFromOrdinalNumber(shift.start),
-                endKey: keyFromOrdinalNumber(shift.end),
+                startKey: await keyFromOrdinalNumber(shift.start),
+                endKey: await keyFromOrdinalNumber(shift.end),
             }))
 
             resolve(JSON.stringify(
@@ -50,6 +47,7 @@ class GetScoutersSchedule extends Manager {
             ))
         })
     }
+
 }
 
 module.exports = GetScoutersSchedule
