@@ -115,10 +115,10 @@ class TaskManager {
                     returnAnalysis.push(new cyclingOverview(Manager.db, task.team))
                     break
                 case("cycleCubeScore"):
-                    returnAnalysis.push(new cycleOverviewAnalysis(Manager.db, a.team, 0))
+                    returnAnalysis.push(new cycleOverviewAnalysis(Manager.db, task.team, 0))
                     break
                 case("cycleConeScore"):
-                    returnAnalysis.push(new cycleOverviewAnalysis(Manager.db, a.team, 1))
+                    returnAnalysis.push(new cycleOverviewAnalysis(Manager.db, task.team, 1))
                     break
                 // case("cycleCubeScore"):
                 //     returnAnalysis.push(new cyclingOverview(Manager.db, task.team, 0, 2))
