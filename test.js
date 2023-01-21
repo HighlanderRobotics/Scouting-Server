@@ -1,13 +1,12 @@
 //for testing
 
 const Manager = require('./manager/dbmanager')
-const test = require('./analysis/teleop/cargo/cycleOverveiwAnalysis')
+const test = require('./manager/GetScoutersSchedule')
 
 // const y = require("./test")
 async function temp() {
-  var x = new test(Manager.db, 4414, 0)
- await x.runAnalysis()
-  console.log( x.finalizeResults())
+  var x = new test()
+ console.log( x.runTask())
 }
 temp()
 

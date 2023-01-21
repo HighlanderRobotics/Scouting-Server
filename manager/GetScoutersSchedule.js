@@ -9,22 +9,7 @@ class GetScoutersSchedule extends Manager {
     }
 
     runTask() {
-        return new Promise(async (resolve, reject) => {
-            async function keyFromOrdinalNumber(ordinalNumber) {
-                return new Promise((resolve, reject) => {
-                    let key = ""
-                    var sql = `SELECT tournamentKey, matchType FROM matches
-                    WHERE ? = matchNumber
-                    LIMIT 1`
-                    Manager.db.all(sql, [ordinalNumber], (err, row) => {
-                        key += row.tournamentKey + "_" + row.matchType
-
-                        resolve(key)
-                    })
-                })
-            }
-
-
+        return new Promise((resolve, reject) => {
             let data = fs.readFileSync(`${__dirname}/../scouters/./scoutersSchedule.json`, 'utf8', (err) => {
                 if (err) {
                     reject({
@@ -33,25 +18,9 @@ class GetScoutersSchedule extends Manager {
                     })
                 }
             })
-
-            const object = JSON.parse(data);
-
-            let shifts = object.shifts
-
-            for (const index in shifts) {
-                shifts[index].startKey = await keyFromOrdinalNumber(shifts[index].start)
-                shifts[index].endKey = await keyFromOrdinalNumber(shifts[index].end)
-            }
-
-            resolve(JSON.stringify(
-                {
-                    ...object,
-                    shifts: shifts,
-                }
-            ))
+            resolve(data)
         })
     }
-
 }
 
 module.exports = GetScoutersSchedule
