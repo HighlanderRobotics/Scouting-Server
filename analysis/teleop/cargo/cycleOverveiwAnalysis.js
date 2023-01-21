@@ -43,12 +43,6 @@ class cycleOverviewAnalysis extends BaseAnalysis {
        a.difference = difference.result
 
 
-        
-
-
-        
-        
-
     }
 
 
