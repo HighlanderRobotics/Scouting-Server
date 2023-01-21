@@ -85,7 +85,7 @@ class cargoCountOverview extends BaseAnalysis {
             "one" : this.one,
             "two" : this.two,
             "three" : this.three,
-            "team": this.team,
+            "team": this.team
         }
     }
 

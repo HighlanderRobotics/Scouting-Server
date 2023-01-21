@@ -1,11 +1,11 @@
 //for testing
 
 const Manager = require('./manager/dbmanager')
-const test = require('./analysis/teleop/cargo/levelPicklist')
+const test = require('./analysis/teleop/cargo/cycleOverveiwAnalysis')
 
 // const y = require("./test")
 async function temp() {
-  var x = new test(Manager.db, 254, 0, 2)
+  var x = new test(Manager.db, 254, 0)
  await x.runAnalysis()
   console.log( x.finalizeResults())
 }

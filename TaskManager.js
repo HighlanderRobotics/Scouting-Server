@@ -12,6 +12,7 @@ const cargoCountAutoOverview = require('./analysis/auto/cargo/cargoAutoOverview.
 const cyclingOverview = require('./analysis/teleop/cargo/cyclingOverview.js')
 const robotRole = require('./analysis/general/robotRole.js')
 const notes = require('./analysis/general/notes')
+const cycleOverviewAnalysis = require('./analysis/teleop/cargo/cycleOverveiwAnalysis.js')
 
 
 class TaskManager {
@@ -111,6 +112,12 @@ class TaskManager {
                     break
                 case("cycleConeTeam"):
                     returnAnalysis.push(new cyclingOverview(Manager.db, task.team))
+                    break
+                case("cycleCubeScore"):
+                    returnAnalysis.push(new cycleOverviewAnalysis(Manager.db, a.team, 0))
+                    break
+                case("cycleConeScore"):
+                    returnAnalysis.push(new cycleOverviewAnalysis(Manager.db, a.team, 1))
                     break
                 // case("cycleCubeScore"):
                 //     returnAnalysis.push(new cyclingOverview(Manager.db, task.team, 0, 2))
