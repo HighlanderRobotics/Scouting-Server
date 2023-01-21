@@ -1,23 +1,16 @@
 const Manager = require('./Manager.js')
 const axios = require('axios')
 const fs = require('fs')
-
 class ResetAndPopulate extends Manager {
     static name = 'resetAndPopulate'
-
     constructor() {
         super()
     }
-
     runTask() {
         let a = this
-
         var createTeams = `CREATE TABLE teams(key TEXT ONLY PRIMARY KEY, teamNumber INTEGER, teamName TEXT ONLY, UNIQUE (key, teamNumber, teamName));`
-
         var createTournaments = `CREATE TABLE tournaments (key TEXT ONLY PRIMARY KEY, name TEXT ONLY, location VARCHAR(50), date TEXT ONLY VARCHAR(20), UNIQUE (key, date));`
-
         var createMatches = `CREATE TABLE matches (key PRIMARY KEY, tournamentKey TEXT ONLY NOT NULL, matchNumber INTEGER, teamKey TEXT ONLY, matchType TEXT ONLY NOT NULL, UNIQUE (tournamentKey, teamKey, matchType, matchNumber), FOREIGN KEY(tournamentKey) REFERENCES tournaments(key), FOREIGN KEY(teamKey) REFERENCES teams(key));`
-
         // Probably finalized lmk if there's any other datapoints
         var createData = `
         CREATE TABLE data (
@@ -29,17 +22,26 @@ class ResetAndPopulate extends Manager {
             notes BLOB VARCHAR (250),
             UNIQUE (matchKey, scouterName, scoutReport), 
             FOREIGN KEY(matchKey) REFERENCES matches(key),
-            FOREIGN KEY(scouterName) REFERENCES scouters(id)
+            FOREIGN KEY(scouterName) REFERENCES scouters(name)
         );`
 
         var createScouters = `
+
+    
+          
+            
+    
+
+          
+    
+    
+  
         CREATE TABLE scouters (
             name TEXT ONLY PRIMARY KEY,
             phoneNumber INTEGER,
             email VARCHAR(100),
             UNIQUE (name)
         )`
-
         return new Promise((resolve, reject) => {
             this.removeAndAddTables(createTeams, createTournaments, createMatches, createData, createScouters)
             .catch((err) => {
@@ -68,7 +70,6 @@ class ResetAndPopulate extends Manager {
             resolve(`Done`)
         })
     }
-
     async turnOnForeignKeys() {
         Manager.db.run(`PRAGMA foreign_keys = 1`, ((err) => {
             if (err){
@@ -78,13 +79,11 @@ class ResetAndPopulate extends Manager {
             }
         }))
     }
-
     removeAndAddTables(createTeams, createTournaments, createMatches, createData, createScouters) {
         return new Promise(function (resolve, reject) {
             Manager.db.serialize(() => {
                 // See of there's a better fix than turning foreign keys off for dropping tables with data in them
                 Manager.db.run(`PRAGMA foreign_keys = 0`, ((err) => {if (err){console.log(`foreign keys ${err}`)}}))
-
                 Manager.db.run('DROP TABLE IF EXISTS `teams`', ((err) => {if (err){console.log(`dropTeams ${err}`)}}))
                 Manager.db.run(createTeams, ((err) => {if (err){console.log(`createTeams`)}}))
                 
@@ -96,7 +95,6 @@ class ResetAndPopulate extends Manager {
         
                 Manager.db.run('DROP TABLE IF EXISTS `data`', ((err) => {if (err){console.log(`dropData ${err}`)}}))
                 Manager.db.run(createData, ((err) => {if (err){console.log(`createData ${err}`)}}))
-
                 Manager.db.run('DROP TABLE IF EXISTS `scouters`', ((err) => {if (err){console.log(`dropScouters ${err}`)}}))
                 Manager.db.run(createScouters, ((err) => {if (err){console.log(`createScouters ${err}`)} else {
                     // Resolve should be here
@@ -108,12 +106,10 @@ class ResetAndPopulate extends Manager {
             })
         })
     }
-
     async addAPITeams() {
         var url = 'https://www.thebluealliance.com/api/v3'
         
         var sql = `INSERT INTO teams (key, teamNumber, teamName) VALUES (?, ?, ?)`
-
         async function insertTeam(sql, response, i) {
             return new Promise((resolve, reject) => {
                 Manager.db.run(sql, [response.data[i].key, response.data[i].team_number, response.data[i].nickname], (err) => {
@@ -126,7 +122,6 @@ class ResetAndPopulate extends Manager {
                 })
             })
         }
-
         return new Promise(async (resolve, reject) => {
             for (var j = 0; j < 18; j++) {
                 console.log(`Inserting teams ${Math.round((j/18)*100)}%`)
@@ -152,12 +147,9 @@ class ResetAndPopulate extends Manager {
             resolve()
         })
     }
-
     async getTournaments(year) {
         var url = 'https://www.thebluealliance.com/api/v3'
-
         var sql = `INSERT INTO tournaments (name, location, date, key) VALUES (?, ?, ?, ?)`
-
         async function insertTournament(sql, response, i) {
             return new Promise((resolve, reject) => {
                 Manager.db.run(sql, [response.data[i].name, response.data[i].city, response.data[i].start_date, response.data[i].key], (err) => {
@@ -170,7 +162,6 @@ class ResetAndPopulate extends Manager {
                 })
             })
         }
-
         return new Promise((resolve, reject) => {
             axios.get(`${url}/events/${year}/simple`, {
                 headers: {'X-TBA-Auth-Key': process.env.KEY}
@@ -190,12 +181,10 @@ class ResetAndPopulate extends Manager {
             })
         })   
     }
-
     async getScouters() {
         let sql = `INSERT INTO scouters (name, phoneNumber, email) VALUES (?,?,?)`
         console.log('Scouters File exists: ' + fs.existsSync(`${__dirname}/../scouters/./scouters.json`))
         let scouters = await JSON.parse(fs.readFileSync(`${__dirname}/../scouters/./scouters.json`, 'utf8')).scouters
-
         async function insertScouter(sql, scout, i) {
             return new Promise((resolve, reject) => {
                 Manager.db.run(sql, [scout.name, scout.number, scout.email], (err) => {
@@ -208,7 +197,6 @@ class ResetAndPopulate extends Manager {
                 })
             })
         }
-
         async function runInsertScouters() {
             for (var i = 0; i < scouters.length; i++) {
                 // console.log(scouters[i])
@@ -221,7 +209,6 @@ class ResetAndPopulate extends Manager {
                 })
             }
         }
-
         return new Promise(async (resolve, reject) => {
             await runInsertScouters()
             .catch(err => {
@@ -234,5 +221,4 @@ class ResetAndPopulate extends Manager {
         })
     }
 }
-
 module.exports = ResetAndPopulate
