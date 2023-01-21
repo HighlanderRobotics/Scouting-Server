@@ -32,17 +32,17 @@ class GetScoutersSchedule extends Manager {
 
             const object = JSON.parse(data);
 
-            const shifts = object.shifts
-            const newShifts = shifts.map(async (shift) => ({
-                ...shift,
-                startKey: await keyFromOrdinalNumber(shift.start),
-                endKey: await keyFromOrdinalNumber(shift.end),
-            }))
+            let shifts = object.shifts
+            
+            for (const index in shifts) {
+                shifts[index].startKey = await keyFromOrdinalNumber(shifts[index].start)
+                shifts[index].endKey = await keyFromOrdinalNumber(shifts[index].end)
+            }
 
             resolve(JSON.stringify(
                 {
                     ...object,
-                    shifts: newShifts,
+                    shifts: shifts,
                 }
             ))
         })
