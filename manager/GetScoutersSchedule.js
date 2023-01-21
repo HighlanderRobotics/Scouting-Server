@@ -11,13 +11,16 @@ class GetScoutersSchedule extends Manager {
     runTask() {
         return new Promise((resolve, reject) => {
             function keyFromOrdinalNumber(ordinalNumber) {
+                let key = ""
                 var sql = `SELECT tournamentKey, matchType FROM matches
                     WHERE ? = matchNumber
                     LIMIT 1`
                 Manager.db.all(sql, [ordinalNumber], (err, row) =>
                 {
-                    return row.tournamentKey + "_" + row.matchType 
+                    key += row.tournamentKey + "_" + row.matchType
                 })
+
+                return key
             }
 
 
