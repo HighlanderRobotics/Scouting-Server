@@ -71,14 +71,12 @@ class climberSucsessAuto extends BaseAnalysis {
                     a.none = none
                     a.array = arr 
                     a.matches = match
-                    console.log(a.matches)
                     resolve("done")
 
 
                 }
             })
 
-            // console.log(all)
 
 
 

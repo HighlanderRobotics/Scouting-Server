@@ -45,7 +45,6 @@ class cargoCountOverview extends BaseAnalysis {
         await levelTwo.runAnalysis()
         let levelThree = new levelCargo(a.db, a.team, a.type, 3)
         await levelThree.runAnalysis()
-        console.log(x.result)
         a.result = x.result
         a.array = x.array
         a.matches = x.matches
@@ -56,8 +55,8 @@ class cargoCountOverview extends BaseAnalysis {
         a.two = levelTwo.result
         a.three = levelThree.result
         let temp = math.std(y.array)
-        console.log("std" + temp)
         a.zScore = a.difference/temp
+
 
     }
 

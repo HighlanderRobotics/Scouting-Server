@@ -48,7 +48,6 @@ class climberSucsess extends BaseAnalysis {
                         rows.forEach(functionAdder);
                         function functionAdder(row, index, array) {
                             let curr = JSON.parse(row.scoutReport).challengeResult
-                            console.log(curr)
                             match.push(row.key)
                             arr.push(curr)
                             if (curr === 0 || curr === 4) {

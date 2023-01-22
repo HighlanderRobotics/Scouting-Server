@@ -34,10 +34,8 @@ class cargoCountAutoOverview extends BaseAnalysis {
 
         a.result = x.result
         a.array = x.finalizeResults().array
-        console.log(a.array)
         a.all = y.result
         a.difference = z.result
-        console.log(a.all)
 
     }
 

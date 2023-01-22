@@ -43,7 +43,6 @@ class averageScoreDifference extends BaseAnalysis {
                 }
             })
             // a.result = temp  
-            console.log(a.result)
 
             resolve("done")
         })

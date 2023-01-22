@@ -93,7 +93,6 @@ class cargoCount extends BaseAnalysis {
                 }
             })
             .then((data) => {
-                // console.log(data)
                 return data
             })
     }
@@ -106,7 +105,6 @@ class cargoCount extends BaseAnalysis {
                     return err
                 }
             })
-            console.log(a.array)
             // a.result = temp  
             resolve("done")
         })

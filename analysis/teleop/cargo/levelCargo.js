@@ -1,4 +1,4 @@
-const { row } = require('mathjs')
+const math = require('mathjs')
 const BaseAnalysis = require('../../BaseAnalysis.js')
 // const Manager = require('./manager/dbmanager.js')
 
@@ -40,9 +40,7 @@ class levelCargo extends BaseAnalysis {
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array) {
                         let curr = JSON.parse(row.scoutReport).events
-                        // console.log(curr)
                         for (var i = 0; i < curr.length; i++) {
-                            //change numbers
                             let subArr = curr[i]
 
                             if(subArr[1] === a.type)
@@ -83,7 +81,6 @@ class levelCargo extends BaseAnalysis {
                 }
             })
             .then((data) => {
-                // console.log(data)
                 return data
             })
     }
@@ -96,7 +93,6 @@ class levelCargo extends BaseAnalysis {
                     return err
                 }
             })
-            console.log(a.array)
             // a.result = temp  
             resolve("done")
         })

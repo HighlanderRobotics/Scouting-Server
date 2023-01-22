@@ -95,7 +95,6 @@ class robotRole extends BaseAnalysis {
                     return err
                 }
             })
-            console.log(a.defense)
             resolve("done")
         })
 

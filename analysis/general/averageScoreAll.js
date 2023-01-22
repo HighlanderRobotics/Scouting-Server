@@ -12,7 +12,7 @@ class averageScoreAll extends BaseAnalysis {
         // this.teamKey = "frc" + team
         // this.start = start
         // this.end = end
-        this.average
+        this.average = 0
         // auto = 0
         // teleop = 1
         this.autoOrTele = autoOrTele
@@ -122,7 +122,7 @@ class averageScoreAll extends BaseAnalysis {
                 }
             })
             .then((data) => {
-                // console.log(data)
+                
                 return data
             })
     }

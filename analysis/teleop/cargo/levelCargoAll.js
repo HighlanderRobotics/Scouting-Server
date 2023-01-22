@@ -79,7 +79,6 @@ class levelCargoAll extends BaseAnalysis {
                 }
             })
             .then((data) => {
-                // console.log(data)
                 return data
             })
     }

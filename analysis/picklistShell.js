@@ -1,9 +1,6 @@
 const Manager = require('../manager/dbmanager')
-const picklist = require('./picklist')
 const BaseAnalysis = require('./BaseAnalysis')
-
-
-
+const picklist = require('./picklist')
 class picklistOuter extends BaseAnalysis {
     static name = `picklistOuter`
 
@@ -37,11 +34,10 @@ class picklistOuter extends BaseAnalysis {
                     console.log(err)
                 }
                 if (rows != undefined) {
-                    console.log(rows)
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array) {
                         let curr = new picklist(a.db, row.teamNumber, a.coneOneScore, a.coneTwoScore, a.coneThreeScore, a.cubeOneScore, a.cubeTwoScore, a.cubeThreeScore, a.auto, a.teleOp)
-                        curr.runAnalysis()
+                         curr.runAnalysis()
                         let temp = {"team" : row.teamNumber, "result" : curr.result}
                         arr.push(temp)
                     }

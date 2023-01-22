@@ -35,7 +35,6 @@ class defenseOverview extends BaseAnalysis {
         a.array = x.finalizeResults().array
         a.all = y.result
         a.difference = z.result
-        console.log(a.array)
 
 
     }

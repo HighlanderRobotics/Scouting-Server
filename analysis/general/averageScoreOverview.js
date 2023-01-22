@@ -65,7 +65,6 @@ class averageScoreOverview extends BaseAnalysis {
         let teleOpTemp = math.std(teleOpAll.array)
         a.zScoreAuto = a.teleOpDifference/teleOpTemp
 
-
         a.score = a.teleOp + a.autoTeam
         a.scoreAll = a.teleOpAll + a.autoAll
         a.difference = a.autoDifference + a.teleOpDifference

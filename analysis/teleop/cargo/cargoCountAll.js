@@ -57,6 +57,7 @@ class cargoCountAll extends BaseAnalysis {
                     }
                 }
                 a.result = makes / len
+                a.array = arr
                 resolve("done")
             })
 
@@ -69,7 +70,6 @@ class cargoCountAll extends BaseAnalysis {
                 }
             })
             .then((data) => {
-                // console.log(data)
                 return data
             })
     }

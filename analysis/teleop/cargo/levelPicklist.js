@@ -29,7 +29,6 @@ class levelPicklist extends BaseAnalysis {
 
         let all = new allStat(a.db, a.type, a.location)
         await all.runAnalysis()
-        console.log(all.array)
         let temp = math.std(all.array)
         a.zScore = (team.result - all.result)/temp
 

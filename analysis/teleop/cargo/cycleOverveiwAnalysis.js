@@ -55,7 +55,6 @@ class cycleOverviewAnalysis extends BaseAnalysis {
                     return err
                 }
             })
-            console.log(a.result)
             resolve("done")
 
         })
