@@ -1,12 +1,12 @@
 //for testing
 
 const Manager = require('./manager/dbmanager')
-const test = require('./manager/GetScoutersSchedule')
+const test = require('./analysis/picklistOuter')
 
 // const y = require("./test")
 async function temp() {
-  var x = new test()
- console.log( x.runTask())
+  var x = new test(Manager.db, "2022cc", 0.7, 0.2, 0.5, 0.0, 0.0, 0.9, 0.5, 0.5)
+ console.log(x.runAnalysis())
 }
 temp()
 

@@ -102,7 +102,6 @@ class averageScore extends BaseAnalysis {
                     const sum = answer.reduce((partialSum, a) => partialSum + a, 0)
                     a.average = sum / answer.length
                     a.matches = match
-                    console.log("scores for team" + a.array)
 
 
                 }

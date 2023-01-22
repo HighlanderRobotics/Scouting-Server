@@ -1,12 +1,6 @@
 const BaseAnalysis = require('./BaseAnalysis.js')
 const Manager = require('../manager/dbmanager.js')
-// const AverageForMetric = require('./analysis/AverageForMetric.js')
-// const TeamsInTournament = require('./analysis/TeamsInTournament.js')
-// const BestAverageForMetric = require('./analysis/BestAverageForMetric.js')
-// const Overveiw = require('./overview.js')
-// const FullyScouted = require('./analysis/fullyScouted.js')
-// const defenseAmmount = require('./defenseQuantity.js')
-// const defenseQuality = require('./defenseQuality.js')
+
 const cargoCount = require('./teleop/cargo/cargoCount.js')
 const averageScore = require('./general/averageScoreOverview')
 const cargoCountAuto = require('./auto/cargo/cargoCountAuto.js')

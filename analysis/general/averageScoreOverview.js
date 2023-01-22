@@ -2,7 +2,7 @@ const BaseAnalysis = require('../BaseAnalysis')
 const teamStat = require('./averageScore')
 const all = require('./averageScoreAll.js')
 const difference = require('./averageScoreDifference.js')
-const math = require('jstat')
+const math = require('mathjs')
 
 
 // const Manager = require('./manager/dbmanager.js')
@@ -47,7 +47,7 @@ class averageScoreOverview extends BaseAnalysis {
         a.autoAll = autoAll.result
         a.autoDifference = autoDifference.result
         a.autoArray = auto.finalizeResults().array
-        let autoTemp = math.stedv(autoAll.array)
+        let autoTemp = math.std(autoAll.array)
         //FIX ISSUES WITH STDEV JSTAT
         a.zScoreAuto = a.autoDifference/autoTemp
 
@@ -62,7 +62,7 @@ class averageScoreOverview extends BaseAnalysis {
         a.teleOpAll = teleOpAll.result
         a.teleOpDifference = teleOpDifference.result
         a.teleOpArray = teleOp.finalizeResults().array
-        let teleOpTemp = math.stedv(teleOpAll.array)
+        let teleOpTemp = math.std(teleOpAll.array)
         a.zScoreAuto = a.teleOpDifference/teleOpTemp
 
 

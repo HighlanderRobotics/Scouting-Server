@@ -3,7 +3,6 @@ const teamStat = require('./levelCargo')
 const allStat = require('./levelCargoAll')
 
 const math = require('mathjs')
-const { all } = require('mathjs')
 
 
 // const Manager = require('./manager/dbmanager.js')
@@ -11,7 +10,7 @@ const { all } = require('mathjs')
 class levelPicklist extends BaseAnalysis {
     static name = `levelPicklist`
 
-    constructor(db, team, location) {
+    constructor(db, team, type, location) {
         super(db)
         this.team = team
         this.type = type

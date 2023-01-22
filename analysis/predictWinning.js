@@ -1,7 +1,7 @@
 const BaseAnalysis = require('./BaseAnalysis.js')
 const scores = require('./general/averageScore.js')
 
-const math = require('jstat')
+const math = require('mathjs')
 
 class predictWinning extends BaseAnalysis {
     static name = `predictWinning`
@@ -15,12 +15,7 @@ class predictWinning extends BaseAnalysis {
         this.blue1 = blue1
         this.blue2 = blue2
         this.blue3 = blue3
-        // this.notes = []
-        // this.scoresOverTime = []
-        // this.defenseQuantity = 0
-        // this.defenseQuality = 0
-        // this.ballCount = 0
-        // this.autoCount = 0
+    
         this.result = 0
     }
     async getWinner() {
@@ -35,15 +30,15 @@ class predictWinning extends BaseAnalysis {
             var score1 = new scores(a.db, a.red1)
             await score1.runAnalysis()
             let redArr1 = score1.finalizeResults().array
-            let red1SDV = math.stdev(redArr1)
+            let red1SDV = math.std(redArr1)
             var score2 = new scores(a.db, a.red2)
             await score2.runAnalysis()
             let redArr2 = score2.finalizeResults().array
-            let red2SDV = math.stdev(redArr2)
+            let red2SDV = math.std(redArr2)
             var score3 = new scores(a.db, a.red3)
             await score3.runAnalysis()
             let redArr3 = score3.finalizeResults().array
-            let red3SDV = math.stdev(redArr3)
+            let red3SDV = math.std(redArr3)
 
 
             if (red1SDV === 0 || red2SDV === 0 || red3SDV) {
@@ -57,15 +52,15 @@ class predictWinning extends BaseAnalysis {
             var score4 = new scores(a.db, a.blue1)
             await score4.runAnalysis()
             let blueArr1 = score4.finalizeResults().array
-            let blue1SDV = math.stdev(blueArr1)
+            let blue1SDV = math.std(blueArr1)
             var score5 = new scores(a.db, a.blue2)
             await score5.runAnalysis()
             let blueArr2 = score5.finalizeResults().array
-            let blue2SDV = math.stdev(blueArr2)
+            let blue2SDV = math.std(blueArr2)
             var score6 = new scores(a.db, a.blue3)
             await score6.runAnalysis()
             let blueArr3 = score6.finalizeResults().array
-            let blue3SDV = math.stdev(blueArr3)
+            let blue3SDV = math.std(blueArr3)
 
             if (blue1SDV === 0 || blue2SDV === 0 || blue3SDV) {
                 a.result = null

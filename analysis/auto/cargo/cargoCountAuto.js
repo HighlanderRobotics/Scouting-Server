@@ -74,7 +74,7 @@ class cargoCountAuto extends BaseAnalysis {
                     }
 
                 }
-                //  console.log(makes/len)
+                //   makes/len)
                 //  console.log(arr)
                 a.array = arr
                 a.result = makes / len
