@@ -2,6 +2,7 @@ const BaseAnalysis = require('../BaseAnalysis.js')
 const teamStat = require('./defenseEvent.js')
 const all = require('./defenseEventAll.js')
 const difference = require('./defenseEventDifference.js')
+const math = require('mathjs')
 
 // const Manager = require('./manager/dbmanager.js')
 
@@ -12,6 +13,7 @@ class defenseOverview extends BaseAnalysis {
         super(db)
         this.team = team
         this.type = type
+        this.zScore = 0
         // this.teamKey = "frc" + team
         // this.start = start
         // this.end = end
@@ -35,6 +37,8 @@ class defenseOverview extends BaseAnalysis {
         a.array = x.finalizeResults().array
         a.all = y.result
         a.difference = z.result
+        let temp = math.std(y.array)
+        a.zScore = a.difference / temp
 
 
     }
@@ -59,6 +63,7 @@ class defenseOverview extends BaseAnalysis {
             "array" : this.array,
             "difference" : this.difference,
             "all" : this.all,
+            "zScore" : this.zScore,
             "team": this.team,
         }
     }

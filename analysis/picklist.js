@@ -2,13 +2,14 @@ const BaseAnalysis = require('./BaseAnalysis.js')
 const cargoCountOverview = require('./teleop/cargo/cargoCountOverview')
 const averageScoreOverview = require('./general/averageScoreOverview')
 const levelCargo = require('./teleop/cargo/levelPicklist')
+const defense = require('./defense/defenseOverview')
 
 
 
 class picklist extends BaseAnalysis {
     static name = `picklist`
 
-    constructor(db, team, coneOneScore, coneTwoScore, coneThreeScore, cubeOneScore, cubeTwoScore, cubeThreeScore, auto, teleOp) {
+    constructor(db, team, coneOneScore, coneTwoScore, coneThreeScore, cubeOneScore, cubeTwoScore, cubeThreeScore, auto, teleOp, defense) {
         super(db)
         this.team = team
         this.cubeOneScore = cubeOneScore
@@ -20,6 +21,7 @@ class picklist extends BaseAnalysis {
         this.coneOneScore = coneOneScore
         this.coneTwoScore = coneTwoScore
         this.coneThreeScore = coneThreeScore
+        this.defense = defense
 
     }
    
@@ -56,6 +58,12 @@ class picklist extends BaseAnalysis {
                 var cubeThree = new levelCargo(a.db, a.team, 0, 3)
                 await cubeThree.runAnalysis()
                 sum += cubeThree.zScore * a.cubeThreeScore
+                var defenseFive = defense(a.db, a.team, 5)
+                await defenseFive.runAnalysis()
+                sum += defenseFive.zScore * a.defense
+                var defenseSix = defense(a.db, a.team, 6)
+                await defenseSix.runAnalysis()
+                sum += defenseSix.zScore * a.defense
             
             a.result = sum
             console.log("result " + a.result)

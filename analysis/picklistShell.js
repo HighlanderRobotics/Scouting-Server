@@ -4,7 +4,7 @@ const picklist = require('./picklist')
 class picklistOuter extends BaseAnalysis {
     static name = `picklistOuter`
 
-    constructor(db, tourmentKey, coneOneScore, coneTwoScore, coneThreeScore, cubeOneScore, cubeTwoScore, cubeThreeScore, auto, teleOp) {
+    constructor(db, tourmentKey, coneOneScore, coneTwoScore, coneThreeScore, cubeOneScore, cubeTwoScore, cubeThreeScore, auto, teleOp, defense) {
         super(db)
         this.tourmentKey = tourmentKey
         this.cubeOneScore = cubeOneScore
@@ -16,6 +16,7 @@ class picklistOuter extends BaseAnalysis {
         this.coneOneScore = coneOneScore
         this.coneTwoScore = coneTwoScore
         this.coneThreeScore = coneThreeScore
+        this.defense = defense
 
     }
    
@@ -36,7 +37,7 @@ class picklistOuter extends BaseAnalysis {
                 if (rows != undefined) {
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array) {
-                        let curr = new picklist(a.db, row.teamNumber, a.coneOneScore, a.coneTwoScore, a.coneThreeScore, a.cubeOneScore, a.cubeTwoScore, a.cubeThreeScore, a.auto, a.teleOp)
+                        let curr = new picklist(a.db, row.teamNumber, a.coneOneScore, a.coneTwoScore, a.coneThreeScore, a.cubeOneScore, a.cubeTwoScore, a.cubeThreeScore, a.auto, a.teleOp, a.defense)
                          curr.runAnalysis()
                         let temp = {"team" : row.teamNumber, "result" : curr.result}
                         arr.push(temp)

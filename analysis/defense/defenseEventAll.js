@@ -10,6 +10,7 @@ class defenseEventAll extends BaseAnalysis {
         // this.start = start
         // this.end = end
         this.result = 0
+        this.array = []
 
     }
     async getAccuracy() {
@@ -24,7 +25,7 @@ class defenseEventAll extends BaseAnalysis {
               ) AS  newMatches ON  data.matchKey = newMatches.key
           `;
             let len = 0
-            let makes = 0
+            let arr = []
             a.db.all(sql, [], (err, rows) => {
                 if (err) {
                     console.log(err)
@@ -35,6 +36,7 @@ class defenseEventAll extends BaseAnalysis {
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array) {
                         let curr = JSON.parse(row.scoutReport).events
+                        let makes = 0
 
                         for (var i = 0; i < curr.length; i++) {
                             //change numbers
@@ -45,14 +47,14 @@ class defenseEventAll extends BaseAnalysis {
                                 makes++
                             }
                         }
+                        arr.push(makes)
                         len++
                     }
                 
 
                 }
-                //  console.log(makes/len)
-                //  console.log(arr)
-                a.result = makes / len
+                a.array = arr
+                a.result = arr.reduce((partialSum, a) => partialSum + a, 0) / len
                 resolve("done")
 
             })
@@ -85,7 +87,8 @@ class defenseEventAll extends BaseAnalysis {
     }
     finalizeResults() {
         return {
-            "result": this.result
+            "result": this.result,
+            "array" : this.array
 
         }
     }
