@@ -13,6 +13,7 @@ const cyclingOverview = require('./analysis/teleop/cargo/cyclingOverview.js')
 const robotRole = require('./analysis/general/robotRole.js')
 const notes = require('./analysis/general/notes')
 const cycleOverviewAnalysis = require('./analysis/teleop/cargo/cycleOverveiwAnalysis.js')
+const picklistShell = require('./analysis/picklistShell.js')
 
 
 class TaskManager {
@@ -132,7 +133,10 @@ class TaskManager {
                 case("blockCount"):
                     returnAnalysis.push(new defenseOverview(Manager.db, task.team, 5))
                     break
-                case(notes.name):
+                case("picklist"):
+                    returnAnalysis.push(new picklistShell(Manager.db, task.tournementKey, task.coneOneScore, task.coneTwoScore, task.coneThreeScore, task.cubeOneScore, task.cubeTwoScore, task.cubeThreeScore, task.auto, task.teleOp, task.defense))
+                    break
+                    case(notes.name):
                     returnAnalysis.push(new notes(Manager.db, task.team))
                     break
                 

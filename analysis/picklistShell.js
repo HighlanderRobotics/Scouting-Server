@@ -1,8 +1,8 @@
 const Manager = require('../manager/dbmanager')
 const BaseAnalysis = require('./BaseAnalysis')
 const picklist = require('./picklist')
-class picklistOuter extends BaseAnalysis {
-    static name = `picklistOuter`
+class picklistShell extends BaseAnalysis {
+    static name = `picklistShell`
 
     constructor(db, tourmentKey, coneOneScore, coneTwoScore, coneThreeScore, cubeOneScore, cubeTwoScore, cubeThreeScore, auto, teleOp, defense) {
         super(db)
@@ -85,4 +85,4 @@ class picklistOuter extends BaseAnalysis {
     }
 
 }
-module.exports = picklistOuter
+module.exports = picklistShell
