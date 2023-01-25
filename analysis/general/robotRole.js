@@ -1,3 +1,4 @@
+const { help } = require('mathjs')
 const BaseAnalysis = require('../BaseAnalysis.js')
 
 class robotRole extends BaseAnalysis {
@@ -14,7 +15,7 @@ class robotRole extends BaseAnalysis {
         this.helper = 0
         this.array = []
         this.matches = []
-        this.mixed = 0
+        this.mainRole = 0
 
     }
     async getData() {
@@ -31,7 +32,6 @@ class robotRole extends BaseAnalysis {
             let helper = 0
             let offense = 0
             let defense = 0
-            let mixed = 0
             let arr = []
             let match = []
 
@@ -41,33 +41,40 @@ class robotRole extends BaseAnalysis {
                     reject(err)
                 }
                 else {
+                    if (rows != undefined) {
+                        rows.forEach(functionAdder);
+                        function functionAdder(row, index, array) {
+                            let curr = JSON.parse(row.scoutReport).robotRole
+                            match.push(row.key)
+                            arr.push(curr)
 
-                    rows.forEach(functionAdder);
-                    function functionAdder(row, index, array) {
-                        let curr = JSON.parse(row.scoutReport).robotRole
-                        match.push(row.key)
-                        arr.push(curr)
-                        if (curr === 3) {
-                            helper++
-                        }
-                        if (curr === 1) {
-                            defense++
-                        }
-                        if (curr === 0) {
-                            offense++
-                        }
-                        if (curr === 2) {
-                            mixed++
-                        }
+                            if (curr === 1) {
+                                defense++
+                            }
+                            if (curr === 0) {
+                                offense++
+                            }
+                            if (curr === 2) {
+                                helper++
+                            }
 
+                        }
+                        a.offense = offense
+                        a.defense = defense
+                        a.helper = helper
+                        a.array = arr
+                        a.matches = match
+                        if (offense >= defense && offense >= helper) {
+                            a.mainRole = 0
+                        }
+                        else if (defense >= helper) {
+                            a.mainRole = 1
+                        }
+                        else {
+                            a.mainRole = 2
+                        }
                     }
-                    a.offense = offense 
-                    a.defense = defense 
-                    a.helper = helper
-                    a.mixed = mixed
-                    a.array = arr
-                    a.matches = match
-
+                    console.log(a.mainRole)
 
                     resolve("done")
                 }
@@ -83,7 +90,7 @@ class robotRole extends BaseAnalysis {
                 }
             })
             .then((data) => {
-             return data
+                return data
             })
     }
     runAnalysis() {
@@ -103,12 +110,12 @@ class robotRole extends BaseAnalysis {
         return {
             "defense": this.defense,
             "offense": this.offense,
-            "mixed": this.mixed,
             "feeder": this.helper,
             "array": this.array.map((item, index) => ({
                 "match": this.matches[index],
                 "value": item,
             })),
+            "mainRole": this.mainRole,
             "team": this.team
         }
     }

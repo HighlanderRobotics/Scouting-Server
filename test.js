@@ -1,12 +1,12 @@
 //for testing
 
 const Manager = require('./manager/dbmanager')
-const test = require('./analysis/teleop/cargo/cargoCountOverview')
+const test = require('./analysis/alliancePage')
 
 // const y = require("./test")
 async function temp() {
   // var x = new test(Manager.db, "2022cc", 0.7, 0.2, 0.5, 0.0, 0.0, 0.9, 0.5, 0.5)
-  var x = new test(Manager.db, 3256)
+  var x = new test(Manager.db, 3256, 3476, 2813)
   await x.runAnalysis()
  console.log(x.finalizeResults())
 }
