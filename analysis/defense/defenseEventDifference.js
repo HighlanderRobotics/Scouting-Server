@@ -7,10 +7,9 @@ const all = require('./defenseEventAll.js')
 class defenseEventDifference extends BaseAnalysis {
     static name = `defenseEventDifference`
 
-    constructor(db, team, type) {
+    constructor(db, team) {
         super(db)
         this.team = team
-        this.type = type
         // this.teamKey = "frc" + team
         // this.start = start
         // this.end = end
@@ -20,10 +19,10 @@ class defenseEventDifference extends BaseAnalysis {
     }
     async getAccuracy() {
         let a = this
-        let x = new teamStat(a.db, a.team, a.type)
+        let x = new teamStat(a.db, a.team)
         await x.runAnalysis()
         let teamAvg = x.result
-        let y = new all(a.db, a.type)
+        let y = new all(a.db)
         await y.runAnalysis()
         let overallAvg = y.result
 

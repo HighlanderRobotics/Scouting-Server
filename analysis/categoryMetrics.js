@@ -76,13 +76,9 @@ class categoryMetrics extends BaseAnalysis {
             await cycleCubeScore.runAnalysis()
             metrics.cycleCubeScore = cycleCubeScore.result
 
-            var pinCount = new defense(a.db, a.team, 5)
-            await pinCount.runAnalysis()
-            metrics.pinCount = pinCount.result
-
-            var blockCount = new defense(a.db, a.team, 6)
-            await blockCount.runAnalysis()
-            metrics.blockCount = blockCount.result
+            var defneseMetric = new defense(a.db, a.team)
+            await defneseMetric.runAnalysis()
+            metrics.defenseTime = defneseMetric.result
 
             var cyclingCountCube = new cargoCount(a.db, a.team, 0, 4)
             await cyclingCountCube.runAnalysis()

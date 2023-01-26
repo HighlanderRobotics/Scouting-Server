@@ -127,12 +127,10 @@ class TaskManager {
                 // case("cycleConeScore"):
                 //     returnAnalysis.push(new cyclingOverview(Manager.db, task.team, 1, 2))
                 //     break
-                case("pinCount"):
-                    returnAnalysis.push(new defenseOverview(Manager.db, task.team, 6))
+                case("defenseTime"):
+                    returnAnalysis.push(new defenseOverview(Manager.db, task.team))
                     break
-                case("blockCount"):
-                    returnAnalysis.push(new defenseOverview(Manager.db, task.team, 5))
-                    break
+                
                 case("picklist"):
                     returnAnalysis.push(new picklistShell(Manager.db, task.tournementKey, task.coneOneScore, task.coneTwoScore, task.coneThreeScore, task.cubeOneScore, task.cubeTwoScore, task.cubeThreeScore, task.auto, task.teleOp, task.defense))
                     break

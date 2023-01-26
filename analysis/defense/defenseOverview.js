@@ -9,10 +9,9 @@ const math = require('mathjs')
 class defenseOverview extends BaseAnalysis {
     static name = `defenseOverview`
 
-    constructor(db, team, type) {
+    constructor(db, team) {
         super(db)
         this.team = team
-        this.type = type
         this.zScore = 0
         // this.teamKey = "frc" + team
         // this.start = start
@@ -21,17 +20,16 @@ class defenseOverview extends BaseAnalysis {
         this.array = 0
         this.all = 0
         this.difference = 0
-        this.type = this.type
         // this.array = []
 
     }
     async getAccuracy() {
         let a = this
-        let x = new teamStat(a.db, a.team, a.type)
+        let x = new teamStat(a.db, a.team)
         await x.runAnalysis()
-        let y = new all(a.db, a.type)
+        let y = new all(a.db)
         await y.runAnalysis()
-        let z = new difference(a.db, a.team, a.type)
+        let z = new difference(a.db, a.team)
         await z.runAnalysis()
         a.result = x.result
         a.array = x.finalizeResults().array

@@ -1,18 +1,19 @@
-const BaseAnalysis = require('../BaseAnalysis.js')
+const BaseAnalysis = require('../../BaseAnalysis.js')
 // const Manager = require('./manager/dbmanager.js')
 
-class defenseEvent extends BaseAnalysis {
-    static name = `defenseEvent`
+class cargoCountAuto extends BaseAnalysis {
+    static name = `cargoCountAuto`
 
-    constructor(db, team) {
+    constructor(db, team, type) {
         super(db)
         this.team = team
         this.teamKey = "frc" + team
+        this.type = type
         // this.start = start
         // this.end = end
+        this.matches = []
         this.result = 0
         this.array = []
-        this.matches
 
     }
     async getAccuracy() {
@@ -25,11 +26,13 @@ class defenseEvent extends BaseAnalysis {
                 FROM matches 
                 JOIN teams ON teams.key = matches.teamKey
                 WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
+               ?
           `;
             let arr = []
             let match = []
             let len = 0
             let makes = 0
+            let object = false
             a.db.all(sql, [a.team], (err, rows) => {
                 if (err) {
                     console.log(err)
@@ -37,32 +40,45 @@ class defenseEvent extends BaseAnalysis {
                 if (rows != undefined) {
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array) {
-                        let total = 0
-                        let prev = 0
                         let curr = JSON.parse(row.scoutReport).events
                         match.push(row.key)
                         for (var i = 0; i < curr.length; i++) {
-                            //change numbers
+
                             let subArr = curr[i]
 
-                            if (subArr[1] === 5) {
-                               prev = subArr[0]
+                            if (subArr[0] < 17) {
+                                if (subArr[1] === a.type) {
+                                    object = true
+                                }
+                                if (subArr[1] === 3) {
+                                    object = false
+                                }
+                                if (subArr[1] === 2 && object == true) {
+                                    makes++
+                                    object = false
 
+                                }
+                                if (subArr[1] === 4) {
+                                    object = false
+                                }
                             }
-                            else if (subArr[1] === 6)
-                            {
-                                total += subArr[1] - prev
+                            else {
+                                break
                             }
+
+
+
                         }
-                        arr.push(total)
-
-
+                        len++
+                        arr.push(makes)
                     }
-                }
-                a.array = arr
-                a.result = arr.reduce((partialSum, a) => partialSum + a, 0) / arr.length
-                a.matches = match
 
+                }
+                //   makes/len)
+                //  console.log(arr)
+                a.array = arr
+                a.result = makes / len
+                a.matches = match
                 resolve("done")
 
             })
@@ -96,12 +112,9 @@ class defenseEvent extends BaseAnalysis {
         return {
             "result": this.result,
             "team": this.team,
-            "array": this.array.map((item, index) => ({
-                "match": this.matches[index],
-                "value": item,
-            }))
+            "array": this.array
         }
     }
 
 }
-module.exports = defenseEvent
+module.exports = cargoCountAuto

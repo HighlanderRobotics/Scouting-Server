@@ -4,9 +4,8 @@ const BaseAnalysis = require('../BaseAnalysis.js')
 class defenseEventAll extends BaseAnalysis {
     static name = `defenseEventAll`
 
-    constructor(db, type) {
+    constructor(db) {
         super(db)
-        this.type = type
         // this.start = start
         // this.end = end
         this.result = 0
@@ -36,25 +35,28 @@ class defenseEventAll extends BaseAnalysis {
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array) {
                         let curr = JSON.parse(row.scoutReport).events
-                        let makes = 0
-
+                        let total = 0
                         for (var i = 0; i < curr.length; i++) {
                             //change numbers
                             let subArr = curr[i]
 
-                            if (subArr[1] === a.type) {
-
-                                makes++
-                            }
+                            if (subArr[1] === 5) {
+                                prev = subArr[0]
+ 
+                             }
+                             else if (subArr[1] === 6)
+                             {
+                                 total += subArr[1] - prev
+                             }
                         }
-                        arr.push(makes)
+                        arr.push(total)
                         len++
                     }
                 
 
                 }
                 a.array = arr
-                a.result = arr.reduce((partialSum, a) => partialSum + a, 0) / len
+                a.result = arr.reduce((partialSum, a) => partialSum + a, 0) / arr.length
                 resolve("done")
 
             })
