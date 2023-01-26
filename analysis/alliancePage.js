@@ -2,6 +2,7 @@ const BaseAnalysis = require('./BaseAnalysis.js')
 const Manager = require('../manager/dbmanager.js')
 const role = require('./general/robotRole')
 const averageScore = require('./general/averageScore.js')
+const autoPaths = require('./auto/cargo/autoPaths')
 
 
 // const { i } = require('mathjs')
@@ -56,6 +57,18 @@ class alliancePage extends BaseAnalysis {
             let role3 = new role(Manager.db, a.teamThree)
             await role3.runAnalysis()
             a.threeRole = role3.mainRole
+
+            let autoPathOne = new autoPaths(Manager.db, a.teamOne)
+            await autoPathOne.runAnalysis()
+            a.teamOnePaths = autoPathOne.array
+
+            let autoPathTwo = new autoPaths(Manager.db, a.teamTwo)
+            await autoPathTwo.runAnalysis()
+            a.teamTwoPaths = autoPathTwo.array
+
+            let autoPathThree = new autoPaths(Manager.db, a.teamThree)
+            await autoPathThree.runAnalysis()
+            a.teamThreePaths = autoPathThree.array
 
 
     }

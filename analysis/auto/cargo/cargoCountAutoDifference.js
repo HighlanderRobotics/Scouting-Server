@@ -28,6 +28,8 @@ class cargoCountAutoDifference extends BaseAnalysis {
         await y.runAnalysis()
         let overallAvg = y.result
 
+        
+
         a.result = teamAvg - overallAvg
 
     }

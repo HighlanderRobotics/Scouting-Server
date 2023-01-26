@@ -1,6 +1,6 @@
 const BaseAnalysis = require('./BaseAnalysis.js')
 const Manager = require('../manager/dbmanager.js')
-
+const autoPaths = require('./auto/cargo/autoPaths.js')
 const cargoCount = require('./teleop/cargo/cargoCount.js')
 const averageScore = require('./general/averageScoreOverview')
 const cargoCountAuto = require('./auto/cargo/cargoCountAuto.js')
@@ -85,6 +85,8 @@ class categoryMetrics extends BaseAnalysis {
             var cyclingCountCone = new cargoCount(a.db, a.team, 1, 4)
             await cyclingCountCone.runAnalysis()
             metrics.cyclingCount =(cyclingCountCone.result + cyclingCountCube.result)/2
+
+         
             
           
 // notes: notesOutput 
