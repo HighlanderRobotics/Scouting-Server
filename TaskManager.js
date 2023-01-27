@@ -14,6 +14,7 @@ const robotRole = require('./analysis/general/robotRole.js')
 const notes = require('./analysis/general/notes')
 const cycleOverviewAnalysis = require('./analysis/teleop/cargo/cycleOverveiwAnalysis.js')
 const picklistShell = require('./analysis/picklistShell.js')
+const averageScoreOverview = require('./analysis/general/averageScoreOverview.js')
 
 
 class TaskManager {
@@ -134,9 +135,11 @@ class TaskManager {
                 case("picklist"):
                     returnAnalysis.push(new picklistShell(Manager.db, task.tournementKey, task.coneOneScore, task.coneTwoScore, task.coneThreeScore, task.cubeOneScore, task.cubeTwoScore, task.cubeThreeScore, task.auto, task.teleOp, task.defense))
                     break
-                    case(notes.name):
+                case(notes.name):
                     returnAnalysis.push(new notes(Manager.db, task.team))
                     break
+                case("avgTeleScore"):
+                    returnAnalysis.push(new averageScoreOverview(Manager.db, team.db))
                 
                 default:
                     console.log(`${task.name} is not a valid task`)

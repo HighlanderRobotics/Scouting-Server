@@ -23,7 +23,6 @@ class cargoCountAutoAll extends BaseAnalysis {
                     FROM matches 
                     JOIN teams ON teams.key = matches.teamKey)
                      AS  newMatches ON  data.matchKey = newMatches.key
-                      ?
               `
             let len = 0
             let makes = 0

@@ -26,7 +26,6 @@ class cargoCountAuto extends BaseAnalysis {
                 FROM matches 
                 JOIN teams ON teams.key = matches.teamKey
                 WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
-               ?
           `;
             let arr = []
             let match = []
