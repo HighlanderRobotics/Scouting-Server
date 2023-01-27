@@ -71,6 +71,7 @@ class categoryMetrics extends BaseAnalysis {
 
             var cycleConeScore = new cycling(a.db, a.team, 1, 2)
             await cycleConeScore.runAnalysis()
+            metrics.cycleConeScore = cycleConeScore.result
 
             var cycleCubeScore = new cycling(a.db, a.team, 0, 2)
             await cycleCubeScore.runAnalysis()
