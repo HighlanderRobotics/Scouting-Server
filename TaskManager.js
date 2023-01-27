@@ -95,13 +95,7 @@ class TaskManager {
                 case("coneCount"):
                     returnAnalysis.push(new cargoCountOverview(Manager.db, task.team, 1, 2))
                     break
-                 case("coneMax"):
-                    returnAnalysis.push(new cargoCountOverview(Manager.db, task.team, 1, 2))
-                    break
                 case("cubeCount"):
-                    returnAnalysis.push(new cargoCountOverview(Manager.db, task.team, 0, 2))
-                    break
-                case("cubeMax"):
                     returnAnalysis.push(new cargoCountOverview(Manager.db, task.team, 0, 2))
                     break
                 case("cubeCountAuto"):

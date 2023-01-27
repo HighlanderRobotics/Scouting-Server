@@ -64,11 +64,9 @@ class cargoCountAuto extends BaseAnalysis {
                             else {
                                 break
                             }
-
-
-
+                            arr.push(makes) 
                         }
-                        arr.push(makes)                        
+                                               
                     }
 
                 }
