@@ -30,7 +30,6 @@ class cargoCountAuto extends BaseAnalysis {
             let arr = []
             let match = []
             let len = 0
-            let makes = 0
             let object = false
             a.db.all(sql, [a.team], (err, rows) => {
                 if (err) {
@@ -44,6 +43,7 @@ class cargoCountAuto extends BaseAnalysis {
                         for (var i = 0; i < curr.length; i++) {
 
                             let subArr = curr[i]
+                            let makes = 0
 
                             if (subArr[0] < 17) {
                                 if (subArr[1] === a.type) {
@@ -68,15 +68,14 @@ class cargoCountAuto extends BaseAnalysis {
 
 
                         }
-                        len++
-                        arr.push(makes)
+                        arr.push(makes)                        
                     }
 
                 }
                 //   makes/len)
                 //  console.log(arr)
                 a.array = arr
-                a.result = makes / len
+                a.result = arr.reduce((partialSum, a) => partialSum + a, 0) / arr.length
                 a.matches = match
                 resolve("done")
 
