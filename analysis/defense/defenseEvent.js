@@ -51,7 +51,7 @@ class defenseEvent extends BaseAnalysis {
                             }
                             else if (subArr[1] === 6)
                             {
-                                total += subArr[1] - prev
+                                total += subArr[0] - prev
                             }
                         }
                         arr.push(total)
