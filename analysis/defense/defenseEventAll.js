@@ -36,6 +36,7 @@ class defenseEventAll extends BaseAnalysis {
                     function functionAdder(row, index, array) {
                         let curr = JSON.parse(row.scoutReport).events
                         let total = 0
+                        let prev = 0
                         for (var i = 0; i < curr.length; i++) {
                             //change numbers
                             let subArr = curr[i]
