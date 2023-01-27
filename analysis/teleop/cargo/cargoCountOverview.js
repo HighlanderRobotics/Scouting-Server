@@ -28,6 +28,7 @@ class cargoCountOverview extends BaseAnalysis {
         this.one = 0
         this.two = 0
         this.three = 0
+        this.max = 0
         // this.array = []
 
     }
@@ -84,7 +85,8 @@ class cargoCountOverview extends BaseAnalysis {
             "one" : this.one,
             "two" : this.two,
             "three" : this.three,
-            "team": this.team
+            "team": this.team,
+            "max" : this.max
         }
     }
 
