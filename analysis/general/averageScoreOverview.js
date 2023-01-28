@@ -47,7 +47,7 @@ class averageScoreOverview extends BaseAnalysis {
         a.autoAll = autoAll.result
         a.autoDifference = autoDifference.result
         a.autoArray = auto.finalizeResults().array
-        let autoTemp = math.std(autoAll.array)
+        let autoTemp = math.std(autoAll.arrayNoMatches)
         a.zScoreAuto = a.autoDifference/autoTemp
 
         let teleOp = new teamStat(a.db, a.team, 1)
@@ -61,7 +61,7 @@ class averageScoreOverview extends BaseAnalysis {
         a.teleOpAll = teleOpAll.result
         a.teleOpDifference = teleOpDifference.result
         a.teleOpArray = teleOp.finalizeResults().array
-        let teleOpTemp = math.std(teleOpAll.array)
+        let teleOpTemp = math.std(teleOpAll.arrayNoMatches)
         a.zScoreAuto = a.teleOpDifference/teleOpTemp
 
         a.score = a.teleOp + a.autoTeam

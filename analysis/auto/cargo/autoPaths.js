@@ -23,7 +23,7 @@ class cargoCountAuto extends BaseAnalysis {
                 FROM matches 
                 JOIN teams ON teams.key = matches.teamKey
                 WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
-               ?
+               
           `;
             let map = new Map()
             a.db.all(sql, [a.team], (err, rows) => {
@@ -51,6 +51,7 @@ class cargoCountAuto extends BaseAnalysis {
                             else {
                                 let stringedArray = arr.toString()
                                 let total = 0
+                                let data =  JSON.parse(row.scoutReport)
                                 if (data.autoChallengeResult === 1) {
                                     total += 8
                                 }
@@ -76,7 +77,7 @@ class cargoCountAuto extends BaseAnalysis {
                                 }
                                 else {
                                     let temp = { "freq" : 1, "score" : total}
-                                    map.put(stringedArray, temp)
+                                    map.set(stringedArray, temp)
                                 }
                             }
 

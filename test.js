@@ -1,7 +1,7 @@
 //for testing
 
 const Manager = require('./manager/dbmanager')
-const test = require('./analysis/general/averageScoreDetails')
+const test = require('./analysis/auto/cargo/cargoAutoOverview')
 
 // const y = require("./test")
 async function temp() {
