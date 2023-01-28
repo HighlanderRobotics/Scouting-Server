@@ -14,7 +14,6 @@ class averageScoreDetails extends BaseAnalysis {
         super(db)
         this.team = team
         this.array = []
-        this.team = 0
         this.all = 0
         this.type = type
         this.difference = 0
@@ -22,17 +21,17 @@ class averageScoreDetails extends BaseAnalysis {
     async getAccuracy() {
         let a = this
         let team = new teamStat(a.db, a.team, a.type)
+        console.log(team.res)
         await team.runAnalysis()
         let allAvg = new all(a.db, a.type)
         await allAvg.runAnalysis()
         let diff = new difference(a.db, a.team, a.type)
         await diff.runAnalysis()
         
-        a.result = team.result
-        a.all = allAvg.result
+        a.result = team.average
+        a.all = allAvg.average
         a.difference = diff.result
         a.array = team.finalizeResults().array
-        
     }
 
 

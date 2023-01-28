@@ -28,7 +28,6 @@ class averageScoreDifference extends BaseAnalysis {
         let y = new all(a.db, a.autoOrTele)
         await y.runAnalysis()
         let overallAvg = y.average
-        
         a.result = teamAvg - overallAvg
 
     }
