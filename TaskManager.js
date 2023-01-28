@@ -16,6 +16,8 @@ const cycleOverviewAnalysis = require('./analysis/teleop/cargo/cycleOverveiwAnal
 const picklistShell = require('./analysis/picklistShell.js')
 const averageScoreOverview = require('./analysis/general/averageScoreOverview.js')
 const averageScoreDetails = require('./analysis/general/averageScoreDetails.js')
+const autoPaths = require('./analysis/auto/cargo/autoPaths.js')
+const autoPathsTeams = require('./analysis/auto/cargo/autoPathsTeams.js')
 
 
 class TaskManager {
@@ -134,7 +136,12 @@ class TaskManager {
                 case ("avgAutoScore"):
                     returnAnalysis.push(new averageScoreDetails(Manager.db, task.team, 0))
                     break
-
+                case ("teamAutoPaths"):
+                    returnAnalysis.push(new autoPaths(Manager.db, task.team))
+                    break
+                case("allianceAutoPaths"):
+                    returnAnalysis.push(new autoPathsTeams(Manager.db, task.teamOne, task.teamTwo, task.teamThree))
+                    break
                 default:
                     console.log(`${task.name} is not a valid task`)
             }
