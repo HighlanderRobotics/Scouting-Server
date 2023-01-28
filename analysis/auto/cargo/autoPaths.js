@@ -50,11 +50,33 @@ class cargoCountAuto extends BaseAnalysis {
                             }
                             else {
                                 let stringedArray = arr.toString()
+                                let total = 0
+                                if (data.autoChallengeResult === 1) {
+                                    total += 8
+                                }
+                                else if (data.autoChallengeResult === 2) {
+                                    total += 12
+                                }
+                                for (var i = 0; i < curr.length; i++) {
+                                    let entry = curr[i]
+                                    if (entry[0] <= 17 && entry[1] === 2 && a.autoOrTele === 0) {
+                                        if (max === 3) {
+                                            total += 6
+                                        }
+                                        if (max === 2) {
+                                            total += 4
+                                        }
+                                        if (max === 1) {
+                                            total += 3
+                                        }
+                                    }
+                                }
                                 if (map.has(stringedArray)) {
-                                    map.set(stringedArray, map.get(stringedArray))
+                                    map.set(stringedArray, map.get(stringedArray).freq +1)
                                 }
                                 else {
-                                    map.put(stringedArray, 1)
+                                    let temp = { "freq" : 1, "score" : total}
+                                    map.put(stringedArray, temp)
                                 }
                             }
 
@@ -65,7 +87,7 @@ class cargoCountAuto extends BaseAnalysis {
 
                 let arr = [];
                 map.forEach((value, key) => {
-                    arr.push({ position: key, frequency: value });
+                    arr.push({ position: key, frequency: value.freq, score : value.score });
                 });
                 a.array = arr
                 resolve("done")
