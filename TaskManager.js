@@ -15,6 +15,7 @@ const notes = require('./analysis/general/notes')
 const cycleOverviewAnalysis = require('./analysis/teleop/cargo/cycleOverveiwAnalysis.js')
 const picklistShell = require('./analysis/picklistShell.js')
 const averageScoreOverview = require('./analysis/general/averageScoreOverview.js')
+const averageScoreDetails = require('./analysis/general/averageScoreDetails.js')
 
 
 class TaskManager {
@@ -69,67 +70,71 @@ class TaskManager {
 
         tasks.forEach((task) => {
             switch (task.name) {
-                case(cyclingOverview.name):
+                case (cyclingOverview.name):
                     returnAnalysis.push(new cyclingOverview(Manager.db, task.team, task.type, task.location))
                     break
-                case(cargoCountAutoOverview.name):
+                case (cargoCountAutoOverview.name):
                     returnAnalysis.push(new cargoCountAutoOverview(Manager.db, task.team, task.type, task.start))
                     break
-                case(cargoCountOverview.name):
+                case (cargoCountOverview.name):
                     returnAnalysis.push(new cargoCountOverview(Manager.db, task.team, task.type, task.location))
                     break
-                case(categoryMetrics.name):
+                case (categoryMetrics.name):
                     returnAnalysis.push(new categoryMetrics(Manager.db, task.team))
                     break
-                case(breakdownMetrics.name):
+                case (breakdownMetrics.name):
                     returnAnalysis.push(new breakdownMetrics(Manager.db, task.team))
                     break
-                case(defenseOverview.name):
+                case (defenseOverview.name):
                     returnAnalysis.push(new defenseOverview(Manager.db, task.team, task.type))
                     break
-                case(fullyScouted.name):
+                case (fullyScouted.name):
                     returnAnalysis.push(new fullyScouted(Manager.db, task.team))
-                case(robotRole.name):
+                case (robotRole.name):
                     returnAnalysis.push(new robotRole(Manager.db, task.team))
                     break
-                case("coneCount"):
+                case ("coneCount"):
                     returnAnalysis.push(new cargoCountOverview(Manager.db, task.team, 1, 2))
                     break
-                case("cubeCount"):
+                case ("cubeCount"):
                     returnAnalysis.push(new cargoCountOverview(Manager.db, task.team, 0, 2))
                     break
-                case("cubeCountAuto"):
+                case ("cubeCountAuto"):
                     returnAnalysis.push(new cargoCountAutoOverview(Manager.db, task.team, 0))
                     break
-                case("coneCountAuto"):
+                case ("coneCountAuto"):
                     returnAnalysis.push(new cargoCountAutoOverview(Manager.db, task.team, 1))
                     break
-                case("cycleCubeTeam"):
+                case ("cycleCubeTeam"):
                     returnAnalysis.push(new cyclingOverview(Manager.db, task.team))
                     break
-                case("cycleConeTeam"):
+                case ("cycleConeTeam"):
                     returnAnalysis.push(new cyclingOverview(Manager.db, task.team))
                     break
-                case("cycleCubeScore"):
+                case ("cycleCubeScore"):
                     returnAnalysis.push(new cycleOverviewAnalysis(Manager.db, task.team, 0))
                     break
-                case("cycleConeScore"):
+                case ("cycleConeScore"):
                     returnAnalysis.push(new cycleOverviewAnalysis(Manager.db, task.team, 1))
                     break
-               
-                case("defenseTime"):
+
+                case ("defenseTime"):
                     returnAnalysis.push(new defenseOverview(Manager.db, task.team))
                     break
-                
-                case("picklist"):
+
+                case ("picklist"):
                     returnAnalysis.push(new picklistShell(Manager.db, task.tournementKey, task.coneOneScore, task.coneTwoScore, task.coneThreeScore, task.cubeOneScore, task.cubeTwoScore, task.cubeThreeScore, task.auto, task.teleOp, task.defense))
                     break
-                case(notes.name):
+                case (notes.name):
                     returnAnalysis.push(new notes(Manager.db, task.team))
                     break
-                case("avgTeleScore"):
-                    returnAnalysis.push(new averageScoreOverview(Manager.db, team.db))
-                
+                case ("avgTeleScore"):
+                    returnAnalysis.push(new averageScoreDetails(Manager.db, task.team, 1))
+                    break
+                case ("avgAutoScore"):
+                    returnAnalysis.push(new averageScoreDetails(Manager.db, task.team, 0))
+                    break
+
                 default:
                     console.log(`${task.name} is not a valid task`)
             }

@@ -38,7 +38,7 @@ class averageScoreOverview extends BaseAnalysis {
         let a = this
         let auto = new teamStat(a.db, a.team, 0)
         await auto.runAnalysis()
-        let autoAll = new all(a.db, a.team, 0)
+        let autoAll = new all(a.db, 0)
         await autoAll.runAnalysis()
         let autoDifference = new difference(a.db, a.team, 0)
         await autoDifference.runAnalysis()
@@ -48,12 +48,11 @@ class averageScoreOverview extends BaseAnalysis {
         a.autoDifference = autoDifference.result
         a.autoArray = auto.finalizeResults().array
         let autoTemp = math.std(autoAll.array)
-        //FIX ISSUES WITH STDEV JSTAT
         a.zScoreAuto = a.autoDifference/autoTemp
 
         let teleOp = new teamStat(a.db, a.team, 1)
         await teleOp.runAnalysis()
-        let teleOpAll = new all(a.db, a.team, 1)
+        let teleOpAll = new all(a.db, 1)
         await teleOpAll.runAnalysis()
         let teleOpDifference = new difference(a.db, a.team, 1)
         await teleOpDifference.runAnalysis()

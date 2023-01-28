@@ -30,7 +30,7 @@ class cycleOverviewAnalysis extends BaseAnalysis {
         let a = this
         let x = new teamStat(a.db, a.team, a.type, 2)
         await x.runAnalysis()
-        let y = new all(a.db, a.team, a.type, 2)
+        let y = new all(a.db, a.type, 2)
         await y.runAnalysis()
         let difference = new differenceCycle(a.db, a.team, a.type,2)
         await difference.runAnalysis()
