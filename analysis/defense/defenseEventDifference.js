@@ -25,7 +25,6 @@ class defenseEventDifference extends BaseAnalysis {
         let y = new all(a.db)
         await y.runAnalysis()
         let overallAvg = y.result
-
         a.result = teamAvg - overallAvg
 
     }

@@ -71,8 +71,8 @@ class breakdownMetrics extends BaseAnalysis {
             await role.runAnalysis()
             metrics.defenseRole = role.defense
             metrics.offenseRole = role.offense
-            metrics.mixedRole = role.mixed
             metrics.feeder = role.helper
+            metrics.mainRole = role.mainRole
           
 
           
@@ -107,7 +107,7 @@ class breakdownMetrics extends BaseAnalysis {
                     "feeder": this.result.metrics.feeder,
                     "defense" : this.result.metrics.defenseRole,
                     "offense" : this.result.metrics.offenseRole,
-                    "mixed" : this.result.metrics.mixedRole
+                    "metrics.mainRole" : this.mainRole.result.metrics.mainRole
                 },
                 "climberAuto":
                 {

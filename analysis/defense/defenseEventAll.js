@@ -23,7 +23,6 @@ class defenseEventAll extends BaseAnalysis {
                 JOIN teams ON teams.key = matches.teamKey
               ) AS  newMatches ON  data.matchKey = newMatches.key
           `;
-            let len = 0
             let arr = []
             a.db.all(sql, [], (err, rows) => {
                 if (err) {
@@ -47,11 +46,10 @@ class defenseEventAll extends BaseAnalysis {
                              }
                              else if (subArr[1] === 6)
                              {
-                                 total += subArr[1] - prev
+                                 total += subArr[0] - prev
                              }
                         }
                         arr.push(total)
-                        len++
                     }
                 
 

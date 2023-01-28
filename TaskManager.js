@@ -116,12 +116,7 @@ class TaskManager {
                 case("cycleConeScore"):
                     returnAnalysis.push(new cycleOverviewAnalysis(Manager.db, task.team, 1))
                     break
-                // case("cycleCubeScore"):
-                //     returnAnalysis.push(new cyclingOverview(Manager.db, task.team, 0, 2))
-                //     break
-                // case("cycleConeScore"):
-                //     returnAnalysis.push(new cyclingOverview(Manager.db, task.team, 1, 2))
-                //     break
+               
                 case("defenseTime"):
                     returnAnalysis.push(new defenseOverview(Manager.db, task.team))
                     break
