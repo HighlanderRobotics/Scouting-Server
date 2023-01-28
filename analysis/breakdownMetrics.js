@@ -35,23 +35,7 @@ class breakdownMetrics extends BaseAnalysis {
 
         return new Promise(async (resolve, reject) => {
 
-            //why does await not work when it works in  bestAverageForMetric
             let metrics = {}
-            // console.log(result)
-
-            // var defenseFreq = new defenseAmmount(a.db, a.team)
-            //     await defenseFreq.runAnalysis()
-            //     metrics.defenseQuantity = defenseFreq.finalizeResults().result
-
-            // var defenseQaul = new defenseQuality(a.db, a.team)
-            //     await defenseQaul.runAnalysis()
-            //     metrics.defenseQuality = defenseQaul.finalizeResults().result
-
-
-
-
-           
-
           
             var climber = new climberSucsess(a.db, a.team)
             await climber.runAnalysis()
@@ -107,7 +91,7 @@ class breakdownMetrics extends BaseAnalysis {
                     "feeder": this.result.metrics.feeder,
                     "defense" : this.result.metrics.defenseRole,
                     "offense" : this.result.metrics.offenseRole,
-                    "metrics.mainRole" : this.mainRole.result.metrics.mainRole
+                    "mainRole" : this.result.metrics.mainRole
                 },
                 "climberAuto":
                 {
