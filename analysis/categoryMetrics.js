@@ -6,6 +6,7 @@ const averageScore = require('./general/averageScore')
 const cargoCountAuto = require('./auto/cargo/cargoCountAuto.js')
 const cycling = require('./teleop/cargo/cycling.js')
 const defense = require('./defense/defenseEvent.js')
+const averageScoreOverview = require('./general/averageScoreOverview.js')
 
 
 
@@ -47,6 +48,8 @@ class categoryMetrics extends BaseAnalysis {
             var teleScore = new averageScore(a.db, a.team, 1)
             await teleScore.runAnalysis()
             metrics.avgTeleScore = teleScore.finalizeResults().average
+
+            metrics.avgScore = metrics.avgTeleScore + metrics.avgTeleScore
 
             var cones = new cargoCount(a.db, a.team, 1, 2)
             await cones.runAnalysis()
