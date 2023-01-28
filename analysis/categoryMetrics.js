@@ -43,11 +43,11 @@ class categoryMetrics extends BaseAnalysis {
 
             var autoScore = new averageScore(a.db, a.team, 0)
             await autoScore.runAnalysis()
-            metrics.avgAutoScore = autoScore.finalizeResults().average
+            metrics.avgAutoScore = autoScore.finalizeResults().result
 
             var teleScore = new averageScore(a.db, a.team, 1)
             await teleScore.runAnalysis()
-            metrics.avgTeleScore = teleScore.finalizeResults().average
+            metrics.avgTeleScore = teleScore.finalizeResults().result
 
             metrics.avgScore = metrics.avgTeleScore + metrics.avgTeleScore
 
