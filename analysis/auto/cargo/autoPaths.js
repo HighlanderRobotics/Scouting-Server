@@ -10,7 +10,7 @@ class cargoCountAuto extends BaseAnalysis {
         this.team = team
         // this.start = start
         // this.end = end
-        this.array = {}
+        this.paths = {}
 
     }
     async getAccuracy() {
@@ -90,7 +90,7 @@ class cargoCountAuto extends BaseAnalysis {
                 // map.forEach((value, key) => {
                 //     arr.push({ position: key, frequency: value.freq, score: value.score });
                 // });
-                a.array = jsonObject
+                a.paths = jsonObject
                 resolve("done")
 
             })
@@ -125,7 +125,10 @@ class cargoCountAuto extends BaseAnalysis {
     }
     finalizeResults() {
         return {
-            "array": this.array,
+            "paths": Object.entries(this.paths).map(([key, value]) => ({
+                ...value,
+                positions: key.split(",").map(i => parseInt(i)),
+            })),
             "team": this.team
         }
     }

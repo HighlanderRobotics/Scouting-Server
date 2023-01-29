@@ -33,7 +33,7 @@ class cargoCountAutoOverview extends BaseAnalysis {
         var autoPath = new autoPaths(a.db, a.team)
         await autoPath.runAnalysis()
 
-        a.autoPath = autoPath.array
+        a.autoPath = autoPath.paths
         a.result = x.result
         a.array = x.finalizeResults().array
         a.all = y.result

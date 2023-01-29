@@ -22,15 +22,15 @@ class autoPathsTeams extends BaseAnalysis {
         let a = this
         var one = new teamStat(Manager.db, a.teamOne)
         one.runAnalysis()
-        a.oneResult = one.array
+        a.oneResult = one.paths
 
         var two = new teamStat(Manager.db, a.teamTwo)
         two.runAnalysis()
-        a.twoResult = two.array
+        a.twoResult = two.paths
 
         var three = new teamStat(Manager.db, a.teamThree)
         three.runAnalysis()
-        a.threeResult = three.array
+        a.threeResult = three.paths
 
     }
 
