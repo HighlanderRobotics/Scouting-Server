@@ -10,7 +10,7 @@ class cargoCountAuto extends BaseAnalysis {
         this.team = team
         // this.start = start
         // this.end = end
-        this.array = []
+        this.array = {}
 
     }
     async getAccuracy() {
@@ -25,7 +25,7 @@ class cargoCountAuto extends BaseAnalysis {
                 WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
                
           `;
-            let map = new Map()
+          let jsonObject = {};
             a.db.all(sql, [a.team], (err, rows) => {
                 if (err) {
                     console.log(err)
@@ -49,9 +49,9 @@ class cargoCountAuto extends BaseAnalysis {
 
                             }
                             else {
-                                let stringedArray = arr.toString()
+                            
                                 let total = 0
-                                let data =  JSON.parse(row.scoutReport)
+                                let data = JSON.parse(row.scoutReport)
                                 if (data.autoChallengeResult === 1) {
                                     total += 8
                                 }
@@ -60,7 +60,7 @@ class cargoCountAuto extends BaseAnalysis {
                                 }
                                 for (var i = 0; i < curr.length; i++) {
                                     let entry = curr[i]
-                                    if (entry[0] <= 17 && entry[1] === 2 && a.autoOrTele === 0) {
+                                    if (entry[0] <= 17 && entry[1] === 2) {
                                         if (max === 3) {
                                             total += 6
                                         }
@@ -72,13 +72,12 @@ class cargoCountAuto extends BaseAnalysis {
                                         }
                                     }
                                 }
-                                if (map.has(stringedArray)) {
-                                    map.set(stringedArray, map.get(stringedArray).freq +1)
+                                if (jsonObject.hasOwnProperty(arr)) {
+                                    jsonObject[arr].frequency++;
+                                } else {
+                                    jsonObject[arr] = { frequency: 1, score: total };
                                 }
-                                else {
-                                    let temp = { "freq" : 1, "score" : total}
-                                    map.set(stringedArray, temp)
-                                }
+                                break
                             }
 
                         }
@@ -86,11 +85,11 @@ class cargoCountAuto extends BaseAnalysis {
 
                 }
 
-                let arr = [];
-                map.forEach((value, key) => {
-                    arr.push({ position: key, frequency: value.freq, score : value.score });
-                });
-                a.array = arr
+                // let arr = [];
+                // map.forEach((value, key) => {
+                //     arr.push({ position: key, frequency: value.freq, score: value.score });
+                // });
+                a.array = jsonObject
                 resolve("done")
 
             })
@@ -105,6 +104,9 @@ class cargoCountAuto extends BaseAnalysis {
                 // console.log(data)
                 return data
             })
+    }
+    addKeyValue(key, score) {
+        
     }
 
     runAnalysis() {
