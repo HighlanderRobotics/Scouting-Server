@@ -25,11 +25,11 @@ class picklistShell extends BaseAnalysis {
         let a = this
         return new Promise(async function (resolve, reject) {
             let arr = []
-            var sql = `SELECT teamNumber
+            var sql = `SELECT teams.teamNumber
                     FROM teams
                     JOIN matches on matches.teamKey = teams.key
                     WHERE matches.tournamentKey = ?
-                        GROUP BY teamNumber `;
+                    GROUP BY teams.teamNumber `;
             a.db.all(sql, [a.tourmentKey], (err, rows) => {
                 if (err) {
                     console.log(err)
