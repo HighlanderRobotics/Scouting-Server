@@ -28,14 +28,14 @@ class picklist extends BaseAnalysis {
 
     async runAnalysis() {
         let a = this
-        
                 let sum = 0
-                var cone = new cargoCountOverview(a.db, a.team, 1, 2)
-                await cone.runAnalysis()
-                sum += cone.finalizeResults().zScore * a.coneScore
-                var cube = new cargoCountOverview(a.db, a.team, 0, 2)
-                await cube.runAnalysis()
-                sum += cube.finalizeResults().zScore * a.cubeScore
+                // var cone = new cargoCountOverview(a.db, a.team, 1, 2)
+                // await cone.runAnalysis()
+                // sum += cone.finalizeResults().zScore * a.coneOneScore
+                // console.log(a.coneScore)
+                // var cube = new cargoCountOverview(a.db, a.team, 0, 2)
+                // await cube.runAnalysis()
+                // sum += cube.finalizeResults().zScore * a.cubeScore
                 var avgScore = new averageScoreOverview(a.db, a.team)
                 await avgScore.runAnalysis()
                 sum += avgScore.zScoreAuto * a.auto
@@ -62,9 +62,7 @@ class picklist extends BaseAnalysis {
                 await defense.runAnalysis()
                 sum += defense.zScore * a.defense
                
-            a.result = sum
-            console.log("result " + a.result)
-        
+            a.result = sum        
 
     }
     finalizeResults() {

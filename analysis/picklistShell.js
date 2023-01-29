@@ -30,26 +30,23 @@ class picklistShell extends BaseAnalysis {
                     JOIN matches on matches.teamKey = teams.key
                     WHERE matches.tournamentKey = ?
                     GROUP BY teams.teamNumber `;
-            a.db.all(sql, [a.tourmentKey], (err, rows) => {
+            a.db.all(sql, [a.tourmentKey], async (err, rows) => {
                 if (err) {
                     console.log(err)
                 }
                 if (rows != undefined) {
-                    rows.forEach(functionAdder);
-                    function functionAdder(row, index, array) {
+                    rows.forEach(async (row, index, array) => {
                         let curr = new picklist(a.db, row.teamNumber, a.coneOneScore, a.coneTwoScore, a.coneThreeScore, a.cubeOneScore, a.cubeTwoScore, a.cubeThreeScore, a.auto, a.teleOp, a.defense)
-                         curr.runAnalysis()
+                         await  curr.runAnalysis()
                         let temp = {"team" : row.teamNumber, "result" : curr.result}
                         arr.push(temp)
-                    }
-                
+                    });
 
                 }
                 arr.sort(function(a, b) {
                     return b.result - a.result;
                 });
                 a.result = arr
-                console.log("result" + a.result)
                 resolve("done")
 
             })
