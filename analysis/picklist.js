@@ -2,7 +2,7 @@ const BaseAnalysis = require('./BaseAnalysis.js')
 const cargoCountOverview = require('./teleop/cargo/cargoCountOverview')
 const averageScoreOverview = require('./general/averageScoreOverview')
 const levelCargo = require('./teleop/cargo/levelPicklist')
-const defense = require('./defense/defenseOverview')
+const defense1 = require('./defense/defenseOverview')
 
 
 
@@ -58,7 +58,7 @@ class picklist extends BaseAnalysis {
                 var cubeThree = new levelCargo(a.db, a.team, 0, 3)
                 await cubeThree.runAnalysis()
                 sum += cubeThree.zScore * a.cubeThreeScore
-                var defense = defense(a.db, a.team)
+                var defense = defense1(a.db, a.team)
                 await defense.runAnalysis()
                 sum += defense.zScore * a.defense
                
