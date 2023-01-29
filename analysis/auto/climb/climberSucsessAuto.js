@@ -36,6 +36,7 @@ class climberSucsessAuto extends BaseAnalysis {
             let none = 0
             let arr = []
             let match = []
+            a.totalAttempted = 0
 
             this.db.all(sql, [a.team], (err, rows) => {
                 if (err) {
@@ -71,6 +72,7 @@ class climberSucsessAuto extends BaseAnalysis {
                     a.none = none
                     a.array = arr 
                     a.matches = match
+                    a.totalAttempted = tipped + off + fullyOn
                     resolve("done")
 
 
@@ -115,6 +117,7 @@ class climberSucsessAuto extends BaseAnalysis {
                 "match": this.matches[index],
                 "value": item,
             })),
+            "totalAttempts" : this.totalAttempted,
             "team": this.team
         }
     }

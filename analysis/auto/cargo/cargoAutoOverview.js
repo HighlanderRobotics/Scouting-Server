@@ -3,6 +3,7 @@ const teamStat = require('./cargoCountAuto.js')
 const all = require('./cargoCountAutoAll.js')
 const difference = require('./cargoCountAutoDifference.js')
 const autoPaths = require('./autoPaths')
+const math = require('mathjs')
 
 // const Manager = require('./manager/dbmanager.js')
 
@@ -18,6 +19,7 @@ class cargoCountAutoOverview extends BaseAnalysis {
         this.difference = 0
         this.type = type
         this.autoPath = []
+        this.zScore = 0
         // this.array = []
 
     }
@@ -38,6 +40,9 @@ class cargoCountAutoOverview extends BaseAnalysis {
         a.array = x.finalizeResults().array
         a.all = y.result
         a.difference = z.result
+
+        let temp = math.std(y.array)
+        a.zScore = z.result  /temp
 
     }
 
@@ -62,6 +67,7 @@ class cargoCountAutoOverview extends BaseAnalysis {
             "difference" : this.difference,
             "all" : this.all,
             "autoPaths" : this.autoPath,
+            "zScore" : this.zScore,
             "team": this.team,
         }
     }

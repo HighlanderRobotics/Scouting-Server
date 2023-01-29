@@ -11,6 +11,7 @@ class averageScore extends BaseAnalysis {
         this.array = []
         this.average = 0
         this.matches = []
+        this.cargo = 0
         // 0 = auto
         //1 = teleop
         this.autoOrTele = autoOrTele
@@ -41,7 +42,7 @@ class averageScore extends BaseAnalysis {
                             let data = JSON.parse(row.scoutReport)
                             match.push(row.key)
                             let total = 0
-                            if (a.autoOrTele === 0) {
+                            if (a.autoOrTele === 0 && a.cargo === 0)  {
                                 if (data.autoChallengeResult === 1) {
                                     total += 8
                                 }

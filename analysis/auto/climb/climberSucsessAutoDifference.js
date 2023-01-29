@@ -1,6 +1,8 @@
 const BaseAnalysis = require('../../BaseAnalysis.js')
 const teamStat = require('./climberSucsessAuto.js')
 const all = require('./climberSucsessAutoAll.js')
+const math = require('mathjs')
+
 
 // const Manager = require('./manager/dbmanager.js')
 
@@ -16,6 +18,7 @@ class climberSucsessAutoDifference extends BaseAnalysis {
         this.off = 0
         this.tipped = 0
         this.level = 0
+        this.zScore = 0  
         // this.array = []
 
     }
@@ -23,15 +26,17 @@ class climberSucsessAutoDifference extends BaseAnalysis {
         let a = this
         let x = new teamStat(a.db, a.team)
         await x.runAnalysis()
-        let teamAvg = x.result
+
         let y = new all(a.db)
         await y.runAnalysis()
 
+        let allRate = ((y.level + 1)/(y.totalAttempted + 3) * 12) + ((y.tipped + 1)/(y.totalAttempted + 3) * 8)
+        let teamRate = ((x.level + 1)/(x.totalAttempted + 3) * 12) + ((x.tipped + 1)/(x.totalAttempted + 3) * 8)
 
-        a.off = teamAvg.off - overallAvg.failed
-        a.tipped = teamAvg.tipped - overallAvg.tipped
-        a.level = teamAvg.level - overallAvg.level
+        let temp = math.std(y.array)
+        a.zScore = (teamRate - allRate)/temp
 
+        
     }
 
 
@@ -51,9 +56,10 @@ class climberSucsessAutoDifference extends BaseAnalysis {
     finalizeResults() {
         return {
             "off": this.off,
-            "tipped": this.tipped,
-            "level": this.level,
-            "team": this.team,
+            // "tipped": this.tipped,
+            // "level": this.level,
+            // "team": this.team,
+            "zScore" : this.zScore
         }
     }
 

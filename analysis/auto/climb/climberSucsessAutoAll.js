@@ -13,6 +13,7 @@ class climberSucsessAutoAll extends BaseAnalysis {
         this.failed = 0
         this.noClimb = 0
         this.level = 0
+        this.totalAttempted = 0
         this.array = []
 
     }
@@ -39,8 +40,8 @@ class climberSucsessAutoAll extends BaseAnalysis {
                     reject(err)
                 }
                 else {
-                    (rows || []).forEach(functionAdder);
-
+                   if(rows != [])
+                   {
                         rows.forEach(functionAdder);
                         function functionAdder(row, index, array) {
                             let curr = JSON.parse(row.scoutReport).autoChallengeResult
@@ -55,16 +56,20 @@ class climberSucsessAutoAll extends BaseAnalysis {
                                 fullyOn++
                             }
                             if (curr == 3) {
-                                failed++
+                                off++
                             }
 
                         }
+                        arr.push(((fullyOn + 1)/(tipped + fullyOn + off + 3) * 12) + ((tipped + 1)/(tipped + fullyOn + off + 3) * 8))
+                    }
                     
                     a.tipped = tipped
                     a.level = fullyOn
                     a.failed = off
                     a.noClimb = none
                     a.array = arr
+                    a.totalAttempted = tipped + off + fullyOn
+                    resolve("done")
 
 
                 }
@@ -106,7 +111,8 @@ class climberSucsessAutoAll extends BaseAnalysis {
             "tipped": this.tipped,
             "array": this.array,
             "noClimb": this.none,
-            "team": this.team
+            "team": this.team,
+            "allAttempts" : this.allAttempts
         }
     }
 }

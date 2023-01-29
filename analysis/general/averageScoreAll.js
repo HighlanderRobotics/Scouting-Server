@@ -17,6 +17,7 @@ class averageScoreAll extends BaseAnalysis {
         // teleop = 1
         this.autoOrTele = autoOrTele
         this.array = []
+        this.cargo
 
     }
     getAccuracy() {
@@ -42,7 +43,7 @@ class averageScoreAll extends BaseAnalysis {
                         let data = JSON.parse(row.scoutReport)
                         let total = 0
 
-                        if (a.autoOrTele === 0) {
+                        if (a.autoOrTele === 0 && a.cargo === 0) {
                             if (data.autoChallengeResult === 1) {
                                 total += 8
                             }

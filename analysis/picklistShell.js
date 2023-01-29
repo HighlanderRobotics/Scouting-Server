@@ -5,19 +5,20 @@ const picklist = require('./picklist')
 class picklistShell extends BaseAnalysis {
     static name = `picklistShell`
 
-    constructor(db, tourmentKey, coneOneScore, coneTwoScore, coneThreeScore, cubeOneScore, cubeTwoScore, cubeThreeScore, auto, teleOp, defense) {
+    constructor(db, tourmentKey, coneOneScore, coneTwoScore, coneThreeScore, cubeOneScore, cubeTwoScore, cubeThreeScore, autoCargo, teleOp, defense, autoClimb) {
         super(db)
         this.tourmentKey = tourmentKey
         this.cubeOneScore = cubeOneScore
         this.cubeTwoScore = cubeTwoScore
         this.cubeThreeScore = cubeThreeScore
-        this.auto = auto
+        this.autoCargo = autoCargo
         this.teleOp = teleOp
         this.result = []
         this.coneOneScore = coneOneScore
         this.coneTwoScore = coneTwoScore
         this.coneThreeScore = coneThreeScore
         this.defense = defense
+        this.autoClimb = autoClimb
 
     }
    
@@ -38,7 +39,7 @@ class picklistShell extends BaseAnalysis {
                 if (rows != undefined) {
                     for (let row in rows)
                     {
-                        let curr = new picklist(a.db, rows[row].teamNumber, a.coneOneScore, a.coneTwoScore, a.coneThreeScore, a.cubeOneScore, a.cubeTwoScore, a.cubeThreeScore, a.auto, a.teleOp, a.defense)
+                        let curr = new picklist(a.db, rows[row].teamNumber, a.coneOneScore, a.coneTwoScore, a.coneThreeScore, a.cubeOneScore, a.cubeTwoScore, a.cubeThreeScore, a.autoCargo, a.teleOp, a.defense, a.autoClimb)
                          await  curr.runAnalysis()
                         let temp = {"team" : rows[row].teamNumber, "result" : curr.result}
                         arr.push(temp)
