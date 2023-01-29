@@ -58,13 +58,10 @@ class picklist extends BaseAnalysis {
                 var cubeThree = new levelCargo(a.db, a.team, 0, 3)
                 await cubeThree.runAnalysis()
                 sum += cubeThree.zScore * a.cubeThreeScore
-                var defenseFive = defense(a.db, a.team, 5)
-                await defenseFive.runAnalysis()
-                sum += defenseFive.zScore * a.defense
-                var defenseSix = defense(a.db, a.team, 6)
-                await defenseSix.runAnalysis()
-                sum += defenseSix.zScore * a.defense
-            
+                var defense = defense(a.db, a.team)
+                await defense.runAnalysis()
+                sum += defense.zScore * a.defense
+               
             a.result = sum
             console.log("result " + a.result)
         
