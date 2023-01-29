@@ -40,7 +40,7 @@ class picklistShell extends BaseAnalysis {
                     {
                         let curr = new picklist(a.db, rows[row].teamNumber, a.coneOneScore, a.coneTwoScore, a.coneThreeScore, a.cubeOneScore, a.cubeTwoScore, a.cubeThreeScore, a.auto, a.teleOp, a.defense)
                          await  curr.runAnalysis()
-                        let temp = {"team" : row.teamNumber, "result" : curr.result}
+                        let temp = {"team" : rows[row].teamNumber, "result" : curr.result}
                         arr.push(temp)
                     }
                     console.log("EMPTY ARRAY")
