@@ -61,6 +61,7 @@ class cargoCountAuto extends BaseAnalysis {
                                 for (var i = 0; i < curr.length; i++) {
                                     let entry = curr[i]
                                     if (entry[0] <= 17 && entry[1] === 2) {
+                                        let math = Math.ceil(entry[2]/3)
                                         if (max === 3) {
                                             total += 6
                                         }
