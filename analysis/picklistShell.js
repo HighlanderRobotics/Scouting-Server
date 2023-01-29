@@ -1,3 +1,4 @@
+const { row } = require('mathjs')
 const Manager = require('../manager/dbmanager')
 const BaseAnalysis = require('./BaseAnalysis')
 const picklist = require('./picklist')
@@ -35,17 +36,21 @@ class picklistShell extends BaseAnalysis {
                     console.log(err)
                 }
                 if (rows != undefined) {
-                    rows.forEach(async (row, index, array) => {
-                        let curr = new picklist(a.db, row.teamNumber, a.coneOneScore, a.coneTwoScore, a.coneThreeScore, a.cubeOneScore, a.cubeTwoScore, a.cubeThreeScore, a.auto, a.teleOp, a.defense)
+                    for (let row in rows)
+                    {
+                        let curr = new picklist(a.db, rows[row].teamNumber, a.coneOneScore, a.coneTwoScore, a.coneThreeScore, a.cubeOneScore, a.cubeTwoScore, a.cubeThreeScore, a.auto, a.teleOp, a.defense)
                          await  curr.runAnalysis()
                         let temp = {"team" : row.teamNumber, "result" : curr.result}
                         arr.push(temp)
-                    });
+                    }
+                    console.log("EMPTY ARRAY")
+                    arr.sort(function(a, b) {
+                        return b.result - a.result;
+                    })
+                    
 
                 }
-                arr.sort(function(a, b) {
-                    return b.result - a.result;
-                });
+               
                 a.result = arr
                 resolve("done")
 
