@@ -125,7 +125,7 @@ class TaskManager {
                     break
 
                 case ("picklist"):
-                    returnAnalysis.push(new picklistShell(Manager.db, task.tournementKey, task.coneOneScore, task.coneTwoScore, task.coneThreeScore, task.cubeOneScore, task.cubeTwoScore, task.cubeThreeScore, task.auto, task.teleOp, task.defense))
+                    returnAnalysis.push(new picklistShell(Manager.db, task.tournamentKey, task.coneOneScore, task.coneTwoScore, task.coneThreeScore, task.cubeOneScore, task.cubeTwoScore, task.cubeThreeScore, task.auto, task.teleOp, task.defense))
                     break
                 case (notes.name):
                     returnAnalysis.push(new notes(Manager.db, task.team))
