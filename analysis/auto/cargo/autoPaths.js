@@ -25,7 +25,7 @@ class cargoCountAuto extends BaseAnalysis {
                 WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
                
           `;
-          let jsonObject = {};
+            let jsonObject = {};
             a.db.all(sql, [a.team], (err, rows) => {
                 if (err) {
                     console.log(err)
@@ -34,6 +34,7 @@ class cargoCountAuto extends BaseAnalysis {
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array) {
                         let curr = JSON.parse(row.scoutReport).events
+                        console.log(row)
                         let arr = []
                         for (var i = 0; i < curr.length; i++) {
 
@@ -48,90 +49,100 @@ class cargoCountAuto extends BaseAnalysis {
                                 }
 
                             }
-                            else {
-                            
-                                let total = 0
-                                let data = JSON.parse(row.scoutReport)
-                                if (data.autoChallengeResult === 1) {
-                                    total += 8
-                                }
-                                else if (data.autoChallengeResult === 2) {
-                                    total += 12
-                                }
-                                for (var i = 0; i < curr.length; i++) {
-                                    let entry = curr[i]
-                                    if (entry[0] <= 17 && entry[1] === 2) {
-                                        let max = Math.ceil(entry[2]/3)
-                                        if (max === 3) {
-                                            total += 6
-                                        }
-                                        if (max === 2) {
-                                            total += 4
-                                        }
-                                        if (max === 1) {
-                                            total += 3
-                                        }
-                                    }
-                                }
-                                if (jsonObject.hasOwnProperty(arr)) {
-                                    jsonObject[arr].frequency++;
-                                } else {
-                                    jsonObject[arr] = { frequency: 1, score: total };
-                                }
-                                break
-                            }
+                           
+                        }
 
+                        let total = 0
+                        let data = JSON.parse(row.scoutReport)
+                        if (data.autoChallengeResult === 1) {
+                            total += 8
+                        }
+                        else if (data.autoChallengeResult === 2) {
+                            total += 12
+                        }
+                        for (var i = 0; i < curr.length; i++) {
+                            let entry = curr[i]
+                            if (entry[0] <= 16 && entry[1] === 2) {
+                                let max = Math.ceil(entry[2] / 3)
+                                if (max === 3) {
+                                    total += 6
+                                    console.log(total)
+
+                                }
+                                if (max === 2) {
+                                    total += 4
+                                    console.log(total)
+
+                                }
+                                if (max === 1) {
+                                    total += 3
+                                    console.log(total)
+
+                                }
+                            }
+                        }
+                        if (arr.length > 0) {
+                            if (jsonObject.hasOwnProperty(arr)) {
+                                jsonObject[arr].frequency++;
+                            } else {
+                                jsonObject[arr] = { frequency: 1, score: total };
+                            }
                         }
                     }
 
+                    
                 }
+                a.paths = jsonObject
+                resolve("done")
+
+
+            })
 
                 // let arr = [];
                 // map.forEach((value, key) => {
                 //     arr.push({ position: key, frequency: value.freq, score: value.score });
                 // });
-                a.paths = jsonObject
-                resolve("done")
+              
 
-            })
+            
 
-        })
+    })
             .catch((err) => {
-                if (err) {
-                    return err
-                }
-            })
+    if (err) {
+        return err
+    }
+})
             .then((data) => {
-                // console.log(data)
-                return data
-            })
+    // console.log(data)
+    return data
+})
     }
-    addKeyValue(key, score) {
-        
-    }
+addKeyValue(key, score) {
 
-    runAnalysis() {
-        return new Promise(async (resolve, reject) => {
-            let a = this
-            var temp = await a.getAccuracy().catch((err) => {
-                if (err) {
-                    return err
-                }
-            })
-            // a.result = temp  
-            resolve("done")
+}
+
+runAnalysis() {
+    return new Promise(async (resolve, reject) => {
+        let a = this
+        var temp = await a.getAccuracy().catch((err) => {
+            if (err) {
+                return err
+            }
         })
+        // a.result = temp  
+        resolve("done")
+    })
 
+}
+finalizeResults() {
+    return {
+        "paths": Object.entries(this.paths).map(([key, value]) => ({
+            ...value,
+            positions: key.split(",").map(i => parseInt(i)),
+        })),
+        "team": this.team
     }
-    finalizeResults() {
-        return {
-            "paths": Object.entries(this.paths).map(([key, value]) => ({
-                ...value,
-                positions: key.split(",").map(i => parseInt(i)),
-            })),
-            "team": this.team
-        }
-    }
+}
 
 }
 module.exports = cargoCountAuto

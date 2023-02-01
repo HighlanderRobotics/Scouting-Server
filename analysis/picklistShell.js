@@ -44,10 +44,7 @@ class picklistShell extends BaseAnalysis {
                         let temp = {"team" : rows[row].teamNumber, "result" : curr.result}
                         arr.push(temp)
                     }
-                    console.log("EMPTY ARRAY")
-                    arr.sort(function(a, b) {
-                        return b.result - a.result;
-                    })
+                    arr = arr.sort((a, b) => b.result - a.result)
                     
 
                 }
