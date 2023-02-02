@@ -74,6 +74,10 @@ class cargoCountAuto extends BaseAnalysis {
                 //  console.log(arr)
                 a.array = arr
                 a.result = arr.reduce((partialSum, a) => partialSum + a, 0) / arr.length
+                if(a.result === null)
+                {
+                    a.result = 0
+                }
                 a.matches = match
                 resolve("done")
 

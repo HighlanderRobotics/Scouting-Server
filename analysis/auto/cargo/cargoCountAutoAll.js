@@ -76,7 +76,6 @@ class cargoCountAutoAll extends BaseAnalysis {
 
 
                 a.result = makes / len
-
                 a.array = arr
                 resolve(makes / len)
             })
