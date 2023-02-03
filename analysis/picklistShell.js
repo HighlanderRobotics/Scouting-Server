@@ -44,12 +44,10 @@ class picklistShell extends BaseAnalysis {
                         let temp = {"team" : rows[row].teamNumber, "result" : curr.result}
                         arr.push(temp)
                     }
-                    arr = arr.sort((a, b) => b.result - a.result)
                     
 
                 }
-               
-                a.result = arr
+                a.result = arr.sort((a, b) => b.result - a.result)
                 resolve("done")
 
             })
