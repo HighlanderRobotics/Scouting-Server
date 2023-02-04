@@ -21,7 +21,7 @@ class avgAutoCargo extends BaseAnalysis {
     async getAccuracy() {
         let a = this
         let x = new teamStat(a.db, a.team, 0)
-        x.cargo = 0
+        x.cargo = 1
         await x.runAnalysis()
         let teamAvg = x.average
         let y = new all(a.db, 0)
@@ -29,7 +29,7 @@ class avgAutoCargo extends BaseAnalysis {
         await y.runAnalysis()
         let overallAvg = y.average
         let difference  = teamAvg - overallAvg
-
+        console.log(teamAvg)
         let temp = math.std(y.array)
         a.zScore = difference /temp
 

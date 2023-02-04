@@ -36,13 +36,12 @@ class levelCargo extends BaseAnalysis {
                 }
 
                 if (rows != undefined) {
-
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array) {
                         let curr = JSON.parse(row.scoutReport).events
                         for (var i = 0; i < curr.length; i++) {
                             let subArr = curr[i]
-
+                            
                             if(subArr[1] === a.type)
                             {                   
 
