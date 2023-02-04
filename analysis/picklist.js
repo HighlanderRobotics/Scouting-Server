@@ -38,7 +38,7 @@ class picklist extends BaseAnalysis {
                 // sum += cube.finalizeResults().zScore * a.cubeScore
                 var avgScore = new averageScoreOverview(a.db, a.team)
                 await avgScore.runAnalysis()
-                sum += avgScore.zScoreTeleop * a.teleOp
+                sum += avgScore.zScore * a.teleOp
 
                 var coneOne = new levelCargo(a.db, a.team, 1, 1)
                 await coneOne.runAnalysis()
