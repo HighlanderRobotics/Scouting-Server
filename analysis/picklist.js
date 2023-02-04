@@ -48,33 +48,42 @@ class picklist extends BaseAnalysis {
                 await coneTwo.runAnalysis()
                 sum += coneTwo.zScore * a.coneTwoScore
 
+
                 var coneThree = new levelCargo(a.db, a.team, 1, 3)
                 await coneThree.runAnalysis()
                 sum += coneThree.zScore * a.coneThreeScore
+
 
                 var cubeOne = new levelCargo(a.db, a.team, 0, 1)
                 await cubeOne.runAnalysis()
                 sum += cubeOne.zScore * a.cubeOneScore
 
+
                 var cubeTwo = new levelCargo(a.db, a.team, 0, 2)
                 await cubeTwo.runAnalysis()
                 sum += cubeTwo.zScore * a.cubeTwoScore
+
 
                 var cubeThree = new levelCargo(a.db, a.team, 0, 3)
                 await cubeThree.runAnalysis()
                 sum += cubeThree.zScore * a.cubeThreeScore
 
+
                 var defense = new defense1(a.db, a.team)
                 await defense.runAnalysis()
                 sum += defense.zScore * a.defense
+
 
                 var climberAuto = new autoClimb(a.db, a.team)
                 await climberAuto.runAnalysis()
                 sum += climberAuto.zScore * a.climbAuto
 
+
                 var autoCargo = new avgAutoCargo(a.db, a.team)
                 await autoCargo.runAnalysis()
                 sum += autoCargo.zScore * a.autoCargo
+                // console.log(autoCargo.result)
+
                
             a.result = sum        
 

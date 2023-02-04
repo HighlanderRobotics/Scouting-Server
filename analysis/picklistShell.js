@@ -21,7 +21,7 @@ class picklistShell extends BaseAnalysis {
         this.autoClimb = autoClimb
 
     }
-   
+
 
     async getPicklist() {
         let a = this
@@ -37,14 +37,15 @@ class picklistShell extends BaseAnalysis {
                     console.log(err)
                 }
                 if (rows != undefined) {
-                    for (let row in rows)
-                    {
+                    for (let row in rows) {
                         let curr = new picklist(a.db, rows[row].teamNumber, a.coneOneScore, a.coneTwoScore, a.coneThreeScore, a.cubeOneScore, a.cubeTwoScore, a.cubeThreeScore, a.autoCargo, a.teleOp, a.defense, a.autoClimb)
-                         await  curr.runAnalysis()
-                        let temp = {"team" : rows[row].teamNumber, "result" : curr.result}
-                        arr.push(temp)
+                        await curr.runAnalysis()
+                        if (!isNaN(curr.result)) {
+                            let temp = { "team": rows[row].teamNumber, "result": curr.result }
+                            arr.push(temp)
+                        }
                     }
-                    
+
 
                 }
                 a.result = arr.sort((a, b) => b.result - a.result)
