@@ -6,9 +6,9 @@ const test = require('./analysis/general/averageScore')
 
 // const y = require("./test")
 async function temp() {
-  //  var x = new test(Manager.db, "2022cc", 0, 0, 0, 0, 0, 0, 0, 1, 0, 0)
+   var x = new test(Manager.db, 2022cc, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0)
    var x = new test(Manager.db, 2813, 1)
-  await x.runAnalysis()
+  await x.runAnalysi
  console.log(x.finalizeResults())
 }
 temp()

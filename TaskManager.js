@@ -92,7 +92,7 @@ class TaskManager {
                     break
                 case (fullyScouted.name):
                     returnAnalysis.push(new fullyScouted(Manager.db, task.team))
-                case (robotRole.name):
+                case ("robotRole"):
                     returnAnalysis.push(new robotRole(Manager.db, task.team))
                     break
                 case ("coneCount"):

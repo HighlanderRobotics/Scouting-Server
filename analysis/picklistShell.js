@@ -7,7 +7,7 @@ class picklistShell extends BaseAnalysis {
 
     constructor(db, tourmentKey, coneOneScore, coneTwoScore, coneThreeScore, cubeOneScore, cubeTwoScore, cubeThreeScore, autoCargo, teleOp, defense, autoClimb) {
         super(db)
-        this.tourmentKey = tourmentKey
+        this.tourmentKey = toString(tourmentKey)
         this.cubeOneScore = cubeOneScore
         this.cubeTwoScore = cubeTwoScore
         this.cubeThreeScore = cubeThreeScore
