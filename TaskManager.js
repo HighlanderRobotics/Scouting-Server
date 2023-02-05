@@ -18,6 +18,7 @@ const averageScoreOverview = require('./analysis/general/averageScoreOverview.js
 const averageScoreDetails = require('./analysis/general/averageScoreDetails.js')
 const autoPaths = require('./analysis/auto/cargo/autoPaths.js')
 const autoPathsTeams = require('./analysis/auto/cargo/autoPathsTeams.js')
+const alliancePage = require('./analysis/alliancePage')
 
 
 class TaskManager {
@@ -140,6 +141,9 @@ class TaskManager {
                     break
                 case("allianceAutoPaths"):
                     returnAnalysis.push(new autoPathsTeams(Manager.db, task.teamOne, task.teamTwo, task.teamThree))
+                    break
+                case("alliancePage"):
+                    returnAnalysis.push(new alliancePage(Manager.db, task.teamOne, task.teamTwo, task.teamThree))
                     break
                 default:
                     console.log(`${task.name} is not a valid task`)
