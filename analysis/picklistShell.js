@@ -7,7 +7,7 @@ class picklistShell extends BaseAnalysis {
 
     constructor(db, tourmentKey, coneOneScore, coneTwoScore, coneThreeScore, cubeOneScore, cubeTwoScore, cubeThreeScore, autoCargo, teleOp, defense, autoClimb) {
         super(db)
-        this.tourmentKey = toString(tourmentKey)
+        this.tourmentKey = tourmentKey
         this.cubeOneScore = cubeOneScore
         this.cubeTwoScore = cubeTwoScore
         this.cubeThreeScore = cubeThreeScore
@@ -33,6 +33,7 @@ class picklistShell extends BaseAnalysis {
                     WHERE matches.tournamentKey = ?
                     GROUP BY teams.teamNumber `;
             a.db.all(sql, [a.tourmentKey], async (err, rows) => {
+
                 if (err) {
                     console.log(err)
                 }
@@ -41,7 +42,7 @@ class picklistShell extends BaseAnalysis {
                         let curr = new picklist(a.db, rows[row].teamNumber, a.coneOneScore, a.coneTwoScore, a.coneThreeScore, a.cubeOneScore, a.cubeTwoScore, a.cubeThreeScore, a.autoCargo, a.teleOp, a.defense, a.autoClimb)
                         await curr.runAnalysis()
                         if (!isNaN(curr.result)) {
-                            let temp = { "team": rows[row].teamNumber, "result": curr.result }
+                            let temp = { "team": rows[row].teamNumber, "result": curr.result, "breakdown" : curr.array }
                             arr.push(temp)
                         }
                     }
@@ -67,7 +68,7 @@ class picklistShell extends BaseAnalysis {
     runAnalysis() {
         return new Promise(async (resolve, reject) => {
             let a = this
-            var temp = await a.getPicklist().catch((err) => {
+            await a.getPicklist().catch((err) => {
                 if (err) {
                     return err
                 }

@@ -22,13 +22,14 @@ class picklist extends BaseAnalysis {
         this.coneThreeScore = coneThreeScore
         this.defense = defense
         this.climbAuto = climbAuto
+        this.array = []
 
     }
    
 
     async runAnalysis() {
         let a = this
-                let sum = 0
+                let arr = []
                 // var cone = new cargoCountOverview(a.db, a.team, 1, 2)
                 // await cone.runAnalysis()
                 // sum += cone.finalizeResults().zScore * a.coneOneScore
@@ -38,59 +39,59 @@ class picklist extends BaseAnalysis {
                 // sum += cube.finalizeResults().zScore * a.cubeScore
                 var avgScore = new averageScoreOverview(a.db, a.team)
                 await avgScore.runAnalysis()
-                sum += avgScore.zScore * a.teleOp
+                arr.push({"result" : avgScore.zScore * a.teleOp, "type" : "averageScore"})
 
                 var coneOne = new levelCargo(a.db, a.team, 1, 1)
                 await coneOne.runAnalysis()
-                sum += coneOne.zScore * a.coneOneScore
+                arr.push({"result": coneOne.zScore * a.coneOneScore, "type": "coneOne"})
 
                 var coneTwo = new levelCargo(a.db, a.team, 1, 2)
                 await coneTwo.runAnalysis()
-                sum += coneTwo.zScore * a.coneTwoScore
+                arr.push({"result" :coneTwo.zScore * a.coneTwoScore, "type" : "coneTwo"})
 
 
                 var coneThree = new levelCargo(a.db, a.team, 1, 3)
                 await coneThree.runAnalysis()
-                sum += coneThree.zScore * a.coneThreeScore
+                arr.push({"result": coneThree.zScore * a.coneThreeScore, "type": "coneThree"})
 
 
                 var cubeOne = new levelCargo(a.db, a.team, 0, 1)
                 await cubeOne.runAnalysis()
-                sum += cubeOne.zScore * a.cubeOneScore
+                arr.push({"result": cubeOne.zScore * a.cubeOneScore, "type": "cubeOne"})
 
 
                 var cubeTwo = new levelCargo(a.db, a.team, 0, 2)
                 await cubeTwo.runAnalysis()
-                sum += cubeTwo.zScore * a.cubeTwoScore
+                arr.push({"result": cubeTwo.zScore * a.cubeTwoScore, "type": "cubeTwo"})
 
 
                 var cubeThree = new levelCargo(a.db, a.team, 0, 3)
                 await cubeThree.runAnalysis()
-                sum += cubeThree.zScore * a.cubeThreeScore
+                arr.push({"result": cubeThree.zScore * a.cubeThreeScore, "type": "cubeThree"})
 
 
                 var defense = new defense1(a.db, a.team)
                 await defense.runAnalysis()
-                sum += defense.zScore * a.defense
+                arr.push({"result": defense.zScore * a.defense, "type": "defense"})
 
 
                 var climberAuto = new autoClimb(a.db, a.team)
                 await climberAuto.runAnalysis()
-                sum += climberAuto.zScore * a.climbAuto
+                arr.push({"result": climberAuto.zScore * a.climbAuto, "type": "climbAuto"})
+
+                var autoCargo1 = new avgAutoCargo(a.db, a.team)
+                await autoCargo1.runAnalysis()
+                arr.push({"result": autoCargo1.zScore * a.autoCargo, "type": "autoCargo"})
 
 
-                var autoCargo = new avgAutoCargo(a.db, a.team)
-                await autoCargo.runAnalysis()
-                sum += autoCargo.zScore * a.autoCargo
-                // console.log(autoCargo.result)
-
-               
-            a.result = sum        
+            a.array = arr
+            a.result = arr.reduce((partialSum, a) => partialSum + a.result, 0)
 
     }
     finalizeResults() {
         return {
-            "result": this.result
+            "result": this.result,
+            "array" : this.array
         }
     }
 
