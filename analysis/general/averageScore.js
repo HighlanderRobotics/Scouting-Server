@@ -101,7 +101,7 @@ class averageScore extends BaseAnalysis {
                     }
                     a.array = answer
                     const sum = answer.reduce((partialSum, a) => partialSum + a, 0)
-                    a.average = sum / answer.length
+                    a.average = sum / answer.length                    
                     a.matches = match
 
 

@@ -19,11 +19,13 @@ class alliancePage extends BaseAnalysis {
         this.teamOne = teamOne
         this.teamTwo = teamTwo
         this.teamThree = teamThree
-        this.oneRole = -1
-        this.twoRole = -1
-        this.threeRole = -1
+        this.oneRole = null
+        this.twoRole = null
+        this.threeRole =null
         this.totalPoints = 0
-        this.defenseQuality
+        this.autoOne = []
+        this.autoTwo = []
+        this.autoThree = []
     }
     async getData() {
         let a = this
@@ -44,7 +46,7 @@ class alliancePage extends BaseAnalysis {
             let avgThreeTele = new averageScore(Manager.db, a.teamThree, 1)
             await avgThreeTele.runAnalysis()
 
-            a.totalPoints = avgOneAuto.result + avgOneTele.result + avgTwoAuto.result + avgTwoTele.result + avgThreeAuto.result + avgThreeTele.result
+            a.totalPoints = avgOneAuto.average + avgOneTele.average + avgTwoAuto.average + avgTwoTele.average + avgThreeAuto.average + avgThreeTele.average
 
             let role1 = new role(Manager.db, a.teamOne)
             await role1.runAnalysis()
@@ -60,15 +62,15 @@ class alliancePage extends BaseAnalysis {
 
             let autoPathOne = new autoPaths(Manager.db, a.teamOne)
             await autoPathOne.runAnalysis()
-            a.teamOnePaths = autoPathOne.array
+            a.autoOne = autoPathOne.paths
 
             let autoPathTwo = new autoPaths(Manager.db, a.teamTwo)
             await autoPathTwo.runAnalysis()
-            a.teamTwoPaths = autoPathTwo.array
+            a.autoTwo = autoPathTwo.paths
 
             let autoPathThree = new autoPaths(Manager.db, a.teamThree)
             await autoPathThree.runAnalysis()
-            a.teamThreePaths = autoPathThree.array
+            a.autoThree = autoPathThree.paths
 
 
     }
@@ -97,7 +99,10 @@ class alliancePage extends BaseAnalysis {
             "totalPoints": this.totalPoints,
             "oneRole" : this.oneRole,
             "twoRole" : this.twoRole,
-            "threeRole" : this.threeRole
+            "threeRole" : this.threeRole,
+            "autoOne" : this.autoOne,
+            "autoTwo" : this.autoTwo,
+            "autoThree" : this.autoThree
         }
     }
 
