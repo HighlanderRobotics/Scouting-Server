@@ -15,7 +15,7 @@ class robotRole extends BaseAnalysis {
         this.helper = 0
         this.array = []
         this.matches = []
-        this.mainRole = 0
+        this.mainRole = -1
 
     }
     async getData() {
