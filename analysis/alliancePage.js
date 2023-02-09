@@ -74,15 +74,14 @@ class alliancePage extends BaseAnalysis {
                     await temp.runAnalysis()
                     let temp2 = new levelCargo(Manager.db, teamArr[i], 0, j)
                     await temp2.runAnalysis()
-                    console.log(temp)
                     levelArr[j-1] += temp2.result + temp.result
 
                 }
             }
 
-            a.one = {"role" : role1.mainRole, "paths" : autoPathOne.finalizeResults().paths}
-            a.two = {"role" : role2.mainRole, "paths" : autoPathTwo.finalizeResults().paths}
-            a.three = {"role" : role3.mainRole, "paths" : autoPathThree.finalizeResults().paths}
+           a.autoPaths = [{"role" : role1.mainRole, "paths" : autoPathOne.finalizeResults().paths},
+            {"role" : role2.mainRole, "paths" : autoPathTwo.finalizeResults().paths},
+            {"role" : role3.mainRole, "paths" : autoPathThree.finalizeResults().paths}]
             a.levels = levelArr
 
 
@@ -113,9 +112,7 @@ class alliancePage extends BaseAnalysis {
     finalizeResults() {
         return {
             "totalPoints": this.totalPoints,
-            "one" : this.one,
-            "two" : this.two,
-            "three" : this.three,
+            "autoPaths" : this.autoPaths,
             "levelCargo" : this.levels,
             "autoThree" : this.autoThree
         }
