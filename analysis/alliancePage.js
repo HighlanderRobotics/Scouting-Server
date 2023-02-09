@@ -79,9 +79,9 @@ class alliancePage extends BaseAnalysis {
                 }
             }
 
-           a.autoPaths = [{"role" : role1.mainRole, "paths" : autoPathOne.finalizeResults().paths},
-            {"role" : role2.mainRole, "paths" : autoPathTwo.finalizeResults().paths},
-            {"role" : role3.mainRole, "paths" : autoPathThree.finalizeResults().paths}]
+           a.teams = [{"team" : a.teamOne, "role" : role1.mainRole, "paths" : autoPathOne.finalizeResults().paths},
+            {"role" : role2.mainRole, "team" : a.teamTwo, "paths" : autoPathTwo.finalizeResults().paths},
+            {"role" : role3.mainRole, "team" : a.teamThree, "paths" : autoPathThree.finalizeResults().paths}]
             a.levels = levelArr
 
 
@@ -112,7 +112,7 @@ class alliancePage extends BaseAnalysis {
     finalizeResults() {
         return {
             "totalPoints": this.totalPoints,
-            "autoPaths" : this.autoPaths,
+            "teams" : this.teams,
             "levelCargo" : this.levels,
             "autoThree" : this.autoThree
         }
