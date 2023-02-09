@@ -64,17 +64,18 @@ class robotRole extends BaseAnalysis {
                         a.helper = helper
                         a.array = arr
                         a.matches = match
-                        if (offense >= defense && offense >= helper) {
-                            a.mainRole = 0
-                        }
-                        else if (defense >= helper) {
-                            a.mainRole = 1
-                        }
-                        else {
-                            a.mainRole = 2
+                        if (offense > 0 || defense > 0 || helper > 0) {
+                            if (offense >= defense && offense >= helper) {
+                                a.mainRole = 0
+                            }
+                            else if (defense >= helper) {
+                                a.mainRole = 1
+                            }
+                            else {
+                                a.mainRole = 2
+                            }
                         }
                     }
-                    console.log(a.mainRole)
 
                     resolve("done")
                 }
