@@ -64,7 +64,8 @@ class alliancePage extends BaseAnalysis {
             let autoPathThree = new autoPaths(Manager.db, a.teamThree)
             await autoPathThree.runAnalysis()
 
-            let levelArr = [0, 0, 0]
+            let cones = [0, 0, 0]
+            let cubes = [0, 0, 0]
             let teamArr = [a.teamOne, a.teamTwo, a.teamThree]
             for(let i = 0; i < teamArr.length; i ++)
             {
@@ -72,11 +73,19 @@ class alliancePage extends BaseAnalysis {
                 {
                     let temp = new levelCargo(Manager.db, teamArr[i], 1, j)
                     await temp.runAnalysis()
+                    cones[j-1] += temp.result
                     let temp2 = new levelCargo(Manager.db, teamArr[i], 0, j)
                     await temp2.runAnalysis()
-                    levelArr[j-1] += temp2.result + temp.result
+                    cubes[j-1] += temp2.result
 
                 }
+            }
+            let levelArr = [{}, {}, {}]
+            for(let i = 0; i < 3; i ++)
+            {
+               let temp = {"cones" : cones[i], "cubes" : cubes[i]}
+               levelArr[i] = temp
+
             }
 
            a.teams = [{"team" : a.teamOne, "role" : role1.mainRole, "paths" : autoPathOne.finalizeResults().paths},
