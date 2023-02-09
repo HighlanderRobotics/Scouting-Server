@@ -9,7 +9,7 @@ async function temp() {
    // var x = new test(Manager.db, "2022cc", 0, 0, 0, 0, 0, 0, 0, 1, 0, 0)
    var x = new test(Manager.db, 2813, 8033, 254)
   await x.runAnalysis()
- console.log(x.finalizeResults())
+ console.log(x.finalizeResults().one)
 }
 temp()
 

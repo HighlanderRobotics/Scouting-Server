@@ -3,6 +3,7 @@ const Manager = require('../manager/dbmanager.js')
 const role = require('./general/robotRole')
 const averageScore = require('./general/averageScore.js')
 const autoPaths = require('./auto/cargo/autoPaths')
+const levelCargo = require('./teleop/cargo/levelCargo')
 
 
 // const { i } = require('mathjs')
@@ -19,13 +20,10 @@ class alliancePage extends BaseAnalysis {
         this.teamOne = teamOne
         this.teamTwo = teamTwo
         this.teamThree = teamThree
-        this.oneRole = null
-        this.twoRole = null
-        this.threeRole =null
         this.totalPoints = 0
-        this.autoOne = []
-        this.autoTwo = []
-        this.autoThree = []
+        this.one = {}
+        this.two = {}
+        this.three = {}
     }
     async getData() {
         let a = this
@@ -50,27 +48,45 @@ class alliancePage extends BaseAnalysis {
 
             let role1 = new role(Manager.db, a.teamOne)
             await role1.runAnalysis()
-            a.oneRole = role1.mainRole
 
             let role2 = new role(Manager.db, a.teamTwo)
             await role2.runAnalysis()
-            a.twoRole = role2.mainRole
 
             let role3 = new role(Manager.db, a.teamThree)
             await role3.runAnalysis()
-            a.threeRole = role3.mainRole
 
             let autoPathOne = new autoPaths(Manager.db, a.teamOne)
             await autoPathOne.runAnalysis()
-            a.autoOne = autoPathOne.paths
 
             let autoPathTwo = new autoPaths(Manager.db, a.teamTwo)
             await autoPathTwo.runAnalysis()
-            a.autoTwo = autoPathTwo.paths
 
             let autoPathThree = new autoPaths(Manager.db, a.teamThree)
             await autoPathThree.runAnalysis()
-            a.autoThree = autoPathThree.paths
+
+            let levelArr = [0, 0, 0]
+            let teamArr = [a.teamOne, a.teamTwo, a.teamThree]
+            for(let i = 0; i < teamArr.length; i ++)
+            {
+                for(let j = 1; j < 4; j ++)
+                {
+                    let temp = new levelCargo(Manager.db, teamArr[i], 1, j)
+                    await temp.runAnalysis()
+                    let temp2 = new levelCargo(Manager.db, teamArr[i], 0, j)
+                    await temp2.runAnalysis()
+                    console.log(temp)
+                    levelArr[j-1] += temp2.result + temp.result
+
+                }
+            }
+
+            a.one = {"role" : role1.mainRole, "paths" : autoPathOne.finalizeResults().paths}
+            a.two = {"role" : role2.mainRole, "paths" : autoPathTwo.finalizeResults().paths}
+            a.three = {"role" : role3.mainRole, "paths" : autoPathThree.finalizeResults().paths}
+            a.levels = levelArr
+
+
+
 
 
     }
@@ -97,11 +113,10 @@ class alliancePage extends BaseAnalysis {
     finalizeResults() {
         return {
             "totalPoints": this.totalPoints,
-            "oneRole" : this.oneRole,
-            "twoRole" : this.twoRole,
-            "threeRole" : this.threeRole,
-            "autoOne" : this.autoOne,
-            "autoTwo" : this.autoTwo,
+            "one" : this.one,
+            "two" : this.two,
+            "three" : this.three,
+            "levelCargo" : this.levels,
             "autoThree" : this.autoThree
         }
     }
