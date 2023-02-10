@@ -1,6 +1,7 @@
 const BaseAnalysis = require('./BaseAnalysis.js')
 const averageScoreOverview = require('./general/averageScoreOverview')
 const levelCargo = require('./teleop/cargo/levelPicklist')
+const cargoOverview = require('./teleop/cargo/cargoCountOverview')
 const defense1 = require('./defense/defenseOverview')
 const autoClimb = require('./auto/climb/climberSucsessAutoDifference')
 const avgAutoCargo = require('./general/avgAutoCargo')
@@ -8,7 +9,7 @@ const avgAutoCargo = require('./general/avgAutoCargo')
 class picklist extends BaseAnalysis {
     static name = `picklist`
 
-    constructor(db, team, coneOneScore, coneTwoScore, coneThreeScore, cubeOneScore, cubeTwoScore, cubeThreeScore, autoCargo, teleOp, defense, climbAuto) {
+    constructor(db, team, coneOneScore, coneTwoScore, coneThreeScore, cubeOneScore, cubeTwoScore, cubeThreeScore, autoCargo, teleOp, defense, climbAuto, feedCone, feedCube) {
         super(db)
         this.team = team
         this.cubeOneScore = cubeOneScore
@@ -23,6 +24,8 @@ class picklist extends BaseAnalysis {
         this.defense = defense
         this.climbAuto = climbAuto
         this.array = []
+        this.feedingCone = feedCone
+        this.feedingCube = feedCube
 
     }
    
@@ -33,7 +36,6 @@ class picklist extends BaseAnalysis {
                 // var cone = new cargoCountOverview(a.db, a.team, 1, 2)
                 // await cone.runAnalysis()
                 // sum += cone.finalizeResults().zScore * a.coneOneScore
-                // console.log(a.coneScore)
                 // var cube = new cargoCountOverview(a.db, a.team, 0, 2)
                 // await cube.runAnalysis()
                 // sum += cube.finalizeResults().zScore * a.cubeScore
@@ -83,9 +85,29 @@ class picklist extends BaseAnalysis {
                 await autoCargo1.runAnalysis()
                 arr.push({"result": autoCargo1.zScore * a.autoCargo, "type": "autoCargo"})
 
+                var feedCone = new cargoOverview(a.db, a.team, 1, 4)
+                await feedCone.runAnalysis()
+                let x = feedCone.zScore * a.feedingCone
+                if(isNaN(x))
+                {
+                    x = 0
+                }
+                arr.push({"result": x, "type": "feedCube"})
+
+
+                var feedCube = new cargoOverview(a.db, a.team, 0, 4)
+                await feedCube.runAnalysis()
+                let y = feedCube.zScore * a.feedingCube
+                if(isNaN(y))
+                {
+                    y = 0
+                }
+                arr.push({"result": y, "type": "feedCube"})
+                
 
             a.array = arr
             a.result = arr.reduce((partialSum, a) => partialSum + a.result, 0)
+
 
     }
     finalizeResults() {
