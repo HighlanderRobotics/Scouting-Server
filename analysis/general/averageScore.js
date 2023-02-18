@@ -71,7 +71,7 @@ class averageScore extends BaseAnalysis {
 
                                 const entry = arr[i];
                                 let max = Math.ceil(entry[2] / 3)
-                                if (entry[0] <= 17 && entry[1] === 2 && a.autoOrTele === 0) {
+                                if (entry[0] < 17 && entry[1] === 2 && a.autoOrTele === 0) {
                                     if (max === 3) {
                                         total += 6
                                     }
@@ -82,7 +82,7 @@ class averageScore extends BaseAnalysis {
                                         total += 3
                                     }
                                 }
-                                else if (entry[1] === 2  && a.autoOrTele === 1) {
+                                else if (entry[1] === 2  && a.autoOrTele === 1 && entry[0] >= 17) {
                                     if (max === 3) {
                                         total += 5
                                     }
