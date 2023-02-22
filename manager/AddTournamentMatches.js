@@ -9,12 +9,12 @@ class AddTournamentMatches extends Manager {
     }
 
     runTask(name, date) {
-
         var url = 'https://www.thebluealliance.com/api/v3'
 
         var sql = `SELECT * FROM tournaments WHERE name = '${name}' AND date = '${date}'`
 
         return new Promise((resolve, reject) => {
+
             Manager.db.all(sql, (err, tournament) => {
                 if (err) {
                     console.error(`Error with addMatches(): ${err}`)

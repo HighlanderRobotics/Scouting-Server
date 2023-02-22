@@ -12,8 +12,8 @@ if (undefined != previous && previous.includes('version')) {
     version = JSON.parse(previous).version + 1
 }
 
-const tournamentKey = '2022cc'
-const amountOfQms = 65
+const tournamentKey = '2023week0'
+const amountOfQms = 20
 const shiftSize = 5
 let nonqual = 0
 const busy = ['Vaughn Khouri', 'Alex Ware', 'Reece Beck', 'Peter Stokes', 'Jasper Tripp']

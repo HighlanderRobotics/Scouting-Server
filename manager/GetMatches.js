@@ -46,7 +46,7 @@ class GetMatches extends Manager {
 
                     matches.forEach((match) => {
                         if (match.matchType !== 'qm') {
-                            let nonQualNumber = parseInt(match.key.substring(9, 10))
+                            let nonQualNumber = parseInt(match.key.match(/(?<=^.*_[a-z]+)\d+(?=_\d+)/))
                             if (match.matchType === 'qf') {
                                 match.matchNumber = nonQualNumber + largestQm
                             } else if (match.matchType === 'ef') {
@@ -63,7 +63,7 @@ class GetMatches extends Manager {
                                 match.matchNumber = 6 + nonQualNumber + largestQm
                             } else if (match.matchType === 'f') {
                                 // Should be winners finals but is labeled as f
-                                nonQualNumber = parseInt(match.key.substring(8, 9))
+                                nonQualNumber = parseInt(match.key.match(/(?<=^.*_[a-z]+)\d+(?=_\d+)/))
                                 // match.matchNumber = 11 + nonQualNumber + largestQm
                                 match.matchNumber = 12 + nonQualNumber + largestQm
                             } else if (match.matchType === 'gf') {
