@@ -195,17 +195,8 @@ Don't use this one anyway and also it takes a couple minutes for the database to
 
 ### Will return: Response code 200
 
-## POST /API/manager/addTournamentMatches
-Needs a tournamentName and tournamentDate
-```json
-{
-  {
-    "tournamentName": "Chezy Champs",
-    "tournamentDate": "2022-09-23"
-  }
-} 
-```
-
+## GET /API/manager/addTournamentMatches?key=2023week0
+Needs a tournamentKey
 ## Will return: Response code 200
 ```
 Success
