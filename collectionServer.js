@@ -81,10 +81,10 @@ app.use(morgan('readable', {
 }))
 
 // More middleware to allow Access-Control-Allow-Origin
-const cors = require('cors')
-app.use(cors({
-    origin: true
-}))
+// const cors = require('cors')
+// app.use(cors({
+//     origin: true
+// }))
 // app.options('*', cors())
 // app.options('/API/manager/:task', cors())
 

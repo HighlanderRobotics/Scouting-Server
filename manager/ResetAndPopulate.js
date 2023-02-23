@@ -128,7 +128,7 @@ class ResetAndPopulate extends Manager {
         }
 
         return new Promise(async (resolve, reject) => {
-            for (var j = 0; j < 18; j++) {
+            for (var j = 0; j < 20; j++) {
                 console.log(`Inserting teams ${Math.round((j/18)*100)}%`)
                 await axios.get(`${url}/teams/${j}/simple`, {
                     headers: {'X-TBA-Auth-Key': process.env.KEY}
