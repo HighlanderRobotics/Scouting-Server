@@ -123,28 +123,34 @@ class ResetAndPopulate extends Manager {
             })
         }
         return new Promise(async (resolve, reject) => {
-            for (var j = 0; j < 20; j++) {
-                console.log(`Inserting teams ${Math.round((j/20)*100)}%`)
-                await axios.get(`${url}/teams/${j}/simple`, {
-                    headers: {'X-TBA-Auth-Key': process.env.KEY}
-                })
-                .then(async (response) => {
-                    for (var i = 0; i < response.data.length; i++) {
-                        await insertTeam(sql, response, i)
+            let finished = false;
+            let page = 0;
+
+            try {
+                while (!finished) {
+                    const response = await axios.get(`${url}/teams/${page}/simple`, {
+                        headers: {'X-TBA-Auth-Key': process.env.KEY}
+                    });
+
+                    if (response.data.length === 0) {
+                        finished = true;
+                    } else {
+                        for (var i = 0; i < response.data.length; i++) {
+                            await insertTeam(sql, response, i)
+                        }
+                        
+                        console.log("Inserted page " + page);
+
+                        page++
                     }
-                }).catch(err => {
-                    if (err) {
-                        console.error(`Error with getting teams from TBA API: ${err}`)
-                        reject(err)
-                    }
-                }).then(() => {
-                    if (j === 17) {
-                        console.log(`Finished inserting API teams`)
-                        resolve()
-                    }
-                })
+                }
+
+                console.log(`Finished inserting API teams`)
+                resolve()
+            } catch (error) {
+                console.error(`Error with getting teams from TBA API: ${err}`)
+                reject(err)
             }
-            resolve()
         })
     }
     async getTournaments(year) {
