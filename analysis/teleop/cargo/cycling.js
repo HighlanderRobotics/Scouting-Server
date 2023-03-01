@@ -60,12 +60,19 @@ class cycling extends BaseAnalysis {
                             }
 
                         }
-                        arr.push(total / len)
+                        if (isNaN(total/len))
+                        {
+                            arr.push(0)
+                        }
+                        else{
+                            arr.push(total/len)
+                        }
                     }
 
                 }
               
                 a.array = arr
+                console.log(a.array)
                 a.result = arr.reduce((partialSum, a) => partialSum + a, 0) / arr.length
                 if(!a.result)
                 {

@@ -69,13 +69,13 @@ class categoryMetrics extends BaseAnalysis {
             await coneAuto.runAnalysis()
             metrics.coneCountAuto = coneAuto.finalizeResults().result
         
-            var cycleCubeTeam = new cycling(a.db, a.team, 1, 4)
+            var cycleCubeTeam = new cycling(a.db, a.team, 0, 4)
             await cycleCubeTeam.runAnalysis()
             metrics.cycleCubeTeam = cycleCubeTeam.result
 
-            var cycleConeTeam = new cycling(a.db, a.team, 2, 4)
+            var cycleConeTeam = new cycling(a.db, a.team, 1, 4)
             await cycleConeTeam.runAnalysis()
-            metrics.cycleTeam = (cycleConeTeam.result + cycleCubeTeam.result)/2
+            metrics.cycleConeTeam = cycleConeTeam.result
 
             var cycleConeScore = new cycling(a.db, a.team, 1, 2)
             await cycleConeScore.runAnalysis()

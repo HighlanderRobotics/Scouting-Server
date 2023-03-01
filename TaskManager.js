@@ -19,6 +19,7 @@ const averageScoreDetails = require('./analysis/general/averageScoreDetails.js')
 const autoPaths = require('./analysis/auto/cargo/autoPaths.js')
 const autoPathsTeams = require('./analysis/auto/cargo/autoPathsTeams.js')
 const alliancePage = require('./analysis/alliancePage')
+const cyclingDetials = require('./analysis/teleop/cargo/cylcingDetials.js')
 
 
 class TaskManager {
@@ -109,18 +110,17 @@ class TaskManager {
                     returnAnalysis.push(new cargoCountAutoOverview(Manager.db, task.team, 1))
                     break
                 case ("cycleCubeTeam"):
-                    returnAnalysis.push(new cyclingOverview(Manager.db, task.team))
+                    returnAnalysis.push(new cyclingDetials(Manager.db, task.team, 0, 4))
                     break
                 case ("cycleConeTeam"):
-                    returnAnalysis.push(new cyclingOverview(Manager.db, task.team))
+                    returnAnalysis.push(new cyclingDetials(Manager.db, task.team, 1, 4))
                     break
                 case ("cycleCubeScore"):
-                    returnAnalysis.push(new cycleOverviewAnalysis(Manager.db, task.team, 0))
+                    returnAnalysis.push(new cyclingDetials(Manager.db, task.team, 0, 2))
                     break
                 case ("cycleConeScore"):
-                    returnAnalysis.push(new cycleOverviewAnalysis(Manager.db, task.team, 1))
+                    returnAnalysis.push(new cyclingDetials(Manager.db, task.team, 1, 2))
                     break
-
                 case ("defenseTime"):
                     returnAnalysis.push(new defenseOverview(Manager.db, task.team))
                     break
