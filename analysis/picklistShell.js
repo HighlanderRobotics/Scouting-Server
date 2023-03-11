@@ -34,7 +34,6 @@ class picklistShell extends BaseAnalysis {
                     WHERE matches.tournamentKey = ?
                     GROUP BY teams.teamNumber `;
             a.db.all(sql, [a.tourmentKey], async (err, rows) => {
-
                 if (err) {
                     console.log(err)
                 }
@@ -42,6 +41,7 @@ class picklistShell extends BaseAnalysis {
                     for (let row in rows) {
                         let curr = new picklist(a.db, rows[row].teamNumber, a.coneOneScore, a.coneTwoScore, a.coneThreeScore, a.cubeOneScore, a.cubeTwoScore, a.cubeThreeScore, a.autoCargo, a.teleOp, a.defense, a.autoClimb, a.feedCone, a.feedCube)
                         await curr.runAnalysis()
+
                         if (!isNaN(curr.result)) {
                             let temp = { "team": rows[row].teamNumber, "result": curr.result, "breakdown" : curr.array }
                             arr.push(temp)

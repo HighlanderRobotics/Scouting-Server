@@ -51,7 +51,6 @@ class picklist extends BaseAnalysis {
                 await coneTwo.runAnalysis()
                 arr.push({"result" :coneTwo.zScore * a.coneTwoScore, "type" : "coneTwoScore"})
 
-
                 var coneThree = new levelCargo(a.db, a.team, 1, 3)
                 await coneThree.runAnalysis()
                 arr.push({"result": coneThree.zScore * a.coneThreeScore, "type": "coneThreeScore"})
@@ -107,6 +106,8 @@ class picklist extends BaseAnalysis {
 
             a.array = arr
             a.result = arr.reduce((partialSum, a) => partialSum + a.result, 0)
+            console.log(a.result)
+
 
 
     }
