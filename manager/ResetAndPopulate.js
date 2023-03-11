@@ -67,7 +67,9 @@ class ResetAndPopulate extends Manager {
                     })
                 }
             })
-            resolve(`Done`)
+            .finally(() => {
+                resolve(`Done`)
+            })
         })
     }
     async turnOnForeignKeys() {
@@ -100,9 +102,6 @@ class ResetAndPopulate extends Manager {
                     // Resolve should be here
                     resolve()
                 }}))
-            })
-            .catch((err) => {
-                reject(err)
             })
         })
     }

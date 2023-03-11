@@ -5,11 +5,13 @@
   "main": "collectionServer.js",
   "homepage": "https://github.com/barryb5/learn-auth-server#README.md",
   "scripts": {
-    "start": "nodemon collectionServer.js",
-    "linuxstart": "gnome-terminal -- ./ngrok.sh; nodemon collectionServer.js",
-    "macstart": "open -a Terminal.app ngrok.sh; nodemon collectionServer.js",
-    "windowsstart": "wt -p \"ngrok\" bash ngrok.sh ; split-pane -p \"CollectionServer\" nodemon collectionServer.js",
-    "test": "jest"
+    "start": "node collectionServer.js",
+    "linuxstart": "gnome-terminal -- ./ngrok.sh; node collectionServer.js",
+    "macstart": "open -a Terminal.app ngrok.sh; node collectionServer.js",
+    "windowsstart": "wt -p \"ngrok\" bash ngrok.sh ; split-pane -p \"CollectionServer\" node collectionServer.js",
+    "test": "jest",
+    "dev": "nodemon collectionServer.js",
+    "setup": "node setup.mjs"
   },
   "keywords": [],
   "author": {
@@ -20,12 +22,16 @@
   "dependencies": {
     "axios": "^0.21.4",
     "bcrypt": "^5.1.0",
+    "chalk": "^5.2.0",
     "cors": "^2.8.5",
     "express": "^4.18.2",
+    "inquirer": "^9.1.4",
     "jsonwebtoken": "^8.5.1",
     "jstat": "^1.9.6",
     "mathjs": "^11.5.0",
     "morgan": "^1.10.0",
+    "node-fetch": "^3.3.0",
+    "ora": "^6.1.2",
     "papaparse": "^5.3.2",
     "qrcode-terminal": "^0.12.0",
     "sqlite": "^4.1.2",

@@ -8,10 +8,12 @@ class AddTournamentMatches extends Manager {
         super()
     }
 
-    runTask(name, date) {
+    runTask(key) {
+        console.log(key);
+
         var url = 'https://www.thebluealliance.com/api/v3'
 
-        var sql = `SELECT * FROM tournaments WHERE name = '${name}' AND date = '${date}'`
+        var sql = `SELECT * FROM tournaments WHERE key = '${key}'`
 
         return new Promise((resolve, reject) => {
 
@@ -23,6 +25,7 @@ class AddTournamentMatches extends Manager {
                         "customCode": 500
                     })
                 }
+                console.log(tournament);
                 if (tournament[0] == undefined) {
                     console.error(`Error with addMatches(): Tournament not found`)
                     reject({

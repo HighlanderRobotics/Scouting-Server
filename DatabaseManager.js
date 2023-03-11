@@ -42,7 +42,7 @@ class DatabaseManager {
                 case AddScouters.name:
                     return new AddScouters().runTask()
                 case AddTournamentMatches.name:
-                    return new AddTournamentMatches().runTask(body.tournamentName, body.tournamentDate)
+                    return new AddTournamentMatches().runTask(body.key)
                 case IsScouted.name:
                     return new IsScouted().runTask(body.tournamentKey, body.matchKey)
                 case GetScouters.name:
