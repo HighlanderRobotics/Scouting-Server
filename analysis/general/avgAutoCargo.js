@@ -32,6 +32,10 @@ class avgAutoCargo extends BaseAnalysis {
         console.log(teamAvg)
         let temp = math.std(y.array)
         a.zScore = difference /temp
+        if (isNaN(a.zScore))
+        {
+            a.zScore = 0
+        }
 
     }
 

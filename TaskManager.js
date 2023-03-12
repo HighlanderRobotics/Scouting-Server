@@ -20,6 +20,7 @@ const autoPaths = require('./analysis/auto/cargo/autoPaths.js')
 const autoPathsTeams = require('./analysis/auto/cargo/autoPathsTeams.js')
 const alliancePage = require('./analysis/alliancePage')
 const cyclingDetials = require('./analysis/teleop/cargo/cylcingDetials.js')
+const predictWinning = require('./analysis/predictWinning.js')
 
 
 class TaskManager {
@@ -144,6 +145,9 @@ class TaskManager {
                     break
                 case("alliancePage"):
                     returnAnalysis.push(new alliancePage(Manager.db, task.teamOne, task.teamTwo, task.teamThree))
+                    break
+                case("predictWinning"):
+                    returnAnalysis.push(new predictWinning(Manager.db, task.red1, task.red2, task.red3, task.blue1, task.blue2, task.blue3))
                     break
                 default:
                     console.log(`${task.name} is not a valid task`)
