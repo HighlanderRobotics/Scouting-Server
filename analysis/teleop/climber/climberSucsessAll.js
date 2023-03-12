@@ -1,4 +1,4 @@
-const BaseAnalysis = require('../BaseAnalysis.js')
+const BaseAnalysis = require('../../BaseAnalysis.js')
 
 class climberSucsessAll extends BaseAnalysis {
     static name = `climberSucsessAll`
@@ -14,6 +14,7 @@ class climberSucsessAll extends BaseAnalysis {
         this.noClimb = 0
         this.level = 0
         this.array = []
+        this.totalAttempted = 0
 
     }
     async getData() {
@@ -35,7 +36,7 @@ class climberSucsessAll extends BaseAnalysis {
 
             this.db.all(sql, [], (err, rows) => {
                 if (err) {
-                    console.loag(err)
+                    console.log(err)
                     reject(err)
                 }
                 else {
@@ -44,28 +45,42 @@ class climberSucsessAll extends BaseAnalysis {
                         rows.forEach(functionAdder);
                         function functionAdder(row, index, array) {
                             let curr = JSON.parse(row.scoutReport).challengeResult
-                            arr.push(curr)
+                            let temp = 0
                             if (curr === 0) {
                                 none++
                             }
                             if (curr === 1) {
                                 tipped++
+                                temp = 8
+                                arr.push(temp)
                             }
                             if (curr === 2) {
                                 fullyOn++
+                                temp = 10
+                                arr.push(temp)
+
                             }
                             if (curr == 3) {
-                                failed++
+                                off++
+                                temp = 0
+                                arr.push(temp)
+
                             }
 
                         }
-                    }
-                    a.tipped = tipped
-                    a.level = fullyOn
-                    a.failed = off
-                    a.noClimb = none
-                    a.array = arr
+                        a.tipped = tipped
+                        a.level = fullyOn
+                        a.failed = off
+                        a.noClimb = none
+                        a.array = arr
+                        a.totalAttempted = tipped + fullyOn + off            
 
+    
+    
+                    }
+                    resolve("done")
+
+                   
 
                 }
             })
@@ -106,6 +121,7 @@ class climberSucsessAll extends BaseAnalysis {
             "tipped": this.tipped,
             "array": this.array,
             "noClimb": this.none,
+            "totalAttempted" : this.totalAttempted,
             "team": this.team
         }
     }

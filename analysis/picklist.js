@@ -6,11 +6,12 @@ const defense1 = require('./defense/defenseOverview')
 const autoClimb = require('./auto/climb/climberSucsessAutoDifference')
 const avgAutoCargo = require('./general/avgAutoCargo')
 const teamAvgTotal = require('./general/totalScoreDifference')
+const climberSucsessDifference = require('./teleop/climber/climberSucsessDifference.js')
 
 class picklist extends BaseAnalysis {
     static name = `picklist`
 
-    constructor(db, team, coneOneScore, coneTwoScore, coneThreeScore, cubeOneScore, cubeTwoScore, cubeThreeScore, autoCargo, teleOp, defense, climbAuto, feedCone, feedCube, avgTotal) {
+    constructor(db, team, coneOneScore, coneTwoScore, coneThreeScore, cubeOneScore, cubeTwoScore, cubeThreeScore, autoCargo, teleOp, defense, climbAuto, feedCone, feedCube, avgTotal, teleopClimb) {
         super(db)
         this.team = team
         this.cubeOneScore = cubeOneScore
@@ -28,6 +29,7 @@ class picklist extends BaseAnalysis {
         this.feedingCone = feedCone
         this.feedingCube = feedCube
         this.avgTotal = avgTotal
+        this.teleopClimb = teleopClimb
 
     }
    
@@ -95,18 +97,22 @@ class picklist extends BaseAnalysis {
                 var feedCube = new cargoOverview(a.db, a.team, 0, 4)
                 await feedCube.runAnalysis()
                 let y = feedCube.zScore * a.feedingCube
-                console.log(a.feedingCone)
                 arr.push({"result": feedCube.zScore * a.feedingCube, "type": "feedCube"})
 
                 var score = new teamAvgTotal(a.db, a.team)
                 await score.runAnalysis()
                 arr.push({"result": score.zScore * a.avgTotal, "type": "avgScore"})
 
+                var teleClimb = new climberSucsessDifference(a.db, a.team)
+                await teleClimb.runAnalysis()
+                console.log(teleClimb.finalizeResults())
+                arr.push({"result": teleClimb.zScore * a.teleopClimb, "type": "teleopClimb"})
+
+
 
 
             a.array = arr
             a.result = arr.reduce((partialSum, a) => partialSum + a.result, 0)
-            console.log(a.array)
 
 
 

@@ -66,17 +66,14 @@ class cargoCountAuto extends BaseAnalysis {
                                 let max = Math.ceil(entry[2] / 3)
                                 if (max === 3) {
                                     total += 6
-                                    console.log(total)
 
                                 }
                                 if (max === 2) {
                                     total += 4
-                                    console.log(total)
 
                                 }
                                 if (max === 1) {
                                     total += 3
-                                    console.log(total)
 
                                 }
                             }
@@ -94,7 +91,7 @@ class cargoCountAuto extends BaseAnalysis {
                 }
                 a.paths = jsonObject
                 resolve("done")
-
+p
 
             })
 

@@ -72,7 +72,6 @@ class cycling extends BaseAnalysis {
                 }
               
                 a.array = arr
-                console.log(a.array)
                 a.result = arr.reduce((partialSum, a) => partialSum + a, 0) / arr.length
                 if(!a.result)
                 {

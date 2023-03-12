@@ -13,7 +13,7 @@ class climberSucsess extends BaseAnalysis {
         this.none = 0
         this.level = 0
         this.failed = 0
-
+        this.totalAttempted = 0
         this.array = []
         this.matches = []
 
@@ -71,6 +71,7 @@ class climberSucsess extends BaseAnalysis {
                         a.none = none
                         a.array = arr
                         a.matches = match
+                        a.totalAttempted = tipped + fullyOn + off
 
                      resolve("done")
                     
@@ -117,6 +118,7 @@ class climberSucsess extends BaseAnalysis {
                 "match": this.matches[index],
                 "value": item,
             })),
+            "totalAttempted" : this.totalAttempted,
             "team": this.team
         }
     }
