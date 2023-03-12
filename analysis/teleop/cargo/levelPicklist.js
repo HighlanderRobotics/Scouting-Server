@@ -31,6 +31,11 @@ class levelPicklist extends BaseAnalysis {
         await all.runAnalysis()
         let temp = math.std(all.array)
         a.zScore = (team.result - all.result)/temp
+        if(isNaN(a.zScore))
+        {
+            a.zScore = 0
+        }
+
 
     }
 

@@ -5,11 +5,12 @@ const cargoOverview = require('./teleop/cargo/cargoCountOverview')
 const defense1 = require('./defense/defenseOverview')
 const autoClimb = require('./auto/climb/climberSucsessAutoDifference')
 const avgAutoCargo = require('./general/avgAutoCargo')
+const teamAvgTotal = require('./general/totalScoreDifference')
 
 class picklist extends BaseAnalysis {
     static name = `picklist`
 
-    constructor(db, team, coneOneScore, coneTwoScore, coneThreeScore, cubeOneScore, cubeTwoScore, cubeThreeScore, autoCargo, teleOp, defense, climbAuto, feedCone, feedCube) {
+    constructor(db, team, coneOneScore, coneTwoScore, coneThreeScore, cubeOneScore, cubeTwoScore, cubeThreeScore, autoCargo, teleOp, defense, climbAuto, feedCone, feedCube, avgTotal) {
         super(db)
         this.team = team
         this.cubeOneScore = cubeOneScore
@@ -26,6 +27,7 @@ class picklist extends BaseAnalysis {
         this.array = []
         this.feedingCone = feedCone
         this.feedingCube = feedCube
+        this.avgTotal = avgTotal
 
     }
    
@@ -87,26 +89,24 @@ class picklist extends BaseAnalysis {
                 var feedCone = new cargoOverview(a.db, a.team, 1, 4)
                 await feedCone.runAnalysis()
                 let x = feedCone.zScore * a.feedingCone
-                if(isNaN(x))
-                {
-                    x = 0
-                }
-                arr.push({"result": x, "type": "feedCube"})
+                arr.push({"result": x, "type": "feedCone"})
 
 
                 var feedCube = new cargoOverview(a.db, a.team, 0, 4)
                 await feedCube.runAnalysis()
                 let y = feedCube.zScore * a.feedingCube
-                if(isNaN(y))
-                {
-                    y = 0
-                }
-                arr.push({"result": y, "type": "feedCube"})
-                
+                console.log(a.feedingCone)
+                arr.push({"result": feedCube.zScore * a.feedingCube, "type": "feedCube"})
+
+                var score = new teamAvgTotal(a.db, a.team)
+                await score.runAnalysis()
+                arr.push({"result": score.zScore * a.avgTotal, "type": "avgScore"})
+
+
 
             a.array = arr
             a.result = arr.reduce((partialSum, a) => partialSum + a.result, 0)
-            console.log(a.result)
+            console.log(a.array)
 
 
 

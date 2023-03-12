@@ -81,7 +81,7 @@ class cargoCountAuto extends BaseAnalysis {
                                 }
                             }
                         }
-                        if (arr.length > 0) {
+                        if (arr.length > 1) {
                             if (jsonObject.hasOwnProperty(arr)) {
                                 jsonObject[arr].frequency++;
                             } else {

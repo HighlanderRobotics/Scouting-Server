@@ -1,25 +1,23 @@
 const BaseAnalysis = require('../BaseAnalysis.js')
-const teamStat = require('./defenseEvent.js')
-const all = require('./defenseEventAll.js')
-const difference = require('./defenseEventDifference.js')
+const teamStat = require('./scoreForPreiction')
+const all = require('./totalScoreAll')
 const math = require('mathjs')
+
 
 // const Manager = require('./manager/dbmanager.js')
 
-class defenseOverview extends BaseAnalysis {
-    static name = `defenseOverview`
+class totalScoreDifference extends BaseAnalysis {
+    static name = `totalScoreDifference`
 
     constructor(db, team) {
         super(db)
         this.team = team
-        this.zScore = 0
         // this.teamKey = "frc" + team
         // this.start = start
         // this.end = end
         this.result = 0
-        this.array = 0
-        this.all = 0
-        this.difference = 0
+        //auto = 0
+        //teleop = 1
         // this.array = []
 
     }
@@ -27,16 +25,13 @@ class defenseOverview extends BaseAnalysis {
         let a = this
         let x = new teamStat(a.db, a.team)
         await x.runAnalysis()
+        let teamAvg = x.average
         let y = new all(a.db)
         await y.runAnalysis()
-        let z = new difference(a.db, a.team)
-        await z.runAnalysis()
-        a.result = x.result
-        a.array = x.finalizeResults().array
-        a.all = y.result
-        a.difference = z.result
         let temp = math.std(y.array)
-        a.zScore = a.difference / temp
+        let overallAvg = y.average
+        a.result = teamAvg - overallAvg
+        a.zScore = a.result / temp
         if(isNaN(a.zScore))
         {
             a.zScore = 0
@@ -55,6 +50,7 @@ class defenseOverview extends BaseAnalysis {
                 }
             })
             // a.result = temp  
+
             resolve("done")
         })
 
@@ -62,13 +58,10 @@ class defenseOverview extends BaseAnalysis {
     finalizeResults() {
         return {
             "result": this.result,
-            "array" : this.array,
-            "difference" : this.difference,
-            "all" : this.all,
-            "zScore" : this.zScore,
             "team": this.team,
+            "zScore" : this.zScore
         }
     }
 
 }
-module.exports = defenseOverview
+module.exports = totalScoreDifference

@@ -35,6 +35,11 @@ class climberSucsessAutoDifference extends BaseAnalysis {
 
         let temp = math.std(y.array)
         a.zScore = (teamRate - allRate)/temp
+        if(isNaN(a.zScore))
+        {
+            a.zScore = 0
+        }
+
 
         
     }

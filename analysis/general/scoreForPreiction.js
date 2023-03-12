@@ -1,9 +1,9 @@
 const BaseAnalysis = require('../BaseAnalysis.js')
 
-class averageScore extends BaseAnalysis {
-    static name = `averageScore`
+class scoreForPreiction extends BaseAnalysis {
+    static name = `scoreForPreiction`
 
-    constructor(db, team, autoOrTele) {
+    constructor(db, team) {
         super(db)
         this.team = team
         // this.start = start
@@ -11,10 +11,7 @@ class averageScore extends BaseAnalysis {
         this.array = []
         this.average = 0
         this.matches = []
-        this.cargo = 0
-        // 0 = auto
-        //1 = teleop
-        this.autoOrTele = autoOrTele
+        
     }
     async scoresOverTime() {
         let a = this
@@ -42,15 +39,13 @@ class averageScore extends BaseAnalysis {
                             let data = JSON.parse(row.scoutReport)
                             match.push(row.key)
                             let total = 0
-                            if (a.autoOrTele === 0 && a.cargo === 0)  {
                                 if (data.autoChallengeResult === 1) {
                                     total += 8
                                 }
                                 else if (data.autoChallengeResult === 2) {
                                     total += 12
                                 }
-                            }
-                            else if(a.autoOrTele === 1){
+                            
                                 if (data.challengeResult === 1) {
                                     total += 6
                                 }
@@ -61,7 +56,7 @@ class averageScore extends BaseAnalysis {
                                     //check this
                                     total += 3
                                 }
-                            }
+                            
 
 
 
@@ -71,7 +66,7 @@ class averageScore extends BaseAnalysis {
 
                                 const entry = arr[i];
                                 let max = Math.ceil(entry[2] / 3)
-                                if (entry[0] < 17 && entry[1] === 2 && a.autoOrTele === 0) {
+                                if (entry[0] < 17 && entry[1] === 2) {
                                     if (max === 3) {
                                         total += 6
                                     }
@@ -82,7 +77,7 @@ class averageScore extends BaseAnalysis {
                                         total += 3
                                     }
                                 }
-                                else if (entry[1] === 2  && a.autoOrTele === 1 && entry[0] >= 17) {
+                                else if (entry[1] === 2 && entry[0] >= 17) {
                                     if (max === 3) {
                                         total += 5
                                     }
@@ -97,12 +92,11 @@ class averageScore extends BaseAnalysis {
                             }
                             answer.push(total)
                         }
+                    
 
                     }
                     a.array = answer
                     const sum = answer.reduce((partialSum, a) => partialSum + a, 0)
-
-                 
                     a.average = sum / answer.length                    
                     a.matches = match
 
@@ -133,13 +127,10 @@ class averageScore extends BaseAnalysis {
     finalizeResults() {
         return {
             "result": this.average,
-            "array": this.array.map((item, index) => ({
-                "match": this.matches[index],
-                "value": item,
-            })),
+            "array": this.array,
             "arrayNoMatches": this.array,
             "team": this.team,
         }
     }
 }
-module.exports = averageScore
+module.exports = scoreForPreiction

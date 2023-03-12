@@ -49,7 +49,7 @@ class categoryMetrics extends BaseAnalysis {
             await teleScore.runAnalysis()
             metrics.avgTeleScore = teleScore.finalizeResults().result
 
-            metrics.avgScore = metrics.avgTeleScore + metrics.avgTeleScore
+            metrics.avgScore = metrics.avgTeleScore + metrics.avgAutoScore
 
             var cones = new cargoCount(a.db, a.team, 1, 2)
             await cones.runAnalysis()

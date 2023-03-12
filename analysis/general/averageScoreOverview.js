@@ -27,6 +27,11 @@ class averageScoreOverview extends BaseAnalysis {
 
         let teleOpTemp = math.std(allTeams.array)
         a.zScore = difference/teleOpTemp
+        if(isNaN(a.zScore))
+        {
+            a.zScore = 0
+        }
+
 
     }
 

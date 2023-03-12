@@ -30,6 +30,11 @@ class cargoCountOverview extends BaseAnalysis {
         this.three = 0
         this.max = 0
         // this.array = []
+        if(isNaN(this.zScore))
+        {
+            a.zScore = 0
+        }
+
 
     }
     async getAccuracy() {
@@ -57,6 +62,10 @@ class cargoCountOverview extends BaseAnalysis {
         a.three = levelThree.result
         let temp = math.std(y.array)
         a.zScore = a.difference/temp
+        if(isNaN(a.zScore))
+        {
+            a.zScore = 0
+        }
 
 
     }
