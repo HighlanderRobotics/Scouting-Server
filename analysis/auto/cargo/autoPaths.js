@@ -91,8 +91,6 @@ class cargoCountAuto extends BaseAnalysis {
                 }
                 a.paths = jsonObject
                 resolve("done")
-p
-
             })
 
                 // let arr = [];
