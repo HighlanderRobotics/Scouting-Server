@@ -4,6 +4,8 @@ const role = require('./general/robotRole')
 const averageScore = require('./general/averageScore.js')
 const autoPaths = require('./auto/cargo/autoPaths')
 const levelCargo = require('./teleop/cargo/levelCargo')
+const math = require('mathjs')
+
 
 
 // const { i } = require('mathjs')
@@ -28,104 +30,131 @@ class alliancePage extends BaseAnalysis {
     async getData() {
         let a = this
 
-            let metrics = {}
-            let avgOneAuto = new averageScore(Manager.db, a.teamOne, 0)
-            await avgOneAuto.runAnalysis()
-            let avgOneTele = new averageScore(Manager.db, a.teamOne, 1)
-            await avgOneTele.runAnalysis()
+        let metrics = {}
+        let avgOneAuto = new averageScore(Manager.db, a.teamOne, 0)
+        await avgOneAuto.runAnalysis()
+        let avgOneTele = new averageScore(Manager.db, a.teamOne, 1)
+        await avgOneTele.runAnalysis()
 
-            let avgTwoAuto = new averageScore(Manager.db, a.teamTwo, 0)
-            await avgTwoAuto.runAnalysis()
-            let avgTwoTele = new averageScore(Manager.db, a.teamTwo, 1)
-            await avgTwoTele.runAnalysis()
+        let avgTwoAuto = new averageScore(Manager.db, a.teamTwo, 0)
+        await avgTwoAuto.runAnalysis()
+        let avgTwoTele = new averageScore(Manager.db, a.teamTwo, 1)
+        await avgTwoTele.runAnalysis()
 
-            let avgThreeAuto = new averageScore(Manager.db, a.teamThree, 0)
-            await avgThreeAuto.runAnalysis()
-            let avgThreeTele = new averageScore(Manager.db, a.teamThree, 1)
-            await avgThreeTele.runAnalysis()
+        let avgThreeAuto = new averageScore(Manager.db, a.teamThree, 0)
+        await avgThreeAuto.runAnalysis()
+        let avgThreeTele = new averageScore(Manager.db, a.teamThree, 1)
+        await avgThreeTele.runAnalysis()
 
-            a.totalPoints = avgOneAuto.average + avgOneTele.average + avgTwoAuto.average + avgTwoTele.average + avgThreeAuto.average + avgThreeTele.average
+        a.totalPoints = avgOneAuto.average + avgOneTele.average + avgTwoAuto.average + avgTwoTele.average + avgThreeAuto.average + avgThreeTele.average
 
-            let role1 = new role(Manager.db, a.teamOne)
-            await role1.runAnalysis()
+        let role1 = new role(Manager.db, a.teamOne)
+        await role1.runAnalysis()
 
-            let role2 = new role(Manager.db, a.teamTwo)
-            await role2.runAnalysis()
+        let role2 = new role(Manager.db, a.teamTwo)
+        await role2.runAnalysis()
 
-            let role3 = new role(Manager.db, a.teamThree)
-            await role3.runAnalysis()
+        let role3 = new role(Manager.db, a.teamThree)
+        await role3.runAnalysis()
 
-            let autoPathOne = new autoPaths(Manager.db, a.teamOne)
-            await autoPathOne.runAnalysis()
+        let autoPathOne = new autoPaths(Manager.db, a.teamOne)
+        await autoPathOne.runAnalysis()
 
-            let autoPathTwo = new autoPaths(Manager.db, a.teamTwo)
-            await autoPathTwo.runAnalysis()
+        let autoPathTwo = new autoPaths(Manager.db, a.teamTwo)
+        await autoPathTwo.runAnalysis()
 
-            let autoPathThree = new autoPaths(Manager.db, a.teamThree)
-            await autoPathThree.runAnalysis()
+        let autoPathThree = new autoPaths(Manager.db, a.teamThree)
+        await autoPathThree.runAnalysis()
 
-            let cones = [0, 0, 0]
-            let cubes = [0, 0, 0]
-            let teamArr = [a.teamOne, a.teamTwo, a.teamThree]
-            for(let i = 0; i < teamArr.length; i ++)
-            {
-                for(let j = 1; j < 4; j ++)
-                {
-                    let temp = new levelCargo(Manager.db, teamArr[i], 1, j)
-                    await temp.runAnalysis()
-                    cones[j-1] += temp.result
-                    let temp2 = new levelCargo(Manager.db, teamArr[i], 0, j)
-                    await temp2.runAnalysis()
-                    cubes[j-1] += temp2.result
-
-                }
-            }
-            let levelArr = [{}, {}, {}]
-            for(let i = 0; i < 3; i ++)
-            {
-               let temp = {"cones" : cones[i], "cubes" : cubes[i]}
-               levelArr[i] = temp
+        let cones = [0, 0, 0]
+        let cubes = [0, 0, 0]
+        let teamArr = [a.teamOne, a.teamTwo, a.teamThree]
+        for (let i = 0; i < teamArr.length; i++) {
+            for (let j = 1; j < 4; j++) {
+                let temp = new levelCargo(Manager.db, teamArr[i], 1, j)
+                await temp.runAnalysis()
+                cones[j - 1] += temp.result
+                let temp2 = new levelCargo(Manager.db, teamArr[i], 0, j)
+                await temp2.runAnalysis()
+                cubes[j - 1] += temp2.result
 
             }
+        }
+        let levelArr = [{}, {}, {}]
+        for (let i = 0; i < 3; i++) {
+            let temp = { "cones": cones[i], "cubes": cubes[i] }
+            levelArr[i] = temp
 
-           a.teams = [{"team" : a.teamOne, "role" : role1.mainRole, "paths" : autoPathOne.finalizeResults().paths},
-            {"role" : role2.mainRole, "team" : a.teamTwo, "paths" : autoPathTwo.finalizeResults().paths},
-            {"role" : role3.mainRole, "team" : a.teamThree, "paths" : autoPathThree.finalizeResults().paths}]
+        }
+        let oneRole = role1.defense
+        let twoRole = role2.defense
+        let threeRole = role3.defense
+        let max = math.max(oneRole, twoRole, threeRole)
+        if (max > 2) {
+
+            if (oneRole === max) {
+                oneRole = 1
+                twoRole = role2.mainRole
+                threeRole = role3.mainRole
+            }
+            else if (twoRole === max)
+            {
+                twoRole = 1
+                oneRole = role1.mainRole
+                threeRole = role3.mainRole
+            }
+            else
+            {
+                threeRole = 1
+                twoRole = role2.mainRole
+                oneRole = role3.mainRole
+            }
+        }
+        else
+        {
+            oneRole = role1.mainRole
+            twoRole = role2.mainRole
+            threeRole = role3.mainRole
+        }
+
+            a.teams = [{ "team": a.teamOne, "role": oneRole, "paths": autoPathOne.finalizeResults().paths },
+            { "role": twoRole, "team": a.teamTwo, "paths": autoPathTwo.finalizeResults().paths },
+            { "role": threeRole, "team": a.teamThree, "paths": autoPathThree.finalizeResults().paths }]
             a.levels = levelArr
 
 
 
 
-
     }
-
-    runAnalysis() {
-        let a = this
-        return new Promise(async (resolve, reject) => {
-            a.getData()
-                .then((data) => {
-                    a.result = data;
-                    resolve("done");
-                })
-                .catch((err) => {
-                    if (err) {
-                        reject(err);
-                        return err;
-                    }
-                });
         
-        })
+
+            runAnalysis() {
+            let a = this
+            return new Promise(async (resolve, reject) => {
+                a.getData()
+                    .then((data) => {
+                        a.result = data;
+                        resolve("done");
+                    })
+                    .catch((err) => {
+                        if (err) {
+                            reject(err);
+                            return err;
+                        }
+                    });
+
+            })
 
 
-    }
-    finalizeResults() {
-        return {
-            "totalPoints": this.totalPoints,
-            "teams" : this.teams,
-            "levelCargo" : this.levels,
-            "autoThree" : this.autoThree
         }
-    }
+        finalizeResults() {
+            return {
+                "totalPoints": this.totalPoints,
+                "teams": this.teams,
+                "levelCargo": this.levels,
+                "autoThree": this.autoThree
+            }
+        }
 
-}
+    }
 module.exports = alliancePage
