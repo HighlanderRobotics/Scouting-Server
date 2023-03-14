@@ -2,6 +2,8 @@ const BaseAnalysis = require('./BaseAnalysis.js')
 const scores = require('./general/scoreForPreiction')
 
 const math = require('mathjs')
+const { max } = require('mathjs')
+const e = require('cors')
 
 class predictWinning extends BaseAnalysis {
     static name = `predictWinning`
@@ -15,7 +17,9 @@ class predictWinning extends BaseAnalysis {
         this.blue1 = blue1
         this.blue2 = blue2
         this.blue3 = blue3
-    
+        this.winningAlliance = 2
+        //red = 0
+        //blue = 1
         this.result = 0
     }
     async getWinner() {
@@ -87,6 +91,15 @@ class predictWinning extends BaseAnalysis {
 
             a.redWinning = 1 - redLoosing
             a.blueWiinning = 1 -a.redWinning
+
+            if (max(a.redWinning, a.blueWiinning) == a.redWinning)
+            {
+                a.winningAlliance = 0
+            }
+            else
+            {
+                a.winningAlliance = 1
+            }
             resolve(1 - redLoosing)
 
 
@@ -162,7 +175,8 @@ class predictWinning extends BaseAnalysis {
             "blue2": this.blue2,
             "blue3": this.blue3,
             "redWinning": this.redWinning,
-            "blueWinning": this.blueWiinning
+            "blueWinning": this.blueWiinning,
+            "winningAlliance" : this.winningAlliance
         }
     }
 }
