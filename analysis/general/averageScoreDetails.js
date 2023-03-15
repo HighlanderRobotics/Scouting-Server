@@ -5,6 +5,7 @@ const difference = require('./averageScoreDifference.js')
 const level = require('../teleop/cargo/levelCargo')
 const climb = require('../teleop/climber/climberSucsess')
 const math = require('mathjs')
+const { resolve } = require('mathjs')
 
 
 // const Manager = require('./manager/dbmanager.js')
@@ -12,25 +13,25 @@ const math = require('mathjs')
 class averageScoreDetails extends BaseAnalysis {
     static name = `averageScoreDetails`
 
-    constructor(db, team, type) {
+    constructor(db, team, type, match) {
         super(db)
         this.team = team
-        this.array = []
+        this.finalizeResults().array = []
         this.all = 0
         this.type = type
         this.difference = 0
         this.scoringBreakdown = {}
+        this.matchKey = match
     }
     async getAccuracy() {
         let a = this
         let team = new teamStat(a.db, a.team, a.type)
-        console.log(team.res)
         await team.runAnalysis()
         let allAvg = new all(a.db, a.type)
         await allAvg.runAnalysis()
         let diff = new difference(a.db, a.team, a.type)
         await diff.runAnalysis()
-        
+
         a.result = team.average
         a.all = allAvg.average
         a.difference = diff.result
@@ -59,9 +60,42 @@ class averageScoreDetails extends BaseAnalysis {
         let climbAvg = new climb(a.db, a.team)
         await climbAvg.runAnalysis()
 
-        let pieChart = {"coneOne" : (oneCone.result * 2)/a.result, "coneTwo" : (twoCone.result * 3)/a.result, "coneThree" : (threeCone.result * 5)/a.result, "cubeOne" : (oneCube.result * 2)/a.result, "cubeTwo" : (twoCube.result * 3)/a.result, "cubeThree" : (threeCube.result * 5)/a.result, "climb" : ((climbAvg.level * 10 + climbAvg.tipped * 8)/climbAvg.totalAttempted)/a.result}
-        a.scoringBreakdown = pieChart
-       
+
+
+        if (!a.matchKey) {
+
+            let pieChart = { "coneOne": (oneCone.result * 2) / a.result, "coneTwo": (twoCone.result * 3) / a.result, "coneThree": (threeCone.result * 5) / a.result, "cubeOne": (oneCube.result * 2) / a.result, "cubeTwo": (twoCube.result * 3) / a.result, "cubeThree": (threeCube.result * 5) / a.result, "climb": ((climbAvg.level * 10 + climbAvg.tipped * 8) / climbAvg.totalAttempted) / a.result }
+        
+            a.scoringBreakdown = pieChart
+        }
+        else {
+            let index = -1
+            for (let i = 0; i < a.array.length; i ++)
+            {
+                if(a.array[i].match === a.matchKey)
+                {
+                    index = i
+                }
+            }
+            if (index>= 0) {
+                let tempClimb = climbAvg.finalizeResults().array[index].value
+                if (tempClimb === 2) {
+
+                    tempClimb = 10
+                }
+                else if (tempClimb === 1) {
+                    tempClimb = 8
+                }
+                else {
+                    tempClimb = 0
+                }
+                let totalThisMatch = a.array[index].value
+            
+                let pieChart = { "coneOne": (oneCone.finalizeResults().array[index].value * 2) / totalThisMatch, "coneTwo": (twoCone.finalizeResults().array[index].value * 3) / totalThisMatch, "coneThree": (threeCone.finalizeResults().array[index].value * 5) / totalThisMatch, "cubeOne": (oneCube.finalizeResults().array[index].value * 2) / totalThisMatch, "cubeTwo": (twoCube.finalizeResults().array[index].value * 3) / totalThisMatch, "cubeThree": (threeCube.finalizeResults().array[index].value * 5) / totalThisMatch, "climb": tempClimb / totalThisMatch }
+                a.scoringBreakdown = pieChart
+            }
+        }
+
     }
 
 
@@ -80,12 +114,12 @@ class averageScoreDetails extends BaseAnalysis {
     }
     finalizeResults() {
         return {
-            "result" : this.result,
-            "all" : this.all,
-            "difference" : this.difference,
-            "array" : this.array,
-            "scoringBreakdown" : this.scoringBreakdown,
-            "team" : this.team
+            "result": this.result,
+            "all": this.all,
+            "difference": this.difference,
+            "array": this.array,
+            "scoringBreakdown": this.scoringBreakdown,
+            "team": this.team
         }
     }
 

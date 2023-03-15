@@ -132,7 +132,7 @@ class TaskManager {
                     returnAnalysis.push(new notes(Manager.db, task.team))
                     break
                 case ("avgTeleScore"):
-                    returnAnalysis.push(new averageScoreDetails(Manager.db, task.team, 1))
+                    returnAnalysis.push(new averageScoreDetails(Manager.db, task.team, 1, task.matchKey))
                     break
                 case ("avgAutoScore"):
                     returnAnalysis.push(new averageScoreDetails(Manager.db, task.team, 0))

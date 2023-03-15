@@ -14,6 +14,8 @@ class levelCargo extends BaseAnalysis {
         this.location = location
         this.type = type
         this.result = 0
+        this.array = []
+        this.matches = []
 
     }
     async getAccuracy() {
@@ -27,9 +29,9 @@ class levelCargo extends BaseAnalysis {
                 JOIN teams ON teams.key = matches.teamKey
                 WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
           `;
-            let len = 0
-            let makes = 0
             let object = false
+            let match = []
+            let arr = []
             a.db.all(sql, [a.team], (err, rows) => {
                 if (err) {
                     console.log(err)
@@ -38,6 +40,8 @@ class levelCargo extends BaseAnalysis {
                 if (rows != undefined) {
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array) {
+                        let makes = 0
+                        match.push(row.key)
                         let curr = JSON.parse(row.scoutReport).events
                         for (var i = 0; i < curr.length; i++) {
                             let subArr = curr[i]
@@ -62,13 +66,15 @@ class levelCargo extends BaseAnalysis {
                             }
 
                         }
-                        len++
+                        arr.push(makes)
                     }
 
                 }
                 
-                a.result = makes/len
-              
+                a.result = arr.reduce((partialSum, a) => partialSum + a, 0) / arr.length
+                a.array = arr
+                a.matches = match
+
                 resolve("done")
 
             })
@@ -101,6 +107,10 @@ class levelCargo extends BaseAnalysis {
         return {
             "result": this.result,
             "team": this.team,
+            "array": this.array.map((item, index) => ({
+                "match": this.matches[index],
+                "value": item,
+            }))
             
         }
         

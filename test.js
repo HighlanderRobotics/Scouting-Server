@@ -1,12 +1,12 @@
 //for testing
-const test = require('./analysis/predictWinning')
+const test = require('./analysis/general/averageScoreDetails')
 // const test = require('./analysis/auto/cargo/autoPaths')
 const Manager = require('./manager/dbmanager')
 
 // const y = require("./test")
 async function temp() {
    // var x = new test(Manager.db, "2023cafr", 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5)
-   var x = new test(Manager.db, 8033, 1671, 4400, 5104, 1323, 973)
+   var x = new test(Manager.db, 8033, 1, "2023cafr_qm71_2")
   await x.runAnalysis()
  console.log(x.finalizeResults())
 }
