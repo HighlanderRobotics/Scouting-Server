@@ -10,10 +10,10 @@ const { resolve } = require('mathjs')
 
 // const Manager = require('./manager/dbmanager.js')
 
-class averageScoreDetails extends BaseAnalysis {
-    static name = `averageScoreDetails`
+class scoringBreakdown extends BaseAnalysis {
+    static name = `scoringBreakdown`
 
-    constructor(db, team, type, match) {
+    constructor(db, team, match) {
         super(db)
         this.team = team
         this.array = []
@@ -114,14 +114,11 @@ class averageScoreDetails extends BaseAnalysis {
     }
     finalizeResults() {
         return {
-            "result": this.result,
-            "all": this.all,
-            "difference": this.difference,
-            "array": this.array,
+          
             "scoringBreakdown": this.scoringBreakdown,
             "team": this.team
         }
     }
 
 }
-module.exports = averageScoreDetails
+module.exports = scoringBreakdown

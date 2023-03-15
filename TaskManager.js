@@ -21,6 +21,7 @@ const autoPathsTeams = require('./analysis/auto/cargo/autoPathsTeams.js')
 const alliancePage = require('./analysis/alliancePage')
 const cyclingDetials = require('./analysis/teleop/cargo/cylcingDetials.js')
 const predictWinning = require('./analysis/predictWinning.js')
+const scoringBreakdown = require('./analysis/general/scoringBreakdown.js')
 
 
 class TaskManager {
@@ -132,10 +133,10 @@ class TaskManager {
                     returnAnalysis.push(new notes(Manager.db, task.team))
                     break
                 case ("avgTeleScore"):
-                    returnAnalysis.push(new averageScoreDetails(Manager.db, task.team, 1, null))
+                    returnAnalysis.push(new averageScoreDetails(Manager.db, task.team, 1))
                     break
                 case("scoringBreakdown"):
-                    returnAnalysis.push(new averageScoreDetails(Manager.db, task.team, 1, task.matchKey))
+                    returnAnalysis.push(new scoringBreakdown(Manager.db, task.team, task.matchKey))
                     break
                 case ("avgAutoScore"):
                     returnAnalysis.push(new averageScoreDetails(Manager.db, task.team, 0))
