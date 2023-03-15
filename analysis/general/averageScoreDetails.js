@@ -13,7 +13,7 @@ const { resolve } = require('mathjs')
 class averageScoreDetails extends BaseAnalysis {
     static name = `averageScoreDetails`
 
-    constructor(db, team, type, match) {
+    constructor(db, team, type) {
         super(db)
         this.team = team
         this.array = []
@@ -21,7 +21,6 @@ class averageScoreDetails extends BaseAnalysis {
         this.type = type
         this.difference = 0
         this.scoringBreakdown = {}
-        this.matchKey = match
     }
     async getAccuracy() {
         let a = this
@@ -37,64 +36,6 @@ class averageScoreDetails extends BaseAnalysis {
         a.difference = diff.result
         a.array = team.finalizeResults().array
 
-
-
-        let oneCone = new level(a.db, a.team, 1, 1)
-        await oneCone.runAnalysis()
-
-        let twoCone = new level(a.db, a.team, 1, 2)
-        await twoCone.runAnalysis()
-
-        let threeCone = new level(a.db, a.team, 1, 3)
-        await threeCone.runAnalysis()
-
-        let oneCube = new level(a.db, a.team, 0, 1)
-        await oneCube.runAnalysis()
-
-        let twoCube = new level(a.db, a.team, 0, 2)
-        await twoCube.runAnalysis()
-
-        let threeCube = new level(a.db, a.team, 0, 3)
-        await threeCube.runAnalysis()
-
-        let climbAvg = new climb(a.db, a.team)
-        await climbAvg.runAnalysis()
-
-
-
-        if (!a.matchKey) {
-
-            let pieChart = { "coneOne": (oneCone.result * 2) / a.result, "coneTwo": (twoCone.result * 3) / a.result, "coneThree": (threeCone.result * 5) / a.result, "cubeOne": (oneCube.result * 2) / a.result, "cubeTwo": (twoCube.result * 3) / a.result, "cubeThree": (threeCube.result * 5) / a.result, "climb": ((climbAvg.level * 10 + climbAvg.tipped * 8) / climbAvg.totalAttempted) / a.result }
-        
-            a.scoringBreakdown = pieChart
-        }
-        else {
-            let index = -1
-            for (let i = 0; i < a.array.length; i ++)
-            {
-                if(a.array[i].match === a.matchKey)
-                {
-                    index = i
-                }
-            }
-            if (index>= 0) {
-                let tempClimb = climbAvg.finalizeResults().array[index].value
-                if (tempClimb === 2) {
-
-                    tempClimb = 10
-                }
-                else if (tempClimb === 1) {
-                    tempClimb = 8
-                }
-                else {
-                    tempClimb = 0
-                }
-                let totalThisMatch = a.array[index].value
-            
-                let pieChart = { "coneOne": (oneCone.finalizeResults().array[index].value * 2) / totalThisMatch, "coneTwo": (twoCone.finalizeResults().array[index].value * 3) / totalThisMatch, "coneThree": (threeCone.finalizeResults().array[index].value * 5) / totalThisMatch, "cubeOne": (oneCube.finalizeResults().array[index].value * 2) / totalThisMatch, "cubeTwo": (twoCube.finalizeResults().array[index].value * 3) / totalThisMatch, "cubeThree": (threeCube.finalizeResults().array[index].value * 5) / totalThisMatch, "climb": tempClimb / totalThisMatch }
-                a.scoringBreakdown = pieChart
-            }
-        }
 
     }
 
@@ -118,7 +59,6 @@ class averageScoreDetails extends BaseAnalysis {
             "all": this.all,
             "difference": this.difference,
             "array": this.array,
-            "scoringBreakdown": this.scoringBreakdown,
             "team": this.team
         }
     }

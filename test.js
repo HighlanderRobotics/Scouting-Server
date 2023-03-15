@@ -6,7 +6,7 @@ const Manager = require('./manager/dbmanager')
 // const y = require("./test")
 async function temp() {
    // var x = new test(Manager.db, "2023cafr", 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5)
-   var x = new test(Manager.db, 8033, 1, "2023cafr_qm71_2")
+   var x = new test(Manager.db, 8033, 1)
   await x.runAnalysis()
  console.log(x.finalizeResults())
 }
