@@ -16,6 +16,7 @@ class defenseEvent extends BaseAnalysis {
 
     }
     async getAccuracy() {
+
         let a = this
         return new Promise(async function (resolve, reject) {
 
@@ -80,8 +81,10 @@ class defenseEvent extends BaseAnalysis {
     }
 
     runAnalysis() {
+
         return new Promise(async (resolve, reject) => {
             let a = this
+
             var temp = await a.getAccuracy().catch((err) => {
                 if (err) {
                     return err
