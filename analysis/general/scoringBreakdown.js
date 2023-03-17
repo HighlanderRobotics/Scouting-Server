@@ -30,7 +30,7 @@ class scoringBreakdown extends BaseAnalysis {
     async getAccuracy() {
         let a = this
         let matchKey = ""
-        if (this.matchKey)
+        if (this.matchNumber)
         {
             var sql = `SELECT key
                     FROM matches
@@ -82,7 +82,7 @@ class scoringBreakdown extends BaseAnalysis {
 
 
 
-            if (matchKey === "") {
+            if (!this.matchNumber) {
 
                 let pieChart = { "coneOne": (oneCone.result * 2) / a.result, "coneTwo": (twoCone.result * 3) / a.result, "coneThree": (threeCone.result * 5) / a.result, "cubeOne": (oneCube.result * 2) / a.result, "cubeTwo": (twoCube.result * 3) / a.result, "cubeThree": (threeCube.result * 5) / a.result, "climb": ((climbAvg.level * 10 + climbAvg.tipped * 8) / climbAvg.totalAttempted) / a.result }
 
