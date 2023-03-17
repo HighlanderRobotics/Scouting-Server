@@ -40,7 +40,11 @@ class scoringBreakdown extends BaseAnalysis {
                 {
                     console.log(err)
                 }
-                matchKey = rows[0].key
+                if(rows.length > 0)
+                {
+                    matchKey = rows[0].key
+                }
+
             })
         }
     
@@ -85,13 +89,12 @@ class scoringBreakdown extends BaseAnalysis {
             if (!this.matchNumber) {
 
                 let pieChart = { "coneOne": (oneCone.result * 2) / a.result, "coneTwo": (twoCone.result * 3) / a.result, "coneThree": (threeCone.result * 5) / a.result, "cubeOne": (oneCube.result * 2) / a.result, "cubeTwo": (twoCube.result * 3) / a.result, "cubeThree": (threeCube.result * 5) / a.result, "climb": ((climbAvg.level * 10 + climbAvg.tipped * 8) / climbAvg.totalAttempted) / a.result }
-
                 a.scoringBreakdown = pieChart
             }
             else {
                 let index = -1
                 for (let i = 0; i < a.array.length; i++) {
-                    if (a.array[i].match === a.matchKey) {
+                    if (a.array[i].match === matchKey) {
                         index = i
                     }
                 }
