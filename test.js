@@ -1,7 +1,7 @@
 //for testing
 const test = require('./analysis/general/scoringBreakdown')
 // const test = require('./analysis/teleop/cargo/cargoCountOverview')
-// const test = require('./manager/GetTournamentKeys')
+// const test = require('./manager/GetTournaments')
 const Manager = require('./manager/dbmanager')
 
 // const y = require("./test")
