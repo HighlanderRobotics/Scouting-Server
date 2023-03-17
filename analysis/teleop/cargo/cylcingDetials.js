@@ -17,7 +17,7 @@ class cyclingDetials extends BaseAnalysis {
        this.result = 0
        this.array = []
        this.all = 0
-       this.difference
+       this.difference = 0
        this.type = type
        this.location = location
 

@@ -37,6 +37,7 @@ class cyclingAll extends BaseAnalysis {
                 }
 
                 if (rows != undefined) {
+                    console.log(rows)
 
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array) {
@@ -49,6 +50,7 @@ class cyclingAll extends BaseAnalysis {
                                 prev = subArr[0]
                             }
                             if (subArr[1] == a.location) {
+    
                                 total += subArr[0] - prev
                                 len++
                             }
@@ -57,14 +59,22 @@ class cyclingAll extends BaseAnalysis {
                             }
 
                         }
-                        arr.push(total / len)
+                        if(len > 0)
+                        {
+                            arr.push(total / len)
+
+                        }
+                        else
+                        {
+                            arr.push(0)
+                        }
                     }
 
                 }
                 a.result = arr.reduce((partialSum, a) => partialSum + a, 0) / arr.length
                 if(!a.result)
                 {
-                    a.result = null
+                    a.result = 0
                 }
                 resolve("done")
 
@@ -98,8 +108,7 @@ class cyclingAll extends BaseAnalysis {
     }
     finalizeResults() {
         return {
-            "result": this.result,
-            "team": this.team
+            "result": this.result
         }
     }
 

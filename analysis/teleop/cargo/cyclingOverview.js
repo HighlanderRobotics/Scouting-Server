@@ -40,7 +40,7 @@ class cyclingOverview extends BaseAnalysis {
         await y.runAnalysis()
         let cubeCount = new cargoCount(a.db, a.team, 0, 4)
         await cubeCount.runAnalysis()
-        let coneCount = new cargoCount(a.db, a.team,1, 4 )
+        let coneCount = new cargoCount(a.db, a.team, 1, 4 )
         await coneCount.runAnalysis()
 
 
