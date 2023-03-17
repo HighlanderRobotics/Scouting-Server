@@ -15,7 +15,7 @@ class cycling extends BaseAnalysis {
         this.type = type
         this.location = location
         this.result = 0
-        this.array
+        this.array = []
         this.matches = []
         // this.array = []
 
