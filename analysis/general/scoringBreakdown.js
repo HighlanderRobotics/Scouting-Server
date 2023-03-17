@@ -30,7 +30,8 @@ class scoringBreakdown extends BaseAnalysis {
     async getAccuracy() {
         let a = this
         let matchKey = ""
-
+        if (this.matchKey)
+        {
             var sql = `SELECT key
                     FROM matches
                     WHERE tournamentKey = ? and matchNumber = ? and matchType = ? and teamKey = ?`;
@@ -41,6 +42,7 @@ class scoringBreakdown extends BaseAnalysis {
                 }
                 matchKey = rows[0].key
             })
+        }
     
             
             let team = new teamStat(a.db, a.team, a.type)
@@ -80,7 +82,7 @@ class scoringBreakdown extends BaseAnalysis {
 
 
 
-            if (!a.matchKey) {
+            if (matchKey === "") {
 
                 let pieChart = { "coneOne": (oneCone.result * 2) / a.result, "coneTwo": (twoCone.result * 3) / a.result, "coneThree": (threeCone.result * 5) / a.result, "cubeOne": (oneCube.result * 2) / a.result, "cubeTwo": (twoCube.result * 3) / a.result, "cubeThree": (threeCube.result * 5) / a.result, "climb": ((climbAvg.level * 10 + climbAvg.tipped * 8) / climbAvg.totalAttempted) / a.result }
 
