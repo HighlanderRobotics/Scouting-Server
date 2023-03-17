@@ -1,14 +1,14 @@
 //for testing
-const test = require('./analysis/general/scoringBreakdown')
-// const test = require('./analysis/auto/cargo/autoPaths')
+// const test = require('./analysis/general/scoringBreakdown')
+const test = require('./analysis/auto/cargo/autoPaths')
 const Manager = require('./manager/dbmanager')
 
 // const y = require("./test")
 async function temp() {
    // var x = new test(Manager.db, "2023cafr", 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5)
-   var x = new test(Manager.db, 8033, 1, "2023cafr", 60, "qm")
+   var x = new test(Manager.db, 8048)
   await x.runAnalysis()
- console.log(x.finalizeResults())
+ console.log(x.finalizeResults().paths)
 }
 temp()
 
