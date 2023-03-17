@@ -1,7 +1,7 @@
 const Manager = require('./Manager.js')
 
-class GetTournamentKey extends Manager {
-    static name = 'GetTournamentKey'
+class GetTournamentKeys extends Manager {
+    static name = 'GetTournamentKeys'
 
     constructor() {
         super()
@@ -37,4 +37,4 @@ class GetTournamentKey extends Manager {
     }
 }
 
-module.exports = GetTournamentKey
+module.exports = GetTournamentKeys
