@@ -1,3 +1,4 @@
+const { json } = require('express')
 const { map } = require('mathjs')
 const BaseAnalysis = require('../../BaseAnalysis.js')
 // const Manager = require('./manager/dbmanager.js')
@@ -35,32 +36,30 @@ class cargoCountAuto extends BaseAnalysis {
                     function functionAdder(row, index, array) {
                         let curr = JSON.parse(row.scoutReport).events
                         let arr = []
+                        let currObj = -1
                         for (var i = 0; i < curr.length; i++) {
 
                             let subArr = curr[i]
-                    
+
                             if (subArr[0] < 16) {
                                 if (subArr[1] === 10 || subArr[1] === 11 || subArr === 12) {
-                                    arr.push(subArr[1])
+                                    arr.push({ "location": subArr[2], "event": 9, "time": subArr[0] })
                                 }
-                                else
-                                {
-                                    if(subArr[0] === 0)
-                                    {
-                                        if(subArr[1] != 1 && subArr[1] != 0)
-                                        {
-                                            arr.push(subArr[2])
-                                        }
+                                else {
+                                    if (subArr[1] === 1 || subArr[1] === 0) {
+                                        arr.push({ "location": subArr[2], "event": subArr[1], "time": subArr[0] })
+                                        currObj = subArr[1]
                                     }
-                                    else
-                                    {
-                                        arr.push(subArr[2])
+                                    else if (subArr[1] === 2) {
+                                        arr.push({ "location": subArr[2], "event": subArr[1], "time": subArr[0], "object": currObj })
+                                        currObj = -1
+                                    }
+                                    else {
+                                        arr.push({ "location": subArr[2], "event": subArr[1], "time": subArr[0] })
                                     }
                                 }
-                              
-
                             }
-                           
+
                         }
 
                         let total = 0
@@ -90,65 +89,66 @@ class cargoCountAuto extends BaseAnalysis {
                             }
                         }
                         if (arr.length > 1) {
-                            if (jsonObject.hasOwnProperty(arr)) {
-                                jsonObject[arr].frequency++;
+                            let key = JSON.stringify(arr)
+                            if (jsonObject.hasOwnProperty(key)) {
+                                jsonObject[key].frequency++;
+
                             } else {
-                                jsonObject[arr] = { frequency: 1, score: total };
+                                jsonObject[key] = { frequency: 1, score: total, positions : arr };
                             }
+
                         }
+
+
                     }
 
-                    
+
                 }
-                a.paths = jsonObject
+
+                a.paths = Object.entries(jsonObject).map(([key, value]) => ({
+                    ...value,
+                }))
                 resolve("done")
             })
 
-                // let arr = [];
-                // map.forEach((value, key) => {
-                //     arr.push({ position: key, frequency: value.freq, score: value.score });
-                // });
-              
+            // let arr = [];
+            // map.forEach((value, key) => {
+            //     arr.push({ position: key, frequency: value.freq, score: value.score });
+            // });
 
-            
 
-    })
-            .catch((err) => {
-    if (err) {
-        return err
-    }
-})
-            .then((data) => {
-    // console.log(data)
-    return data
-})
-    }
-addKeyValue(key, score) {
 
-}
 
-runAnalysis() {
-    return new Promise(async (resolve, reject) => {
-        let a = this
-        var temp = await a.getAccuracy().catch((err) => {
-            if (err) {
-                return err
-            }
         })
-        // a.result = temp  
-        resolve("done")
-    })
-
-}
-finalizeResults() {
-    return {
-        "paths": Object.entries(this.paths).map(([key, value]) => ({
-            ...value,
-            positions: key.split(",").map(i => parseInt(i)),
-        })),
-        "team": this.team
+            .catch((err) => {
+                if (err) {
+                    return err
+                }
+            })
+            .then((data) => {
+                // console.log(data)
+                return data
+            })
     }
-}
 
+    runAnalysis() {
+        return new Promise(async (resolve, reject) => {
+            let a = this
+            var temp = await a.getAccuracy().catch((err) => {
+                if (err) {
+                    return err
+                }
+            })
+            // a.result = temp  
+            resolve("done")
+        })
+
+    }
+    finalizeResults() {
+        return {
+            "paths": this.paths,
+            "team": this.team,
+        }
+    }
 }
 module.exports = cargoCountAuto
