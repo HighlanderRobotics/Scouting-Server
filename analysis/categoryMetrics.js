@@ -7,6 +7,7 @@ const cargoCountAuto = require('./auto/cargo/cargoCountAuto.js')
 const cycling = require('./teleop/cargo/cycling.js')
 const defense = require('./defense/defenseEvent.js')
 const averageScoreOverview = require('./general/averageScoreOverview.js')
+const climberSucsess = require('./teleop/climber/climberSucsess.js')
 
 
 
@@ -94,6 +95,12 @@ class categoryMetrics extends BaseAnalysis {
             var cyclingCountCone = new cargoCount(a.db, a.team, 1, 4)
             await cyclingCountCone.runAnalysis()
             metrics.cyclingCount =(cyclingCountCone.result + cyclingCountCube.result)/2
+
+
+            var adjustedClimb = new climberSucsess(a.db,a.team )
+            await adjustedClimb.runAnalysis()
+            metrics.adjustedDocked = adjustedClimb.adjustedTipped
+            metrics.adjustedEngaged = adjustedClimb.adjustedLevel
 
          
             

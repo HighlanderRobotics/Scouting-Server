@@ -16,6 +16,8 @@ class climberSucsess extends BaseAnalysis {
         this.totalAttempted = 0
         this.array = []
         this.matches = []
+        this.adjustedLevel = 0
+        this.adjustedTipped = 0
 
     }
     async getData() {
@@ -72,6 +74,8 @@ class climberSucsess extends BaseAnalysis {
                         a.array = arr
                         a.matches = match
                         a.totalAttempted = tipped + fullyOn + off
+                        a.adjustedLevel = (a.level + 1)/(a.totalAttempted -a.tipped + 3)
+                        a.adjustedTipped = (a.tipped + 1)/(a.totalAttempted  - a.level+ 3)
 
                      resolve("done")
                     

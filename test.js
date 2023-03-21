@@ -1,5 +1,5 @@
 //for testing
-const test = require('./analysis/auto/cargo/autoPaths')
+const test = require('./analysis/categoryMetrics')
 // const test = require('./analysis/teleop/cargo/cargoCountOverview')
 // const test = require('./manager/GetTournaments')
 const Manager = require('./manager/dbmanager')
@@ -10,7 +10,7 @@ async function temp() {
    var x = new test(Manager.db, 8033)
   await x.runAnalysis()
  
- console.log(x.finalizeResults().paths[0].positions)
+ console.log(x.finalizeResults())
 }
 temp()
 
