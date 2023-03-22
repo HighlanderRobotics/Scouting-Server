@@ -1,5 +1,5 @@
 //for testing
-const test = require('./analysis/categoryMetrics')
+const test = require('./analysis/predictWinning')
 // const test = require('./analysis/teleop/cargo/cargoCountOverview')
 // const test = require('./manager/GetTournaments')
 const Manager = require('./manager/dbmanager')
@@ -7,10 +7,10 @@ const Manager = require('./manager/dbmanager')
 // const y = require("./test")
 async function temp() {
    // var x = new test(Manager.db, "2023cafr", 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5)
-   var x = new test(Manager.db, 8033)
+   var x = new test(Manager.db, 8033, 1671, 5104, 973, 1323, 100)
   await x.runAnalysis()
  
- console.log(x.finalizeResults())
+ console.log(x.finalizeResults().blueAlliance.teams[0].paths[0].positions)
 }
 temp()
 

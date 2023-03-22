@@ -152,7 +152,6 @@ class alliancePage extends BaseAnalysis {
                 "totalPoints": this.totalPoints,
                 "teams": this.teams,
                 "levelCargo": this.levels,
-                "autoThree": this.autoThree
             }
         }
 

@@ -1,5 +1,6 @@
 const BaseAnalysis = require('./BaseAnalysis.js')
 const scores = require('./general/scoreForPreiction')
+const alliance = require('./alliancePage')
 
 const math = require('mathjs')
 const { max } = require('mathjs')
@@ -20,7 +21,8 @@ class predictWinning extends BaseAnalysis {
         this.winningAlliance = 2
         //red = 0
         //blue = 1
-        this.result = 0
+        this.blueAlliance = {}
+        this.redAlliance = {}
     }
     async getWinner() {
         let a = this
@@ -100,10 +102,19 @@ class predictWinning extends BaseAnalysis {
             {
                 a.winningAlliance = 1
             }
-            resolve(1 - redLoosing)
+            let blue = new alliance(a.db, a.blue1, a.blue2, a.blue3)
+            await blue.runAnalysis()
+            a.blueAlliance = blue.finalizeResults()
+
+            let red = new alliance(a.db, a.red1, a.red2, a.red3)
+            await red.runAnalysis()
+            a.redAlliance = red.finalizeResults()
+
+            resolve("done")
 
 
         })
+
 
     }
     async GetZPercent(z) {
@@ -176,7 +187,10 @@ class predictWinning extends BaseAnalysis {
             "blue3": this.blue3,
             "redWinning": this.redWinning,
             "blueWinning": this.blueWiinning,
-            "winningAlliance" : this.winningAlliance
+            "winningAlliance" : this.winningAlliance,
+            "redAlliance" : this.redAlliance,
+            "blueAlliance" : this.blueAlliance
+
         }
     }
 }
