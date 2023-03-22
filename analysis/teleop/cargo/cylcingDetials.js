@@ -30,7 +30,7 @@ class cyclingDetials extends BaseAnalysis {
         let x = new teamStat(a.db, a.team, a.type, a.location)
         await x.runAnalysis()
         a.result = x.result
-        a.array = x.array
+        a.array = x.finalizeResults().array
         let y = new all(a.db, a.type, a.location)
         await y.runAnalysis()
         a.all = y.result
