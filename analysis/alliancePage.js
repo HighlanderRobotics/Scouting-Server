@@ -66,6 +66,15 @@ class alliancePage extends BaseAnalysis {
         let autoPathThree = new autoPaths(Manager.db, a.teamThree)
         await autoPathThree.runAnalysis()
 
+        let pointsOne = new averageScore(a.db, a.teamOne, 1)
+        await pointsOne.runAnalysis()
+
+        let pointsTwo = new averageScore(a.db, a.teamTwo, 1)
+        await pointsTwo.runAnalysis()
+
+        let pointsThree = new averageScore(a.db, a.teamThree, 1)
+        await pointsThree.runAnalysis()
+
         let cones = [0, 0, 0]
         let cubes = [0, 0, 0]
         let teamArr = [a.teamOne, a.teamTwo, a.teamThree]
@@ -117,9 +126,9 @@ class alliancePage extends BaseAnalysis {
             threeRole = role3.mainRole
         }
 
-            a.teams = [{ "team": a.teamOne, "role": oneRole, "paths": autoPathOne.finalizeResults().paths },
-            { "role": twoRole, "team": a.teamTwo, "paths": autoPathTwo.finalizeResults().paths },
-            { "role": threeRole, "team": a.teamThree, "paths": autoPathThree.finalizeResults().paths }]
+            a.teams = [{ "team": a.teamOne, "role": oneRole, "paths": autoPathOne.finalizeResults().paths, "averagePoints" : pointsOne.average},
+            { "role": twoRole, "team": a.teamTwo, "paths": autoPathTwo.finalizeResults().paths, "averagePoints" : pointsTwo.average},
+            { "role": threeRole, "team": a.teamThree, "paths": autoPathThree.finalizeResults().paths, "averagePoints" : pointsThree.average}]
             a.levels = levelArr
 
 

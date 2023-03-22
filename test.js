@@ -10,7 +10,7 @@ async function temp() {
    var x = new test(Manager.db, 8033, 1671, 5104, 973, 1323, 100)
   await x.runAnalysis()
  
- console.log(x.finalizeResults().blueAlliance.teams[0].paths[0].positions)
+ console.log(x.finalizeResults().blueAlliance.teams)
 }
 temp()
 
