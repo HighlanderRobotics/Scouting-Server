@@ -32,6 +32,7 @@ class robotRole extends BaseAnalysis {
             let helper = 0
             let offense = 0
             let defense = 0
+            let immobile = 0
             let arr = []
             let match = []
 
@@ -57,11 +58,16 @@ class robotRole extends BaseAnalysis {
                             if (curr === 2) {
                                 helper++
                             }
+                            if(curr === 3)
+                            {
+                                immobile++
+                            }
 
                         }
                         a.offense = offense
                         a.defense = defense
                         a.helper = helper
+                        a.immobile = immobile
                         a.array = arr
                         a.matches = match
                         if (offense > 0 || defense > 0 || helper > 0) {
@@ -112,6 +118,7 @@ class robotRole extends BaseAnalysis {
             "defense": this.defense,
             "offense": this.offense,
             "feeder": this.helper,
+            "immobile" : this.immobile,
             "array": this.array.map((item, index) => ({
                 "match": this.matches[index],
                 "value": item,

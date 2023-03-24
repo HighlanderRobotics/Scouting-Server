@@ -56,6 +56,7 @@ class breakdownMetrics extends BaseAnalysis {
             metrics.defenseRole = role.defense
             metrics.offenseRole = role.offense
             metrics.feeder = role.helper
+            metrics.immobile = role.immobile
             metrics.mainRole = role.mainRole
           
 
