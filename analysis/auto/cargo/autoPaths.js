@@ -66,12 +66,16 @@ class cargoCountAuto extends BaseAnalysis {
                         let data = JSON.parse(row.scoutReport)
                         if (data.autoChallengeResult === 1) {
                             total += 8
-                            arr.push({ "location": data.autoChallengeResult, "event": 9, "time": -1})
+                            arr.push({ "location": data.autoChallengeResult + 12, "event": 9, "time": -1})
 
                         }
                         else if (data.autoChallengeResult === 2) {
-                            arr.push({ "location": data.autoChallengeResult, "event": 9, "time": -1})
+                            arr.push({ "location": data.autoChallengeResult + 12, "event": 9, "time": -1})
                             total += 12
+                        }
+                        else if (data.autoChallengeResult === 3)
+                        {
+                            arr.push({ "location": data.autoChallengeResult + 12, "event": 9, "time": -1})
                         }
                         for (var i = 0; i < curr.length; i++) {
                             let entry = curr[i]
