@@ -42,22 +42,19 @@ class cargoCountAuto extends BaseAnalysis {
                             let subArr = curr[i]
 
                             if (subArr[0] < 16) {
-                                if (subArr[1] === 10 || subArr[1] === 11 || subArr === 12) {
-                                    arr.push({ "location": subArr[2], "event": 9, "time": subArr[0] })
-                                }
-                                else {
+                                    
                                     if (subArr[1] === 1 || subArr[1] === 0) {
                                         currObj = subArr[1]
-                                        arr.push({ "location": subArr[2], "event": subArr[1], "time": subArr[0], "object" : currObj})
+                                        arr.push({ "location": subArr[2], "event": subArr[1], "time": subArr[0]})
                                     }
                                     else if (subArr[1] === 2) {
-                                        arr.push({ "location": subArr[2], "event": subArr[1], "time": subArr[0], "object": currObj })
+                                        arr.push({ "location": subArr[2], "event": subArr[1] + currObj, "time": subArr[0]})
                                         currObj = -1
                                     }
                                     else {
                                         arr.push({ "location": subArr[2], "event": subArr[1], "time": subArr[0] })
                                     }
-                                }
+                                
                             }
 
                         }
