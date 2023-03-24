@@ -22,6 +22,7 @@ const alliancePage = require('./analysis/alliancePage')
 const cyclingDetials = require('./analysis/teleop/cargo/cylcingDetials.js')
 const predictWinning = require('./analysis/predictWinning.js')
 const scoringBreakdown = require('./analysis/general/scoringBreakdown.js')
+const driverAbilityOverview = require('./analysis/general/driverAbilityOverview.js')
 
 
 class TaskManager {
@@ -127,7 +128,7 @@ class TaskManager {
                     returnAnalysis.push(new defenseOverview(Manager.db, task.team))
                     break
                 case ("picklist"):
-                    returnAnalysis.push(new picklistShell(Manager.db, task.tournamentKey, task.coneOneScore, task.coneTwoScore, task.coneThreeScore, task.cubeOneScore, task.cubeTwoScore, task.cubeThreeScore,task.autoCargo, task.teleopScore, task.defenseScore, task.autoClimb, task.feedCone, task.feedCube, task.avgTotal, task.teleopClimb))
+                    returnAnalysis.push(new picklistShell(Manager.db, task.tournamentKey, task.coneOneScore, task.coneTwoScore, task.coneThreeScore, task.cubeOneScore, task.cubeTwoScore, task.cubeThreeScore,task.autoCargo, task.teleopScore, task.defenseScore, task.autoClimb, task.feedCone, task.feedCube, task.avgTotal, task.teleopClimb, task.driverAbility))
                     break
                 case (notes.name):
                     returnAnalysis.push(new notes(Manager.db, task.team))
@@ -152,6 +153,9 @@ class TaskManager {
                     break
                 case("predictMatch"):
                     returnAnalysis.push(new predictWinning(Manager.db, task.red1, task.red2, task.red3, task.blue1, task.blue2, task.blue3))
+                    break
+                case("driverAbility"):
+                    returnAnalysis.push(new driverAbilityOverview(Manager.db, task.team))
                     break
                 default:
                     console.log(`${task.name} is not a valid task`)

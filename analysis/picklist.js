@@ -7,11 +7,12 @@ const autoClimb = require('./auto/climb/climberSucsessAutoDifference')
 const avgAutoCargo = require('./general/avgAutoCargo')
 const teamAvgTotal = require('./general/totalScoreDifference')
 const climberSucsessDifference = require('./teleop/climber/climberSucsessDifference.js')
+const driverAbility = require('./general/driverAbilityOverview')
 
 class picklist extends BaseAnalysis {
     static name = `picklist`
 
-    constructor(db, team, coneOneScore, coneTwoScore, coneThreeScore, cubeOneScore, cubeTwoScore, cubeThreeScore, autoCargo, teleOp, defense, climbAuto, feedCone, feedCube, avgTotal, teleopClimb) {
+    constructor(db, team, coneOneScore, coneTwoScore, coneThreeScore, cubeOneScore, cubeTwoScore, cubeThreeScore, autoCargo, teleOp, defense, climbAuto, feedCone, feedCube, avgTotal, teleopClimb, driverAbility) {
         super(db)
         this.team = team
         this.cubeOneScore = cubeOneScore
@@ -30,6 +31,7 @@ class picklist extends BaseAnalysis {
         this.feedingCube = feedCube
         this.avgTotal = avgTotal
         this.teleopClimb = teleopClimb
+        this.driverAbility = driverAbility
 
     }
    
@@ -105,9 +107,11 @@ class picklist extends BaseAnalysis {
 
                 var teleClimb = new climberSucsessDifference(a.db, a.team)
                 await teleClimb.runAnalysis()
-                console.log(teleClimb.finalizeResults())
                 arr.push({"result": teleClimb.zScore * a.teleopClimb, "type": "teleopClimb"})
 
+                var driveAbility = new driverAbility(a.db, a.team)
+                await driveAbility.runAnalysis()
+                arr.push({"result" : driveAbility.zScore * a.driverAbility, "type" : "driverAbility"})
 
 
 

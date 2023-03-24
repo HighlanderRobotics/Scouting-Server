@@ -8,6 +8,7 @@ const cycling = require('./teleop/cargo/cycling.js')
 const defense = require('./defense/defenseEvent.js')
 const averageScoreOverview = require('./general/averageScoreOverview.js')
 const climberSucsess = require('./teleop/climber/climberSucsess.js')
+const driverAbilityTeam = require('./general/driverAblilityTeam.js')
 
 
 
@@ -101,6 +102,10 @@ class categoryMetrics extends BaseAnalysis {
             await adjustedClimb.runAnalysis()
             metrics.adjustedDocked = adjustedClimb.adjustedTipped
             metrics.adjustedEngaged = adjustedClimb.adjustedLevel
+
+            var driver = new driverAbilityTeam(a.db, a.team)
+            await driver.runAnalysis()
+            metrics.driverAbility = driver.result
 
          
             

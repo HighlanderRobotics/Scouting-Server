@@ -47,8 +47,8 @@ class cargoCountAuto extends BaseAnalysis {
                                 }
                                 else {
                                     if (subArr[1] === 1 || subArr[1] === 0) {
-                                        arr.push({ "location": subArr[2], "event": subArr[1], "time": subArr[0] })
                                         currObj = subArr[1]
+                                        arr.push({ "location": subArr[2], "event": subArr[1], "time": subArr[0], "object" : currObj})
                                     }
                                     else if (subArr[1] === 2) {
                                         arr.push({ "location": subArr[2], "event": subArr[1], "time": subArr[0], "object": currObj })
@@ -66,8 +66,11 @@ class cargoCountAuto extends BaseAnalysis {
                         let data = JSON.parse(row.scoutReport)
                         if (data.autoChallengeResult === 1) {
                             total += 8
+                            arr.push({ "location": data.autoChallengeResult, "event": 9, "time": -1})
+
                         }
                         else if (data.autoChallengeResult === 2) {
+                            arr.push({ "location": data.autoChallengeResult, "event": 9, "time": -1})
                             total += 12
                         }
                         for (var i = 0; i < curr.length; i++) {

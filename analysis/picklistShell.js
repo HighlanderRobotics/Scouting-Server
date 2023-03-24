@@ -5,7 +5,7 @@ const picklist = require('./picklist')
 class picklistShell extends BaseAnalysis {
     static name = `picklistShell`
 
-    constructor(db, tourmentKey, coneOneScore, coneTwoScore, coneThreeScore, cubeOneScore, cubeTwoScore, cubeThreeScore, autoCargo, teleOp, defense, autoClimb, feedCone, feedCube, avgTotal, teleppClimb) {
+    constructor(db, tourmentKey, coneOneScore, coneTwoScore, coneThreeScore, cubeOneScore, cubeTwoScore, cubeThreeScore, autoCargo, teleOp, defense, autoClimb, feedCone, feedCube, avgTotal, teleppClimb, driverAbility) {
         super(db)
         this.tourmentKey = tourmentKey
         this.cubeOneScore = cubeOneScore
@@ -23,6 +23,7 @@ class picklistShell extends BaseAnalysis {
         this.feedingCube = feedCube
         this.avgTotal = avgTotal
         this.teleppClimb = teleppClimb
+        this.driverAbility = driverAbility
     }
 
 
@@ -41,7 +42,7 @@ class picklistShell extends BaseAnalysis {
                 }
                 if (rows != undefined) {
                     for (let row in rows) {
-                        let curr = new picklist(a.db, rows[row].teamNumber, a.coneOneScore, a.coneTwoScore, a.coneThreeScore, a.cubeOneScore, a.cubeTwoScore, a.cubeThreeScore, a.autoCargo, a.teleOp, a.defense, a.autoClimb, a.feedingCone, a.feedingCube, a.avgTotal, a.teleppClimb)
+                        let curr = new picklist(a.db, rows[row].teamNumber, a.coneOneScore, a.coneTwoScore, a.coneThreeScore, a.cubeOneScore, a.cubeTwoScore, a.cubeThreeScore, a.autoCargo, a.teleOp, a.defense, a.autoClimb, a.feedingCone, a.feedingCube, a.avgTotal, a.teleppClimb, a.driverAbility)
                         await curr.runAnalysis()
 
                         if (!isNaN(curr.result)) {
