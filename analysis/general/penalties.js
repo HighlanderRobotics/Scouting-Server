@@ -10,8 +10,7 @@ class pentalties extends BaseAnalysis {
         // this.start = start
         // this.end = end
         this.result = 0
-        this.array = []
-        this.matches
+        this.matches = []
 
     }
     async getAccuracy() {
@@ -35,9 +34,8 @@ class pentalties extends BaseAnalysis {
                 if (rows != undefined) {
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array) {
-                        let total = 0
                         let curr = JSON.parse(row.scoutReport).penaltyCards
-                        if (curr != 0)
+                        if (curr >= 0)
                         {
                             arr.push({"cardType" : curr, "match" : row.key})
                         }
@@ -45,8 +43,8 @@ class pentalties extends BaseAnalysis {
 
                     }
                 }
-                a.array = arr
-                a.result = arr.length
+                a.matches = arr
+                a.result = a.matches.length
                 if (isNaN(a.result))
                 {
                     a.result = 0
@@ -88,7 +86,7 @@ class pentalties extends BaseAnalysis {
         return {
             "result": this.result,
             "team": this.team,
-            "array": this.array
+            "matches": this.matches
             
         }
     }
