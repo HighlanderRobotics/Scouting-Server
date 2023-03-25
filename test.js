@@ -11,7 +11,7 @@ async function temp() {
    var x = new test(Manager.db, 8033)
   await x.runAnalysis()
  
- console.log(x.finalizeResults().paths[0].matches)
+ console.log(x.finalizeResults().paths[0])
 }
 temp()
 

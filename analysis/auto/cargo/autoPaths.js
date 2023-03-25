@@ -60,19 +60,25 @@ class cargoCountAuto extends BaseAnalysis {
                         }
 
                         let total = 0
+                        let str = ""
                         let data = JSON.parse(row.scoutReport)
                         if (data.autoChallengeResult === 1) {
                             total += 8
                             arr.push({ "location": 11, "event": 9, "time": 15})
+                            str = "docked"
 
                         }
                         else if (data.autoChallengeResult === 2) {
                             arr.push({ "location": 11, "event": 9, "time": 15})
                             total += 12
+                            str = "engaged"
+
                         }
                         else if (data.autoChallengeResult === 3)
                         {
                             arr.push({ "location": 11, "event": 9, "time": 15})
+                            str = "failed"
+
                         }
                         for (var i = 0; i < curr.length; i++) {
                             let entry = curr[i]
@@ -80,7 +86,6 @@ class cargoCountAuto extends BaseAnalysis {
                                 let max = Math.ceil(entry[2] / 3)
                                 if (max === 3) {
                                     total += 6
-
                                 }
                                 if (max === 2) {
                                     total += 4
@@ -99,8 +104,11 @@ class cargoCountAuto extends BaseAnalysis {
                                 jsonObject[key].matches.push(row.key)
 
                             } else {
-                                jsonObject[key] = { frequency: 1, score: total, positions : arr, matches : [row.key]};
+                                jsonObject[key] = { frequency: 1, score: total, positions : arr, matches : [row.key], chargeRate : {"docked" : 0, "engaged" : 0, "failed" : 0}};
+                                jsonObject[key].chargeRate.str
                             }
+                            jsonObject[key].chargeRate[str]++;
+
 
                         }
 
