@@ -39,11 +39,11 @@ class cargoCountAuto extends BaseAnalysis {
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array) {
                         let curr = JSON.parse(row.scoutReport).events
+                        let makes = 0
                         match.push(row.key)
                         for (var i = 0; i < curr.length; i++) {
 
                             let subArr = curr[i]
-                            let makes = 0
 
                             if (subArr[0] < 17) {
                                 if (subArr[1] === a.type) {
@@ -53,6 +53,7 @@ class cargoCountAuto extends BaseAnalysis {
                                     object = false
                                 }
                                 if (subArr[1] === 2 && object == true) {
+                                    
                                     makes++
                                     object = false
 
@@ -64,8 +65,8 @@ class cargoCountAuto extends BaseAnalysis {
                             else {
                                 break
                             }
-                            arr.push(makes) 
                         }
+                        arr.push(makes) 
                                                
                     }
 

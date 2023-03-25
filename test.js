@@ -1,5 +1,5 @@
 //for testing
-const test = require('./analysis/general/driverAbilityOverview')
+const test = require('./analysis/auto/cargo/cargoAutoOverview')
 // const test = require('./analysis/teleop/cargo/cargoCountOverview')
 // const test = require('./analysis/picklistShell')
 const Manager = require('./manager/dbmanager')
@@ -7,7 +7,7 @@ const Manager = require('./manager/dbmanager')
 // const y = require("./test")
 async function temp() {
    // var x = new test(Manager.db, "2023cafr", 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5)
-   var x = new test(Manager.db, 751)
+   var x = new test(Manager.db, 751, 0)
    // var x = new test(Manager.db, "2023cafr", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
   await x.runAnalysis()
  
