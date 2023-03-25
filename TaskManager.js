@@ -23,6 +23,7 @@ const cyclingDetials = require('./analysis/teleop/cargo/cylcingDetials.js')
 const predictWinning = require('./analysis/predictWinning.js')
 const scoringBreakdown = require('./analysis/general/scoringBreakdown.js')
 const driverAbilityOverview = require('./analysis/general/driverAbilityOverview.js')
+const pentalties = require('./analysis/general/penalties.js')
 
 
 class TaskManager {
@@ -156,6 +157,9 @@ class TaskManager {
                     break
                 case("driverAbility"):
                     returnAnalysis.push(new driverAbilityOverview(Manager.db, task.team))
+                    break
+                case("pentalties"):
+                    returnAnalysis.push(new pentalties(Manager.db, task.team))
                     break
                 default:
                     console.log(`${task.name} is not a valid task`)

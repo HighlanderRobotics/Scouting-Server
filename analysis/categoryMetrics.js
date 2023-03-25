@@ -9,6 +9,7 @@ const defense = require('./defense/defenseEvent.js')
 const averageScoreOverview = require('./general/averageScoreOverview.js')
 const climberSucsess = require('./teleop/climber/climberSucsess.js')
 const driverAbilityTeam = require('./general/driverAblilityTeam.js')
+const pentalties = require('./general/penalties.js')
 
 
 
@@ -107,10 +108,10 @@ class categoryMetrics extends BaseAnalysis {
             await driver.runAnalysis()
             metrics.driverAbility = driver.result
 
-         
-            
+            var pentalty  = new pentalties(a.db, a.team)
+            await pentalty.runAnalysis()
+            metrics.pentalties = pentalty.result            
           
-// notes: notesOutput 
             resolve({metrics})
         })
     }
