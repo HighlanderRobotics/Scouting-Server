@@ -1,5 +1,5 @@
 //for testing
-const test = require('./analysis/auto/cargo/autoPaths')
+const test = require('./analysis/defense/defenseEvent')
 // const test = require('./analysis/teleop/cargo/cargoCountOverview')
 // const test = require('./analysis/picklistShell')
 const Manager = require('./manager/dbmanager')
@@ -7,11 +7,11 @@ const Manager = require('./manager/dbmanager')
 // const y = require("./test")
 async function temp() {
    // var x = new test(Manager.db, "2023cafr", 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5)
-   var x = new test(Manager.db, 1148)
+   var x = new test(Manager.db, 100)
    // var x = new test(Manager.db, "2023cafr", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
   await x.runAnalysis()
  
- console.log(x.finalizeResults().paths)
+ console.log(x.finalizeResults())
 }
 temp()
 

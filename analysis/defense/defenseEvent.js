@@ -62,6 +62,10 @@ class defenseEvent extends BaseAnalysis {
                 }
                 a.array = arr
                 a.result = arr.reduce((partialSum, a) => partialSum + a, 0) / arr.length
+                if (isNaN(a.result))
+                {
+                    a.result = 0
+                }
                 a.matches = match
 
                 resolve("done")
