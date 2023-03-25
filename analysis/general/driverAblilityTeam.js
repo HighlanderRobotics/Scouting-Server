@@ -7,7 +7,6 @@ class driverAbilityTeam extends BaseAnalysis {
     constructor(db, team) {
         super(db)
         this.team = team
-        this.teamKey = "frc" + team
         // this.start = start
         // this.end = end
         this.result = 0

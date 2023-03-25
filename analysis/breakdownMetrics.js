@@ -92,6 +92,7 @@ class breakdownMetrics extends BaseAnalysis {
                     "feeder": this.result.metrics.feeder,
                     "defense" : this.result.metrics.defenseRole,
                     "offense" : this.result.metrics.offenseRole,
+                    "immobile" : this.result.metrics.immobile,
                     "mainRole" : this.result.metrics.mainRole
                 },
                 "climberAuto":
