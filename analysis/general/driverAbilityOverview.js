@@ -16,9 +16,10 @@ class driverAbilityOverview extends BaseAnalysis {
         // this.start = start
         // this.end = end
         this.result = 0
-        this.array = 0
+        this.array = []
         this.all = 0
         this.difference = 0
+        this.zScore = 0
         // this.array = []
 
     }
@@ -28,8 +29,6 @@ class driverAbilityOverview extends BaseAnalysis {
         await x.runAnalysis()
         let y = new all(a.db)
         await y.runAnalysis()
-        let z = new difference(a.db, a.team)
-        await z.runAnalysis()
         a.result = x.result
         a.array = x.finalizeResults().array
         a.all = y.result
