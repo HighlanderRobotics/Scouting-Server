@@ -112,6 +112,7 @@ class picklist extends BaseAnalysis {
                 var driveAbility = new driverAbility(a.db, a.team)
                 await driveAbility.runAnalysis()
                 arr.push({"result" : driveAbility.zScore * a.driverAbility, "type" : "driverAbility"})
+                
 
 
 

@@ -107,7 +107,11 @@ class cargoCountAuto extends BaseAnalysis {
                                 jsonObject[key] = { frequency: 1, score: total, positions : arr, matches : [row.key], chargeRate : {"docked" : 0, "engaged" : 0, "failed" : 0}};
                                 jsonObject[key].chargeRate.str
                             }
-                            jsonObject[key].chargeRate[str]++;
+                            console.log(str)
+                            if (str != "")
+                            {
+                                jsonObject[key].chargeRate[str]++;
+                            }
 
 
                         }
