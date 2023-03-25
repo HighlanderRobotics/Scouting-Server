@@ -96,9 +96,10 @@ class cargoCountAuto extends BaseAnalysis {
                             let key = JSON.stringify(arr)
                             if (jsonObject.hasOwnProperty(key)) {
                                 jsonObject[key].frequency++;
+                                jsonObject[key].matches.push(row.key)
 
                             } else {
-                                jsonObject[key] = { frequency: 1, score: total, positions : arr };
+                                jsonObject[key] = { frequency: 1, score: total, positions : arr, matches : [row.key]};
                             }
 
                         }
