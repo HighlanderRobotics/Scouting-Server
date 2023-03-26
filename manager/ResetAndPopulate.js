@@ -43,7 +43,7 @@ class ResetAndPopulate extends Manager {
             UNIQUE (name)
         )`
         return new Promise((resolve, reject) => {
-            this.removeAndAddTables(createTeams, createTournaments, createMatches, createData, createScouters)
+            this.removeAndAddTables(createTeams, createTournaments, createMatches, createData, createScouters, createPicklist)
             .catch((err) => {
                 if (err) {
                     reject({
@@ -81,7 +81,7 @@ class ResetAndPopulate extends Manager {
             }
         }))
     }
-    removeAndAddTables(createTeams, createTournaments, createMatches, createData, createScouters) {
+    removeAndAddTables(createTeams, createTournaments, createMatches, createData, createScouters, createPicklist) {
         return new Promise(function (resolve, reject) {
             Manager.db.serialize(() => {
                 // See of there's a better fix than turning foreign keys off for dropping tables with data in them
