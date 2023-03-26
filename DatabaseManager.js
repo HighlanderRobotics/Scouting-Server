@@ -73,7 +73,7 @@ class DatabaseManager {
                 case deletePicklist.name:
                     return new deletePicklist().runTask(body.uuid)
                 case getPicklists.name:
-                    return new deletePicklist().runTask()
+                    return new getPicklists().runTask()
                 case addPicklist.name:
                     return new addPicklist().runTask(body.uuid, body.name, body.cubeOneScore, body.cubeTwoScore, body.cubeThreeScore, body.coneOneScore, body.coneTwoScore, body.coneThreeScore, body.autoCargo, body.teleopScore, body.defenseScore, body.autoClimb, body.feedCone, body.feedCube, body.avgTotal, body.teleopClimb, body.driverAbility)
                     default:
