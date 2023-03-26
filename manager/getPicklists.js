@@ -9,12 +9,12 @@ class getPicklists extends Manager {
         super()
     }
 
-    async runTask(uuid, name, cubeOneScore, cubeTwoScore, cubeThreeScore, coneOneScore, coneTwoScore, coneThreeScore, autoCargo, teleopScore, defenseScore, autoClimb, feedCone, feedCube, avgTotal, teleopClimb, driverAbility) {
+    async runTask(){
 
         var sql = `SELECT *
         FROM sharedPicklists`
         return new Promise(async (resolve, reject) => {
-            Manager.db.all(sql, [uuid], (err, rows) => {
+            Manager.db.all(sql, [], (err, rows) => {
                 if (err) {
                     console.log(err)
                     reject(err)
