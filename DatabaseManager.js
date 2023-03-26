@@ -21,7 +21,7 @@ const GetTournaments = require('./manager/GetTournaments.js')
 const deletePicklist = require('./manager/deletePicklist.js')
 const getPicklists = require('./manager/getPicklists.js')
 const addPicklist = require('./manager/addPicklist.js')
-const editPicklist = require('./manager/editPicklist.js')
+const editPicklist = require('./manager/addPicklist.js')
 
 class DatabaseManager {
     constructor() {
@@ -76,8 +76,6 @@ class DatabaseManager {
                     return new deletePicklist().runTask(body.uuid)
                 case addPicklist.name:
                     return new addPicklist().runTask(body.uuid, body.name, body.cubeOneScore, body.cubeTwoScore, body.cubeThreeScore, body.coneOneScore, body.coneTwoScore, body.coneThreeScore, body.autoCargo, body.teleopScore, body.defenseScore, body.autoClimb, body.feedCone, body.feedCube, body.avgTotal, body.teleopClimb, body.driverAbility)
-                case editPicklist.name:
-                    return new editPicklist().runTask(body.uuid, body.name, body.cubeOneScore, body.cubeTwoScore, body.cubeThreeScore, body.coneOneScore, body.coneTwoScore, body.coneThreeScore, body.autoCargo, body.teleopScore, body.defenseScore, bodyy.autoClimb, body.feedCone, body.feedCube, body.avgTotal, body.teleopClimb, body.driverAbility)
                     default:
                     return new Promise((resolve, reject) => {
                         reject({

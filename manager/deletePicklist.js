@@ -13,7 +13,7 @@ class deletePicklist extends Manager {
         var sql = `DELETE FROM sharedPicklists
         WHERE uuid = ?`
         return new Promise(async (resolve, reject) => {
-            Manager.db.run(sql, [uuid], (err, rows) => {
+            Manager.db.all(sql, [uuid], (err, rows) => {
                 if (err) {
                     console.log(err)
                     reject(err)
