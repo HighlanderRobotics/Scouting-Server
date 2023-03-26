@@ -131,6 +131,7 @@ class Manager {
 
         var createMatches = `CREATE TABLE matches (key PRIMARY KEY, tournamentKey TEXT ONLY NOT NULL, matchNumber INTEGER, teamKey TEXT ONLY, matchType TEXT ONLY NOT NULL, UNIQUE (tournamentKey, teamKey, matchType, matchNumber), FOREIGN KEY(tournamentKey) REFERENCES tournaments(key), FOREIGN KEY(teamKey) REFERENCES teams(key));`
 
+        var createPicklists = `CREATE TABLE sharedPicklists (uuid PRIMARY KEY, name TEXT ONLY NOT NULL, cubeOneScore INTEGER, cubeTwoScore INTEGER, cubeThreeScore INTEGER coneOneScore INTEGER, coneTwoScore INTEGER, coneThreeScore INTEGER, autoCargo INTEGER, teleopScore INTEGER, defenseScore INTEGER, autoCLimb INTEGER, feedCone INTEGER, feedCube INTEGER, avgTotal INTEGER, teleopClimb INTEGER, driverAbility  INTEGER);`
         // Probably finalized lmk if there's any other datapoints
         var createData = `
         CREATE TABLE data (
@@ -170,6 +171,9 @@ class Manager {
             
                     Manager.db.run('DROP TABLE IF EXISTS `data`', ((err) => {if (err){console.log(`dropData ${err}`)}}))
                     Manager.db.run(createData, ((err) => {if (err){console.log(`createData ${err}`)}}))
+
+                    Manager.db.run('DROP TABLE IF EXISTS `sharedPicklists`', ((err) => {if (err){console.log(`dropMatches ${err}`)}}))
+                    Manager.db.run(createPicklists, ((err) => {if (err){console.log(`createPicklists ${err}`)}}))
 
                     Manager.db.run('DROP TABLE IF EXISTS `scouters`', ((err) => {if (err){console.log(`dropScouters ${err}`)}}))
                     Manager.db.run(createScouters, ((err) => {if (err){console.log(`createScouters ${err}`)} else {
