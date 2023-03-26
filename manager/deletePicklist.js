@@ -1,3 +1,4 @@
+const { re } = require('mathjs')
 const Manager = require('./Manager.js')
 
 class deletePicklist extends Manager {
@@ -10,14 +11,15 @@ class deletePicklist extends Manager {
     async runTask(uuid) {
 
         var sql = `DELETE FROM sharedPicklists
-        WHERE uuid = ?` 
-        Manager.db.run(sql, [uuid], (err, rows) =>
-        {
-            if (err)
-            {
-                console.log(err)
-            }
-            resolve("done")
+        WHERE uuid = ?`
+        return new Promise(async (resolve, reject) => {
+            Manager.db.run(sql, [uuid], (err, rows) => {
+                if (err) {
+                    console.log(err)
+                    reject(err)
+                }
+                resolve("done")
+            })
         })
 
     }

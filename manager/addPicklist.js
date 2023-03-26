@@ -11,12 +11,14 @@ class addPicklist extends Manager {
     async runTask(uuid, name, cubeOneScore, cubeTwoScore, cubeThreeScore, coneOneScore, coneTwoScore, coneThreeScore, autoCargo, teleopScore, defenseScore, autoClimb, feedCone, feedCube, avgTotal, teleopClimb, driverAbility) {
 
         var sql = `INSERT INTO sharedPicklists (uuid, name, cubeOneScore, cubeTwoScore, cubeThreeScore, coneOneScore, coneTwoScore, coneThreeScore, autoCargo, teleopScore, defenseScore, autoClimb, feedCone, feedCube, avgTotal, teleopClimb, driverAbility) VALUES (?, ?, ?, ? ?, ?, ?, ?, ?, ?, ?, ? ?, ?, ?, ?, ?)`
-        Manager.db.run(sql, [uuid, name, cubeOneScore, cubeTwoScore, cubeThreeScore, coneOneScore, coneTwoScore, coneThreeScore, autoCargo, teleopScore, defenseScore, autoClimb, feedCone, feedCube, avgTotal, teleopClimb, driverAbility], (err) =>
-        {
-            if (err)
-            {
-                console.log(err)
-            }
+        return new Promise(async (resolve, reject) => {
+            Manager.db.run(sql, [uuid, name, cubeOneScore, cubeTwoScore, cubeThreeScore, coneOneScore, coneTwoScore, coneThreeScore, autoCargo, teleopScore, defenseScore, autoClimb, feedCone, feedCube, avgTotal, teleopClimb, driverAbility], (err) => {
+                if (err) {
+                    console.log(err)
+                    reject(err)
+                }
+                resolve("done")
+            })
         })
 
     }
