@@ -21,7 +21,7 @@ class addPicklist extends Manager {
                     console.log(err)
                     reject(err)
                 }
-                if (rows == 1)
+                if (rows.length == 1)
                 {
                     Manager.db.all(sql2, [uuid], (err, rows) =>{
                         if (err)
