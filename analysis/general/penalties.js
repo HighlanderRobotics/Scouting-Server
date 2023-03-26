@@ -35,7 +35,7 @@ class pentalties extends BaseAnalysis {
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array) {
                         let curr = JSON.parse(row.scoutReport).penaltyCard
-                        if (curr >= 0)
+                        if (curr >= 1)
                         {
                             arr.push({"cardType" : curr, "match" : row.key})
                         }
@@ -49,7 +49,6 @@ class pentalties extends BaseAnalysis {
                 {
                     a.result = 0
                 }
-                a.matches = match
 
                 resolve("done")
 
