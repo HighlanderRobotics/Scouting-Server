@@ -4,7 +4,7 @@ const Manager = require('./Manager.js')
 class addPicklist extends Manager {
     static name = "addPicklist"
 
-    constructor() {
+      constructor() {
         super()
     }
 
@@ -31,14 +31,15 @@ class addPicklist extends Manager {
                         }
                     })
                 }
+                Manager.db.all(sql3, [uuid, name, cubeOneScore, cubeTwoScore, cubeThreeScore, coneOneScore, coneTwoScore, coneThreeScore, autoCargo, teleopScore, defenseScore, autoClimb, feedCone, feedCube, avgTotal, teleopClimb, driverAbility], (err) => {
+                    if (err) {
+                        console.log(err)
+                        reject(err)
+                    }
+                    resolve("done")
+                })
             })
-            Manager.db.all(sql3, [uuid, name, cubeOneScore, cubeTwoScore, cubeThreeScore, coneOneScore, coneTwoScore, coneThreeScore, autoCargo, teleopScore, defenseScore, autoClimb, feedCone, feedCube, avgTotal, teleopClimb, driverAbility], (err) => {
-                if (err) {
-                    console.log(err)
-                    reject(err)
-                }
-                resolve("done")
-            })
+           
         })
 
     }
