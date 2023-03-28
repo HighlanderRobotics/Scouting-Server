@@ -43,6 +43,7 @@ class cargoCount extends BaseAnalysis {
                 if (rows != undefined) {
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array) {
+                        let inner = 0
                         match.push(row.key)
                         let curr = JSON.parse(row.scoutReport).events
 
@@ -57,6 +58,7 @@ class cargoCount extends BaseAnalysis {
                             if (subArr[1] === a.location && object === true) {
 
                                 makes++
+                                inner ++
                                 if(subArr[2] > highest)
                                 {
                                     highest = subArr[2]
@@ -70,7 +72,7 @@ class cargoCount extends BaseAnalysis {
 
                         }
                         len++
-                        arr.push(makes)
+                        arr.push(inner)
                     }
 
                 }
