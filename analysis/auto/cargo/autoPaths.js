@@ -80,6 +80,7 @@ class cargoCountAuto extends BaseAnalysis {
                             str = "failed"
 
                         }
+                        
                         for (var i = 0; i < curr.length; i++) {
                             let entry = curr[i]
                             if (entry[0] <= 16 && entry[1] === 2) {

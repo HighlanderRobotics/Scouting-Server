@@ -10,6 +10,7 @@ const averageScoreOverview = require('./general/averageScoreOverview.js')
 const climberSucsess = require('./teleop/climber/climberSucsess.js')
 const driverAbilityTeam = require('./general/driverAblilityTeam.js')
 const pentalties = require('./general/penalties.js')
+const links = require('./general/links.js')
 
 
 
@@ -110,7 +111,11 @@ class categoryMetrics extends BaseAnalysis {
 
             var pentalty  = new pentalties(a.db, a.team)
             await pentalty.runAnalysis()
-            metrics.pentalties = pentalty.result            
+            metrics.pentalties = pentalty.result      
+            
+            var link = new links(a.db, a.team)
+            await link.runAnalysis()
+            metrics.links = link.result
           
             resolve({metrics})
         })

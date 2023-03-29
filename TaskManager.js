@@ -24,6 +24,7 @@ const predictWinning = require('./analysis/predictWinning.js')
 const scoringBreakdown = require('./analysis/general/scoringBreakdown.js')
 const driverAbilityOverview = require('./analysis/general/driverAbilityOverview.js')
 const pentalties = require('./analysis/general/penalties.js')
+const links = require('./analysis/general/links.js')
 
 
 class TaskManager {
@@ -160,6 +161,9 @@ class TaskManager {
                     break
                 case("pentalties"):
                     returnAnalysis.push(new pentalties(Manager.db, task.team))
+                    break
+                case("links"):
+                    returnAnalysis.push(new links(Manager.db, task.team))
                     break
                 default:
                     console.log(`${task.name} is not a valid task`)

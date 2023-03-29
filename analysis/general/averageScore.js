@@ -49,6 +49,10 @@ class averageScore extends BaseAnalysis {
                                 else if (data.autoChallengeResult === 2) {
                                     total += 12
                                 }
+                                else if (data.autoChallengeResult === 4)
+                                {
+                                    total += 2
+                                }
                             }
                             else if(a.autoOrTele === 1){
                                 if (data.challengeResult === 1) {
