@@ -6,6 +6,7 @@ class scoreForPreiction extends BaseAnalysis {
     constructor(db, team) {
         super(db)
         this.team = team
+        console.log(team)
         // this.start = start
         // this.end = end
         this.array = []

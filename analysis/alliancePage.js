@@ -135,12 +135,15 @@ class alliancePage extends BaseAnalysis {
 
             let total = 0
             var oneLinks = new links(Manager.db, a.teamOne)
+            await oneLinks.runAnalysis()
             total += oneLinks.result
 
             var twoLinks = new links(Manager.db, a.teamTwo)
+            await twoLinks.runAnalysis()
             total += twoLinks.result
 
             var threeLinks = new links(Manager.db, a.teamThree)
+            await threeLinks.runAnalysis()
             total += threeLinks.result
 
             a.links = total

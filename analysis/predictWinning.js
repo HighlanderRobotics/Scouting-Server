@@ -47,7 +47,6 @@ class predictWinning extends BaseAnalysis {
             let redArr3 = score3.finalizeResults().array
 
 
-
             if (redArr1.length <=1 || redArr2.length <= 1 || redArr3.length <= 1) {
                 a.result = null
                 resolve("not enough data")
