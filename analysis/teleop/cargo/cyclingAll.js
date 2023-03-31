@@ -64,10 +64,7 @@ class cyclingAll extends BaseAnalysis {
                             arr.push(total / len)
 
                         }
-                        else
-                        {
-                            arr.push(0)
-                        }
+                       
                     }
 
                 }
