@@ -104,6 +104,7 @@ class categoryMetrics extends BaseAnalysis {
             await adjustedClimb.runAnalysis()
             metrics.adjustedDocked = adjustedClimb.adjustedTipped
             metrics.adjustedEngaged = adjustedClimb.adjustedLevel
+            metrics.adjustedPoints = adjustedClimb.adjustedPoints
 
             var driver = new driverAbilityTeam(a.db, a.team)
             await driver.runAnalysis()
@@ -116,6 +117,8 @@ class categoryMetrics extends BaseAnalysis {
             var link = new links(a.db, a.team)
             await link.runAnalysis()
             metrics.links = link.result
+
+        
           
             resolve({metrics})
         })

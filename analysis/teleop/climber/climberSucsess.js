@@ -18,6 +18,7 @@ class climberSucsess extends BaseAnalysis {
         this.matches = []
         this.adjustedLevel = 0
         this.adjustedTipped = 0
+        this.adjustedPoints = 0
 
     }
     async getData() {
@@ -76,6 +77,7 @@ class climberSucsess extends BaseAnalysis {
                         a.totalAttempted = tipped + fullyOn + off
                         a.adjustedLevel = (a.level + 1)/(a.totalAttempted -a.tipped + 3)
                         a.adjustedTipped = (a.tipped + 1)/(a.totalAttempted  - a.level+ 3)
+                        a.adjustedPoints = a.adjustedLevel * 12 + a.adjustedTipped * 10 
 
                      resolve("done")
                     
@@ -122,7 +124,7 @@ class climberSucsess extends BaseAnalysis {
                 "value": item,
             })),
             "totalAttempted" : this.totalAttempted,
-            "team": this.team
+            "team": this.team,
         }
     }
 }
