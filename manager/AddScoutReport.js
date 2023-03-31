@@ -11,7 +11,6 @@ class AddScoutReport extends Manager {
     runTask(teamKey, tournamentKey, data) {
         let localMatchKey = `${tournamentKey}_${data.matchKey}`
         // console.log(localMatchKey)
-        // console.log(teamKey)
         // console.log(tournamentKey)
         let sql = `
         SELECT * FROM matches 

@@ -29,7 +29,6 @@ class avgAutoCargo extends BaseAnalysis {
         await y.runAnalysis()
         let overallAvg = y.average
         let difference  = teamAvg - overallAvg
-        console.log(teamAvg)
         let temp = math.std(y.array)
         a.zScore = difference /temp
         if(isNaN(a.zScore))

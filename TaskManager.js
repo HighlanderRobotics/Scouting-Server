@@ -50,7 +50,6 @@ class TaskManager {
 
             for (var i = 0; i < analysis.length; i++) {
                 // Resolve results when they've all finished
-                // console.log(analysis[i].finalizeResults())
                 results.push(analysis[i].finalizeResults())
             }
             resolve(results)

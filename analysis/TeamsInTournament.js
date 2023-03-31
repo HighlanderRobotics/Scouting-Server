@@ -55,7 +55,6 @@ class TeamsInTournament extends BaseAnalysis {
             if (data.length < 1) {
                 resolve(`No Data Found For ${a.tournamentKey}`)
             } else {
-                // console.log(a.result)
                 resolve(`Task Completed`)
             }
         })

@@ -21,8 +21,7 @@ class driverAbilityAll extends BaseAnalysis {
                 JOIN teams ON teams.key = matches.teamKey) 
                 AS  newMatches ON  data.matchKey = newMatches.key
           `;
-            let len = 0
-            let total = 0
+           let arr = []
             a.db.all(sql, [], (err, rows) => {
                 if (err) {
                     console.log(err)
@@ -31,10 +30,11 @@ class driverAbilityAll extends BaseAnalysis {
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array) {
                         let curr = JSON.parse(row.scoutReport).driverAbility
-                        total += curr
+                        arr.push(curr)
                     }
                 }
-                a.result = total/len
+                a.result = arr.reduce((partialSum, a) => partialSum + a.result, 0) / arr.length
+                a.array = arr
 
                 resolve("done")
 

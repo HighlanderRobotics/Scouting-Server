@@ -83,7 +83,6 @@ class climberSucsess extends BaseAnalysis {
                 }
             })
 
-            // console.log(all)
 
 
 

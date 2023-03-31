@@ -75,7 +75,6 @@ class climberSucsessAutoAll extends BaseAnalysis {
                 }
             })
 
-            // console.log(all)
 
 
 

@@ -41,7 +41,6 @@ class cycleOverviewAnalysis extends BaseAnalysis {
        a.array = x.finalizeResults().array
        a.all = y.result
        a.difference = difference.result
-       console.log(a.team)
 
 
     }

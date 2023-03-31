@@ -1,6 +1,6 @@
 const BaseAnalysis = require('../BaseAnalysis.js')
 const teamStat = require('./driverAblilityTeam')
-const all = require('./driverAblilityTeam')
+const all = require('./driverAbilityAll')
 const math = require('mathjs')
 
 // const Manager = require('./manager/dbmanager.js')
@@ -29,12 +29,14 @@ class driverAbilityOverview extends BaseAnalysis {
         await x.runAnalysis()
         let y = new all(a.db)
         await y.runAnalysis()
+        console.log(y.finalizeResults())
         a.result = x.result
         a.array = x.finalizeResults().array
         a.all = y.result
         a.difference = a.result - a.all
         let temp = math.std(y.array)
         a.zScore = a.difference / temp
+        console.log("here " + y.array)
         if(isNaN(a.zScore))
         {
             a.zScore = 0

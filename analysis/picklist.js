@@ -116,6 +116,7 @@ class picklist extends BaseAnalysis {
 
 
 
+
             a.array = arr
             a.result = arr.reduce((partialSum, a) => partialSum + a.result, 0)
 

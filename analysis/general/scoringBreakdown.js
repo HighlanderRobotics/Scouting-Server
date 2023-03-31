@@ -111,7 +111,6 @@ class scoringBreakdown extends BaseAnalysis {
                         tempClimb = 0
                     }
                     let totalThisMatch = a.array[index].value
-                    console.log(a.array)
 
                     let pieChart = { "coneOne": (oneCone.finalizeResults().array[index].value * 2) / totalThisMatch, "coneTwo": (twoCone.finalizeResults().array[index].value * 3) / totalThisMatch, "coneThree": (threeCone.finalizeResults().array[index].value * 5) / totalThisMatch, "cubeOne": (oneCube.finalizeResults().array[index].value * 2) / totalThisMatch, "cubeTwo": (twoCube.finalizeResults().array[index].value * 3) / totalThisMatch, "cubeThree": (threeCube.finalizeResults().array[index].value * 5) / totalThisMatch, "climb": tempClimb / totalThisMatch }
                     a.scoringBreakdown = pieChart
