@@ -5,6 +5,7 @@ const averageScore = require('./general/averageScore.js')
 const autoPaths = require('./auto/cargo/autoPaths')
 const levelCargo = require('./teleop/cargo/levelCargo')
 const math = require('mathjs')
+const links = require('./general/links.js')
 
 
 
@@ -26,6 +27,7 @@ class alliancePage extends BaseAnalysis {
         this.one = {}
         this.two = {}
         this.three = {}
+        this.links = 0
     }
     async getData() {
         let a = this
@@ -131,6 +133,19 @@ class alliancePage extends BaseAnalysis {
             { "role": threeRole, "team": a.teamThree, "paths": autoPathThree.finalizeResults().paths, "averagePoints" : pointsThree.average}]
             a.levels = levelArr
 
+            let total = 0
+            var oneLinks = new links(Manager.db, a.teamOne)
+            total += oneLinks.result
+
+            var twoLinks = new links(Manager.db, a.teamTwo)
+            total += twoLinks.result
+
+            var threeLinks = new links(Manager.db, a.teamThree)
+            total += threeLinks.result
+
+            a.links = total
+
+
 
 
 
@@ -161,6 +176,7 @@ class alliancePage extends BaseAnalysis {
                 "totalPoints": this.totalPoints,
                 "teams": this.teams,
                 "levelCargo": this.levels,
+                "links" : this.links
             }
         }
 
