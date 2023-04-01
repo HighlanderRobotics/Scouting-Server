@@ -29,12 +29,12 @@ class driverAbilityOverview extends BaseAnalysis {
         await x.runAnalysis()
         let y = new all(a.db)
         await y.runAnalysis()
-        console.log(y.finalizeResults())
         a.result = x.result
         a.array = x.finalizeResults().array
         a.all = y.result
         a.difference = a.result - a.all
         let temp = math.std(y.array)
+        console.log(temp)
         a.zScore = a.difference / temp
         console.log("here " + y.array)
         if(isNaN(a.zScore))
@@ -66,7 +66,7 @@ class driverAbilityOverview extends BaseAnalysis {
             "difference" : this.difference,
             "all" : this.all,
             "zScore" : this.zScore,
-            "team": this.team,
+            "team": this.team
         }
     }
 

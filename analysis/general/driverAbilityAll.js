@@ -69,7 +69,8 @@ class driverAbilityAll extends BaseAnalysis {
     }
     finalizeResults() {
         return {
-            "result": this.result
+            "result": this.result,
+            "array" : this.array
         }
     }
 
