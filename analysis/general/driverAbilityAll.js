@@ -7,6 +7,7 @@ class driverAbilityAll extends BaseAnalysis {
     constructor(db) {
         super(db)
         this.result = 0
+        this.array = []
 
     }
     async getAccuracy() {
@@ -33,8 +34,9 @@ class driverAbilityAll extends BaseAnalysis {
                         arr.push(curr)
                     }
                 }
-                a.result = arr.reduce((partialSum, a) => partialSum + a.result, 0) / arr.length
                 a.array = arr
+                a.result = arr.reduce((partialSum, a) => partialSum + a, 0) / arr.length
+
 
                 resolve("done")
 

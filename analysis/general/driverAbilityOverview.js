@@ -36,7 +36,6 @@ class driverAbilityOverview extends BaseAnalysis {
         let temp = math.std(y.array)
         console.log(temp)
         a.zScore = a.difference / temp
-        console.log("here " + y.array)
         if(isNaN(a.zScore))
         {
             a.zScore = 0

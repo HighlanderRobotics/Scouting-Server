@@ -7,7 +7,7 @@ const Manager = require('./manager/dbmanager')
 // const y = require("./test")
 async function temp() {
    // var x = new test(Manager.db, "2023cafr", 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5)
-   var x = new test(Manager.db, "2023cambpr", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)
+   var x = new test(Manager.db, "2023camb", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)
    // var x = new test(Manager.db, "2023cafr", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
   await x.runAnalysis()
  
