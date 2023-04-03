@@ -1,8 +1,8 @@
 const { re } = require('mathjs')
 const Manager = require('./Manager.js')
 
-class getData extends Manager {
-    static name = "getData"
+class getScoutReport extends Manager {
+    static name = "getScoutReport"
 
     constructor() {
         super()
@@ -26,4 +26,4 @@ class getData extends Manager {
     }
 }
 
-module.exports = getData
+module.exports = getScoutReport

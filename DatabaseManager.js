@@ -26,7 +26,7 @@ const deleteMutablePicklist = require('./manager/deleteMutablePicklist.js')
 const getMutablePicklists = require('./manager/getMutablePicklists.js')
 const deleteData = require('./manager/deleteData.js')
 const editNotes = require('./manager/editNotes.js')
-const getData = require('./manager/getData.js')
+const getScoutReport = require('./manager/getScoutReport.js')
 
 class DatabaseManager {
     constructor() {
@@ -92,8 +92,8 @@ class DatabaseManager {
                     return new deleteData().runTask(body.uuid)
                 case editNotes.name:
                     return new editNotes().runTask(body.uuid, body.newNote) 
-                case getData.name:
-                    return new getData().runTask(body.matchKey)
+                case getScoutReport.name:
+                    return new getScoutReport().runTask(body.matchKey)
                 
 
                     default:
