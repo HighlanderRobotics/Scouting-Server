@@ -11,7 +11,9 @@ class ResetAndPopulate extends Manager {
         var createTeams = `CREATE TABLE teams(key TEXT ONLY PRIMARY KEY, teamNumber INTEGER, teamName TEXT ONLY, UNIQUE (key, teamNumber, teamName));`
         var createTournaments = `CREATE TABLE tournaments (key TEXT ONLY PRIMARY KEY, name TEXT ONLY, location VARCHAR(50), date TEXT ONLY VARCHAR(20), UNIQUE (key, date));`
         var createMatches = `CREATE TABLE matches (key PRIMARY KEY, tournamentKey TEXT ONLY NOT NULL, matchNumber INTEGER, teamKey TEXT ONLY, matchType TEXT ONLY NOT NULL, UNIQUE (tournamentKey, teamKey, matchType, matchNumber), FOREIGN KEY(tournamentKey) REFERENCES tournaments(key), FOREIGN KEY(teamKey) REFERENCES teams(key));`
-        var createPicklist = `CREATE TABLE sharedPicklists (uuid INTEGER, name TEXT ONLY, cubeOneScore INTEGER, cubeTwoScore INTEGER, cubeThreeScore INTEGER, coneOneScore INTEGER, coneTwoScore INTEGER, coneThreeScore INTEGER, autoCargo INTEGER, teleopScore INTEGER, defenseScore INTEGER, autoClimb INTEGER, feedCone INTEGER, feedCube INTEGER, avgTotal INTEGER, teleopClimb INTEGER, driverAbility INTEGER )`
+        var createPicklist = `CREATE TABLE sharedPicklists (uuid, name TEXT ONLY, cubeOneScore INTEGER, cubeTwoScore INTEGER, cubeThreeScore INTEGER, coneOneScore INTEGER, coneTwoScore INTEGER, coneThreeScore INTEGER, autoCargo INTEGER, teleopScore INTEGER, defenseScore INTEGER, autoClimb INTEGER, feedCone INTEGER, feedCube INTEGER, avgTotal INTEGER, teleopClimb INTEGER, driverAbility INTEGER );`
+        var createMutablePicklist = `CREATE TABLE mutablePicklists(uuid, name TEXT ONLY, teams)`
+
         // Probably finalized lmk if there's any other datapoints
         var createData = `
         CREATE TABLE data (
@@ -28,14 +30,6 @@ class ResetAndPopulate extends Manager {
 
         var createScouters = `
 
-    
-          
-            
-    
-
-          
-    
-    
   
         CREATE TABLE scouters (
             name TEXT ONLY PRIMARY KEY,
@@ -44,7 +38,7 @@ class ResetAndPopulate extends Manager {
             UNIQUE (name)
         )`
         return new Promise((resolve, reject) => {
-            this.removeAndAddTables(createTeams, createTournaments, createMatches, createData, createScouters, createPicklist)
+            this.removeAndAddTables(createTeams, createTournaments, createMatches, createData, createScouters, createPicklist, createMutablePicklist)
             .catch((err) => {
                 if (err) {
                     reject({
@@ -82,7 +76,7 @@ class ResetAndPopulate extends Manager {
             }
         }))
     }
-    removeAndAddTables(createTeams, createTournaments, createMatches, createData, createScouters, createPicklist) {
+    removeAndAddTables(createTeams, createTournaments, createMatches, createData, createScouters, createPicklist, createMutablePicklist) {
         return new Promise(function (resolve, reject) {
             Manager.db.serialize(() => {
                 // See of there's a better fix than turning foreign keys off for dropping tables with data in them
@@ -101,6 +95,9 @@ class ResetAndPopulate extends Manager {
 
                 Manager.db.run('DROP TABLE IF EXISTS `sharedPicklists`', ((err) => {if (err){console.log(`dropPicklists ${err}`)}}))
                 Manager.db.run(createPicklist, ((err) => {if (err){console.log(`createPicklists ${err}`)}}))
+
+                Manager.db.run('DROP TABLE IF EXISTS `mutablePicklists`', ((err) => {if (err){console.log(`dropMutablePicklists ${err}`)}}))
+                Manager.db.run(createMutablePicklist, ((err) => {if (err){console.log(`createMutablePicklists ${err}`)}}))
 
                 Manager.db.run('DROP TABLE IF EXISTS `scouters`', ((err) => {if (err){console.log(`dropScouters ${err}`)}}))
                 Manager.db.run(createScouters, ((err) => {if (err){console.log(`createScouters ${err}`)} else {

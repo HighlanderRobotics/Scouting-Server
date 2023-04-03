@@ -21,7 +21,9 @@ const GetTournaments = require('./manager/GetTournaments.js')
 const deletePicklist = require('./manager/deletePicklist.js')
 const getPicklists = require('./manager/getPicklists.js')
 const addPicklist = require('./manager/addPicklist.js')
-const editPicklist = require('./manager/addPicklist.js')
+const addMutablePicklist = require('./manager/addMutablePicklist.js')
+const deleteMutablePicklist = require('./manager/deleteMutablePicklist.js')
+const getMutablePicklists = require('./manager/getMutablePicklists.js')
 
 class DatabaseManager {
     constructor() {
@@ -76,6 +78,14 @@ class DatabaseManager {
                     return new getPicklists().runTask()
                 case addPicklist.name:
                     return new addPicklist().runTask(body.uuid, body.name, body.cubeOneScore, body.cubeTwoScore, body.cubeThreeScore, body.coneOneScore, body.coneTwoScore, body.coneThreeScore, body.autoCargo, body.teleopScore, body.defenseScore, body.autoClimb, body.feedCone, body.feedCube, body.avgTotal, body.teleopClimb, body.driverAbility)
+                case addMutablePicklist.name:
+                    //works as edit or add
+                    return new addMutablePicklist().runTask(body.uuid, body.name, body.teams)
+                case deleteMutablePicklist.name:
+                    return new deleteMutablePicklist().runTask(body.uuid)
+                case getMutablePicklists.name:
+                    return new getMutablePicklists().runTask()
+
                     default:
                     return new Promise((resolve, reject) => {
                         reject({
