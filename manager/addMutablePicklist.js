@@ -24,7 +24,7 @@ class addMutablePicklist extends Manager {
                 }
                 if (rows.length == 1)
                 {
-                    Manager.db.all(sql2, [uuid], (err, rows) =>{gi
+                    Manager.db.all(sql2, [uuid], (err, rows) =>{
                         if (err)
                         {
                             console.log(err)
