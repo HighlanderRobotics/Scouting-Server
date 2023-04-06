@@ -100,7 +100,7 @@ class ResetAndPopulate extends Manager {
                 Manager.db.run(createMutablePicklist, ((err) => {if (err){console.log(`createMutablePicklists ${err}`)}}))
 
                 Manager.db.run('DROP TABLE IF EXISTS `pickedTeams`', ((err) => {if (err){console.log(`dropPickedTeams ${err}`)}}))
-                Manager.db.run(createMutablePicklist, ((err) => {if (err){console.log(`createPickedTeams ${err}`)}}))
+                Manager.db.run(pickedTeams, ((err) => {if (err){console.log(`createPickedTeams ${err}`)}}))
 
                 Manager.db.run('DROP TABLE IF EXISTS `scouters`', ((err) => {if (err){console.log(`dropScouters ${err}`)}}))
                 Manager.db.run(createScouters, ((err) => {if (err){console.log(`createScouters ${err}`)} else {
