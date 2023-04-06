@@ -28,7 +28,7 @@ class addPickedTeam extends Manager {
                         teams: JSON.parse(row.teams).map(team => parseInt(team)),
                     }))
                     arr.push(team)
-                    Manager.db.all(sql2, [uuid], (err, rows) =>{
+                    Manager.db.all(sql2, [], (err, rows) =>{
                         if (err)
                         {
                             console.log(err)
