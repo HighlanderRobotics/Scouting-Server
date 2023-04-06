@@ -28,6 +28,7 @@ const deleteData = require('./manager/deleteData.js')
 const editNotes = require('./manager/editNotes.js')
 const getScoutReport = require('./manager/getScoutReport.js')
 const getPickedTeams = require('./manager/getPickedTeams.js')
+const addPickedTeam = require('./manager/addPickedTeam.js')
 
 class DatabaseManager {
     constructor() {
@@ -95,7 +96,8 @@ class DatabaseManager {
                     return new editNotes().runTask(body.uuid, body.newNote) 
                 case getPickedTeams.name:
                     return new getPickedTeams().runTask()
-                
+                case addPickedTeam.name:
+                    return new addPickedTeam().runTask()
                 case getScoutReport.name:
                     return new getScoutReport().runTask(body.matchKey)
                 
