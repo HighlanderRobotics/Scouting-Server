@@ -36,6 +36,7 @@ class cargoCountAuto extends BaseAnalysis {
                     function functionAdder(row, index, array) {
                         let curr = JSON.parse(row.scoutReport).events
                         let arr = []
+                        let events = []
                         let currObj = -1
                         for (var i = 0; i < curr.length; i++) {
 
@@ -45,13 +46,16 @@ class cargoCountAuto extends BaseAnalysis {
                                     
                                     if (subArr[1] === 1 || subArr[1] === 0) {
                                         currObj = subArr[1]
+                                        events.push(subArr[1])
                                         arr.push({ "location": subArr[2], "event": subArr[1], "time": subArr[0]})
                                     }
                                     else if (subArr[1] === 2) {
+                                        events.push(subArr[1])
                                         arr.push({ "location": subArr[2], "event": subArr[1] + currObj, "time": subArr[0]})
                                         currObj = -1
                                     }
                                     else {
+                                        events.push(subArr[1])
                                         arr.push({ "location": subArr[2], "event": subArr[1], "time": subArr[0] })
                                     }
                                 
@@ -98,8 +102,8 @@ class cargoCountAuto extends BaseAnalysis {
                                 }
                             }
                         }
-                        if (arr.length > 1) {
-                            let key = JSON.stringify(arr)
+                        if (events.length > 1) {
+                            let key = JSON.stringify(events)
                             if (jsonObject.hasOwnProperty(key)) {
                                 jsonObject[key].frequency++;
                                 jsonObject[key].matches.push(row.key)
