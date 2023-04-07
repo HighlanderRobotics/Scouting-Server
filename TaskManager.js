@@ -25,6 +25,8 @@ const scoringBreakdown = require('./analysis/general/scoringBreakdown.js')
 const driverAbilityOverview = require('./analysis/general/driverAbilityOverview.js')
 const pentalties = require('./analysis/general/penalties.js')
 const links = require('./analysis/general/links.js')
+const climberSucsess = require('./analysis/teleop/climber/climberSucsess.js')
+const climberSucsessAuto = require('./analysis/auto/climb/climberSucsessAuto.js')
 
 
 class TaskManager {
@@ -164,6 +166,12 @@ class TaskManager {
                 case("links"):
                     returnAnalysis.push(new links(Manager.db, task.team))
                     break
+                case("climberAuto"):
+                    returnAnalysis.push(new climberSucsessAuto(Manager.db, task.team))
+                case("climber"):
+                    returnAnalysis.push(new climberSucsess(Manager.db, task.team))
+                case("role"):
+                    returnAnalysis.push(new robotRole(Manager.db, task.team))
                 default:
                     console.log(`${task.name} is not a valid task`)
             }
