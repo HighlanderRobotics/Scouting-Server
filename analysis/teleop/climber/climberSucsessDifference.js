@@ -28,8 +28,8 @@ class climberSucsessDifference extends BaseAnalysis {
         await y.runAnalysis()        
 
 
-        let allRate = ((y.level + 1)/(y.totalAttempted + 3) * 10) + ((y.tipped + 1)/(y.totalAttempted + 3) * 8)
-        let teamRate = ((x.level + 1)/(x.totalAttempted + 3) * 10) + ((x.tipped + 1)/(x.totalAttempted + 3) * 8)
+        let allRate = ((y.level + 1)/(y.totalAttempted + 3) * 10) + ((y.tipped + 1)/(y.totalAttempted + 3) * 6)
+        let teamRate = ((x.level + 1)/(x.totalAttempted + 3) * 10) + ((x.tipped + 1)/(x.totalAttempted + 3) * 6)
         let temp = math.std(y.array)
         a.zScore = (teamRate - allRate)/temp
         if(isNaN(a.zScore))
