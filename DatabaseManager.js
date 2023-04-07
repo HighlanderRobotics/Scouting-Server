@@ -97,7 +97,7 @@ class DatabaseManager {
                 case getPickedTeams.name:
                     return new getPickedTeams().runTask()
                 case addPickedTeam.name:
-                    return new addPickedTeam().runTask()
+                    return new addPickedTeam().runTask(body.team)
                 case getScoutReport.name:
                     return new getScoutReport().runTask(body.matchKey)
                 
