@@ -8,7 +8,7 @@ const Manager = require('./manager/dbmanager')
 async function temp() {
    // var x = new test(Manager.db, "2023cafr", 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5)
    // var x = new test(Manager.db, "2023camb", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)
-   var x = new test(Manager.db, 8033, 100, 971)
+   var x = new test(Manager.db, 8033, 100, 971, "qm")
   await x.runAnalysis()
  
  console.log(x.finalizeResults().paths)

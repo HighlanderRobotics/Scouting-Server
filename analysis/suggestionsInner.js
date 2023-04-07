@@ -4,6 +4,7 @@ const alliance = require('./alliancePage')
 const links = require('./general/links.js')
 const Manager = require('../manager/Manager.js')
 const cargoCountOverview = require('./teleop/cargo/cargoCountOverview.js')
+const climberSucsess = require('./teleop/climber/climberSucsess.js')
 
 
 // const math = require('mathjs')
@@ -20,7 +21,7 @@ class suggestionsInner extends BaseAnalysis {
         this.team2 = team2
         this.team3 = team3
 
-        this.matchType
+        this.matchType = matchType
 
         this.alliance = {}
     }
@@ -28,7 +29,7 @@ class suggestionsInner extends BaseAnalysis {
         let a = this
         return new Promise(async function (resolve, reject) {
             
-
+            let climbPoints = 12
 
             //teleop
             var teleop = {}
@@ -54,10 +55,20 @@ class suggestionsInner extends BaseAnalysis {
             var cargoThreeCubes = new cargoCountOverview(Manager.db,a.team3, 0, 2)
             await cargoThreeCubes.runAnalysis()
 
+            var climbOne = new climberSucsess(Manager.db, a.team1)
+            await climbOne.runAnalysis()
+
+            var climbTwo = new climberSucsess(Manager.db, a.team2)
+            await climbTwo.runAnalysis()
+
+            var climbThree = new climberSucsess(Manager.db, a.team3)
+            await climbThree.runAnalysis()
+
+
             var trippleLinks = linksOne.result + linksTwo.result + linksThree.result
-            var arrayTeams = [{"team" : a.team1, "links" : linksOne.result, "max" : cargoOneCones.max, "levelOne" : cargoOneCones.one + cargoOneCubes.one, "levelTwo" : cargoOneCones.two + cargoOneCubes.two, "levelThree" : cargoOneCones.three + cargoOneCubes.three}, 
-            {"team" : a.team2, "links" : linksTwo.result , "max" : cargoTwoCones.max, "levelOne" : cargoTwoCones.one + cargoTwoCubes.one, "levelTwo" : cargoTwoCones.two + cargoTwoCubes.two, "levelThree" : cargoTwoCones.three + cargoTwoCubes.three}, 
-            {"team" : a.team3, "links" : linksThree.result, "max" : cargoThreeCones.max, "levelOne" : cargoThreeCones.one + cargoThreeCubes.one, "levelTwo" : cargoThreeCones.two + cargoThreeCubes.two, "levelThree" : cargoThreeCones.three + cargoThreeCubes.three}]
+            var arrayTeams = [{"team" : a.team1, "links" : linksOne.result, "max" : cargoOneCones.max, "levelOne" : cargoOneCones.one + cargoOneCubes.one, "levelTwo" : cargoOneCones.two + cargoOneCubes.two, "levelThree" : cargoOneCones.three + cargoOneCubes.three, "climbTele" : climbOne.adjustedPoints}, 
+            {"team" : a.team2, "links" : linksTwo.result , "max" : cargoTwoCones.max, "levelOne" : cargoTwoCones.one + cargoTwoCubes.one, "levelTwo" : cargoTwoCones.two + cargoTwoCubes.two, "levelThree" : cargoTwoCones.three + cargoTwoCubes.three, "climbTele" : climbOne.adjustedPoints}, 
+            {"team" : a.team3, "links" : linksThree.result, "max" : cargoThreeCones.max, "levelOne" : cargoThreeCones.one + cargoThreeCubes.one, "levelTwo" : cargoThreeCones.two + cargoThreeCubes.two, "levelThree" : cargoThreeCones.three + cargoThreeCubes.three, "climbTele" : climbOne.adjustedPoints}]
             arrayTeams = arrayTeams.sort(function(a, b) {
                 return b.links - a.links;
               });
@@ -83,7 +94,7 @@ class suggestionsInner extends BaseAnalysis {
                 one.role = 0
                 two.role = 0
                 three.role = 1
-                if()
+                
             }
 
 
@@ -94,8 +105,23 @@ class suggestionsInner extends BaseAnalysis {
             endGame.first = arrayTeams[2].team
             if (a.matchType === "qm")
             {
-                
+                let arrayClimb = arrayTeams.sort(function(a, b) {
+                    return b.climbTele - a.climbTele;
+                  });
+                console.log(arrayClimb)
+                if(arrayClimb[0].climbTele + arrayClimb[1].climbTele + climbPoints >=23)
+                {
+                    //climbNumber = how many should climb
+                    endGame.climbNumber = 2
+                    endGame.teamsClimbing = [arrayClimb[0].team, arrayClimb[1].team]
+                }
+                else
+                {
+                    endGame.climbNumber = 3
+                    endGame.teamsClimbing = [arrayClimb[0].team, arrayClimb[1].team, arrayClimb[2].team]
+                }
             }
+            console.log(endGame)
 
             
         })

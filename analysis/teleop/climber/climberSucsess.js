@@ -77,7 +77,7 @@ class climberSucsess extends BaseAnalysis {
                         a.totalAttempted = tipped + fullyOn + off
                         a.adjustedLevel = (a.level + 1)/(a.totalAttempted -a.tipped + 3)
                         a.adjustedTipped = (a.tipped + 1)/(a.totalAttempted  - a.level+ 3)
-                        a.adjustedPoints = a.adjustedLevel * 12 + a.adjustedTipped * 10 
+                        a.adjustedPoints = a.adjustedLevel * 10 + a.adjustedTipped * 6
 
                      resolve("done")
                     
