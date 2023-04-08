@@ -19,11 +19,7 @@ class getPickedTeams extends Manager {
                     console.log(err)
                     reject(err)
                 }
-                resolve(rows.map((row) => ({
-                    ...row,
-                    teams: JSON.parse(row.teams).map(team => parseInt(team)),
-                })))
-
+                resolve(rows)
             })
         })
 

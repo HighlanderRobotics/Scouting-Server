@@ -11,38 +11,15 @@ class addPickedTeam extends Manager {
 
     async runTask(team) {
 
-        var sql = `SELECT * FROM pickedTeams`
-        var sql2 = `DELETE FROM pickedTeams`
-        var sql3 = `INSERT INTO mutablePicklists (teams) VALUES (?)`
-        let arr = []
+     
+        var sql = `INSERT INTO mutablePicklists (teams) VALUES (?)`
         return new Promise(async (resolve, reject) => {
-            Manager.db.all(sql, [], (err, rows) => {
+            Manager.db.all(sql, [team], (err, rows) => {
                 if (err) {
                     console.log(err)
                     reject(err)
-                }
-                if (rows.length == 1)
-                {
-                    arr = rows.map((row) => ({
-                        ...row,
-                        teams: JSON.parse(row.teams).map(team => parseInt(team)),
-                    }))
-                    arr.push(team)
-                    Manager.db.all(sql2, [], (err, rows) =>{
-                        if (err)
-                        {
-                            console.log(err)
-                            reject(err)
-                        }
-                    })
-                }
-                Manager.db.all(sql3, [JSON.stringify(arr)], (err) => {
-                    if (err) {
-                        console.log(err)
-                        reject(err)
-                    }
-                    resolve("done")
-                })
+                }   
+                resolve("done")
             })
            
         })
