@@ -121,6 +121,10 @@ class suggestionsInner extends BaseAnalysis {
                     endGame.teamsClimbing = [arrayClimb[0].team, arrayClimb[1].team, arrayClimb[2].team]
                 }
             }
+            else
+            {
+                
+            }
             console.log(endGame)
 
             

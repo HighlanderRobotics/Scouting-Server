@@ -51,7 +51,7 @@ class cargoCountAuto extends BaseAnalysis {
                                     }
                                     else if (subArr[1] === 2) {
                                         events.push(subArr[1])
-                                        arr.push({ "location": subArr[2], "event": subArr[1] + currObj, "time": subArr[0]})
+                                        arr.push({ "location": subArr[2], "event": subArr[1] + currObj + 2, "time": subArr[0]})
                                         currObj = -1
                                     }
                                     else {
