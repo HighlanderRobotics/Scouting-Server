@@ -46,7 +46,7 @@ class picklistShell extends BaseAnalysis {
                         await curr.runAnalysis()
 
                         if (!isNaN(curr.result)) {
-                            let temp = { "team": rows[row].teamNumber, "result": curr.result, "breakdown" : curr.array }
+                            let temp = { "team": rows[row].teamNumber, "result": curr.result, "breakdown" : curr.array, "unweighted" : curr.unadjustedZScores }
                             arr.push(temp)
                         }
                     }

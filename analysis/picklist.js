@@ -56,7 +56,7 @@ class picklist extends BaseAnalysis {
                 var coneOne = new levelCargo(a.db, a.team, 1, 1)
                 await coneOne.runAnalysis()
                 arr.push({"result": coneOne.zScore * a.coneOneScore, "type": "coneOneScore"})
-                arr.push({"result" : avgScore.zScore, "type" : "teleopScore"})
+                arr.push({"result" : avgScore.zScore, "type" : "coneOneScore"})
 
 
                 var coneTwo = new levelCargo(a.db, a.team, 1, 2)
@@ -127,8 +127,8 @@ class picklist extends BaseAnalysis {
 
                 var score = new teamAvgTotal(a.db, a.team)
                 await score.runAnalysis()
-                arr.push({"result": score.zScore * a.avgTotal, "type": "avgScore"})
-                arr.push({"result": score.zScore, "type": "avgScore"})
+                arr.push({"result": score.zScore * a.avgTotal, "type": "avgTotal"})
+                arr.push({"result": score.zScore, "type": "avgTotal"})
 
 
                 var teleClimb = new climberSucsessDifference(a.db, a.team)
