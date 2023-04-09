@@ -111,10 +111,16 @@ class cargoCountAuto extends BaseAnalysis {
                             if (jsonObject.hasOwnProperty(key)) {
                                 jsonObject[key].frequency++;
                                 jsonObject[key].matches.push(row.key)
+                                if(jsonObject[key].maxScore < total)
+                                {
+                                    jsonObject[key].positions = arr
+                                    jsonObject[key].maxScore = total
+                                }
                                 jsonObject[key].score.push(total)
+                                
 
                             } else {
-                                jsonObject[key] = { frequency: 1, score: [total], positions : arr, matches : [row.key], chargeRate : {"docked" : 0, "engaged" : 0, "failed" : 0}};
+                                jsonObject[key] = { frequency: 1, score: [total], positions : arr, matches : [row.key], chargeRate : {"docked" : 0, "engaged" : 0, "failed" : 0}, maxScore : total};
                                 jsonObject[key].chargeRate.str
                             }
                             if (str != "")
