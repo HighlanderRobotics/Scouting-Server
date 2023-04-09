@@ -84,6 +84,10 @@ class cargoCountAuto extends BaseAnalysis {
                             str = "failed"
 
                         }
+                        else if (data.autoChallengeResult === 4)
+                        {
+                                total += 3
+                        }
                         
                         for (var i = 0; i < curr.length; i++) {
                             let entry = curr[i]

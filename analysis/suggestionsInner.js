@@ -5,6 +5,9 @@ const links = require('./general/links.js')
 const Manager = require('../manager/Manager.js')
 const cargoCountOverview = require('./teleop/cargo/cargoCountOverview.js')
 const climberSucsess = require('./teleop/climber/climberSucsess.js')
+const cycling = require('./teleop/cargo/cycling.js')
+const driverAbilityTeam = require('./general/driverAblilityTeam.js')
+const { sec } = require('mathjs')
 
 
 // const math = require('mathjs')
@@ -29,7 +32,7 @@ class suggestionsInner extends BaseAnalysis {
         let a = this
         return new Promise(async function (resolve, reject) {
             
-            let climbPoints = 12
+            let climbPoints = 0
 
             //teleop
             var teleop = {}
@@ -101,7 +104,7 @@ class suggestionsInner extends BaseAnalysis {
 
 
             //end game
-            let endGame = {}
+            let endGame = []
             endGame.first = arrayTeams[2].team
             if (a.matchType === "qm")
             {
@@ -112,17 +115,38 @@ class suggestionsInner extends BaseAnalysis {
                 if(arrayClimb[0].climbTele + arrayClimb[1].climbTele + climbPoints >=23)
                 {
                     //climbNumber = how many should climb
-                    endGame.climbNumber = 2
-                    endGame.teamsClimbing = [arrayClimb[0].team, arrayClimb[1].team]
+                    //2 climb
+                    let firstClimb = new driverAbilityTeam(Manager.db, arrayClimb[2].team)
+                    await firstClimb.runAnalysis()
+                    let secondClimb = new driverAbilityTeam(Manager.db, arrayClimb[1].team)
+                    await secondClimb.runAnalysis()
+
+
+                    let firstTime = 40 -  (5 * arrayClimb.result )
+                    let secondTime = 35 - (5 * secondClimb.result)
+    
+                    endGame = [{"team" : arrayClimb[2].team, "time" : firstTime}, {"team" : arrayClimb[1].team, "time" : secondTime}]
                 }
                 else
                 {
-                    endGame.climbNumber = 3
-                    endGame.teamsClimbing = [arrayClimb[0].team, arrayClimb[1].team, arrayClimb[2].team]
+                    let firstClimb = new driverAbilityTeam(Manager.db, arrayTeams[2].team)
+                    await firstClimb.runAnalysis()
+                    let secondClimb = new driverAbilityTeam(Manager.db, arrayTeams[1].team)
+                    await secondClimb.runAnalysis()
+                    let thirdClumb = new driverAbilityTeam(Manager.db, arrayTeams[0].team)
+                    await thirdClumb.runAnalysis()
+
+                    let firstTime = 40 -  (5 * firstClimb.result )
+                    let secondTime = 35 - (5 * secondClimb.result)
+                    let thirdTime = 30 - (5 * thirdClumb.result)
+    
+                    endGame = [{"team" : arrayTeams[2].team, "time" : firstTime}, {"team" : arrayTeams[1].team, "time" : secondTime}, {"team" : arrayTeams[0].team, "time" : thirdTime}]
                 }
             }
             else
             {
+                //cycling
+
                 
             }
             console.log(endGame)
