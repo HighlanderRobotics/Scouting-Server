@@ -51,70 +51,70 @@ class picklist extends BaseAnalysis {
                 var avgScore = new averageScoreOverview(a.db, a.team)
                 await avgScore.runAnalysis()
                 arr.push({"result" : avgScore.zScore * a.teleOp, "type" : "teleopScore"})
-                arr.push({"result" : avgScore.zScore, "type" : "teleopScore"})
+                unAdj.push({"result" : avgScore.zScore, "type" : "teleopScore"})
 
                 var coneOne = new levelCargo(a.db, a.team, 1, 1)
                 await coneOne.runAnalysis()
                 arr.push({"result": coneOne.zScore * a.coneOneScore, "type": "coneOneScore"})
-                arr.push({"result" : avgScore.zScore, "type" : "coneOneScore"})
+                unAdj.push({"result" : avgScore.zScore, "type" : "coneOneScore"})
 
 
                 var coneTwo = new levelCargo(a.db, a.team, 1, 2)
                 await coneTwo.runAnalysis()
                 arr.push({"result" :coneTwo.zScore * a.coneTwoScore, "type" : "coneTwoScore"})
-                arr.push({"result" :coneTwo.zScore, "type" : "coneTwoScore"})
+                unAdj.push({"result" :coneTwo.zScore, "type" : "coneTwoScore"})
 
 
                 var coneThree = new levelCargo(a.db, a.team, 1, 3)
                 await coneThree.runAnalysis()
                 arr.push({"result": coneThree.zScore * a.coneThreeScore, "type": "coneThreeScore"})
-                arr.push({"result": coneThree.zScore, "type": "coneThreeScore"})
+                unAdj.push({"result": coneThree.zScore, "type": "coneThreeScore"})
 
 
 
                 var cubeOne = new levelCargo(a.db, a.team, 0, 1)
                 await cubeOne.runAnalysis()
                 arr.push({"result": cubeOne.zScore * a.cubeOneScore, "type": "cubeOneScore"})
-                arr.push({"result": cubeOne.zScore, "type": "cubeOneScore"})
+                unAdj.push({"result": cubeOne.zScore, "type": "cubeOneScore"})
 
 
                 var cubeTwo = new levelCargo(a.db, a.team, 0, 2)
                 await cubeTwo.runAnalysis()
                 arr.push({"result": cubeTwo.zScore * a.cubeTwoScore, "type": "cubeTwoScore"})
-                arr.push({"result": cubeTwo.zScore, "type": "cubeTwoScore"})
+                unAdj.push({"result": cubeTwo.zScore, "type": "cubeTwoScore"})
 
 
 
                 var cubeThree = new levelCargo(a.db, a.team, 0, 3)
                 await cubeThree.runAnalysis()
                 arr.push({"result": cubeThree.zScore * a.cubeThreeScore, "type": "cubeThreeScore"})
-                arr.push({"result": cubeThree.zScore, "type": "cubeThreeScore"})
+                unAdj.push({"result": cubeThree.zScore, "type": "cubeThreeScore"})
 
 
 
                 var defense = new defense1(a.db, a.team)
                 await defense.runAnalysis()
                 arr.push({"result": defense.zScore * a.defense, "type": "defenseScore"})
-                arr.push({"result": defense.zScore, "type": "defenseScore"})
+                unAdj.push({"result": defense.zScore, "type": "defenseScore"})
 
 
                 var climberAuto = new autoClimb(a.db, a.team)
                 await climberAuto.runAnalysis()
                 arr.push({"result": climberAuto.zScore * a.climbAuto, "type": "autoClimb"})
-                arr.push({"result": climberAuto.zScore, "type": "autoClimb"})
+                unAdj.push({"result": climberAuto.zScore, "type": "autoClimb"})
 
 
                 var autoCargo1 = new avgAutoCargo(a.db, a.team)
                 await autoCargo1.runAnalysis()
                 arr.push({"result": autoCargo1.zScore * a.autoCargo, "type": "autoCargo"})
-                arr.push({"result": autoCargo1.zScore, "type": "autoCargo"})
+                unAdj.push({"result": autoCargo1.zScore, "type": "autoCargo"})
 
 
                 var feedCone = new cargoOverview(a.db, a.team, 1, 4)
                 await feedCone.runAnalysis()
                 let x = feedCone.zScore * a.feedingCone
                 arr.push({"result": x, "type": "feedCone"})
-                arr.push({"result": feedCone.zScore, "type": "feedCone"})
+                unAdj.push({"result": feedCone.zScore, "type": "feedCone"})
 
 
 
@@ -122,25 +122,25 @@ class picklist extends BaseAnalysis {
                 await feedCube.runAnalysis()
                 let y = feedCube.zScore * a.feedingCube
                 arr.push({"result": feedCube.zScore * a.feedingCube, "type": "feedCube"})
-                arr.push({"result": feedCube.zScore, "type": "feedCube"})
+                unAdj.push({"result": feedCube.zScore, "type": "feedCube"})
 
 
                 var score = new teamAvgTotal(a.db, a.team)
                 await score.runAnalysis()
                 arr.push({"result": score.zScore * a.avgTotal, "type": "avgTotal"})
-                arr.push({"result": score.zScore, "type": "avgTotal"})
+                unAdj.push({"result": score.zScore, "type": "avgTotal"})
 
 
                 var teleClimb = new climberSucsessDifference(a.db, a.team)
                 await teleClimb.runAnalysis()
                 arr.push({"result": teleClimb.zScore * a.teleopClimb, "type": "teleopClimb"})
-                arr.push({"result": teleClimb.zScore, "type": "teleopClimb"})
+                unAdj.push({"result": teleClimb.zScore, "type": "teleopClimb"})
 
 
                 var driveAbility = new driverAbility(a.db, a.team)
                 await driveAbility.runAnalysis()
                 arr.push({"result" : driveAbility.zScore * a.driverAbility, "type" : "driverAbility"})
-                arr.push({"result" : driveAbility.zScore, "type" : "driverAbility"})
+                unAdj.push({"result" : driveAbility.zScore, "type" : "driverAbility"})
 
                 
                 
