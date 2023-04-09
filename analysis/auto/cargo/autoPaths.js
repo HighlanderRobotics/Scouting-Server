@@ -50,7 +50,7 @@ class cargoCountAuto extends BaseAnalysis {
                                         arr.push({ "location": subArr[2], "event": subArr[1], "time": subArr[0]})
                                     }
                                     else if (subArr[1] === 2) {
-                                        events.push(subArr[1])
+                                        events.push(subArr[2] % 3 + 10)
                                         arr.push({ "location": subArr[2], "event": subArr[1] + currObj + 2, "time": subArr[0]})
                                         currObj = -1
                                     }
@@ -111,12 +111,12 @@ class cargoCountAuto extends BaseAnalysis {
                             if (jsonObject.hasOwnProperty(key)) {
                                 jsonObject[key].frequency++;
                                 jsonObject[key].matches.push(row.key)
+                                jsonObject[key].score.push(total)
 
                             } else {
-                                jsonObject[key] = { frequency: 1, score: total, positions : arr, matches : [row.key], chargeRate : {"docked" : 0, "engaged" : 0, "failed" : 0}};
+                                jsonObject[key] = { frequency: 1, score: [total], positions : arr, matches : [row.key], chargeRate : {"docked" : 0, "engaged" : 0, "failed" : 0}};
                                 jsonObject[key].chargeRate.str
                             }
-                            console.log(str)
                             if (str != "")
                             {
                                 jsonObject[key].chargeRate[str]++;
@@ -152,7 +152,6 @@ class cargoCountAuto extends BaseAnalysis {
                 }
             })
             .then((data) => {
-                // console.log(data)
                 return data
             })
     }
