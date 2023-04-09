@@ -51,7 +51,7 @@ class averageScore extends BaseAnalysis {
                                 }
                                 else if (data.autoChallengeResult === 4)
                                 {
-                                    total += 2
+                                    total += 3
                                 }
                             }
                             else if(a.autoOrTele === 1){
@@ -60,6 +60,10 @@ class averageScore extends BaseAnalysis {
                                 }
                                 else if (data.challengeResult === 2) {
                                     total += 10
+                                }
+                                else if(data.challengeResult === 2)
+                                {
+                                    total += 2
                                 }
                                
                             }
