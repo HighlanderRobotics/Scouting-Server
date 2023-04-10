@@ -27,6 +27,19 @@ class suggestionsInner extends BaseAnalysis {
         this.matchType = matchType
 
         this.alliance = {}
+
+        this.row1 = [1, 2, 3]
+        this.row2 = [4, 5, 6]
+        this.row3 = [7, 8, 9]
+
+        //TEST FOR RIGHT SIDE
+        this.grid1 = [1, 4, 7]
+        this.grid2 = [3, 6, 9]
+        //only for triple O
+        this.grid3 = [2, 5, 8]
+        
+        this.betterGrid = [8]
+        this.worseGrid = [5]
     }
     async getWinner() {
         let a = this
@@ -104,6 +117,7 @@ class suggestionsInner extends BaseAnalysis {
 
 
             //end game
+            //done
             let endGame = []
             endGame.first = arrayTeams[2].team
             if (a.matchType === "qm")
