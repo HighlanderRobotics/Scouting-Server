@@ -125,6 +125,7 @@ class climberSucsess extends BaseAnalysis {
             })),
             "totalAttempted" : this.totalAttempted,
             "team": this.team,
+            "adjustedPoints" : this.adjustedPoints
         }
     }
 }
