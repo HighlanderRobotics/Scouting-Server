@@ -43,6 +43,8 @@ class breakdownMetrics extends BaseAnalysis {
             metrics.climberTipped = climber.finalizeResults().tipped
             metrics.climberSucsess = climber.finalizeResults().level
             metrics.noClimb = climber.finalizeResults().noClimb
+            metrics.climbArray = climber.finalizeResults().array
+
 
             var climberAuto = new climberSucsessAuto(a.db, a.team)
             await climberAuto.runAnalysis()
@@ -50,6 +52,7 @@ class breakdownMetrics extends BaseAnalysis {
             metrics.climberTippedAuto = climberAuto.finalizeResults().tipped
             metrics.climberSucsessAuto = climberAuto.finalizeResults().level
             metrics.noClimbAuto = climberAuto.finalizeResults().noClimb
+            metrics.climbAutoArray = climberAuto.finalizeResults().array
 
             var role = new robotRole(a.db, a.team)
             await role.runAnalysis()
@@ -58,6 +61,7 @@ class breakdownMetrics extends BaseAnalysis {
             metrics.feeder = role.helper
             metrics.immobile = role.immobile
             metrics.mainRole = role.mainRole
+            metrics.roleArray = role.finalizeResults().array
           
 
           
@@ -93,7 +97,9 @@ class breakdownMetrics extends BaseAnalysis {
                     "defense" : this.result.metrics.defenseRole,
                     "offense" : this.result.metrics.offenseRole,
                     "immobile" : this.result.metrics.immobile,
-                    "mainRole" : this.result.metrics.mainRole
+                    "mainRole" : this.result.metrics.mainRole,
+                    "array" : this.result.metrics.roleArray
+
                 },
                 "climberAuto":
                 {
@@ -101,6 +107,7 @@ class breakdownMetrics extends BaseAnalysis {
                     "failed" : this.result.metrics.climberFailedAuto,
                     "docked" : this.result.metrics.climberTippedAuto,
                     "engaged" : this.result.metrics.climberSucsessAuto,
+                    "array" : this.result.metrics.climberAutoArray
 
                 },
                 "climber":
@@ -109,6 +116,7 @@ class breakdownMetrics extends BaseAnalysis {
                     "failed" : this.result.metrics.climberFailed,
                     "docked" : this.result.metrics.climberTipped,
                     "engaged" : this.result.metrics.climberSucsess,
+                    "array" : this.result.metrics.climbArray
 
                 }
             },
