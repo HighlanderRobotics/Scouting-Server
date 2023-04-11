@@ -31,7 +31,7 @@ class suggestions extends BaseAnalysis {
             //     reject(err);
             // }
 
-
+            
             
             resolve("done")
 
