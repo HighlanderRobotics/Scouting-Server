@@ -11,7 +11,7 @@ async function temp() {
    // var x = new test(Manager.db, 8033, 971, 668, 1323, 1671, 5104, "ql")
   await x.runAnalysis()
  
- console.log(x.finalizeResults().result.role)
+ console.log(x.finalizeResults().result.climberAuto)
 }
 temp()
 

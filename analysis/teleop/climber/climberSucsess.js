@@ -19,6 +19,7 @@ class climberSucsess extends BaseAnalysis {
         this.adjustedLevel = 0
         this.adjustedTipped = 0
         this.adjustedPoints = 0
+        this.breakdown = []
 
     }
     async getData() {
@@ -39,6 +40,7 @@ class climberSucsess extends BaseAnalysis {
             let none = 0
             let arr = []
             let match = []
+            let climbBreakdown = []
 
             this.db.all(sql, [a.team], (err, rows) => {
                 if (err) {
@@ -58,12 +60,17 @@ class climberSucsess extends BaseAnalysis {
                             }
                             if (curr === 1) {
                                 tipped++
+                                climbBreakdown.push("docked")
                             }
                             if (curr === 2) {
                                 fullyOn++
+                                climbBreakdown.push("engaged")
+
                             }
                             if (curr == 3) {
                                 off++
+                                climbBreakdown.push("failed")
+
                             }
 
                         }
@@ -78,6 +85,7 @@ class climberSucsess extends BaseAnalysis {
                         a.adjustedLevel = (a.level + 1)/(a.totalAttempted -a.tipped + 3)
                         a.adjustedTipped = (a.tipped + 1)/(a.totalAttempted  - a.level+ 3)
                         a.adjustedPoints = (a.adjustedLevel * 10 + a.adjustedTipped * 6) /2
+                        a.breakdown = climbBreakdown
 
                      resolve("done")
                     
@@ -125,7 +133,11 @@ class climberSucsess extends BaseAnalysis {
             })),
             "totalAttempted" : this.totalAttempted,
             "team": this.team,
-            "adjustedPoints" : this.adjustedPoints
+            "adjustedPoints" : this.adjustedPoints,
+            "breakdown": this.breakdown.map((item, index) => ({
+                "match": this.matches[index],
+                "value": item,
+            }))
         }
     }
 }

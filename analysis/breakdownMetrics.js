@@ -43,7 +43,7 @@ class breakdownMetrics extends BaseAnalysis {
             metrics.climberTipped = climber.finalizeResults().tipped
             metrics.climberSucsess = climber.finalizeResults().level
             metrics.noClimb = climber.finalizeResults().noClimb
-            metrics.climbArray = climber.finalizeResults().array
+            metrics.climbArray = climber.finalizeResults().breakdown
 
 
             var climberAuto = new climberSucsessAuto(a.db, a.team)
@@ -52,7 +52,8 @@ class breakdownMetrics extends BaseAnalysis {
             metrics.climberTippedAuto = climberAuto.finalizeResults().tipped
             metrics.climberSucsessAuto = climberAuto.finalizeResults().level
             metrics.noClimbAuto = climberAuto.finalizeResults().noClimb
-            metrics.climbAutoArray = climberAuto.finalizeResults().array
+            metrics.climbAutoArray = climberAuto.finalizeResults().breakdown
+
 
             var role = new robotRole(a.db, a.team)
             await role.runAnalysis()
@@ -62,6 +63,7 @@ class breakdownMetrics extends BaseAnalysis {
             metrics.immobile = role.immobile
             metrics.mainRole = role.mainRole
             metrics.roleArray = role.finalizeResults().breakdown
+
           
 
           
@@ -107,7 +109,7 @@ class breakdownMetrics extends BaseAnalysis {
                     "failed" : this.result.metrics.climberFailedAuto,
                     "docked" : this.result.metrics.climberTippedAuto,
                     "engaged" : this.result.metrics.climberSucsessAuto,
-                    "array" : this.result.metrics.climberAutoArray
+                    "array" : this.result.metrics.climbAutoArray
 
                 },
                 "climber":

@@ -17,6 +17,7 @@ class climberSucsessAuto extends BaseAnalysis {
 
         this.array = []
         this.matches = []
+        this.breakdown = []
 
     }
     async getData() {
@@ -37,6 +38,7 @@ class climberSucsessAuto extends BaseAnalysis {
             let arr = []
             let match = []
             a.totalAttempted = 0
+            let climbBreakdown = []
 
             this.db.all(sql, [a.team], (err, rows) => {
                 if (err) {
@@ -55,13 +57,16 @@ class climberSucsessAuto extends BaseAnalysis {
                         }
                         if (curr === 1) {
                             tipped++
+                            climbBreakdown.push("docked")
                         }
                         if (curr === 2) {
                             fullyOn++
+                            climbBreakdown.push("engaged")
                         }
                         if(curr == 3)
                         {
                             off++
+                            climbBreakdown.push("failed")
                         }
 
                     }
@@ -73,6 +78,7 @@ class climberSucsessAuto extends BaseAnalysis {
                     a.array = arr 
                     a.matches = match
                     a.totalAttempted = tipped + off + fullyOn
+                    a.breakdown = climbBreakdown
                     resolve("done")
 
 
@@ -118,7 +124,11 @@ class climberSucsessAuto extends BaseAnalysis {
                 "value": item,
             })),
             "totalAttempts" : this.totalAttempted,
-            "team": this.team
+            "team": this.team,
+            "breakdown": this.breakdown.map((item, index) => ({
+                "match": this.matches[index],
+                "value": item,
+            })),
         }
     }
 }
