@@ -58,30 +58,24 @@ class suggestionsInner extends BaseAnalysis {
             let climbPoints = 0
             let total = 0
             let paths = []
-            for(let i = 0; i < 3; i ++)
-            {
+            for (let i = 0; i < 3; i++) {
                 var firstAuto = new bestPaths(Manager.db, a.team1)
                 await firstAuto.runAnalysis()
-                for(let j = 0; j < 3; j ++)
-                {
+                for (let j = 0; j < 3; j++) {
                     var secondAuto = new bestPaths(Manager.db, a.team2)
                     await secondAuto.runAnalysis()
-                    for(let k = 0; k < 3; k ++)
-                    {
+                    for (let k = 0; k < 3; k++) {
                         var thirdAuto = new bestPaths(Manager.db, a.team3)
                         await thirdAuto.runAnalysis()
                         let currTotal = firstAuto.bestPaths[i].points + secondAuto.bestPaths[j].points + thirdAuto.bestPaths[k].points
-                        if(currTotal > total && k != i && i != j && j != k)
-                        {
+                        if (currTotal > total && k != i && i != j && j != k) {
                             total = currTotal
-                            paths = [{"team" : a.team1, "path" : firstAuto.bestPaths[i].path, "climbPoints" : firstAuto.bestPaths[i].climbPoints}, {"team" : a.team2, "path" : secondAuto.bestPaths[j].path, "climbPoints" : secondAuto.bestPaths[j].climbPoints}, {"team" : a.team3, "path" : thirdAuto.bestPaths[k].path, "climbPoints" : thirdAuto.bestPaths[k].climbPoints}]
+                            paths = [{ "team": a.team1, "path": firstAuto.bestPaths[i].path, "climbPoints": firstAuto.bestPaths[i].climbPoints }, { "team": a.team2, "path": secondAuto.bestPaths[j].path, "climbPoints": secondAuto.bestPaths[j].climbPoints }, { "team": a.team3, "path": thirdAuto.bestPaths[k].path, "climbPoints": thirdAuto.bestPaths[k].climbPoints }]
                         }
                     }
                 }
-                for (let z = 0; z < 3; z ++)
-                {
-                    if(paths[z].climbPoints > climbPoints)
-                    {
+                for (let z = 0; z < 3; z++) {
+                    if (paths[z].climbPoints > climbPoints) {
                         climbPoints = paths[z]
                     }
                 }
@@ -149,7 +143,7 @@ class suggestionsInner extends BaseAnalysis {
                             scoringInfo.amount = coneLevel.result + cubeLevel.result
                         }
                     }
-                    if (coneLevel.result  + cubeLevel.result>= scoringInfo.amount) {
+                    if (coneLevel.result + cubeLevel.result >= scoringInfo.amount) {
                         scoringInfo.bestLevel = j
                         scoringInfo.amount = coneLevel.result + cubeLevel.result
                     }
@@ -205,13 +199,12 @@ class suggestionsInner extends BaseAnalysis {
             }
 
             let tele = [one, two, three]
-
+            console.log(tele)
 
             //end game
 
 
             let endGame = {}
-            // endGame.first = arrayTeams[2].team
 
             let arrayClimb = arrayTeams.sort(function (a, b) {
                 return b.climbTele - a.climbTele;
@@ -250,7 +243,7 @@ class suggestionsInner extends BaseAnalysis {
                 endGame = [{ "team": arrayTeams[2].team, "time": firstTime }, { "team": arrayTeams[1].team, "time": secondTime }, { "team": arrayTeams[0].team, "time": thirdTime }]
             }
 
-            a.alliance = {"teleop" : tele, "endgame" : endGame, "auto" : paths}
+            a.alliance = { "teleop": tele, "endgame": endGame, "auto": paths }
             resolve("done")
 
         })
@@ -261,7 +254,12 @@ class suggestionsInner extends BaseAnalysis {
         let a = this
         for (let i = 0; i < teleop.length; i++) {
             if (teleop[i].team === team) {
-                return a.scoreMap[teleop[i].scoringGrid[teleop[i].scoringGrid.length -1]]
+                if (teleop[i].scoringGrid === undefined) {
+                    return 0
+                }
+                else {
+                    return a.scoreMap[teleop[i].scoringGrid[teleop[i].scoringGrid.length - 1]]
+                }
             }
         }
         return 0
