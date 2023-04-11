@@ -162,7 +162,7 @@ class suggestionsInner extends BaseAnalysis {
                 levelArr.push(scoringInfo)
             }
 
-            if (trippleLinks >= 4 && trippleLinks < 2) {
+            if (trippleLinks <= 6 && trippleLinks > 3) {
                 //triple offense zone
 
                 one.role = 0
