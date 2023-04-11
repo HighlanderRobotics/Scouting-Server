@@ -12,7 +12,7 @@ class cargoCountAuto extends BaseAnalysis {
         this.team = team
         // this.start = start
         // this.end = end
-        this.bestPaths = [[], [], []]
+        this.bestPaths = [[{"points" : 0, "path" : {}, "climbPoints" : 0}], [{"points" : 0, "path" : {}, "climbPoints" : 0}], [{"points" : 0, "path" : {}, "climbPoints" : 0}]]
     }
     async getAccuracy() {
         let a = this

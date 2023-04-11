@@ -77,8 +77,8 @@ class suggestionsInner extends BaseAnalysis {
                                     let thirdAuto = thirdAutoOuter.bestPaths[locThird][k]
                                     let currTotal = firstAuto.points + secondAuto.points + thirdAuto.points
                                     if (firstAuto.climbPoints === 0 && secondAuto.climbPoints === 0 || thirdAuto.climbPoints === 0 && secondAuto.climbPoints === 0 || firstAuto.climbPoints === 0 && thirdAuto.climbPoints === 0) {
-                                        if (currTotal > total && k != i && i != j && j != k) {
-                                            if (firstAuto.climbPoints + secondAuto.climbPoints + thirdAuto.climbPoints > climbPoints && a.matchType == "qm") {
+                                        if (currTotal > total && locFirst != locSecond && locThird != locSecond && locFirst != locThird) {
+                                            if (firstAuto.climbPoints + secondAuto.climbPoints + thirdAuto.climbPoints >= climbPoints && a.matchType == "qm") {
                                                 climbPoints = firstAuto.climbPoints + secondAuto.climbPoints + thirdAuto.climbPoints
                                                 total = currTotal
                                                 paths = [{ "team": a.team1, "path": firstAuto.path, "climbPoints": firstAuto.climbPoints }, { "team": a.team2, "path": secondAuto.path, "climbPoints": secondAuto.climbPoints }, { "team": a.team3, "path": thirdAuto.path, "climbPoints": thirdAuto.climbPoints }]
@@ -185,17 +185,17 @@ class suggestionsInner extends BaseAnalysis {
                 else if (levelArr[0].bestLevel === levelArr[1].bestLevel || levelArr[0].bestLevel === levelArr[2].bestLevel || levelArr[1].bestLevel === levelArr[2].bestLevel) {
                     if (levelArr[0].bestLevel === 1 || levelArr[1] === 1 || levelArr[2] === 1) {
                         if (levelArr[0].bestLevel === 1) {
-                            one.scoringGrid = a.levelConversion(1)
+                            one.scoringGrid = a.levelConversion[1]
                             two.scoringGrid = a.grid1.concat(a.betterGrid)
                             three.scoringGrid = a.grid2.concat(a.worseGrid)
                         }
                         if (levelArr[1].bestLevel === 1) {
-                            two.scoringGrid = a.levelConversion(1)
+                            two.scoringGrid = a.levelConversion[1]
                             one.scoringGrid = a.grid1.concat(a.betterGrid)
                             three.scoringGrid = a.grid2.concat(a.worseGrid)
                         }
                         else {
-                            three.scoringGrid = a.levelConversion(1)
+                            three.scoringGrid = a.levelConversion[1]
                             two.scoringGrid = a.grid1.concat(a.betterGrid)
                             one.scoringGrid = a.grid2.concat(a.worseGrid)
                         }
@@ -209,9 +209,9 @@ class suggestionsInner extends BaseAnalysis {
 
                 }
                 else {
-                    one.scoringGrid = a.levelConversion(bestRowOne)
-                    two.scoringGrid = a.levelConversion(bestRowTwo)
-                    three.scoringGrid = a.levelConversion(bestRowThree)
+                    one.scoringGrid = a.levelConversion[levelArr[0].bestLevel]
+                    two.scoringGrid = a.levelConversion[levelArr[1].bestLevel]
+                    three.scoringGrid = a.levelConversion[levelArr[2].bestLevel]
                 }
 
             }
