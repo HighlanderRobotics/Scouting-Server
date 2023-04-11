@@ -12,7 +12,7 @@ class cargoCountAuto extends BaseAnalysis {
         this.team = team
         // this.start = start
         // this.end = end
-        this.bestPaths = [{"points" : 0, "path" : []}, {"points" : 0, "path" : []}, {"points" : 0, "path" : []}]
+        this.bestPaths = [[], [], []]
     }
     async getAccuracy() {
         let a = this
@@ -29,11 +29,13 @@ class cargoCountAuto extends BaseAnalysis {
             averageOnPath = averageOnPath/ allPaths[i].score.length
             let loc = allPaths[i].positions[0].location -17
             let climbPoints = (allPaths[i].chargeRate.docked * 8 + allPaths[i].chargeRate.engaged * 12)/allPaths[i].frequency
-            if(a.bestPaths[loc].points < averageOnPath)
-            {
-                a.bestPaths[loc] = {"points" : averageOnPath, "path" : allPaths[i], "climbPoints" : climbPoints}
-            }
+            
+            a.bestPaths[loc].push( {"points" : averageOnPath, "path" : allPaths[i], "climbPoints" : climbPoints})
 
+        }
+        for(let j = 0; j < this.bestPaths.length; j ++)
+        {
+            a.bestPaths[loc] = a.bestPaths[loc].sort((a, b) => a.points - b.points);
         }
 
 

@@ -60,33 +60,41 @@ class suggestionsInner extends BaseAnalysis {
             let climbPoints = 0
             let total = 0
             let paths = []
-            for (let i = 0; i < 3; i++) {
-                var firstAuto = new bestPaths(Manager.db, a.team1)
-                await firstAuto.runAnalysis()
-                for (let j = 0; j < 3; j++) {
-                    var secondAuto = new bestPaths(Manager.db, a.team2)
-                    await secondAuto.runAnalysis()
-                    for (let k = 0; k < 3; k++) {
-                        var thirdAuto = new bestPaths(Manager.db, a.team3)
-                        await thirdAuto.runAnalysis()
-                        console.log(firstAuto.bestPaths[i].path)
-                        let currTotal = firstAuto.bestPaths[i].points + secondAuto.bestPaths[j].points + thirdAuto.bestPaths[k].points
-                        if (firstAuto.bestPaths[i].climbPoints === 0 && secondAuto.bestPaths[j].climbPoints === 0 || thirdAuto.bestPaths[k].climbPoints === 0 && secondAuto.bestPaths[j].climbPoints === 0 || firstAuto.bestPaths[i].climbPoints === 0 && thirdAuto.bestPaths[k].climbPoints === 0) {
-                            if (currTotal > total && k != i && i != j && j != k) {
-                                if (firstAuto.bestPaths[i].climbPoints + secondAuto.bestPaths[j].climbPoints + thirdAuto.bestPaths[k].climbPoints > climbPoints && a.matchType == "qm") {
-                                    climbPoints = firstAuto.bestPaths[i].climbPoints + secondAuto.bestPaths[j].climbPoints + thirdAuto.bestPaths[k].climbPoints
-                                    total = currTotal
-                                    paths = [{ "team": a.team1, "path": firstAuto.bestPaths[i].path, "climbPoints": firstAuto.bestPaths[i].climbPoints }, { "team": a.team2, "path": secondAuto.bestPaths[j].path, "climbPoints": secondAuto.bestPaths[j].climbPoints }, { "team": a.team3, "path": thirdAuto.bestPaths[k].path, "climbPoints": thirdAuto.bestPaths[k].climbPoints }]
+            for (let locFirst = 0; locFirst < 3; locFirst++) {
+                var firstAutoOuter = new bestPaths(Manager.db, a.team1)
+                await firstAutoOuter.runAnalysis()
+                for (let i = 0; i < firstAutoOuter.bestPaths[locFirst].length; i++) {
+                    let firstAuto = firstAutoOuter.bestPaths[locFirst][i]
+                    for (let locSecond = 0; locSecond < 3; locSecond++) {
+                        var secondAutoOuter = new bestPaths(Manager.db, a.team2)
+                        await secondAutoOuter.runAnalysis()
+                        for (let j = 0; j < secondAutoOuter.bestPaths[locSecond].length; j++) {
+                            let secondAuto = secondAutoOuter.bestPaths[locSecond][j]
+                            for (let locThird = 0; locThird < 3; locThird++) {
+                                var thirdAutoOuter = new bestPaths(Manager.db, a.team3)
+                                await thirdAutoOuter.runAnalysis()
+                                for (let k = 0; k < thirdAutoOuter.bestPaths[locThird].length; k++) {
+                                    let thirdAuto = thirdAutoOuter.bestPaths[locThird][k]
+                                    let currTotal = firstAuto.points + secondAuto.points + thirdAuto.points
+                                    if (firstAuto.climbPoints === 0 && secondAuto.climbPoints === 0 || thirdAuto.climbPoints === 0 && secondAuto.climbPoints === 0 || firstAuto.climbPoints === 0 && thirdAuto.climbPoints === 0) {
+                                        if (currTotal > total && k != i && i != j && j != k) {
+                                            if (firstAuto.climbPoints + secondAuto.climbPoints + thirdAuto.climbPoints > climbPoints && a.matchType == "qm") {
+                                                climbPoints = firstAuto.climbPoints + secondAuto.climbPoints + thirdAuto.climbPoints
+                                                total = currTotal
+                                                paths = [{ "team": a.team1, "path": firstAuto.path, "climbPoints": firstAuto.climbPoints }, { "team": a.team2, "path": secondAuto.path, "climbPoints": secondAuto.climbPoints }, { "team": a.team3, "path": thirdAuto.path, "climbPoints": thirdAuto.climbPoints }]
+                                            }
+                                            else {
+                                                climbPoints = firstAuto.climbPoints + secondAuto.climbPoints + thirdAuto.climbPoints
+                                                total = currTotal
+                                                paths = [{ "team": a.team1, "path": firstAuto.path, "climbPoints": firstAuto.climbPoints }, { "team": a.team2, "path": secondAuto.path, "climbPoints": secondAuto.climbPoints }, { "team": a.team3, "path": thirdAuto.path, "climbPoints": thirdAuto.climbPoints }]
+                                            }
+                                        }
+                                    }
                                 }
-                                else {
-                                    climbPoints = firstAuto.bestPaths[i].climbPoints + secondAuto.bestPaths[j].climbPoints + thirdAuto.bestPaths[k].climbPoints
-                                    total = currTotal
-                                    paths = [{ "team": a.team1, "path": firstAuto.bestPaths[i].path, "climbPoints": firstAuto.bestPaths[i].climbPoints }, { "team": a.team2, "path": secondAuto.bestPaths[j].path, "climbPoints": secondAuto.bestPaths[j].climbPoints }, { "team": a.team3, "path": thirdAuto.bestPaths[k].path, "climbPoints": thirdAuto.bestPaths[k].climbPoints }]
-                                }
+
+
                             }
                         }
-
-
                     }
                 }
 
@@ -181,27 +189,24 @@ class suggestionsInner extends BaseAnalysis {
                             two.scoringGrid = a.grid1.concat(a.betterGrid)
                             three.scoringGrid = a.grid2.concat(a.worseGrid)
                         }
-                        if(levelArr[1].bestLevel === 1)
-                        {
+                        if (levelArr[1].bestLevel === 1) {
                             two.scoringGrid = a.levelConversion(1)
                             one.scoringGrid = a.grid1.concat(a.betterGrid)
                             three.scoringGrid = a.grid2.concat(a.worseGrid)
                         }
-                        else
-                        {
+                        else {
                             three.scoringGrid = a.levelConversion(1)
                             two.scoringGrid = a.grid1.concat(a.betterGrid)
                             one.scoringGrid = a.grid2.concat(a.worseGrid)
                         }
 
                     }
-                    else
-                    {
+                    else {
                         one.scoringGrid = a.grid1
                         two.scoringGrid = a.grid2
                         three.scoringGrid = a.grid3
                     }
-                   
+
                 }
                 else {
                     one.scoringGrid = a.levelConversion(bestRowOne)
