@@ -1,17 +1,17 @@
 //for testing
-const test = require('./analysis/breakdownMetrics')
+const test = require('./analysis/auto/bestAutoPaths')
 // const test = require('./analysis/teleop/cargo/cargoCountOverview')
-// const test = require('./analysis/suggestions')
+// const test = require('./analysis/suggestionsInner')
 const Manager = require('./manager/dbmanager')
 
 // const y = require("./test")
 async function temp() {
    // var x = new test(Manager.db, 8033 ,0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5)
-   var x = new test(Manager.db, 971)
-   // var x = new test(Manager.db, 8033, 971, 668, 1323, 1671, 5104, "ql")
+   var x = new test(Manager.db, 8033)
+   // var x = new test(Manager.db, 8033, 971, 668, "ql")
   await x.runAnalysis()
  
- console.log(x.finalizeResults().result.climberAuto)
+ console.log(x.finalizeResults().bestPaths[2].path.positions)
 }
 temp()
 

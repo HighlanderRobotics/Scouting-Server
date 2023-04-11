@@ -10,6 +10,8 @@ const driverAbilityTeam = require('./general/driverAblilityTeam.js')
 const { sec, floor, cube } = require('mathjs')
 const levelCargo = require('./teleop/cargo/levelCargo.js')
 const bestPaths = require('./auto/bestAutoPaths.js')
+const { on } = require('nodemon')
+const e = require('express')
 
 // const math = require('mathjs')
 // const { max } = require('mathjs')
@@ -67,22 +69,31 @@ class suggestionsInner extends BaseAnalysis {
                     for (let k = 0; k < 3; k++) {
                         var thirdAuto = new bestPaths(Manager.db, a.team3)
                         await thirdAuto.runAnalysis()
+                        console.log(firstAuto.bestPaths[i].path)
                         let currTotal = firstAuto.bestPaths[i].points + secondAuto.bestPaths[j].points + thirdAuto.bestPaths[k].points
-                        if (currTotal > total && k != i && i != j && j != k) {
-                            total = currTotal
-                            paths = [{ "team": a.team1, "path": firstAuto.bestPaths[i].path, "climbPoints": firstAuto.bestPaths[i].climbPoints }, { "team": a.team2, "path": secondAuto.bestPaths[j].path, "climbPoints": secondAuto.bestPaths[j].climbPoints }, { "team": a.team3, "path": thirdAuto.bestPaths[k].path, "climbPoints": thirdAuto.bestPaths[k].climbPoints }]
+                        if (firstAuto.bestPaths[i].climbPoints === 0 && secondAuto.bestPaths[j].climbPoints === 0 || thirdAuto.bestPaths[k].climbPoints === 0 && secondAuto.bestPaths[j].climbPoints === 0 || firstAuto.bestPaths[i].climbPoints === 0 && thirdAuto.bestPaths[k].climbPoints === 0) {
+                            if (currTotal > total && k != i && i != j && j != k) {
+                                if (firstAuto.bestPaths[i].climbPoints + secondAuto.bestPaths[j].climbPoints + thirdAuto.bestPaths[k].climbPoints > climbPoints && a.matchType == "qm") {
+                                    climbPoints = firstAuto.bestPaths[i].climbPoints + secondAuto.bestPaths[j].climbPoints + thirdAuto.bestPaths[k].climbPoints
+                                    total = currTotal
+                                    paths = [{ "team": a.team1, "path": firstAuto.bestPaths[i].path, "climbPoints": firstAuto.bestPaths[i].climbPoints }, { "team": a.team2, "path": secondAuto.bestPaths[j].path, "climbPoints": secondAuto.bestPaths[j].climbPoints }, { "team": a.team3, "path": thirdAuto.bestPaths[k].path, "climbPoints": thirdAuto.bestPaths[k].climbPoints }]
+                                }
+                                else {
+                                    climbPoints = firstAuto.bestPaths[i].climbPoints + secondAuto.bestPaths[j].climbPoints + thirdAuto.bestPaths[k].climbPoints
+                                    total = currTotal
+                                    paths = [{ "team": a.team1, "path": firstAuto.bestPaths[i].path, "climbPoints": firstAuto.bestPaths[i].climbPoints }, { "team": a.team2, "path": secondAuto.bestPaths[j].path, "climbPoints": secondAuto.bestPaths[j].climbPoints }, { "team": a.team3, "path": thirdAuto.bestPaths[k].path, "climbPoints": thirdAuto.bestPaths[k].climbPoints }]
+                                }
+                            }
                         }
+
+
                     }
                 }
-                for (let z = 0; z < 3; z++) {
-                    if (paths[z].climbPoints > climbPoints) {
-                        climbPoints = paths[z]
-                    }
-                }
+
             }
 
             //teleop
-
+            //done
             var linksOne = new links(Manager.db, a.team1)
             await linksOne.runAnalysis()
             var cargoOneCones = new cargoCountOverview(Manager.db, a.team1, 1, 2)
@@ -164,10 +175,33 @@ class suggestionsInner extends BaseAnalysis {
                     three.scoringGrid = a.edgeThreeOffenseThree
                 }
                 else if (levelArr[0].bestLevel === levelArr[1].bestLevel || levelArr[0].bestLevel === levelArr[2].bestLevel || levelArr[1].bestLevel === levelArr[2].bestLevel) {
-                    //grid with level below FIX
-                    one.scoringGrid = a.grid1
-                    two.scoringGrid = a.grid2
-                    three.scoringGrid = a.grid3
+                    if (levelArr[0].bestLevel === 1 || levelArr[1] === 1 || levelArr[2] === 1) {
+                        if (levelArr[0].bestLevel === 1) {
+                            one.scoringGrid = a.levelConversion(1)
+                            two.scoringGrid = a.grid1.concat(a.betterGrid)
+                            three.scoringGrid = a.grid2.concat(a.worseGrid)
+                        }
+                        if(levelArr[1].bestLevel === 1)
+                        {
+                            two.scoringGrid = a.levelConversion(1)
+                            one.scoringGrid = a.grid1.concat(a.betterGrid)
+                            three.scoringGrid = a.grid2.concat(a.worseGrid)
+                        }
+                        else
+                        {
+                            three.scoringGrid = a.levelConversion(1)
+                            two.scoringGrid = a.grid1.concat(a.betterGrid)
+                            one.scoringGrid = a.grid2.concat(a.worseGrid)
+                        }
+
+                    }
+                    else
+                    {
+                        one.scoringGrid = a.grid1
+                        two.scoringGrid = a.grid2
+                        three.scoringGrid = a.grid3
+                    }
+                   
                 }
                 else {
                     one.scoringGrid = a.levelConversion(bestRowOne)
@@ -199,7 +233,6 @@ class suggestionsInner extends BaseAnalysis {
             }
 
             let tele = [one, two, three]
-            console.log(tele)
 
             //end game
 
