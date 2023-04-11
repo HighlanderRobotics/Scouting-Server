@@ -61,7 +61,7 @@ class breakdownMetrics extends BaseAnalysis {
             metrics.feeder = role.helper
             metrics.immobile = role.immobile
             metrics.mainRole = role.mainRole
-            metrics.roleArray = role.finalizeResults().array
+            metrics.roleArray = role.finalizeResults().breakdown
           
 
           

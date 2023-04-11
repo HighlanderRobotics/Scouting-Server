@@ -16,6 +16,7 @@ class robotRole extends BaseAnalysis {
         this.array = []
         this.matches = []
         this.mainRole = null
+        this.breakdownArray = []
 
     }
     async getData() {
@@ -35,6 +36,7 @@ class robotRole extends BaseAnalysis {
             let immobile = 0
             let arr = []
             let match = []
+            let arrBreadkowns = []
 
             this.db.all(sql, [a.team], (err, rows) => {
                 if (err) {
@@ -51,16 +53,23 @@ class robotRole extends BaseAnalysis {
 
                             if (curr === 1) {
                                 defense++
+                                arrBreadkowns.push("defense")
                             }
                             if (curr === 0) {
                                 offense++
+                                arrBreadkowns.push("offense")
+
                             }
                             if (curr === 2) {
                                 helper++
+                                arrBreadkowns.push("feeder")
+
                             }
                             if(curr === 3)
                             {
                                 immobile++
+                                arrBreadkowns.push("immobile")
+
                             }
 
                         }
@@ -70,6 +79,7 @@ class robotRole extends BaseAnalysis {
                         a.immobile = immobile
                         a.array = arr
                         a.matches = match
+                        a.breakdownArray = arrBreadkowns
                         if (offense > 0 || defense > 0 || helper > 0) {
                             if (offense >= defense && offense >= helper) {
                                 a.mainRole = 0
@@ -124,7 +134,11 @@ class robotRole extends BaseAnalysis {
                 "value": item,
             })),
             "mainRole": this.mainRole,
-            "team": this.team
+            "team": this.team,
+            "breakdown" : this.breakdownArray.map((item, index) => ({
+                "match": this.matches[index],
+                "value": item,
+            })),
         }
     }
 }
