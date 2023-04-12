@@ -39,8 +39,7 @@ class suggestionsInner extends BaseAnalysis {
         this.grid2 = [3, 6, 9]
         //only for triple O
         this.grid3 = [2, 5, 8]
-        this.betterGrid = [8]
-        this.worseGrid = [5]
+        this.worseGrid = [2]
 
         this.edgeTwoOffesneOne = [1, 2]
         this.edgeTwoOffesneTwo = [3]
@@ -50,6 +49,8 @@ class suggestionsInner extends BaseAnalysis {
         this.edgeThreeOffenseThree = [3]
 
         this.scoreMap = { 1: 2, 2: 2, 3: 2, 4: 3, 5: 3, 6: 3, 7: 5, 8: 5, 9: 5 }
+
+        this.middleMap = {1 : 2 , 2 : 4, }
 
         this.levelConversion = { 1: this.row1, 2: this.row2, 3: this.row3 }
     }
@@ -177,7 +178,7 @@ class suggestionsInner extends BaseAnalysis {
                 two.role = 0
                 three.role = 0
 
-                if (levelArr[0].bestLevel == 1 && levelArr[1].bestLevel === 1 && levelArr[2].bestLevel === 1) {
+                if (levelArr[0].max == 1 && levelArr[1].max === 1 && levelArr[2].max === 1) {
                     one.scoringGrid = a.edgeThreeOffenseOne
                     two.scoringGrid = a.edgeThreeOffenseTwo
                     three.scoringGrid = a.edgeThreeOffenseThree
@@ -186,18 +187,18 @@ class suggestionsInner extends BaseAnalysis {
                     if (levelArr[0].bestLevel === 1 || levelArr[1] === 1 || levelArr[2] === 1) {
                         if (levelArr[0].bestLevel === 1) {
                             one.scoringGrid = a.levelConversion[1]
-                            two.scoringGrid = a.grid1.concat(a.betterGrid)
-                            three.scoringGrid = a.grid2.concat(a.worseGrid)
+                            two.scoringGrid = a.grid1.slice(0, levelArr[0].max).concat(a.middleMap(a.levelArr[0].max))
+                            three.scoringGrid = a.grid2.slice(0, levelArr[0].max).concat(a.worseGrid)
                         }
                         if (levelArr[1].bestLevel === 1) {
                             two.scoringGrid = a.levelConversion[1]
-                            one.scoringGrid = a.grid1.concat(a.betterGrid)
-                            three.scoringGrid = a.grid2.concat(a.worseGrid)
+                            one.scoringGrid = a.grid1.slice(0, levelArr[0].max).concat(a.middleMap(a.levelArr[0].max))
+                            three.scoringGrid = a.grid2.slice(0, levelArr[0].max).concat(a.worseGrid)
                         }
                         else {
                             three.scoringGrid = a.levelConversion[1]
-                            two.scoringGrid = a.grid1.concat(a.betterGrid)
-                            one.scoringGrid = a.grid2.concat(a.worseGrid)
+                            two.scoringGrid = a.grid1.slice(0, levelArr[0].max).concat(a.middleMap(a.levelArr[0].max))
+                            one.scoringGrid = a.grid2.slice(0, levelArr[0].max).concat(a.worseGrid)
                         }
 
                     }
@@ -222,13 +223,13 @@ class suggestionsInner extends BaseAnalysis {
                 three.role = 1
 
 
-                if (levelArr[0].bestLevel == 1 && levelArr[1].bestLevel === 1) {
+                if (levelArr[0].max == 1 && levelArr[1].max === 1) {
                     one.scoringGrid = a.edgeTwoOffesneOne
                     two.scoringGrid = a.edgeTwoOffesneTwo
                 }
                 else if (levelArr[0].bestLevel === levelArr[1].bestLevel) {
-                    one.scoringGrid = a.grid1.concat(a.betterGrid)
-                    two.scoringGrid = a.grid2.concat(a.worseGrid)
+                    one.scoringGrid = a.grid1.slice(0, levelArr[0].max).concat(a.middleMap[0].max)
+                    two.scoringGrid = a.grid2.slice(0, levelArr[0].max).concat(a.worseGrid)
                 }
                 else {
                     one.scoringGrid = a.levelConversion[levelArr[0].bestLevel]
