@@ -187,17 +187,17 @@ class suggestionsInner extends BaseAnalysis {
                     if (levelArr[0].bestLevel === 1 || levelArr[1] === 1 || levelArr[2] === 1) {
                         if (levelArr[0].bestLevel === 1) {
                             one.scoringGrid = a.levelConversion[1]
-                            two.scoringGrid = a.grid1.slice(0, levelArr[0].max).concat(a.middleMap(a.levelArr[0].max))
+                            two.scoringGrid = a.grid1.slice(0, levelArr[0].max).concat(a.middleMap(levelArr[0].max))
                             three.scoringGrid = a.grid2.slice(0, levelArr[0].max).concat(a.worseGrid)
                         }
                         if (levelArr[1].bestLevel === 1) {
                             two.scoringGrid = a.levelConversion[1]
-                            one.scoringGrid = a.grid1.slice(0, levelArr[0].max).concat(a.middleMap(a.levelArr[0].max))
+                            one.scoringGrid = a.grid1.slice(0, levelArr[0].max).concat(a.middleMap(levelArr[0].max))
                             three.scoringGrid = a.grid2.slice(0, levelArr[0].max).concat(a.worseGrid)
                         }
                         else {
                             three.scoringGrid = a.levelConversion[1]
-                            two.scoringGrid = a.grid1.slice(0, levelArr[0].max).concat(a.middleMap(a.levelArr[0].max))
+                            two.scoringGrid = a.grid1.slice(0, levelArr[0].max).concat(a.middleMap(levelArr[0].max))
                             one.scoringGrid = a.grid2.slice(0, levelArr[0].max).concat(a.worseGrid)
                         }
 
@@ -228,7 +228,7 @@ class suggestionsInner extends BaseAnalysis {
                     two.scoringGrid = a.edgeTwoOffesneTwo
                 }
                 else if (levelArr[0].bestLevel === levelArr[1].bestLevel) {
-                    one.scoringGrid = a.grid1.slice(0, levelArr[0].max).concat(a.middleMap[0].max)
+                    one.scoringGrid = a.grid1.slice(0, levelArr[0].max).concat(a.middleMap(levelArr[0].max))
                     two.scoringGrid = a.grid2.slice(0, levelArr[0].max).concat(a.worseGrid)
                 }
                 else {
