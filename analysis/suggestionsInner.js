@@ -50,7 +50,7 @@ class suggestionsInner extends BaseAnalysis {
 
         this.scoreMap = { 1: 2, 2: 2, 3: 2, 4: 3, 5: 3, 6: 3, 7: 5, 8: 5, 9: 5 }
 
-        this.middleMap = {1 : 2 , 2 : 4, }
+        this.middleMap = {1 : 2 , 2 : 5, 3: 8}
 
         this.levelConversion = { 1: this.row1, 2: this.row2, 3: this.row3 }
     }
@@ -185,6 +185,7 @@ class suggestionsInner extends BaseAnalysis {
                 }
                 else if (levelArr[0].bestLevel === levelArr[1].bestLevel || levelArr[0].bestLevel === levelArr[2].bestLevel || levelArr[1].bestLevel === levelArr[2].bestLevel) {
                     if (levelArr[0].bestLevel === 1 || levelArr[1] === 1 || levelArr[2] === 1) {
+
                         if (levelArr[0].bestLevel === 1) {
                             one.scoringGrid = a.levelConversion[1]
                             two.scoringGrid = a.grid1.slice(0, levelArr[0].max).concat(a.middleMap[levelArr[0].max])
