@@ -105,20 +105,20 @@ class alliancePage extends BaseAnalysis {
 
             if (oneRole === max) {
                 oneRole = 1
-                twoRole = role2.mainRole
-                threeRole = role3.mainRole
+                twoRole = 0
+                threeRole = 0
             }
             else if (twoRole === max)
             {
                 twoRole = 1
-                oneRole = role1.mainRole
-                threeRole = role3.mainRole
+                oneRole = 0
+                threeRole = 0
             }
             else
             {
                 threeRole = 1
-                twoRole = role2.mainRole
-                oneRole = role3.mainRole
+                twoRole = 0
+                oneRole = 0
             }
         }
         else
