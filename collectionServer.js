@@ -94,8 +94,7 @@ const Manager = require('./manager/dbmanager.js')
 // Tasks map
 const uuidToTask = new Map()
 const tasks = new Map()
-
-app.listen(port, async () => { 
+const server = app.listen(port, async () => { 
     console.log(`Collection Server running on ${port}...`)
 
     // Scannable qr code with ngrok link
@@ -244,3 +243,4 @@ app.get('/getTaskData', async (req,res) => {
         return
     }
 })
+module.exports = server

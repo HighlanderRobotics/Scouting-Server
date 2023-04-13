@@ -1,6 +1,9 @@
 const Manager = require('./Manager.js')
-const axios = require("axios")
-const { resolve, row } = require('mathjs')
+const { Server } = require("socket.io")
+const { resolve } = require('mathjs')
+const server = require("../collectionServer.js")
+const io = new Server(server)
+
 
 class getPickedTeams extends Manager {
     static name = "getPickedTeams"
@@ -19,6 +22,7 @@ class getPickedTeams extends Manager {
                     console.log(err)
                     reject(err)
                 }
+                io.emit('pickedTeams', rows)
                 resolve(rows)
             })
         })

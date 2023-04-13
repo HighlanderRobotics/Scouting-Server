@@ -1,17 +1,15 @@
 const { re } = require('mathjs')
 const Manager = require('./Manager.js')
-//adds or updates
 
 class addPickedTeam extends Manager {
     static name = "addPickedTeam"
 
-      constructor() {
+    constructor() {
         super()
     }
 
     async runTask(team) {
 
-     
         var sql = `INSERT INTO mutablePicklists (teams) VALUES (?)`
         return new Promise(async (resolve, reject) => {
             Manager.db.all(sql, [team], (err, rows) => {
@@ -21,10 +19,10 @@ class addPickedTeam extends Manager {
                 }   
                 resolve("done")
             })
-           
         })
 
     }
 }
 
 module.exports = addPickedTeam
+
