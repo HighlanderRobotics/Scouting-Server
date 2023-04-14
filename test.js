@@ -7,11 +7,11 @@ const Manager = require('./manager/dbmanager')
 // const y = require("./test")
 async function temp() {
    // var x = new test(Manager.db, 8033 ,0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5)
-   // var x = new test(Manager.db, 8033)
-   var x = new test(Manager.db, 8033, 8404, 670, "ql")
+   // var x = new test(Manager.db, 8033, 0, 1)
+   var x = new test(Manager.db, 8048, 2135, 7777, "qm")
   await x.runAnalysis()
  
- console.log(x.finalizeResults().alliance.teleop[0])
+ console.log(x.finalizeResults().alliance.teleop[2])
 }
 temp()
 

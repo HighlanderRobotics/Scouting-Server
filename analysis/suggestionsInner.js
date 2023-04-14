@@ -135,9 +135,9 @@ class suggestionsInner extends BaseAnalysis {
 
 
             var trippleLinks = linksOne.result + linksTwo.result + linksThree.result
-            var arrayTeams = [{ "team": a.team1, "links": linksOne.result, "max": cargoOneCones.max, "levelOne": cargoOneCones.one + cargoOneCubes.one, "levelTwo": cargoOneCones.two + cargoOneCubes.two, "levelThree": cargoOneCones.three + cargoOneCubes.three, "climbTele": climbOne.adjustedPoints },
-            { "team": a.team2, "links": linksTwo.result, "max": cargoTwoCones.max, "levelOne": cargoTwoCones.one + cargoTwoCubes.one, "levelTwo": cargoTwoCones.two + cargoTwoCubes.two, "levelThree": cargoTwoCones.three + cargoTwoCubes.three, "climbTele": climbTwo.adjustedPoints },
-            { "team": a.team3, "links": linksThree.result, "max": cargoThreeCones.max, "levelOne": cargoThreeCones.one + cargoThreeCubes.one, "levelTwo": cargoThreeCones.two + cargoThreeCubes.two, "levelThree": cargoThreeCones.three + cargoThreeCubes.three, "climbTele": climbThree.adjustedPoints }]
+            var arrayTeams = [{ "team": a.team1, "links": linksOne.result, "max": Math.max(cargoOneCones.max, cargoOneCubes.max), "levelOne": cargoOneCones.one + cargoOneCubes.one, "levelTwo": cargoOneCones.two + cargoOneCubes.two, "levelThree": cargoOneCones.three + cargoOneCubes.three, "climbTele": climbOne.adjustedPoints },
+            { "team": a.team2, "links": linksTwo.result, "max": Math.max(cargoTwoCones, cargoTwoCubes), "levelOne": cargoTwoCones.one + cargoTwoCubes.one, "levelTwo": cargoTwoCones.two + cargoTwoCubes.two, "levelThree": cargoTwoCones.three + cargoTwoCubes.three, "climbTele": climbTwo.adjustedPoints },
+            { "team": a.team3, "links": linksThree.result, "max": Math.max(cargoThreeCones.max, cargoThreeCubes.max), "levelOne": cargoThreeCones.one + cargoThreeCubes.one, "levelTwo": cargoThreeCones.two + cargoThreeCubes.two, "levelThree": cargoThreeCones.three + cargoThreeCubes.three, "climbTele": climbThree.adjustedPoints }]
             arrayTeams = arrayTeams.sort(function (a, b) {
                 return b.links - a.links;
             });
@@ -163,11 +163,12 @@ class suggestionsInner extends BaseAnalysis {
                             scoringInfo.amount = coneLevel.result + cubeLevel.result
                         }
                     }
-                    if (coneLevel.result + cubeLevel.result >= scoringInfo.amount) {
+                    else if (coneLevel.result + cubeLevel.result >= scoringInfo.amount) {
                         scoringInfo.bestLevel = j
                         scoringInfo.amount = coneLevel.result + cubeLevel.result
                     }
                 }
+                scoringInfo.max = arrayTeams[i].max
                 levelArr.push(scoringInfo)
             }
 
@@ -177,26 +178,27 @@ class suggestionsInner extends BaseAnalysis {
                 one.role = 0
                 two.role = 0
                 three.role = 0
-
                 if (levelArr[0].max == 1 && levelArr[1].max === 1 && levelArr[2].max === 1) {
                     one.scoringGrid = a.edgeThreeOffenseOne
                     two.scoringGrid = a.edgeThreeOffenseTwo
                     three.scoringGrid = a.edgeThreeOffenseThree
                 }
                 else if (levelArr[0].bestLevel === levelArr[1].bestLevel || levelArr[0].bestLevel === levelArr[2].bestLevel || levelArr[1].bestLevel === levelArr[2].bestLevel) {
-                    if (levelArr[0].bestLevel === 1 || levelArr[1] === 1 || levelArr[2] === 1) {
+                    
+                    if (levelArr[0].max === 1 || levelArr[1].max === 1 || levelArr[2].max === 1) {
+                        console.log(levelArr[0])
+                        if (levelArr[0].max === 1) {
 
-                        if (levelArr[0].bestLevel === 1) {
                             one.scoringGrid = a.levelConversion[1]
-                            two.scoringGrid = a.grid1.slice(0, levelArr[0].max).concat(a.middleMap[levelArr[0].max])
-                            three.scoringGrid = a.grid2.slice(0, levelArr[0].max).concat(a.worseGrid)
+                            two.scoringGrid = a.grid1.slice(0, levelArr[0].max -1).concat(a.middleMap[levelArr[0].max])
+                            three.scoringGrid = a.grid2.slice(0, levelArr[0].max -1).concat(a.worseGrid)
                         }
-                        if (levelArr[1].bestLevel === 1) {
+                        else if (levelArr[1].max === 1) {
                             two.scoringGrid = a.levelConversion[1]
                             one.scoringGrid = a.grid1.slice(0, levelArr[0].max).concat(a.middleMap[levelArr[0].max])
                             three.scoringGrid = a.grid2.slice(0, levelArr[0].max).concat(a.worseGrid)
                         }
-                        else {
+                        else{
                             three.scoringGrid = a.levelConversion[1]
                             two.scoringGrid = a.grid1.slice(0, levelArr[0].max).concat(a.middleMap[levelArr[0].max])
                             one.scoringGrid = a.grid2.slice(0, levelArr[0].max).concat(a.worseGrid)
@@ -218,6 +220,7 @@ class suggestionsInner extends BaseAnalysis {
 
             }
             else {
+
                 //2 offense, 1 defense
                 one.role = 0
                 two.role = 0
@@ -230,7 +233,7 @@ class suggestionsInner extends BaseAnalysis {
                 }
                 else if (levelArr[0].bestLevel === levelArr[1].bestLevel) {
                     one.scoringGrid = a.grid1.slice(0, levelArr[0].max).concat(a.middleMap[levelArr[0].max])
-                    two.scoringGrid = a.grid2.slice(0, levelArr[0].max).concat(a.worseGrid)
+                    two.scoringGrid = a.grid2.slice(0, levelArr[1].max).concat(a.worseGrid)
                 }
                 else {
                     one.scoringGrid = a.levelConversion[levelArr[0].bestLevel]

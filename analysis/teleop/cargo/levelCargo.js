@@ -36,7 +36,6 @@ class levelCargo extends BaseAnalysis {
                 if (err) {
                     console.log(err)
                 }
-
                 if (rows != undefined) {
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array) {
@@ -48,12 +47,11 @@ class levelCargo extends BaseAnalysis {
                             
                             if(subArr[1] === a.type)
                             {                   
-
                                 object = true
                             }
                             if (subArr[1] === 2 && object == true) {
                                 let temp = Math.ceil(subArr[2]/3)
-                                if(temp === a.location )
+                                if(temp === a.location)
                                 {
                                     makes++
                                     object = false
@@ -70,7 +68,6 @@ class levelCargo extends BaseAnalysis {
                     }
 
                 }
-                
                 a.result = arr.reduce((partialSum, a) => partialSum + a, 0) / arr.length
                 a.array = arr
                 a.matches = match
