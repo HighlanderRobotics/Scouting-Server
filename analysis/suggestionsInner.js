@@ -136,7 +136,7 @@ class suggestionsInner extends BaseAnalysis {
 
             var trippleLinks = linksOne.result + linksTwo.result + linksThree.result
             var arrayTeams = [{ "team": a.team1, "links": linksOne.result, "max": Math.max(cargoOneCones.max, cargoOneCubes.max), "levelOne": cargoOneCones.one + cargoOneCubes.one, "levelTwo": cargoOneCones.two + cargoOneCubes.two, "levelThree": cargoOneCones.three + cargoOneCubes.three, "climbTele": climbOne.adjustedPoints },
-            { "team": a.team2, "links": linksTwo.result, "max": Math.max(cargoTwoCones, cargoTwoCubes), "levelOne": cargoTwoCones.one + cargoTwoCubes.one, "levelTwo": cargoTwoCones.two + cargoTwoCubes.two, "levelThree": cargoTwoCones.three + cargoTwoCubes.three, "climbTele": climbTwo.adjustedPoints },
+            { "team": a.team2, "links": linksTwo.result, "max": Math.max(cargoTwoCones.max, cargoTwoCubes.max), "levelOne": cargoTwoCones.one + cargoTwoCubes.one, "levelTwo": cargoTwoCones.two + cargoTwoCubes.two, "levelThree": cargoTwoCones.three + cargoTwoCubes.three, "climbTele": climbTwo.adjustedPoints },
             { "team": a.team3, "links": linksThree.result, "max": Math.max(cargoThreeCones.max, cargoThreeCubes.max), "levelOne": cargoThreeCones.one + cargoThreeCubes.one, "levelTwo": cargoThreeCones.two + cargoThreeCubes.two, "levelThree": cargoThreeCones.three + cargoThreeCubes.three, "climbTele": climbThree.adjustedPoints }]
             arrayTeams = arrayTeams.sort(function (a, b) {
                 return b.links - a.links;
@@ -147,6 +147,7 @@ class suggestionsInner extends BaseAnalysis {
             let one = { "team": first.team }
             let two = { "team": second.team }
             let three = { "team": third.team }
+            console.log(arrayTeams)
 
             let levelArr = []
             for (let i = 0; i < 3; i++) {
@@ -178,30 +179,30 @@ class suggestionsInner extends BaseAnalysis {
                 one.role = 0
                 two.role = 0
                 three.role = 0
-                if (levelArr[0].max == 1 && levelArr[1].max === 1 && levelArr[2].max === 1) {
+                if (arrayTeams[0].max == 1 && arrayTeams[1].max === 1 && arrayTeams[2].max === 1) {
                     one.scoringGrid = a.edgeThreeOffenseOne
                     two.scoringGrid = a.edgeThreeOffenseTwo
                     three.scoringGrid = a.edgeThreeOffenseThree
                 }
-                else if (levelArr[0].bestLevel === levelArr[1].bestLevel || levelArr[0].bestLevel === levelArr[2].bestLevel || levelArr[1].bestLevel === levelArr[2].bestLevel) {
+                else if (arrayTeams[0].bestLevel === arrayTeams[1].bestLevel || arrayTeams[0].bestLevel === arrayTeams[2].bestLevel || arrayTeams[1].bestLevel === arrayTeams[2].bestLevel) {
                     
-                    if (levelArr[0].max === 1 || levelArr[1].max === 1 || levelArr[2].max === 1) {
+                    if (arrayTeams[0].max === 1 || arrayTeams[1].max === 1 || arrayTeams[2].max === 1) {
                         console.log(levelArr[0])
                         if (levelArr[0].max === 1) {
 
                             one.scoringGrid = a.levelConversion[1]
-                            two.scoringGrid = a.grid1.slice(0, levelArr[0].max -1).concat(a.middleMap[levelArr[0].max])
-                            three.scoringGrid = a.grid2.slice(0, levelArr[0].max -1).concat(a.worseGrid)
+                            two.scoringGrid = a.grid1.slice(0, arrayTeams[0].max -1).concat(a.middleMap[levelArr[0].arrayTeams])
+                            three.scoringGrid = a.grid2.slice(0, arrayTeams[0].max -1).concat(a.worseGrid)
                         }
                         else if (levelArr[1].max === 1) {
                             two.scoringGrid = a.levelConversion[1]
-                            one.scoringGrid = a.grid1.slice(0, levelArr[0].max).concat(a.middleMap[levelArr[0].max])
-                            three.scoringGrid = a.grid2.slice(0, levelArr[0].max).concat(a.worseGrid)
+                            one.scoringGrid = a.grid1.slice(0, arrayTeams[0].max).concat(a.middleMap[levelArr[0].max])
+                            three.scoringGrid = a.grid2.slice(0, arrayTeams[0].max).concat(a.worseGrid)
                         }
                         else{
                             three.scoringGrid = a.levelConversion[1]
-                            two.scoringGrid = a.grid1.slice(0, levelArr[0].max).concat(a.middleMap[levelArr[0].max])
-                            one.scoringGrid = a.grid2.slice(0, levelArr[0].max).concat(a.worseGrid)
+                            two.scoringGrid = a.grid1.slice(0, arrayTeams[0].max).concat(a.middleMap[arrayTeams[0].max])
+                            one.scoringGrid = a.grid2.slice(0, arrayTeams[0].max).concat(a.worseGrid)
                         }
 
                     }
@@ -213,9 +214,9 @@ class suggestionsInner extends BaseAnalysis {
 
                 }
                 else {
-                    one.scoringGrid = a.levelConversion[levelArr[0].bestLevel]
-                    two.scoringGrid = a.levelConversion[levelArr[1].bestLevel]
-                    three.scoringGrid = a.levelConversion[levelArr[2].bestLevel]
+                    one.scoringGrid = a.levelConversion[arrayTeams[0].bestLevel]
+                    two.scoringGrid = a.levelConversion[arrayTeams[1].bestLevel]
+                    three.scoringGrid = a.levelConversion[arrayTeams[2].bestLevel]
                 }
 
             }
@@ -227,17 +228,17 @@ class suggestionsInner extends BaseAnalysis {
                 three.role = 1
 
 
-                if (levelArr[0].max == 1 && levelArr[1].max === 1) {
+                if (arrayTeams[0].max == 1 && arrayTeams[1].max === 1) {
                     one.scoringGrid = a.edgeTwoOffesneOne
                     two.scoringGrid = a.edgeTwoOffesneTwo
                 }
-                else if (levelArr[0].bestLevel === levelArr[1].bestLevel) {
-                    one.scoringGrid = a.grid1.slice(0, levelArr[0].max).concat(a.middleMap[levelArr[0].max])
-                    two.scoringGrid = a.grid2.slice(0, levelArr[1].max).concat(a.worseGrid)
+                else if (arrayTeams[0].bestLevel === arrayTeams[1].bestLevel) {
+                    one.scoringGrid = a.grid1.slice(0, arrayTeams[0].max).concat(a.middleMap[arrayTeams[0].max])
+                    two.scoringGrid = a.grid2.slice(0, arrayTeams[1].max).concat(a.worseGrid)
                 }
                 else {
-                    one.scoringGrid = a.levelConversion[levelArr[0].bestLevel]
-                    two.scoringGrid = a.levelConversion[levelArr[1].bestLevel]
+                    one.scoringGrid = a.levelConversion[arrayTeams[0].bestLevel]
+                    two.scoringGrid = a.levelConversion[arrayTeams[1].bestLevel]
                 }
 
             }

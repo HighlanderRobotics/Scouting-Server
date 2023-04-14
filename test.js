@@ -8,7 +8,7 @@ const Manager = require('./manager/dbmanager')
 async function temp() {
    // var x = new test(Manager.db, 8033 ,0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5)
    // var x = new test(Manager.db, 8033, 0, 1)
-   var x = new test(Manager.db, 8048, 2135, 7777, 2643, 6822, 8262, "qm")
+   var x = new test(Manager.db, 8048, 7777, 2135, 2643, 6822, 8262, "qm")
   await x.runAnalysis()
  
  console.log(x.finalizeResults().redAlliance.teleop)
@@ -18,5 +18,6 @@ temp()
 
 //2022cc_qm9_5	3256
 //2022cc_qm31_5 3476
+///API/analysis/suggestions?red1=8048&red2=7777&red3=2135&blue1=2643&blue2=6822&blue3=8262&matchType=qm
 
  
