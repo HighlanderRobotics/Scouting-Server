@@ -29,6 +29,10 @@ class cargoCountAuto extends BaseAnalysis {
             averageOnPath = averageOnPath/ allPaths[i].score.length
             let loc = allPaths[i].positions[0].location -17
             let climbPoints = (allPaths[i].chargeRate.docked * 8 + allPaths[i].chargeRate.engaged * 12)/allPaths[i].frequency
+            if(climbPoints === 0)
+            {
+                climbPoints = 1
+            }
             
             a.bestPaths[loc].push( {"points" : averageOnPath, "path" : allPaths[i], "climbPoints" : climbPoints})
 
