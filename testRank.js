@@ -2,7 +2,8 @@ const test = require('./manager/getRankOfTeam')
 async function temp() {
   
   
-  let temp = new test().runTask("frc8033", "2023camb")
+  let t = new test().runTask("frc8033", "2023camb")
+  console.log(t)
  
     
 }

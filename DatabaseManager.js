@@ -29,6 +29,7 @@ const editNotes = require('./manager/editNotes.js')
 const getScoutReport = require('./manager/getScoutReport.js')
 const getPickedTeams = require('./manager/getPickedTeams.js')
 const addPickedTeam = require('./manager/addPickedTeam.js')
+const getRankOfTeam = require('./manager/getRankOfTeam.js')
 
 class DatabaseManager {
     constructor() {
@@ -100,6 +101,8 @@ class DatabaseManager {
                     return new addPickedTeam().runTask(body.team)
                 case getScoutReport.name:
                     return new getScoutReport().runTask(body.matchKey)
+                case getRankOfTeam.name:
+                    return new getRankOfTeam().runTask(body.teamKey, body.tournamentKey)
                 
 
                     default:
