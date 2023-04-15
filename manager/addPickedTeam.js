@@ -12,15 +12,15 @@ class addPickedTeam extends Manager {
 
     async runTask(team) {
 
-        var sql = `INSERT INTO mutablePicklists (teams) VALUES (?)`
+        var sql = `INSERT INTO pickedTeams (teams) VALUES (?)`
         return new Promise(async (resolve, reject) => {
             Manager.db.all(sql, [team], async (err, rows) => {
                 if (err) {
                     console.log(err)
                     reject(err)
                 }
-                await new getPickedTeams().runTask()
-                resolve("done")  
+                resolve (await new getPickedTeams().runTask())
+                
                 
             })
         })

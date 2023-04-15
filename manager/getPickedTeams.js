@@ -1,7 +1,7 @@
 const Manager = require('./Manager.js')
 const { Server } = require("socket.io")
 const { resolve } = require('mathjs')
-const Io = require("../collectionServer.js")
+const io = require("../server.js").io
 
 
 
@@ -22,7 +22,7 @@ class getPickedTeams extends Manager {
                     console.log(err)
                     reject(err)
                 }
-                Io.emit('pickedTeams', rows)
+                io.emit('pickedTeams', rows)
                 resolve(rows)
             })
         })

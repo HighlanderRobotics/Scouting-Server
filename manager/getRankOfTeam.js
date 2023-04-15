@@ -14,8 +14,7 @@ class getRankOfTeam extends Manager {
 
     async runTask(teamKey, eventKey) {
         var url = 'https://www.thebluealliance.com/api/v3'
-        if(eventKey === undefined)
-        {
+        if (eventKey === undefined) {
             resolve("-")
         }
         return new Promise((resolve, reject) => {
@@ -31,6 +30,11 @@ class getRankOfTeam extends Manager {
                     }
                     resolve("-")
                 })
+                .catch(err => {
+                    resolve("-")
+                })
+
+
         })
 
     }

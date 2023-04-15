@@ -18,8 +18,8 @@ const port = process.env.PORT
 const TaskManager = require('./TaskManager.js')
 const DatabaseManager = require('./DatabaseManager.js')
 
-const app = express()
-app.use(express.json())
+// const app = express()
+// app.use(express.json())
 
 // Terminal QR Code
 var qrcode = require('qrcode-terminal')
@@ -27,117 +27,119 @@ var qrcode = require('qrcode-terminal')
 //socket io
 const { Server } = require("socket.io")
 
+const app = require('./server.js').app
+
 
 // ngrok
 // Get constant url from paid ngrok
 let url = undefined
 
 
-setup = async () => {
+// setup = async () => {
 
-    try {
-        url = await axios.get('http://localhost:4040/api/tunnels')
-        .then((res) => {
-            // console.log(res.data.tunnels[0])
-            return res.data.tunnels[0].public_url
-        })
-        console.log(url)
+//     try {
+//         url = await axios.get('http://localhost:4040/api/tunnels')
+//         .then((res) => {
+//             // console.log(res.data.tunnels[0])
+//             return res.data.tunnels[0].public_url
+//         })
+//         console.log(url)
         
-        if (url.startsWith('https://')) {
-            const https = 'https://'
-            return url.slice(https.length)
-        }
+//         if (url.startsWith('https://')) {
+//             const https = 'https://'
+//             return url.slice(https.length)
+//         }
     
-        if (url.startsWith('http://')) {
-            const http = 'http://'
-            return url.slice(http.length)
-        }
-    } catch (e) {
-        console.log(`\nngrok link is not setup/running\n`)
-    }
+//         if (url.startsWith('http://')) {
+//             const http = 'http://'
+//             return url.slice(http.length)
+//         }
+//     } catch (e) {
+//         console.log(`\nngrok link is not setup/running\n`)
+//     }
 
-    return url
-}
+//     return url
+// }
 
-// Logging stuff
-var logStream = fs.createWriteStream(path.join(`${__dirname}/logs`, `Logs_${new Date()}.log`), { flags: 'a' })
+// // Logging stuff
+// var logStream = fs.createWriteStream(path.join(`${__dirname}/logs`, `Logs_${new Date()}.log`), { flags: 'a' })
 
-// setup the logger
-app.use(morgan('combined', {
-    stream: logStream
-}))
+// // setup the logger
+// app.use(morgan('combined', {
+//     stream: logStream
+// }))
 
-class MyStream extends Writable {
-    write(line) {
-        // Write to console
-        console.log('Logger - ', line)
-    }
-}
+// class MyStream extends Writable {
+//     write(line) {
+//         // Write to console
+//         console.log('Logger - ', line)
+//     }
+// }
 
-// Create a new named format
-morgan.token('readable', ':status A new :method request from :remote-addr for :url was received. It took :total-time[2] milliseconds to be resolved')
+// // Create a new named format
+// morgan.token('readable', ':status A new :method request from :remote-addr for :url was received. It took :total-time[2] milliseconds to be resolved')
 
-let writer = new MyStream()
+// let writer = new MyStream()
 
-// Use the new format by name
-app.use(morgan('readable', {
-    stream: writer
-}))
+// // Use the new format by name
+// app.use(morgan('readable', {
+//     stream: writer
+// }))
 
-// More middleware to allow Access-Control-Allow-Origin
-const cors = require('cors')
-app.use(cors({
-    origin: true
-}))
-// app.options('*', cors())
-// app.options('/API/manager/:task', cors())
+// // More middleware to allow Access-Control-Allow-Origin
+// const cors = require('cors')
+// app.use(cors({
+//     origin: true
+// }))
+// // app.options('*', cors())
+// // app.options('/API/manager/:task', cors())
 
-// Temporary if others want to use old endpoints for integration test day, will force changing endpoints later
-const Manager = require('./manager/dbmanager.js')
+// // Temporary if others want to use old endpoints for integration test day, will force changing endpoints later
+// const Manager = require('./manager/dbmanager.js')
 
-// Tasks map
-const uuidToTask = new Map()
-const tasks = new Map()
-const server = app.listen(port, async () => { 
-    console.log(`Collection Server running on ${port}...`)
+// // Tasks map
+// const uuidToTask = new Map()
+// const tasks = new Map()
+// const server = app.listen(port, async () => { 
+//     console.log(`Collection Server running on ${port}...`)
 
-    // Scannable qr code with ngrok link
-    if (await setup()) {
-        qrcode.generate(url)
-    }
+//     // Scannable qr code with ngrok link
+//     if (await setup()) {
+//         qrcode.generate(url)
+//     }
 
-    // Init server here, idk what it would init but possibly could run + cache analysis engine, all it does is turn foreign keys on
+//     // Init server here, idk what it would init but possibly could run + cache analysis engine, all it does is turn foreign keys on
      
-    var sql = `PRAGMA foreign_keys = ON`
+//     var sql = `PRAGMA foreign_keys = ON`
 
-        // Shouldn't give a response if it runs correctly, just enables foreign keys
+//         // Shouldn't give a response if it runs correctly, just enables foreign keys
         
-        return new Promise ((resolve, reject) => {
-            Manager.db.get(sql, (err) => {
-                if (err) {
-                    reject(`(Ask Barry) Error: ${err}`)
-                } else {
-                    resolve()
-                }
-            })
-        })
-        .catch((err) => {
-            if (err) {
-                return err
-            }
-        })
-        .then((results) => {
-            return results
-        })
-    .then((results) => {
-        if (results) {
-            console.log(results)
-        } else {
-            console.log(`Initializing server`)
-        }
-    })
-})
- let io = new Server(server)
+//         return new Promise ((resolve, reject) => {
+//             Manager.db.get(sql, (err) => {
+//                 if (err) {
+//                     reject(`(Ask Barry) Error: ${err}`)
+//                 } else {
+//                     resolve()
+//                 }
+//             })
+//         })
+//         .catch((err) => {
+//             if (err) {
+//                 return err
+//             }
+//         })
+//         .then((results) => {
+//             return results
+//         })
+//     .then((results) => {
+//         if (results) {
+//             console.log(results)
+//         } else {
+//             console.log(`Initializing server`)
+//         }
+//     })
+// })
+// // let io = new Server(server)
 
 
 
@@ -272,4 +274,3 @@ app.get('/getTaskData', async (req,res) => {
     }
 })
 
-module.exports = io
