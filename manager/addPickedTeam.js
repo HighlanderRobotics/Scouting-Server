@@ -1,5 +1,7 @@
 const { re } = require('mathjs')
 const Manager = require('./Manager.js')
+const getPickedTeams = require("./getPickedTeams")
+
 
 class addPickedTeam extends Manager {
     static name = "addPickedTeam"
@@ -12,12 +14,14 @@ class addPickedTeam extends Manager {
 
         var sql = `INSERT INTO mutablePicklists (teams) VALUES (?)`
         return new Promise(async (resolve, reject) => {
-            Manager.db.all(sql, [team], (err, rows) => {
+            Manager.db.all(sql, [team], async (err, rows) => {
                 if (err) {
                     console.log(err)
                     reject(err)
-                }   
-                resolve("done")
+                }
+                await new getPickedTeams().runTask()
+                resolve("done")  
+                
             })
         })
 

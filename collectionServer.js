@@ -137,7 +137,7 @@ const server = app.listen(port, async () => {
         }
     })
 })
-// let io = new Server(server)
+ let io = new Server(server)
 
 
 
@@ -271,7 +271,5 @@ app.get('/getTaskData', async (req,res) => {
         return
     }
 })
-class Io{
-    static io = 3
-}
-module.exports = Io
+
+module.exports = io
