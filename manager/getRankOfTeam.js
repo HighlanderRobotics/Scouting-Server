@@ -15,24 +15,17 @@ class getRankOfTeam extends Manager {
     async runTask(teamKey, eventKey) {
         var url = 'https://www.thebluealliance.com/api/v3'
         return new Promise((resolve, reject) => {
-            axios.get(`${url}/events/${eventKey}/rankings`, {
+            axios.get(`${url}/event/${eventKey}/rankings`, {
                 headers: { 'X-TBA-Auth-Key': "Zu9HepaVv3oaMxJFsmuqAfcksKTci0v6mOephsnBaXk7kcPbW2VV0WXtq9kyMynS" }
             })
-            try 
-            {(async (response) => {
-                    for (let i = 0; i < response.data.length; i++) {
-                        if (response.data[i].teamKey === teamKey) {
+                .then(async (response) => {
+                    for (let i = 0; i < response.data.rankings.length; i++) {
+                        if (response.data.rankings[i].team_key === teamKey) {
                             resolve(response.data.rankings[i].rank)
                         }
-                        
                     }
                     resolve(0)
                 })
-            }
-            catch (error)
-            {
-                reject(error)
-            }
         })
 
     }

@@ -77,7 +77,8 @@ class suggestionsInner extends BaseAnalysis {
                                 for (let k = 0; k < thirdAutoOuter.bestPaths[locThird].length; k++) {
                                     let thirdAuto = thirdAutoOuter.bestPaths[locThird][k]
                                     let currTotal = firstAuto.points + secondAuto.points + thirdAuto.points
-                                    if (firstAuto.climbPoints === 0 && secondAuto.climbPoints === 0 || thirdAuto.climbPoints === 0 && secondAuto.climbPoints === 0 || firstAuto.climbPoints === 0 && thirdAuto.climbPoints === 0) {
+                                    console.log(firstAuto.climb)
+                                    if (firstAuto.climb === false && secondAuto.climb === false || thirdAuto.climb === false && secondAuto.climb === false || firstAuto.climb === false && thirdAuto.climbPoints === false) {
                                         if (currTotal > total && locFirst != locSecond && locThird != locSecond && locFirst != locThird) {
                                             if (firstAuto.climbPoints + secondAuto.climbPoints + thirdAuto.climbPoints >= climbPoints && a.matchType == "qm") {
                                                 climbPoints = firstAuto.climbPoints + secondAuto.climbPoints + thirdAuto.climbPoints
@@ -147,7 +148,6 @@ class suggestionsInner extends BaseAnalysis {
             let one = { "team": first.team }
             let two = { "team": second.team }
             let three = { "team": third.team }
-            console.log(arrayTeams)
 
             let levelArr = []
             for (let i = 0; i < 3; i++) {
@@ -187,7 +187,6 @@ class suggestionsInner extends BaseAnalysis {
                 else if (arrayTeams[0].bestLevel === arrayTeams[1].bestLevel || arrayTeams[0].bestLevel === arrayTeams[2].bestLevel || arrayTeams[1].bestLevel === arrayTeams[2].bestLevel) {
                     
                     if (arrayTeams[0].max === 1 || arrayTeams[1].max === 1 || arrayTeams[2].max === 1) {
-                        console.log(levelArr[0])
                         if (levelArr[0].max === 1) {
 
                             one.scoringGrid = a.levelConversion[1]
