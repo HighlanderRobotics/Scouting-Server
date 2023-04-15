@@ -16,7 +16,7 @@ class getRankOfTeam extends Manager {
         var url = 'https://www.thebluealliance.com/api/v3'
         if(eventKey === undefined)
         {
-            resolve(0)
+            resolve("0")
         }
         return new Promise((resolve, reject) => {
             axios.get(`${url}/event/${eventKey}/rankings`, {
@@ -25,10 +25,10 @@ class getRankOfTeam extends Manager {
                 .then(async (response) => {
                     for (let i = 0; i < response.data.rankings.length; i++) {
                         if (response.data.rankings[i].team_key === teamKey) {
-                            resolve(response.data.rankings[i].rank)
+                            resolve("response.data.rankings[i].rank")
                         }
                     }
-                    resolve(0)
+                    resolve("0")
                 })
         })
 
