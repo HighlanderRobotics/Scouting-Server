@@ -29,7 +29,6 @@ class cyclingAll extends BaseAnalysis {
                ) AS  newMatches ON  data.matchKey = newMatches.key
           `;
             let arr = []
-            let len = 0
 
             a.db.all(sql, [], (err, rows) => {
                 if (err) {
@@ -37,13 +36,13 @@ class cyclingAll extends BaseAnalysis {
                 }
 
                 if (rows != undefined) {
-                    console.log(rows)
 
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array) {
                         let curr = JSON.parse(row.scoutReport).events
                         let prev = 0
                         let total = 0
+                        let len = 0
                         for (var i = 0; i < curr.length; i++) {
                             let subArr = curr[i]
                             if (subArr[1] === a.type) {
@@ -52,6 +51,8 @@ class cyclingAll extends BaseAnalysis {
                             if (subArr[1] == a.location) {
     
                                 total += subArr[0] - prev
+                                console.log(subArr[0])
+                                prev = 0
                                 len++
                             }
                             if (subArr[1] === 3) {
@@ -59,7 +60,7 @@ class cyclingAll extends BaseAnalysis {
                             }
 
                         }
-                        if(len > 0)
+                        if(total/len > 0)
                         {
                             arr.push(total / len)
 
