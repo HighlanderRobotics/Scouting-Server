@@ -24,6 +24,10 @@ app.use(express.json())
 // Terminal QR Code
 var qrcode = require('qrcode-terminal')
 
+//socket io
+const { Server } = require("socket.io")
+
+
 // ngrok
 // Get constant url from paid ngrok
 let url = undefined
@@ -103,7 +107,28 @@ const server = app.listen(port, async () => {
     }
 
     // Init server here, idk what it would init but possibly could run + cache analysis engine, all it does is turn foreign keys on
-    await new DatabaseManager().runTask('initServer', {})
+     
+    var sql = `PRAGMA foreign_keys = ON`
+
+        // Shouldn't give a response if it runs correctly, just enables foreign keys
+        
+        return new Promise ((resolve, reject) => {
+            Manager.db.get(sql, (err) => {
+                if (err) {
+                    reject(`(Ask Barry) Error: ${err}`)
+                } else {
+                    resolve()
+                }
+            })
+        })
+        .catch((err) => {
+            if (err) {
+                return err
+            }
+        })
+        .then((results) => {
+            return results
+        })
     .then((results) => {
         if (results) {
             console.log(results)
@@ -112,6 +137,9 @@ const server = app.listen(port, async () => {
         }
     })
 })
+// let io = new Server(server)
+
+
 
 app.get('/', async (req, res) => {
     res.status(200).send(`All good my dude`)
@@ -243,4 +271,7 @@ app.get('/getTaskData', async (req,res) => {
         return
     }
 })
-module.exports = server
+class Io{
+    static io = 3
+}
+module.exports = Io
