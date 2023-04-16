@@ -15,7 +15,7 @@ app.use(express.json())
 var qrcode = require('qrcode-terminal')
 
 //socket io
-const { Server } = require("socket.io")
+const { Server, Socket } = require("socket.io")
 
 
 // ngrok
@@ -90,7 +90,10 @@ const server = app.listen(port, async () => {
             }
         })
 })
-
 const  io = new Server(server)
+io.on('connection', (socket) => {
+    console.log('a user connected');
+  });
+
 exports.io = io
 exports.app = app
