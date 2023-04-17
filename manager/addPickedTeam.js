@@ -1,6 +1,5 @@
 const { re } = require('mathjs')
 const Manager = require('./Manager.js')
-const getPickedTeams = require("./getPickedTeams")
 
 
 class addPickedTeam extends Manager {
@@ -19,7 +18,7 @@ class addPickedTeam extends Manager {
                     console.log(err)
                     reject(err)
                 }
-                resolve (await new getPickedTeams().runTask())
+                resolve ("done")
                 
                 
             })

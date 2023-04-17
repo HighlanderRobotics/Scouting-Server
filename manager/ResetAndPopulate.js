@@ -145,7 +145,6 @@ class ResetAndPopulate extends Manager {
                         }
                         
                         console.log("Inserted page " + page);
-
                         page++
                     }
                 }
@@ -153,8 +152,8 @@ class ResetAndPopulate extends Manager {
                 console.log(`Finished inserting API teams`)
                 resolve()
             } catch (error) {
-                console.error(`Error with getting teams from TBA API: ${err}`)
-                reject(err)
+                console.error(`Error with getting teams from TBA API: ${error}`)
+                reject(error)
             }
         })
     }

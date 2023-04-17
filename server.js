@@ -90,10 +90,5 @@ const server = app.listen(port, async () => {
             }
         })
 })
-const  io = new Server(server)
-io.on('connection', (socket) => {
-    console.log('a user connected');
-  });
 
-exports.io = io
 exports.app = app
