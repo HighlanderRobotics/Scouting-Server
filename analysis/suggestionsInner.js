@@ -197,20 +197,21 @@ class suggestionsInner extends BaseAnalysis {
                     
                     if (arrayTeams[0].max === 1 || arrayTeams[1].max === 1 || arrayTeams[2].max === 1) {
                         if (levelArr[0].max === 1) {
-
+                            
                             one.scoringGrid = a.levelConversion[1]
-                            two.scoringGrid = a.grid1.slice(0, arrayTeams[0].max -1).concat(a.middleMap[levelArr[0].arrayTeams])
-                            three.scoringGrid = a.grid2.slice(0, arrayTeams[0].max -1).concat(a.worseGrid)
+                            two.scoringGrid = a.grid1.slice(0, arrayTeams[1].max -1).concat(a.middleMap(levelArr[1].max))
+                            three.scoringGrid = a.grid2.slice(0, arrayTeams[2].max -1).concat([5])
                         }
                         else if (levelArr[1].max === 1) {
                             two.scoringGrid = a.levelConversion[1]
-                            one.scoringGrid = a.grid1.slice(0, arrayTeams[0].max).concat(a.middleMap[levelArr[0].max])
-                            three.scoringGrid = a.grid2.slice(0, arrayTeams[0].max).concat(a.worseGrid)
+                            one.scoringGrid = a.grid1.slice(0, arrayTeams[0].max).concat(a.middleMap(levelArr[0].max))
+                            three.scoringGrid = a.grid2.slice(0, arrayTeams[2].max).concat([5])
                         }
                         else{
+                            console.log("here")
                             three.scoringGrid = a.levelConversion[1]
-                            two.scoringGrid = a.grid1.slice(0, arrayTeams[0].max).concat(a.middleMap[arrayTeams[0].max])
-                            one.scoringGrid = a.grid2.slice(0, arrayTeams[0].max).concat(a.worseGrid)
+                            two.scoringGrid = a.grid1.slice(0, arrayTeams[1].max).concat([5])
+                            one.scoringGrid = a.grid2.slice(0, arrayTeams[0].max).concat(a.middleMap[arrayTeams[1].max])
                         }
 
                     }
@@ -242,7 +243,7 @@ class suggestionsInner extends BaseAnalysis {
                 }
                 else if (arrayTeams[0].bestLevel === arrayTeams[1].bestLevel) {
                     one.scoringGrid = a.grid1.slice(0, arrayTeams[0].max).concat(a.middleMap[arrayTeams[0].max])
-                    two.scoringGrid = a.grid2.slice(0, arrayTeams[1].max).concat(a.worseGrid)
+                    two.scoringGrid = a.grid2.slice(0, arrayTeams[1].max).concat([2])
                 }
                 else {
                     one.scoringGrid = a.levelConversion[arrayTeams[0].bestLevel]
@@ -258,9 +259,7 @@ class suggestionsInner extends BaseAnalysis {
 
             let endGame = {}
 
-            let arrayClimb = arrayTeams.sort(function (a, b) {
-                return b.climbTele - a.climbTele;
-            });
+            let arrayClimb = arrayTeams
             let topCylcle = new cycling(Manager.db, arrayClimb[0].team, 1, 2)
             await topCylcle.runAnalysis()
 
