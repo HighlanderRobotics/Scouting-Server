@@ -1,17 +1,17 @@
 //for testing
 // const test = require('./analysis/auto/bestAutoPaths')
 // const test = require('./analysis/teleop/cargo/cargoCountOverview')
-const test = require('./analysis/teleop/cargo/cyclingAll')
+const test = require('./analysis/suggestionsInner')
 const Manager = require('./manager/dbmanager')
 
 // const y = require("./test")
 async function temp() {
    // var x = new test(Manager.db, 8033 ,0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5)
-   var x = new test(Manager.db, 1, 2)
+   var x = new test(Manager.db, 8033, 1678, 67, "qm")
    // var x = new test(Manager.db, 8048, 7777, 2135, 2643, 6822, 8262, "qm")
   await x.runAnalysis()
  
- console.log(x.finalizeResults())
+ console.log(x.finalizeResults().alliance.endgame)
 }
 temp()
 

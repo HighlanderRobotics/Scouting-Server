@@ -20,6 +20,7 @@ class climberSucsess extends BaseAnalysis {
         this.adjustedTipped = 0
         this.adjustedPoints = 0
         this.breakdown = []
+        this.averagePoints = 0
 
     }
     async getData() {
@@ -86,6 +87,7 @@ class climberSucsess extends BaseAnalysis {
                         a.adjustedTipped = (a.tipped + 1)/(a.totalAttempted  - a.level+ 3)
                         a.adjustedPoints = (a.adjustedLevel * 10 + a.adjustedTipped * 6) /2
                         a.breakdown = climbBreakdown
+                        a.averagePoints =((a.tipped * 6) + (a.level * 10))/2
 
                      resolve("done")
                     

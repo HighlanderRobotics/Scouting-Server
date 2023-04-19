@@ -12,6 +12,7 @@ const levelCargo = require('./teleop/cargo/levelCargo.js')
 const bestPaths = require('./auto/bestAutoPaths.js')
 const { on } = require('nodemon')
 const e = require('express')
+const averageScore = require('./general/averageScore.js')
 
 // const math = require('mathjs')
 // const { max } = require('mathjs')
@@ -77,7 +78,6 @@ class suggestionsInner extends BaseAnalysis {
                                 for (let k = 0; k < thirdAutoOuter.bestPaths[locThird].length; k++) {
                                     let thirdAuto = thirdAutoOuter.bestPaths[locThird][k]
                                     let currTotal = firstAuto.points + secondAuto.points + thirdAuto.points
-                                    console.log(firstAuto.climb)
                                     if (firstAuto.climb === false && secondAuto.climb === false || thirdAuto.climb === false && secondAuto.climb === false || firstAuto.climb === false && thirdAuto.climbPoints === false) {
                                         if (currTotal > total && locFirst != locSecond && locThird != locSecond && locFirst != locThird) {
                                             if (firstAuto.climbPoints + secondAuto.climbPoints + thirdAuto.climbPoints >= climbPoints && a.matchType == "qm") {
@@ -134,11 +134,20 @@ class suggestionsInner extends BaseAnalysis {
             var climbThree = new climberSucsess(Manager.db, a.team3)
             await climbThree.runAnalysis()
 
+            var onePoints = new averageScore(Manager.db, a.team1, 1)
+            await onePoints.runAnalysis()
+
+            var twoPoints = new averageScore(Manager.db, a.team1, 1)
+            await twoPoints.runAnalysis()
+
+            var threePoints = new averageScore(Manager.db, a.team1, 1)
+            await threePoints.runAnalysis()
+
 
             var trippleLinks = linksOne.result + linksTwo.result + linksThree.result
-            var arrayTeams = [{ "team": a.team1, "links": linksOne.result, "max": Math.max(cargoOneCones.max, cargoOneCubes.max), "levelOne": cargoOneCones.one + cargoOneCubes.one, "levelTwo": cargoOneCones.two + cargoOneCubes.two, "levelThree": cargoOneCones.three + cargoOneCubes.three, "climbTele": climbOne.adjustedPoints },
-            { "team": a.team2, "links": linksTwo.result, "max": Math.max(cargoTwoCones.max, cargoTwoCubes.max), "levelOne": cargoTwoCones.one + cargoTwoCubes.one, "levelTwo": cargoTwoCones.two + cargoTwoCubes.two, "levelThree": cargoTwoCones.three + cargoTwoCubes.three, "climbTele": climbTwo.adjustedPoints },
-            { "team": a.team3, "links": linksThree.result, "max": Math.max(cargoThreeCones.max, cargoThreeCubes.max), "levelOne": cargoThreeCones.one + cargoThreeCubes.one, "levelTwo": cargoThreeCones.two + cargoThreeCubes.two, "levelThree": cargoThreeCones.three + cargoThreeCubes.three, "climbTele": climbThree.adjustedPoints }]
+            var arrayTeams = [{ "team": a.team1, "links": linksOne.result, "max": Math.max(cargoOneCones.max, cargoOneCubes.max), "levelOne": cargoOneCones.one + cargoOneCubes.one, "levelTwo": cargoOneCones.two + cargoOneCubes.two, "levelThree": cargoOneCones.three + cargoOneCubes.three, "climbTele": climbOne.averagePoints, "avgTelePoints" : onePoints.average },
+            { "team": a.team2, "links": linksTwo.result, "max": Math.max(cargoTwoCones.max, cargoTwoCubes.max), "levelOne": cargoTwoCones.one + cargoTwoCubes.one, "levelTwo": cargoTwoCones.two + cargoTwoCubes.two, "levelThree": cargoTwoCones.three + cargoTwoCubes.three, "climbTele": climbTwo.averagePoints, "avgTelePoints" : twoPoints.average  },
+            { "team": a.team3, "links": linksThree.result, "max": Math.max(cargoThreeCones.max, cargoThreeCubes.max), "levelOne": cargoThreeCones.one + cargoThreeCubes.one, "levelTwo": cargoThreeCones.two + cargoThreeCubes.two, "levelThree": cargoThreeCones.three + cargoThreeCubes.three, "climbTele": climbThree.averagePoints, "avgTelePoints" : threePoints.average  }]
             arrayTeams = arrayTeams.sort(function (a, b) {
                 return b.links - a.links;
             });
@@ -255,7 +264,7 @@ class suggestionsInner extends BaseAnalysis {
             let topCylcle = new cycling(Manager.db, arrayClimb[0].team, 1, 2)
             await topCylcle.runAnalysis()
 
-
+            
             let topDriverAbility = new driverAbilityTeam(Manager.db, arrayClimb[0].team)
             await topDriverAbility.runAnalysis()
             let thirdTime = 30 - (5 * topDriverAbility.result)
