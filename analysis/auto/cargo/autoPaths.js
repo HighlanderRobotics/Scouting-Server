@@ -73,18 +73,23 @@ class cargoCountAuto extends BaseAnalysis {
                             total += 8
                             arr.push({ "location": 11, "event": 9, "time": 15})
                             str = "docked"
+                            events.push(9)
 
                         }
                         else if (data.autoChallengeResult === 2) {
                             arr.push({ "location": 11, "event": 9, "time": 15})
                             total += 12
                             str = "engaged"
+                            events.push(9)
+
 
                         }
                         else if (data.autoChallengeResult === 3)
                         {
                             arr.push({ "location": 11, "event": 9, "time": 15})
                             str = "failed"
+                            events.push(9)
+
 
                         }
                         else if (data.autoChallengeResult === 4)

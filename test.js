@@ -11,7 +11,7 @@ async function temp() {
    // var x = new test(Manager.db, 8048, 7777, 2135, 2643, 6822, 8262, "qm")
   await x.runAnalysis()
  
- console.log(x.finalizeResults().alliance.endgame)
+ console.log(x.finalizeResults().alliance.auto[0])
 }
 temp()
 
