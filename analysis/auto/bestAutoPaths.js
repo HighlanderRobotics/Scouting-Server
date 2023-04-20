@@ -12,7 +12,7 @@ class cargoCountAuto extends BaseAnalysis {
         this.team = team
         // this.start = start
         // this.end = end
-        this.bestPaths = [[{"points" : 0, "path" : {}, "climbPoints" : 0, "climb" : false}], [{"points" : 0, "path" : {}, "climbPoints" : 0, "climb" : false}], [{"points" : 0, "path" : {}, "climbPoints" : 0, "climb" : false}]]
+        this.bestPaths = [[{"points" : 0, "path" : {}, "climbPoints" : 0, "climb" : false, "all" : {"scoringRow" : []}}], [{"points" : 0, "path" : {}, "climbPoints" : 0, "climb" : false, "all" : {"scoringRow" : []}}], [{"points" : 0, "path" : {}, "climbPoints" : 0, "climb" : false, "all" : {"socringRow" : 0}}]]
     }
     async getAccuracy() {
         let a = this
@@ -35,7 +35,7 @@ class cargoCountAuto extends BaseAnalysis {
             {
                 chargeBool = true
             }
-            a.bestPaths[loc].push( {"points" : averageOnPath, "path" : allPaths[i], "climbPoints" : climbPoints, "climb" : chargeBool})
+            a.bestPaths[loc].push( {"points" : averageOnPath, "path" : allPaths[i], "climbPoints" : climbPoints, "climb" : chargeBool, "full" : allPaths})
 
         }
         for(let j = 0; j < 3; j ++)

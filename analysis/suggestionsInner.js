@@ -303,18 +303,18 @@ class suggestionsInner extends BaseAnalysis {
     }
     checkPickUpMiddle(arrayOne, arrayTwo, arrayThree)
     {
-        for(let i = 0; i < arrayOne.path.scoringRow.length; i ++)
+        for(let i = 0; i < arrayOne.all.scoringRow.length; i ++)
         {
-            for(let j = 0; j < arrayTwo.path.scoringRow.length; j ++)
+            for(let j = 0; j < arrayTwo.all.scoringRow.length; j ++)
             {
-                for(let k = 0; k < arrayThree.path.scoringRow.length; k ++)
+                for(let k = 0; k < arrayThree.all.scoringRow.length; k ++)
                 {
-                    if(arrayOne.path.scoringRow[i] === arrayTwo.path.scoringRow[j] || arrayThree.path.scoringRow[k] === arrayOne.path.scoringRow[i] || arrayTwo.path.scoringRow[j] === arrayThree.path.scoringRow[k])
+                    if(arrayOne.all.scoringRow[i] === arrayTwo.all.scoringRow[j] || arrayThree.all.scoringRow[k] === arrayOne.all.scoringRow[i] || arrayTwo.all.scoringRow[j] === arrayThree.all.scoringRow[k])
                     {
                         return false
                     }
                 }
-                if(arrayOne.path.scoringRow[i] === arrayTwo.path.scoringRow[j])
+                if(arrayOne.all.scoringRow[i] === arrayTwo.all.scoringRow[j])
                 {
                     return false
                 }
