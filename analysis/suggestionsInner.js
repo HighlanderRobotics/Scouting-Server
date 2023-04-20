@@ -79,7 +79,7 @@ class suggestionsInner extends BaseAnalysis {
                                     let thirdAuto = thirdAutoOuter.bestPaths[locThird][k]
                                     let currTotal = firstAuto.points + secondAuto.points + thirdAuto.points
                                     if (firstAuto.climb === false && secondAuto.climb === false || thirdAuto.climb === false && secondAuto.climb === false || firstAuto.climb === false && thirdAuto.climbPoints === false) {
-                                        if (currTotal > total && locFirst != locSecond && locThird != locSecond && locFirst != locThird && a.checkPickUpMiddle(firstAuto, secondAuto, thirdAuto)) {
+                                        if (currTotal > total && locFirst != locSecond && locThird != locSecond && locFirst != locThird) {
                                             if (firstAuto.climbPoints + secondAuto.climbPoints + thirdAuto.climbPoints >= climbPoints && a.matchType == "qm") {
                                                 climbPoints = firstAuto.climbPoints + secondAuto.climbPoints + thirdAuto.climbPoints
                                                 total = currTotal
@@ -301,27 +301,28 @@ class suggestionsInner extends BaseAnalysis {
 
 
     }
-    checkPickUpMiddle(arrayOne, arrayTwo, arrayThree)
-    {
-        for(let i = 0; i < arrayOne.all.scoringRow.length; i ++)
-        {
-            for(let j = 0; j < arrayTwo.all.scoringRow.length; j ++)
-            {
-                for(let k = 0; k < arrayThree.all.scoringRow.length; k ++)
-                {
-                    if(arrayOne.all.scoringRow[i] === arrayTwo.all.scoringRow[j] || arrayThree.all.scoringRow[k] === arrayOne.all.scoringRow[i] || arrayTwo.all.scoringRow[j] === arrayThree.all.scoringRow[k])
-                    {
-                        return false
-                    }
-                }
-                if(arrayOne.all.scoringRow[i] === arrayTwo.all.scoringRow[j])
-                {
-                    return false
-                }
-            }
-        }
-        return true
-    }
+    // checkPickUpMiddle(arrayOne, arrayTwo, arrayThree)
+    // {
+    //     if(arrayOne.)
+    //     for(let i = 0; i < arrayOne.scoringRow.length; i ++)
+    //     {
+    //         for(let j = 0; j < arrayTwo.scoringRow.length; j ++)
+    //         {
+    //             for(let k = 0; k < arrayThree.scoringRow.length; k ++)
+    //             {
+    //                 if(arrayOne.all.scoringRow[i] === arrayTwo.scoringRow[j] || arrayThree.scoringRow[k] === arrayOne.scoringRow[i] || arrayTwo.scoringRow[j] === arrayThree.scoringRow[k])
+    //                 {
+    //                     return false
+    //                 }
+    //             }
+    //             if(arrayOne.all.scoringRow[i] === arrayTwo.all.scoringRow[j])
+    //             {
+    //                 return false
+    //             }
+    //         }
+    //     }
+    //     return true
+    // }
     getFinalLevel(team, teleop) {
         let a = this
         for (let i = 0; i < teleop.length; i++) {
