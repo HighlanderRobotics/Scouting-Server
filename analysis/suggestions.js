@@ -29,13 +29,13 @@ class suggestions extends BaseAnalysis {
     async getWinner() {
         let a = this
        
-            var blue = new suggestionsInner(Manager.db, a.blue1, a.blue2, a.blue3, a.matchType)
-            await blue.runAnalysis()
-            var red = new suggestionsInner(Manager.db, a.red1, a.red2, a.red3, a.matchType)
-            await red.runAnalysis()
+            // var blue = new suggestionsInner(Manager.db, a.blue1, a.blue2, a.blue3, a.matchType)
+            // await blue.runAnalysis()
+            // var red = new suggestionsInner(Manager.db, a.red1, a.red2, a.red3, a.matchType)
+            // await red.runAnalysis()
             
-            a.blueAlliance = blue.alliance
-            a.redAlliance = red.alliance
+            // a.blueAlliance = blue.alliance
+            // a.redAlliance = red.alliance
             
             resolve("done")
 

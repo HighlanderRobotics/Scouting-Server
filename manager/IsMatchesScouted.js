@@ -22,7 +22,7 @@ class IsMatchesScouted extends Manager {
                 }
             })
 
-            if (data == undefined) {
+            if (data === undefined) {
                 console.log('No data')
                 reject({
                     "result": `No data`,
