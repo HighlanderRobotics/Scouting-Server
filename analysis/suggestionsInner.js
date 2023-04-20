@@ -79,7 +79,7 @@ class suggestionsInner extends BaseAnalysis {
                                     let thirdAuto = thirdAutoOuter.bestPaths[locThird][k]
                                     let currTotal = firstAuto.points + secondAuto.points + thirdAuto.points
                                     if (firstAuto.climb === false && secondAuto.climb === false || thirdAuto.climb === false && secondAuto.climb === false || firstAuto.climb === false && thirdAuto.climbPoints === false) {
-                                        if (currTotal > total && locFirst != locSecond && locThird != locSecond && locFirst != locThird) {
+                                        if (currTotal > total && locFirst != locSecond && locThird != locSecond && locFirst != locThird && a.checkPickUpMiddle(firstAuto, secondAuto, thirdAuto)) {
                                             if (firstAuto.climbPoints + secondAuto.climbPoints + thirdAuto.climbPoints >= climbPoints && a.matchType == "qm") {
                                                 climbPoints = firstAuto.climbPoints + secondAuto.climbPoints + thirdAuto.climbPoints
                                                 total = currTotal
@@ -300,6 +300,27 @@ class suggestionsInner extends BaseAnalysis {
         })
 
 
+    }
+    checkPickUpMiddle(arrayOne, arrayTwo, arrayThree)
+    {
+        for(let i = 0; i < arrayOne.path.scoringRow.length; i ++)
+        {
+            for(let j = 0; j < arrayTwo.path.scoringRow.length; j ++)
+            {
+                for(let k = 0; k < arrayThree.path.scoringRow.length; k ++)
+                {
+                    if(arrayOne.path.scoringRow[i] === arrayTwo.path.scoringRow[j] || arrayThree.path.scoringRow[k] === arrayOne.path.scoringRow[i] || arrayTwo.path.scoringRow[j] === arrayThree.path.scoringRow[k])
+                    {
+                        return false
+                    }
+                }
+                if(arrayOne.path.scoringRow[i] === arrayTwo.path.scoringRow[j])
+                {
+                    return false
+                }
+            }
+        }
+        return true
     }
     getFinalLevel(team, teleop) {
         let a = this

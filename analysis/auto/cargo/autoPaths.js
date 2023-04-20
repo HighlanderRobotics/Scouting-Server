@@ -38,6 +38,7 @@ class cargoCountAuto extends BaseAnalysis {
                         let arr = []
                         let events = []
                         let currObj = -1
+                        let scoringRow = []
                         for (var i = 0; i < curr.length; i++) {
 
                             let subArr = curr[i]
@@ -48,6 +49,10 @@ class cargoCountAuto extends BaseAnalysis {
                                         currObj = subArr[1]
                                         events.push(subArr[1])
                                         arr.push({ "location": subArr[2], "event": subArr[1], "time": subArr[0]})
+                                        if(subArr[0] > 0)
+                                        {
+                                            scoringRow.push(subArr[2])
+                                        }
                                     }
                                     else if (subArr[1] === 3 || subArr[1] === 7)
                                     {
@@ -128,7 +133,7 @@ class cargoCountAuto extends BaseAnalysis {
                                 
 
                             } else {
-                                jsonObject[key] = { frequency: 1, score: [total], positions : arr, matches : [row.key], chargeRate : {"docked" : 0, "engaged" : 0, "failed" : 0}, maxScore : total};
+                                jsonObject[key] = { frequency: 1, score: [total], positions : arr, matches : [row.key], chargeRate : {"docked" : 0, "engaged" : 0, "failed" : 0}, maxScore : total, scoringRow : scoringRow};
                                 jsonObject[key].chargeRate.str
                             }
                             if (str != "")
