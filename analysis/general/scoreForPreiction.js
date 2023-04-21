@@ -46,6 +46,10 @@ class scoreForPreiction extends BaseAnalysis {
                                 else if (data.autoChallengeResult === 2) {
                                     total += 12
                                 }
+                                else if(data.autoChallengeResult === 4)
+                                {
+                                    total += 3
+                                }
                             
                                 if (data.challengeResult === 1) {
                                     total += 6
@@ -55,7 +59,7 @@ class scoreForPreiction extends BaseAnalysis {
                                 }
                                 else if (data.challengeResult === 4) {
                                     //check this
-                                    total += 3
+                                    total += 2
                                 }
                             
 

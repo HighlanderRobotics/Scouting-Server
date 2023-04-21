@@ -47,25 +47,21 @@ class cargoCountAuto extends BaseAnalysis {
                                     
                                     if (subArr[1] === 1 || subArr[1] === 0) {
                                         currObj = subArr[1]
-                                        events.push(subArr[1])
+                                        events.push(subArr[2])
                                         arr.push({ "location": subArr[2], "event": subArr[1], "time": subArr[0]})
                                         if(subArr[0] > 0)
                                         {
                                             scoringRow.push(subArr[2])
                                         }
                                     }
-                                    else if (subArr[1] === 3 || subArr[1] === 7)
-                                    {
-                                       
-                                    }
                                     else if (subArr[1] === 2) {
-                                        events.push(subArr[2] % 3 + 10)
+                                        // events.push(subArr[2] % 3)
                                         arr.push({ "location": subArr[2], "event": subArr[1] + currObj + 2, "time": subArr[0]})
                                         currObj = -1
                                     }
-                                    else {
-                                        arr.push({ "location": subArr[2], "event": subArr[1], "time": subArr[0] })
-                                    }
+                                    // else {
+                                    //     arr.push({ "location": subArr[2], "event": subArr[1], "time": subArr[0] })
+                                    // }
                                 
                             }
 
@@ -120,6 +116,7 @@ class cargoCountAuto extends BaseAnalysis {
                             }
                         }
                         if (events.length > 1) {
+                            console.log(events)
                             let key = JSON.stringify(events)
                             if (jsonObject.hasOwnProperty(key)) {
                                 jsonObject[key].frequency++;
