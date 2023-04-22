@@ -1,5 +1,7 @@
+const { to } = require('mathjs')
 const BaseAnalysis = require('../BaseAnalysis.js')
 const averageScore = require('./averageScore.js')
+const totalScoreAll = require('./totalScoreAll.js')
 
 // const Manager = require('./manager/dbmanager.js')
 
@@ -18,6 +20,8 @@ class averageScoreAll extends BaseAnalysis {
         this.autoOrTele = autoOrTele
         this.array = []
         this.cargo
+        this.totalPicklist = 0
+        this.pickArray = []
 
     }
     getAccuracy() {
@@ -30,6 +34,7 @@ class averageScoreAll extends BaseAnalysis {
                     JOIN teams ON teams.key = matches.teamKey
                     ) AS  newMatches ON  data.matchKey = newMatches.key`
             let answer = []
+            let picklistArray = []
 
             a.db.all(sql, [], (err, rows) => {
                 if (err) {
@@ -39,6 +44,8 @@ class averageScoreAll extends BaseAnalysis {
                 else {
                     rows.forEach(functionAdder);
                     function functionAdder(row, index, array) {
+                        let otherPick = 0
+
 
                         let data = JSON.parse(row.scoutReport)
                         let total = 0
@@ -57,7 +64,7 @@ class averageScoreAll extends BaseAnalysis {
                                 total += 6
                             }
                             else if (data.challengeResult === 2) {
-                                total += 10
+                               total += 10
                             }
                             else if (data.challengeResult === 4) {
                                 //check this
@@ -87,22 +94,30 @@ class averageScoreAll extends BaseAnalysis {
                             else if (entry[1] === 2 && a.autoOrTele === 1) {
                                 if (max === 3) {
                                     total += 5
+                                    otherPick += 5
                                 }
                                 if (max === 2) {
                                     total += 3
+                                    otherPick += 3
+
                                 }
                                 if (max === 1) {
                                     total += 2
+                                    otherPick += 2
+
                                 }
                             }
 
                         }
                         answer.push(total)
+                        picklistArray.push(otherPick)
 
                     }
                     const sum = answer.reduce((partialSum, a) => partialSum + a, 0)
                     a.average = sum / answer.length
                     a.array = answer
+                    a.totalPicklist = picklistArray.reduce((partialSum, a) => partialSum + a, 0) / picklistArray.length
+                    a.pickArray = picklistArray
                     resolve("done")
 
 

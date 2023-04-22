@@ -116,7 +116,6 @@ class cargoCountAuto extends BaseAnalysis {
                             }
                         }
                         if (events.length > 1) {
-                            console.log(events)
                             let key = JSON.stringify(events)
                             if (jsonObject.hasOwnProperty(key)) {
                                 jsonObject[key].frequency++;

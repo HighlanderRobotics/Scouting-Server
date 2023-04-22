@@ -51,7 +51,6 @@ class cyclingAll extends BaseAnalysis {
                             if (subArr[1] == a.location) {
     
                                 total += subArr[0] - prev
-                                console.log(subArr[0])
                                 prev = 0
                                 len++
                             }

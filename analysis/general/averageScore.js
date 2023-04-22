@@ -12,12 +12,14 @@ class averageScore extends BaseAnalysis {
         this.average = 0
         this.matches = []
         this.cargo = 0
+        this.totalPicklist = 0
         // 0 = auto
         //1 = teleop
         this.autoOrTele = autoOrTele
     }
     async scoresOverTime() {
         let a = this
+       
         return new Promise(function (resolve, reject) {
             var sql = `SELECT scoutReport, newMatches.key AS key
             FROM data
@@ -27,18 +29,20 @@ class averageScore extends BaseAnalysis {
                 WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key`
             let answer = []
             let match = []
-
             a.db.all(sql, [a.team], (err, rows) => {
                 if (err) {
                     console.log(err)
                     reject(err)
                 }
                 else {
+                    let otherPick = 0
+                    let len = 0
+            
                     if (rows != []) {
 
                         rows.forEach(functionAdder);
                         function functionAdder(row, index, array) {
-
+                            len += 1
                             let data = JSON.parse(row.scoutReport)
                             match.push(row.key)
                             let total = 0
@@ -90,12 +94,15 @@ class averageScore extends BaseAnalysis {
                                 else if (entry[1] === 2  && a.autoOrTele === 1 && entry[0] >= 17) {
                                     if (max === 3) {
                                         total += 5
+                                        otherPick += 5
                                     }
                                     if (max === 2) {
                                         total += 3
+                                        otherPick += 3
                                     }
                                     if (max === 1) {
                                         total += 2
+                                        otherPick += 2
                                     }
                                 }
 
@@ -107,7 +114,7 @@ class averageScore extends BaseAnalysis {
                     a.array = answer
                     const sum = answer.reduce((partialSum, a) => partialSum + a, 0)
 
-                 
+                    a.totalPicklist = otherPick/len
                     a.average = sum / answer.length                    
                     a.matches = match
 

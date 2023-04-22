@@ -23,9 +23,10 @@ class averageScoreOverview extends BaseAnalysis {
 
         var allTeams = new all(a.db, 1)
         await allTeams.runAnalysis()
-        let difference = team.average - allTeams.average
+        console.log("team number " + a.team + " Num "  +team.totalPicklist)
+        let difference = team.totalPicklist - allTeams.totalPicklist
 
-        let teleOpTemp = math.std(allTeams.array)
+        let teleOpTemp = math.std(allTeams.pickArray)
         a.zScore = difference/teleOpTemp
         if(isNaN(a.zScore))
         {
