@@ -2,18 +2,14 @@ const BaseAnalysis = require('../BaseAnalysis.js')
 const teamStat = require('./averageScore.js')
 const all = require('./averageScoreAll.js')
 
-// const Manager = require('./manager/dbmanager.js')
-
+//difference between spcified team and all teams for average score of either teleop or auto (given in the variable: autoOrTele)
 class averageScoreDifference extends BaseAnalysis {
     static name = `averageScoreDifference`
 
     constructor(db, team, autoOrTele) {
         super(db)
         this.team = team
-        // this.teamKey = "frc" + team
-        // this.start = start
-        // this.end = end
-        this.result = 0
+        this.average = 0
         //auto = 0
         //teleop = 1
         this.autoOrTele = autoOrTele
@@ -28,7 +24,7 @@ class averageScoreDifference extends BaseAnalysis {
         let y = new all(a.db, a.autoOrTele)
         await y.runAnalysis()
         let overallAvg = y.average
-        a.result = teamAvg - overallAvg
+        a.average = teamAvg - overallAvg
 
     }
 
@@ -49,7 +45,7 @@ class averageScoreDifference extends BaseAnalysis {
     }
     finalizeResults() {
         return {
-            "result": this.result,
+            "result": this.average,
             "team": this.team,
         }
     }

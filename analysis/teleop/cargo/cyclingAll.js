@@ -1,20 +1,17 @@
 const BaseAnalysis = require('../../BaseAnalysis.js')
 
 
-// const Manager = require('./manager/dbmanager.js')
+//average and array of cyycle times of all teams given object to a location (scoring or cycling)
 
 class cyclingAll extends BaseAnalysis {
     static name = `cyclingAll`
 
     constructor(db, type, location) {
         super(db)
-        // this.teamKey = "frc" + team
-        // this.start = start
-        // this.end = end
+        
         this.type = type
         this.location = location
         this.result = 0
-        // this.array = []
 
     }
     async getAccuracy() {

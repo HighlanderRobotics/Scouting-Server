@@ -1,15 +1,11 @@
 const BaseAnalysis = require('../../BaseAnalysis.js')
-
+//number of cargo of certain type (cone or cube) the team scores during auto ( < 17 seconds)
+//gives average (and array)
 class cargoCountAutoAll extends BaseAnalysis {
     static name = `cargoCountAutoAll`
-
-    constructor(db, type) {
+    constructor(db, objectType) {
         super(db)
-        // this.team = team
-        // // this.start = start
-        // // this.end = end
-        // this.teamKey = "ftc" + team
-        this.type = type
+        this.objectType = objectType
         this.result = 0
         this.array = []
 
@@ -41,7 +37,7 @@ class cargoCountAutoAll extends BaseAnalysis {
                         for (var i = 0; i < curr.length; i++) {
                             let subArr = curr[i]
                             if (subArr[0] < 17) {
-                                if (subArr[1] === a.type) {
+                                if (subArr[1] === a.objectType) {
                                     object = true
                                 }
                                 if (subArr[1] === 3) {
@@ -89,7 +85,6 @@ class cargoCountAutoAll extends BaseAnalysis {
                 }
             })
             .then((data) => {
-                // console.log(data)
                 return data
             })
     }
@@ -97,7 +92,7 @@ class cargoCountAutoAll extends BaseAnalysis {
     runAnalysis() {
         return new Promise(async (resolve, reject) => {
             let a = this
-            var temp = await a.getCount().catch((err) => {
+            await a.getCount().catch((err) => {
                 if (err) {
 
                     console.log(err)

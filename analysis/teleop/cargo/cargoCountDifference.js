@@ -2,21 +2,16 @@ const BaseAnalysis = require('../../BaseAnalysis.js')
 const teamStat = require('./cargoCount.js')
 const all = require('./cargoCountAll.js')
 
-// const Manager = require('./manager/dbmanager.js')
-
+//finding the differece in average cargo (of a given type: cones or cubes) of a team and the overall average to a certain positions (scoring or feeding to team)
 class cargoCountDifference extends BaseAnalysis {
     static name = `cargoCountDifference`
 
     constructor(db, team, type, location) {
         super(db)
         this.team = team
-        // this.teamKey = "frc" + team
-        // this.start = start
-        // this.end = end
         this.location = location
         this.result = 0
         this.type = type
-        // this.array = []
 
     }
     async getAccuracy() {
@@ -24,10 +19,10 @@ class cargoCountDifference extends BaseAnalysis {
 
         let x = new teamStat(a.db, a.team, a.type, a.location)
         await x.runAnalysis()
-        let teamAvg = x.result
+        let teamAvg = x.average
         let y = new all(a.db, a.type, a.location)
         await y.runAnalysis()
-        let overallAvg = y.result
+        let overallAvg = y.average
 
         a.result = teamAvg - overallAvg
         

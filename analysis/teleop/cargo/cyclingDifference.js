@@ -2,8 +2,7 @@ const BaseAnalysis = require('../../BaseAnalysis.js')
 const teamStat = require('./cycling.js')
 const all = require('./cyclingAll.js')
 
-// const Manager = require('./manager/dbmanager.js')
-
+//Difference between team average cycle time and all average cycle time (see files for more info)
 class cyclingDifference extends BaseAnalysis {
     static name = `cyclingDifference`
 

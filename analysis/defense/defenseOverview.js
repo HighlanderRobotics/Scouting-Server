@@ -1,11 +1,11 @@
 const BaseAnalysis = require('../BaseAnalysis.js')
-const teamStat = require('./defenseEvent.js')
-const all = require('./defenseEventAll.js')
-const difference = require('./defenseEventDifference.js')
+const teamStat = require('./defenseTeam.js')
+const all = require('./defenseAll.js')
+const difference = require('./defenseDifference.js')
 const math = require('mathjs')
 
-// const Manager = require('./manager/dbmanager.js')
-
+//packahes all, array, team average and difference together
+//also produces z-Score for picklists
 class defenseOverview extends BaseAnalysis {
     static name = `defenseOverview`
 
@@ -13,14 +13,10 @@ class defenseOverview extends BaseAnalysis {
         super(db)
         this.team = team
         this.zScore = 0
-        // this.teamKey = "frc" + team
-        // this.start = start
-        // this.end = end
         this.result = 0
-        this.array = 0
+        this.array = []
         this.all = 0
         this.difference = 0
-        // this.array = []
 
     }
     async getAccuracy() {
@@ -49,12 +45,11 @@ class defenseOverview extends BaseAnalysis {
     runAnalysis() {
         return new Promise(async (resolve, reject) => {
             let a = this
-            var temp = await a.getAccuracy().catch((err) => {
+            await a.getAccuracy().catch((err) => {
                 if (err) {
                     return err
                 }
             })
-            // a.result = temp  
             resolve("done")
         })
 

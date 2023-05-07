@@ -2,8 +2,7 @@ const Manager = require('../../../manager/dbmanager.js')
 const BaseAnalysis = require('../../BaseAnalysis.js')
 const teamStat = require('./autoPaths.js')
 
-// const Manager = require('./manager/dbmanager.js')
-
+//groups three teams auto paths together, for alliance pages, suggestions etc
 class autoPathsTeams extends BaseAnalysis {
     static name = `autoPathsTeams`
 

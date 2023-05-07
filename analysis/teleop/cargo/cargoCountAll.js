@@ -1,17 +1,16 @@
 const BaseAnalysis = require('../../BaseAnalysis.js')
+//Finding the average cargo (of a given type: cones or cubes) over all teams to a certain positions (scoring or feeding to team)
 
 class cargoCountAll extends BaseAnalysis {
     static name = `cargoCountAll`
 
     constructor(db, type, location) {
         super(db)
-        // this.team = team
-        // // this.start = start
-        // // this.end = end
+       
         this.location = location
-        // this.teamKey = "ftc" + team
-        this.result = 0
-        this.type = type
+
+        this.average = 0
+        this.objectType = type
         this.array = []
 
     }
@@ -37,7 +36,7 @@ class cargoCountAll extends BaseAnalysis {
                         let curr = JSON.parse(row.scoutReport).events
                         for (var i = 0; i < curr.length; i++) {
                             let subArr = curr[i]
-                            if(subArr[1] === a.type)
+                            if(subArr[1] === a.objectType)
                             {
                                 object = true
                             }
@@ -56,7 +55,7 @@ class cargoCountAll extends BaseAnalysis {
 
                     }
                 }
-                a.result = makes / len
+                a.average = makes / len
                 a.array = arr
                 resolve("done")
             })
@@ -90,7 +89,7 @@ class cargoCountAll extends BaseAnalysis {
     }
     finalizeResults() {
         return {
-            "result": this.result,
+            "result": this.average,
             "array" : this.array,
             "team": this.team
         }

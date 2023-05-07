@@ -1,12 +1,12 @@
 const BaseAnalysis = require('./BaseAnalysis.js')
-const averageScoreOverview = require('./general/averageScoreOverview')
+const averageScorePicklist = require('./general/averageScorePicklist')
 const levelCargo = require('./teleop/cargo/levelPicklist')
 const cargoOverview = require('./teleop/cargo/cargoCountOverview')
 const defense1 = require('./defense/defenseOverview')
 const autoClimb = require('./auto/climb/climberSucsessAutoDifference')
 const avgAutoCargo = require('./general/avgAutoCargo')
-const teamAvgTotal = require('./general/totalScoreDifference')
-const climberSucsessDifference = require('./teleop/climber/climberSucsessDifference.js')
+const teamAvgTotal = require('./general/totalScoreDifferencePicklist')
+const climberSucsessPicklist = require('./teleop/climber/climberSucsessPicklist.js')
 const driverAbility = require('./general/driverAbilityOverview')
 
 class picklist extends BaseAnalysis {
@@ -48,7 +48,7 @@ class picklist extends BaseAnalysis {
                 // var cube = new cargoCountOverview(a.db, a.team, 0, 2)
                 // await cube.runAnalysis()
                 // sum += cube.finalizeResults().zScore * a.cubeScore
-                var avgScore = new averageScoreOverview(a.db, a.team)
+                var avgScore = new averageScorePicklist(a.db, a.team)
                 await avgScore.runAnalysis()
                 arr.push({"result" : avgScore.zScore * a.teleOp, "type" : "teleopScore"})
                 unAdj.push({"result" : avgScore.zScore, "type" : "teleopScore"})
@@ -131,7 +131,7 @@ class picklist extends BaseAnalysis {
                 unAdj.push({"result": score.zScore, "type": "avgTotal"})
 
 
-                var teleClimb = new climberSucsessDifference(a.db, a.team)
+                var teleClimb = new climberSucsessPicklist(a.db, a.team)
                 await teleClimb.runAnalysis()
                 arr.push({"result": teleClimb.zScore * a.teleopClimb, "type": "teleopClimb"})
                 unAdj.push({"result": teleClimb.zScore, "type": "teleopClimb"})

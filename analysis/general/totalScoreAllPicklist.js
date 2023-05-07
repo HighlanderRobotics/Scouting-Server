@@ -1,12 +1,11 @@
 const BaseAnalysis = require('../BaseAnalysis.js')
-
-class totalScoreAll extends BaseAnalysis {
-    static name = `totalScoreAll`
+//total score (both teleop and auto) over all teams
+class totalScoreAllPicklist extends BaseAnalysis {
+    static name = `totalScoreAllPicklist`
 
     constructor(db) {
         super(db)
-        // this.start = start
-        // this.end = end
+
         this.array = []
         this.average = 0
         this.matches = []
@@ -55,7 +54,6 @@ class totalScoreAll extends BaseAnalysis {
                                     total += 10
                                 }
                                 else if (data.challengeResult === 4) {
-                                    //check this
                                     total += 2
                                 }
                             
@@ -103,10 +101,7 @@ class totalScoreAll extends BaseAnalysis {
                     a.matches = match
 
 
-                }
-
-                // a.result = arr
-                
+                }                
 
                 resolve("done")
 
@@ -121,7 +116,6 @@ class totalScoreAll extends BaseAnalysis {
                     return err
                 }
             })
-            // a.result = temp  
             resolve("done")
         })
 
@@ -135,4 +129,4 @@ class totalScoreAll extends BaseAnalysis {
         }
     }
 }
-module.exports = totalScoreAll
+module.exports = totalScoreAllPicklist

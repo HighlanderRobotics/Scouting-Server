@@ -1,6 +1,6 @@
 const BaseAnalysis = require('../BaseAnalysis.js')
-// const Manager = require('./manager/dbmanager.js')
-
+//average/result = average amount of time of defense
+//array = gives average time playing defense of each match
 class defenseEvent extends BaseAnalysis {
     static name = `defenseEvent`
 
@@ -8,8 +8,6 @@ class defenseEvent extends BaseAnalysis {
         super(db)
         this.team = team
         this.teamKey = "frc" + team
-        // this.start = start
-        // this.end = end
         this.result = 0
         this.array = []
         this.matches
@@ -29,8 +27,6 @@ class defenseEvent extends BaseAnalysis {
           `;
             let arr = []
             let match = []
-            let len = 0
-            let makes = 0
             a.db.all(sql, [a.team], (err, rows) => {
                 if (err) {
                     console.log(err)
@@ -43,7 +39,6 @@ class defenseEvent extends BaseAnalysis {
                         let curr = JSON.parse(row.scoutReport).events
                         match.push(row.key)
                         for (var i = 0; i < curr.length; i++) {
-                            //change numbers
                             let subArr = curr[i]
 
                             if (subArr[1] === 5) {
@@ -79,7 +74,6 @@ class defenseEvent extends BaseAnalysis {
                 }
             })
             .then((data) => {
-                // console.log(data)
                 return data
             })
     }
@@ -88,13 +82,11 @@ class defenseEvent extends BaseAnalysis {
 
         return new Promise(async (resolve, reject) => {
             let a = this
-
-            var temp = await a.getAccuracy().catch((err) => {
+            await a.getAccuracy().catch((err) => {
                 if (err) {
                     return err
                 }
             })
-            // a.result = temp  
             resolve("done")
         })
 

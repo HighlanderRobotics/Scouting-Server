@@ -1,15 +1,13 @@
 const BaseAnalysis = require('../BaseAnalysis.js')
-// const Manager = require('./manager/dbmanager.js')
-
+//number of penalities (red and yellow cards only) and array
+//array is in format: {"cardType" : curr, "match" : row.key}
 class pentalties extends BaseAnalysis {
     static name = `pentalties`
 
     constructor(db, team) {
         super(db)
         this.team = team
-        // this.start = start
-        // this.end = end
-        this.result = 0
+        this.numberOfPenalties = 0
         this.matches = []
 
     }
@@ -44,10 +42,10 @@ class pentalties extends BaseAnalysis {
                     }
                 }
                 a.matches = arr
-                a.result = a.matches.length
-                if (isNaN(a.result))
+                a.numberOfPenalties = a.matches.length
+                if (isNaN(a.numberOfPenalties))
                 {
-                    a.result = 0
+                    a.numberOfPenalties = 0
                 }
 
                 resolve("done")
@@ -61,7 +59,6 @@ class pentalties extends BaseAnalysis {
                 }
             })
             .then((data) => {
-                // console.log(data)
                 return data
             })
     }
@@ -71,19 +68,18 @@ class pentalties extends BaseAnalysis {
         return new Promise(async (resolve, reject) => {
             let a = this
 
-            var temp = await a.getAccuracy().catch((err) => {
+            await a.getAccuracy().catch((err) => {
                 if (err) {
                     return err
                 }
             })
-            // a.result = temp  
             resolve("done")
         })
 
     }
     finalizeResults() {
         return {
-            "result": this.result,
+            "result": this.numberOfPenalties,
             "team": this.team,
             "matches": this.matches
             

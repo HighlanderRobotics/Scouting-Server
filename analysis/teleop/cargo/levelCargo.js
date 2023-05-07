@@ -1,19 +1,17 @@
 const math = require('mathjs')
 const BaseAnalysis = require('../../BaseAnalysis.js')
-// const Manager = require('./manager/dbmanager.js')
 
+
+//averge amount of cargo (of given type: cube or cone) for a given level (1 or 2 or 3) for a speficied team
 class levelCargo extends BaseAnalysis {
     static name = `levelCargo`
 
-    constructor(db, team, type, location) {
+    constructor(db, team, type, level) {
         super(db)
         this.team = team
-        this.teamKey = "frc" + team
-        // this.start = start
-        // this.end = end
-        this.location = location
-        this.type = type
-        this.result = 0
+        this.level = level
+        this.objectType = type
+        this.average = 0
         this.array = []
         this.matches = []
 
@@ -45,13 +43,13 @@ class levelCargo extends BaseAnalysis {
                         for (var i = 0; i < curr.length; i++) {
                             let subArr = curr[i]
                             
-                            if(subArr[1] === a.type)
+                            if(subArr[1] === a.objectType)
                             {                   
                                 object = true
                             }
                             if (subArr[1] === 2 && object == true) {
                                 let temp = Math.ceil(subArr[2]/3)
-                                if(temp === a.location)
+                                if(temp === a.level)
                                 {
                                     makes++
                                     object = false
@@ -68,7 +66,7 @@ class levelCargo extends BaseAnalysis {
                     }
 
                 }
-                a.result = arr.reduce((partialSum, a) => partialSum + a, 0) / arr.length
+                a.average = arr.reduce((partialSum, a) => partialSum + a, 0) / arr.length
                 a.array = arr
                 a.matches = match
 
@@ -90,19 +88,18 @@ class levelCargo extends BaseAnalysis {
     runAnalysis() {
         return new Promise(async (resolve, reject) => {
             let a = this
-            var temp = await a.getAccuracy().catch((err) => {
+            await a.getAccuracy().catch((err) => {
                 if (err) {
                     return err
                 }
             })
-            // a.result = temp  
             resolve("done")
         })
 
     }
     finalizeResults() {
         return {
-            "result": this.result,
+            "result": this.average,
             "team": this.team,
             "array": this.array.map((item, index) => ({
                 "match": this.matches[index],

@@ -5,8 +5,7 @@ const cargoCount = require('./teleop/cargo/cargoCount.js')
 const averageScore = require('./general/averageScore')
 const cargoCountAuto = require('./auto/cargo/cargoCountAuto.js')
 const cycling = require('./teleop/cargo/cycling.js')
-const defense = require('./defense/defenseEvent.js')
-const averageScoreOverview = require('./general/averageScoreOverview.js')
+const defense = require('./defense/defenseTeam.js')
 const climberSucsess = require('./teleop/climber/climberSucsess.js')
 const driverAbilityTeam = require('./general/driverAblilityTeam.js')
 const pentalties = require('./general/penalties.js')
@@ -97,7 +96,7 @@ class categoryMetrics extends BaseAnalysis {
             await cyclingCountCube.runAnalysis()
             var cyclingCountCone = new cargoCount(a.db, a.team, 1, 4)
             await cyclingCountCone.runAnalysis()
-            metrics.cyclingCount =(cyclingCountCone.result + cyclingCountCube.result)/2
+            metrics.cyclingCount =(cyclingCountCone.average + cyclingCountCube.average)/2
 
 
             var adjustedClimb = new climberSucsess(a.db,a.team )
@@ -108,15 +107,15 @@ class categoryMetrics extends BaseAnalysis {
 
             var driver = new driverAbilityTeam(a.db, a.team)
             await driver.runAnalysis()
-            metrics.driverAbility = driver.result
+            metrics.driverAbility = driver.average
 
             var pentalty  = new pentalties(a.db, a.team)
             await pentalty.runAnalysis()
-            metrics.pentalties = pentalty.result      
+            metrics.pentalties = pentalty.numberOfPenalties      
             
             var link = new links(a.db, a.team)
             await link.runAnalysis()
-            metrics.links = link.result
+            metrics.links = link.average
 
         
           

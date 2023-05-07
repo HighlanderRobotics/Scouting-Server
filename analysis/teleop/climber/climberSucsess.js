@@ -1,16 +1,17 @@
 const BaseAnalysis = require('../../BaseAnalysis.js')
-
+//charing in teleop for a spefiied team:
+//# of matches for: no climb, tipped, level, and failed
+//array with match number
+//adjusted tipped level rate, and points
+//adjusted uses the rule of sucsession ( numerator + 1 / demoninator + 3)
 class climberSucsess extends BaseAnalysis {
     static name = `climberSucsess`
 
     constructor(db, team) {
         super(db)
         this.team = team
-        this.teamKey = "ftc" + team
-        // this.start = start
-        // this.end = end
         this.tipped = 0
-        this.none = 0
+        this.noClimb = 0
         this.level = 0
         this.failed = 0
         this.totalAttempted = 0
@@ -26,7 +27,6 @@ class climberSucsess extends BaseAnalysis {
     async getData() {
         let a = this
         return new Promise(async (resolve, reject) => {
-            //why does await not work when it works in  bestAverageForMetric
             var sql = `SELECT scoutReport, newMatches.key AS key
                     FROM data
                 JOIN (SELECT matches.key AS key, matches.matchNumber
@@ -34,11 +34,10 @@ class climberSucsess extends BaseAnalysis {
                     JOIN teams ON teams.key = matches.teamKey
                     WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
                 `;
-            let fullyOn = 0
+            let level = 0
             let tipped = 0
-            let off = 0
-
-            let none = 0
+            let failed = 0
+            let noClimb = 0
             let arr = []
             let match = []
             let climbBreakdown = []
@@ -57,19 +56,19 @@ class climberSucsess extends BaseAnalysis {
                             match.push(row.key)
                             arr.push(curr)
                             if (curr === 0 || curr === 4) {
-                                none++
+                                noClimb++
                             }
                             if (curr === 1) {
                                 tipped++
                                 climbBreakdown.push("docked")
                             }
                             if (curr === 2) {
-                                fullyOn++
+                                level++
                                 climbBreakdown.push("engaged")
 
                             }
                             if (curr == 3) {
-                                off++
+                                failed++
                                 climbBreakdown.push("failed")
 
                             }
@@ -77,12 +76,12 @@ class climberSucsess extends BaseAnalysis {
                         }
                     }
                         a.tipped = tipped
-                        a.level = fullyOn
-                        a.failed = off
-                        a.none = none
+                        a.level = level
+                        a.failed = failed
+                        a.noClimb = noClimb
                         a.array = arr
                         a.matches = match
-                        a.totalAttempted = tipped + fullyOn + off
+                        a.totalAttempted = tipped + level + failed
                         a.adjustedLevel = (a.level + 1)/(a.totalAttempted -a.tipped + 3)
                         a.adjustedTipped = (a.tipped + 1)/(a.totalAttempted  - a.level+ 3)
                         a.adjustedPoints = (a.adjustedLevel * 10 + a.adjustedTipped * 6)
@@ -112,7 +111,7 @@ class climberSucsess extends BaseAnalysis {
     runAnalysis() {
         return new Promise(async (resolve, reject) => {
             let a = this
-            var temp = await a.getData().catch((err) => {
+            await a.getData().catch((err) => {
                 if (err) {
                     console.log(err)
                     return err
@@ -128,7 +127,7 @@ class climberSucsess extends BaseAnalysis {
             "failed": this.failed,
             "level": this.level,
             "tipped": this.tipped,
-            "noClimb": this.none,
+            "noClimb": this.noClimb,
             "array": this.array.map((item, index) => ({
                 "match": this.matches[index],
                 "value": item,

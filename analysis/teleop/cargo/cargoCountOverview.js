@@ -5,9 +5,13 @@ const difference = require('./cargoCountDifference.js')
 const levelCargo = require('./levelCargo')
 const math = require('mathjs')
 
-
-// const Manager = require('./manager/dbmanager.js')
-
+//Overview of a teams preformance of a given "type" (of object) and place (scoring or feeding). This includes:
+//Team average
+//Team array over time (number and matches)
+//Average over all teams
+//difference between all teams and this teams average
+//zScore (used for picklists)
+//Average per level (one, two, and three)
 class cargoCountOverview extends BaseAnalysis {
     static name = `cargoCountOverview`
 
@@ -51,15 +55,15 @@ class cargoCountOverview extends BaseAnalysis {
         await levelTwo.runAnalysis()
         let levelThree = new levelCargo(a.db, a.team, a.type, 3)
         await levelThree.runAnalysis()
-        a.result = x.result
+        a.result = x.average
         a.array = x.array
         a.matches = x.matches
-        a.max = x.max
-        a.all = y.result
+        a.max = x.maxRow
+        a.all = y.average
         a.difference = z.result
-        a.one = levelOne.result
-        a.two = levelTwo.result
-        a.three = levelThree.result
+        a.one = levelOne.average
+        a.two = levelTwo.average
+        a.three = levelThree.average
         let temp = math.std(y.array)
         a.zScore = a.difference/temp
         if(isNaN(a.zScore))

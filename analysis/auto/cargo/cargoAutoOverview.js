@@ -4,8 +4,7 @@ const all = require('./cargoCountAutoAll.js')
 const difference = require('./cargoCountAutoDifference.js')
 const math = require('mathjs')
 
-// const Manager = require('./manager/dbmanager.js')
-
+//
 class cargoCountAutoOverview extends BaseAnalysis {
     static name = `cargoCountAutoOverview`
 
@@ -32,7 +31,7 @@ class cargoCountAutoOverview extends BaseAnalysis {
         await z.runAnalysis()
 
 
-        a.result = x.result
+        a.result = x.average
         a.array = x.finalizeResults().array
         a.all = y.result
         a.difference = z.result

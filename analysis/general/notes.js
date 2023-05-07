@@ -1,5 +1,5 @@
-// import BaseAnalysis from './BaseAnalysis.js'
 const BaseAnalysis = require('../BaseAnalysis.js')
+//returns array of notes from specified team
 
 class notes extends BaseAnalysis {
     static name = `notes`
@@ -7,9 +7,7 @@ class notes extends BaseAnalysis {
     constructor(db, team) {
         super(db)
         this.team = team
-        // this.start = start
-        // this.end = end
-        this.result = []
+        this.notes = []
     }
     async getNotes() {
         let a = this
@@ -20,14 +18,13 @@ class notes extends BaseAnalysis {
                     FROM matches 
                     JOIN teams ON teams.key = matches.teamKey
                     WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key`
-            let arr = []
             a.db.all(sql, [a.team], (err, rows) => {
                 if (err) {
                     console.log(err)
                     reject(err)
                 }
                 else {
-                    a.result = rows
+                    a.notes = rows
                     resolve(rows)
                 }
             })
@@ -43,14 +40,14 @@ class notes extends BaseAnalysis {
                     return err
                 }
             })
-            a.result = temp
+            a.notes = temp
             resolve(temp)
         })
 
     }
     finalizeResults() {
         return {
-            "result": this.result,
+            "result": this.notes,
             "team": this.team
         }
     }

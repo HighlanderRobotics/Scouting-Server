@@ -3,17 +3,18 @@ const teamStat = require('./cycling.js')
 const all = require('./cyclingAll.js')
 const difference = require('./cyclingDifference.js')
 
-// const Manager = require('./manager/dbmanager.js')
-
+//gives all information for the cycling detials page
+//this team avg
+//all teams avg
+//difference between this team and all team avg
+//array over time (average for each match)
 class cyclingDetials extends BaseAnalysis {
     static name = `cyclingDetials`
 
     constructor(db, team, type, location) {
         super(db)
         this.team = team
-        // this.teamKey = "frc" + team
-        // this.start = start
-        // this.end = end
+       
        this.result = 0
        this.array = []
        this.all = 0
@@ -21,8 +22,6 @@ class cyclingDetials extends BaseAnalysis {
        this.type = type
        this.location = location
 
-
-        // this.array = []
 
     }
     async getAccuracy() {
@@ -37,18 +36,6 @@ class cyclingDetials extends BaseAnalysis {
         let z = new difference(a.db, a.team,a.type, a.location)
         await z.runAnalysis()
         a.difference = z.result
-
-
-
-        let cube = new cargoCount(a.db, 1, )
-
-    
-
-        
-
-
-        
-        
 
     }
 

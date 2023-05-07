@@ -1,18 +1,14 @@
 const BaseAnalysis = require('../../BaseAnalysis.js')
-// const Manager = require('./manager/dbmanager.js')
-
+//number of cargo of certain type (cone or cube) the team scores during auto ( < 17 seconds)
+//gives average and array with matches
 class cargoCountAuto extends BaseAnalysis {
     static name = `cargoCountAuto`
-
-    constructor(db, team, type) {
+    constructor(db, team, objectType) {
         super(db)
         this.team = team
-        this.teamKey = "frc" + team
-        this.type = type
-        // this.start = start
-        // this.end = end
+        this.objectType = objectType
         this.matches = []
-        this.result = 0
+        this.average = 0
         this.array = []
 
     }
@@ -29,7 +25,6 @@ class cargoCountAuto extends BaseAnalysis {
           `;
             let arr = []
             let match = []
-            let len = 0
             let object = false
             a.db.all(sql, [a.team], (err, rows) => {
                 if (err) {
@@ -46,7 +41,7 @@ class cargoCountAuto extends BaseAnalysis {
                             let subArr = curr[i]
 
                             if (subArr[0] < 17) {
-                                if (subArr[1] === a.type) {
+                                if (subArr[1] === a.objectType) {
                                     object = true
                                 }
                                 if (subArr[1] === 3) {
@@ -71,12 +66,11 @@ class cargoCountAuto extends BaseAnalysis {
                     }
 
                 }
-                //   makes/len)
                 a.array = arr
-                a.result = arr.reduce((partialSum, a) => partialSum + a, 0) / arr.length
-                if(a.result === null)
+                a.average = arr.reduce((partialSum, a) => partialSum + a, 0) / arr.length
+                if(a.average === null)
                 {
-                    a.result = 0
+                    a.average = 0
                 }
                 a.matches = match
                 resolve("done")
@@ -90,7 +84,6 @@ class cargoCountAuto extends BaseAnalysis {
                 }
             })
             .then((data) => {
-                // console.log(data)
                 return data
             })
     }
@@ -98,19 +91,18 @@ class cargoCountAuto extends BaseAnalysis {
     runAnalysis() {
         return new Promise(async (resolve, reject) => {
             let a = this
-            var temp = await a.getAccuracy().catch((err) => {
+           await a.getAccuracy().catch((err) => {
                 if (err) {
                     return err
                 }
             })
-            // a.result = temp  
             resolve("done")
         })
 
     }
     finalizeResults() {
         return {
-            "result": this.result,
+            "result": this.average,
             "team": this.team,
             "array": this.array.map((item, index) => ({
                 "match": this.matches[index],

@@ -3,24 +3,17 @@ const teamStat = require('./climberSucsessAuto.js')
 const all = require('./climberSucsessAutoAll.js')
 const math = require('mathjs')
 
-
-// const Manager = require('./manager/dbmanager.js')
-
+//caculates the z-score of climbeSucsessAuto for picklists
 class climberSucsessAutoDifference extends BaseAnalysis {
     static name = `climberSucsessAutoDifference`
 
     constructor(db, team) {
         super(db)
         this.team = team
-        // this.teamKey = "frc" + team
-        // this.start = start
-        // this.end = end
         this.off = 0
         this.tipped = 0
         this.level = 0
         this.zScore = 0  
-        // this.array = []
-
     }
     async getAccuracy() {
         let a = this
@@ -48,12 +41,11 @@ class climberSucsessAutoDifference extends BaseAnalysis {
     runAnalysis() {
         return new Promise(async (resolve, reject) => {
             let a = this
-            var temp = await a.getAccuracy().catch((err) => {
+           await a.getAccuracy().catch((err) => {
                 if (err) {
                     return err
                 }
             })
-            // a.result = temp  
             resolve("done")
         })
 
@@ -61,9 +53,6 @@ class climberSucsessAutoDifference extends BaseAnalysis {
     finalizeResults() {
         return {
             "off": this.off,
-            // "tipped": this.tipped,
-            // "level": this.level,
-            // "team": this.team,
             "zScore" : this.zScore
         }
     }

@@ -1,28 +1,30 @@
 const { help } = require('mathjs')
 const BaseAnalysis = require('../BaseAnalysis.js')
-
+//robot roles of a given team
+//number of matches playing as offense, defense, helper/feeder, immoblile
+//array over time, with matches
+//main role = role they play the most
+//this.array uses enum
+//this.breakdownArray uses names
 class robotRole extends BaseAnalysis {
     static name = `robotRole`
 
     constructor(db, team) {
         super(db)
         this.team = team
-        this.teamKey = "ftc" + team
-        // this.start = start
-        // this.end = end
         this.defense = 0
         this.offense = 0
         this.helper = 0
-        this.array = []
+        this.immobile = 0
+        this.arrayEnum = []
         this.matches = []
         this.mainRole = null
-        this.breakdownArray = []
+        this.arrayWords = []
 
     }
     async getData() {
         let a = this
         return new Promise(async (resolve, reject) => {
-            //why does await not work when it works in  bestAverageForMetric
             var sql = `SELECT scoutReport, newMatches.key AS key
                     FROM data
                 JOIN (SELECT matches.key AS key, matches.matchNumber
@@ -36,7 +38,7 @@ class robotRole extends BaseAnalysis {
             let immobile = 0
             let arr = []
             let match = []
-            let arrBreadkowns = []
+            let arrBreakdowns = []
 
             this.db.all(sql, [a.team], (err, rows) => {
                 if (err) {
@@ -53,22 +55,22 @@ class robotRole extends BaseAnalysis {
 
                             if (curr === 1) {
                                 defense++
-                                arrBreadkowns.push("defense")
+                                arrBreakdowns.push("defense")
                             }
                             if (curr === 0) {
                                 offense++
-                                arrBreadkowns.push("offense")
+                                arrBreakdowns.push("offense")
 
                             }
                             if (curr === 2) {
                                 helper++
-                                arrBreadkowns.push("feeder")
+                                arrBreakdowns.push("feeder")
 
                             }
                             if(curr === 3)
                             {
                                 immobile++
-                                arrBreadkowns.push("immobile")
+                                arrBreakdowns.push("immobile")
 
                             }
 
@@ -77,9 +79,9 @@ class robotRole extends BaseAnalysis {
                         a.defense = defense
                         a.helper = helper
                         a.immobile = immobile
-                        a.array = arr
+                        a.arrayEnum = arr
                         a.matches = match
-                        a.breakdownArray = arrBreadkowns
+                        a.arrayWords = arrBreakdowns
                         if (offense > 0 || defense > 0 || helper > 0) {
                             if (offense >= defense && offense >= helper) {
                                 a.mainRole = 0
@@ -113,7 +115,7 @@ class robotRole extends BaseAnalysis {
     runAnalysis() {
         return new Promise(async (resolve, reject) => {
             let a = this
-            var temp = await a.getData().catch((err) => {
+            await a.getData().catch((err) => {
                 if (err) {
                     console.log(err)
                     return err
@@ -129,13 +131,13 @@ class robotRole extends BaseAnalysis {
             "offense": this.offense,
             "feeder": this.helper,
             "immobile" : this.immobile,
-            "array": this.array.map((item, index) => ({
+            "array": this.arrayEnum.map((item, index) => ({
                 "match": this.matches[index],
                 "value": item,
             })),
             "mainRole": this.mainRole,
             "team": this.team,
-            "breakdown" : this.breakdownArray.map((item, index) => ({
+            "breakdown" : this.arrayWords.map((item, index) => ({
                 "match": this.matches[index],
                 "value": item,
             })),

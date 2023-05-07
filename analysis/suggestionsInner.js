@@ -1,5 +1,5 @@
 const BaseAnalysis = require('./BaseAnalysis.js')
-const scores = require('./general/scoreForPreiction')
+const scores = require('./general/totalScoreTeamPicklist')
 const alliance = require('./alliancePage')
 const links = require('./general/links.js')
 const Manager = require('../manager/Manager.js')
@@ -144,10 +144,10 @@ class suggestionsInner extends BaseAnalysis {
             await threePoints.runAnalysis()
 
 
-            var trippleLinks = linksOne.result + linksTwo.result + linksThree.result
-            var arrayTeams = [{ "team": a.team1, "links": linksOne.result, "max": Math.max(cargoOneCones.max, cargoOneCubes.max), "levelOne": cargoOneCones.one + cargoOneCubes.one, "levelTwo": cargoOneCones.two + cargoOneCubes.two, "levelThree": cargoOneCones.three + cargoOneCubes.three, "climbTele": climbOne.averagePoints, "avgTelePoints" : onePoints.average },
-            { "team": a.team2, "links": linksTwo.result, "max": Math.max(cargoTwoCones.max, cargoTwoCubes.max), "levelOne": cargoTwoCones.one + cargoTwoCubes.one, "levelTwo": cargoTwoCones.two + cargoTwoCubes.two, "levelThree": cargoTwoCones.three + cargoTwoCubes.three, "climbTele": climbTwo.averagePoints, "avgTelePoints" : twoPoints.average  },
-            { "team": a.team3, "links": linksThree.result, "max": Math.max(cargoThreeCones.max, cargoThreeCubes.max), "levelOne": cargoThreeCones.one + cargoThreeCubes.one, "levelTwo": cargoThreeCones.two + cargoThreeCubes.two, "levelThree": cargoThreeCones.three + cargoThreeCubes.three, "climbTele": climbThree.averagePoints, "avgTelePoints" : threePoints.average  }]
+            var trippleLinks = linksOne.average + linksTwo.average + linksThree.average
+            var arrayTeams = [{ "team": a.team1, "links": linksOne.average, "max": Math.max(cargoOneCones.max, cargoOneCubes.max), "levelOne": cargoOneCones.one + cargoOneCubes.one, "levelTwo": cargoOneCones.two + cargoOneCubes.two, "levelThree": cargoOneCones.three + cargoOneCubes.three, "climbTele": climbOne.averagePoints, "avgTelePoints" : onePoints.average },
+            { "team": a.team2, "links": linksTwo.average, "max": Math.max(cargoTwoCones.max, cargoTwoCubes.max), "levelOne": cargoTwoCones.one + cargoTwoCubes.one, "levelTwo": cargoTwoCones.two + cargoTwoCubes.two, "levelThree": cargoTwoCones.three + cargoTwoCubes.three, "climbTele": climbTwo.averagePoints, "avgTelePoints" : twoPoints.average  },
+            { "team": a.team3, "links": linksThree.average, "max": Math.max(cargoThreeCones.max, cargoThreeCubes.max), "levelOne": cargoThreeCones.one + cargoThreeCubes.one, "levelTwo": cargoThreeCones.two + cargoThreeCubes.two, "levelThree": cargoThreeCones.three + cargoThreeCubes.three, "climbTele": climbThree.averagePoints, "avgTelePoints" : threePoints.average  }]
             arrayTeams = arrayTeams.sort(function (a, b) {
                 return b.links - a.links;
             });
@@ -167,15 +167,15 @@ class suggestionsInner extends BaseAnalysis {
                     let cubeLevel = new levelCargo(Manager.db, arrayTeams[i].team, 0, j)
                     await cubeLevel.runAnalysis()
                     if (a.matchType != "qm") {
-                        let num = (coneLevel.result + cubeLevel.result) * a.scoreMap[j * 3] + floor((coneLevel.result + cubeLevel.result) / 3) * 5
+                        let num = (coneLevel.average + cubeLevel.average) * a.scoreMap[j * 3] + floor((coneLevel.average + cubeLevel.average) / 3) * 5
                         if (num >= scoringInfo.amount) {
                             scoringInfo.bestLevel = j
-                            scoringInfo.amount = coneLevel.result + cubeLevel.result
+                            scoringInfo.amount = coneLevel.average + cubeLevel.average
                         }
                     }
-                    else if (coneLevel.result + cubeLevel.result >= scoringInfo.amount) {
+                    else if (coneLevel.average + cubeLevel.average >= scoringInfo.amount) {
                         scoringInfo.bestLevel = j
-                        scoringInfo.amount = coneLevel.result + cubeLevel.result
+                        scoringInfo.amount = coneLevel.average + cubeLevel.average
                     }
                 }
                 scoringInfo.max = arrayTeams[i].max
@@ -266,7 +266,7 @@ class suggestionsInner extends BaseAnalysis {
             
             let topDriverAbility = new driverAbilityTeam(Manager.db, arrayClimb[0].team)
             await topDriverAbility.runAnalysis()
-            let thirdTime = 30 - (5 * topDriverAbility.result)
+            let thirdTime = 30 - (5 * topDriverAbility.average)
             if (arrayClimb[0].climbTele + arrayClimb[1].climbTele + climbPoints >= 23 && a.matchType == "qm" || a.matchType != "qm" && a.getFinalLevel(arrayClimb[0].team, tele) * (topCylcle.result / (thirdTime + 5)) >= arrayClimb[0].climbTele) {
                 //climbNumber = how many should climb
                 //2 climb
@@ -276,8 +276,8 @@ class suggestionsInner extends BaseAnalysis {
                 await secondClimb.runAnalysis()
 
 
-                let firstTime = 40 - (5 * firstClimb.result)
-                let secondTime = 35 - (5 * secondClimb.result)
+                let firstTime = 40 - (5 * firstClimb.average)
+                let secondTime = 35 - (5 * secondClimb.average)
 
                 endGame = [{ "team": arrayClimb[2].team, "time": firstTime }, { "team": arrayClimb[1].team, "time": secondTime }]
             }
@@ -288,8 +288,8 @@ class suggestionsInner extends BaseAnalysis {
                 await secondClimb.runAnalysis()
 
 
-                let firstTime = 40 - (5 * firstClimb.result)
-                let secondTime = 35 - (5 * secondClimb.result)
+                let firstTime = 40 - (5 * firstClimb.average)
+                let secondTime = 35 - (5 * secondClimb.average)
 
                 endGame = [{ "team": arrayTeams[2].team, "time": firstTime }, { "team": arrayTeams[1].team, "time": secondTime }, { "team": arrayTeams[0].team, "time": thirdTime }]
             }

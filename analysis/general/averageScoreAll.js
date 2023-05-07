@@ -1,25 +1,21 @@
 const { to } = require('mathjs')
 const BaseAnalysis = require('../BaseAnalysis.js')
 const averageScore = require('./averageScore.js')
-const totalScoreAll = require('./totalScoreAll.js')
 
-// const Manager = require('./manager/dbmanager.js')
-
+//Calculates average score in their autonomus or teleop for a given team
+//gives an array with matches and an average
 class averageScoreAll extends BaseAnalysis {
     static name = `averageScoreAll`
 
     constructor(db, autoOrTele) {
         super(db)
-        // this.team = team
-        // this.teamKey = "frc" + team
-        // this.start = start
-        // this.end = end
         this.average = 0
         // auto = 0
         // teleop = 1
         this.autoOrTele = autoOrTele
         this.array = []
         this.cargo
+        //change cargo to 1 if only cargo should be inluded (no charging)
         this.totalPicklist = 0
         this.pickArray = []
 

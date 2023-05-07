@@ -50,8 +50,8 @@ class cyclingOverview extends BaseAnalysis {
         a.cycleCube = y.result
         a.coneCycleArray = x.finalizeResults().array
         a.cubeCycleArray = y.finalizeResults().array
-        a.cubeCount = cubeCount.result
-        a.coneCount = coneCount.result
+        a.cubeCount = cubeCount.average
+        a.coneCount = coneCount.average
         a.cubeCountArray = cubeCount.finalizeResults().array
         a.coneCountArray = cubeCount.finalizeResults().array
 

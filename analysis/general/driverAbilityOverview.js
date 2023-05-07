@@ -29,9 +29,9 @@ class driverAbilityOverview extends BaseAnalysis {
         await x.runAnalysis()
         let y = new all(a.db)
         await y.runAnalysis()
-        a.result = x.result
+        a.result = x.average
         a.array = x.finalizeResults().array
-        a.all = y.result
+        a.all = y.average
         a.difference = a.result - a.all
         let temp = math.std(y.array)
         console.log(temp)

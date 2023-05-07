@@ -84,10 +84,10 @@ class alliancePage extends BaseAnalysis {
             for (let j = 1; j < 4; j++) {
                 let temp = new levelCargo(Manager.db, teamArr[i], 1, j)
                 await temp.runAnalysis()
-                cones[j - 1] += temp.result
+                cones[j - 1] += temp.average
                 let temp2 = new levelCargo(Manager.db, teamArr[i], 0, j)
                 await temp2.runAnalysis()
-                cubes[j - 1] += temp2.result
+                cubes[j - 1] += temp2.average
 
             }
         }
@@ -136,15 +136,15 @@ class alliancePage extends BaseAnalysis {
             let total = 0
             var oneLinks = new links(Manager.db, a.teamOne)
             await oneLinks.runAnalysis()
-            total += oneLinks.result
+            total += oneLinks.average
 
             var twoLinks = new links(Manager.db, a.teamTwo)
             await twoLinks.runAnalysis()
-            total += twoLinks.result
+            total += twoLinks.average
 
             var threeLinks = new links(Manager.db, a.teamThree)
             await threeLinks.runAnalysis()
-            total += threeLinks.result
+            total += threeLinks.average
 
             a.links = total
 

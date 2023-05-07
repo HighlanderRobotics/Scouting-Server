@@ -1,12 +1,12 @@
 const BaseAnalysis = require('../BaseAnalysis.js')
-// const Manager = require('./manager/dbmanager.js')
 
+//average driver ability over all teams
 class driverAbilityAll extends BaseAnalysis {
     static name = `driverAbilityAll`
 
     constructor(db) {
         super(db)
-        this.result = 0
+        this.average = 0
         this.array = []
 
     }
@@ -35,7 +35,7 @@ class driverAbilityAll extends BaseAnalysis {
                     }
                 }
                 a.array = arr
-                a.result = arr.reduce((partialSum, a) => partialSum + a, 0) / arr.length
+                a.average = arr.reduce((partialSum, a) => partialSum + a, 0) / arr.length
 
 
                 resolve("done")
@@ -71,7 +71,7 @@ class driverAbilityAll extends BaseAnalysis {
     }
     finalizeResults() {
         return {
-            "result": this.result,
+            "result": this.average,
             "array" : this.array
         }
     }

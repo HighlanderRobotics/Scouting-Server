@@ -1,14 +1,11 @@
 const BaseAnalysis = require('../BaseAnalysis')
 const teamStat = require('./averageScore')
 const all = require('./averageScoreAll.js')
-const difference = require('./averageScoreDifference.js')
 const math = require('mathjs')
 
-
-// const Manager = require('./manager/dbmanager.js')
-
-class averageScoreOverview extends BaseAnalysis {
-    static name = `averageScoreOverview`
+//z-score for averageScores, used for picklists
+class averageScorePicklist extends BaseAnalysis {
+    static name = `averageScorePicklist`
 
     constructor(db, team) {
         super(db)
@@ -23,7 +20,6 @@ class averageScoreOverview extends BaseAnalysis {
 
         var allTeams = new all(a.db, 1)
         await allTeams.runAnalysis()
-        console.log("team number " + a.team + " Num "  +team.totalPicklist)
         let difference = team.totalPicklist - allTeams.totalPicklist
 
         let teleOpTemp = math.std(allTeams.pickArray)
@@ -40,12 +36,11 @@ class averageScoreOverview extends BaseAnalysis {
     runAnalysis() {
         return new Promise(async (resolve, reject) => {
             let a = this
-            var temp = await a.getAccuracy().catch((err) => {
+            await a.getAccuracy().catch((err) => {
                 if (err) {
                     return err
                 }
             })
-            // a.result = temp  
             resolve("done")
         })
 
@@ -57,4 +52,4 @@ class averageScoreOverview extends BaseAnalysis {
     }
 
 }
-module.exports = averageScoreOverview
+module.exports = averageScorePicklist

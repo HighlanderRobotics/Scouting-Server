@@ -1,14 +1,13 @@
 const BaseAnalysis = require('../../BaseAnalysis.js')
-
+//breakdowns of auto climbing:
+//tipped, level, failed and no climb
+//array : w enums
 class climberSucsessAutoAll extends BaseAnalysis {
     static name = `climberSucsessAutoAll`
 
     constructor(db, team) {
         super(db)
         this.team = team
-        this.teamKey = "ftc" + team
-        // this.start = start
-        // this.end = end
         this.tipped = 0
         this.failed = 0
         this.noClimb = 0
@@ -20,7 +19,6 @@ class climberSucsessAutoAll extends BaseAnalysis {
     async getData() {
         let a = this
         return new Promise(async (resolve, reject) => {
-            //why does await not work when it works in  bestAverageForMetric
             var sql = `SELECT scoutReport
                     FROM data
                 JOIN (SELECT matches.key, matches.matchNumber
@@ -28,10 +26,10 @@ class climberSucsessAutoAll extends BaseAnalysis {
                     JOIN teams ON teams.key = matches.teamKey)
                      AS  newMatches ON  data.matchKey = newMatches.key
                 `;
-            let fullyOn = 0
+            let level = 0
             let tipped = 0
-            let off = 0
-            let none = 0
+            let failed = 0
+            let noClimb = 0
             let arr = []
 
             this.db.all(sql, [], (err, rows) => {
@@ -47,28 +45,28 @@ class climberSucsessAutoAll extends BaseAnalysis {
                             let curr = JSON.parse(row.scoutReport).autoChallengeResult
                             arr.push(curr)
                             if (curr === 0) {
-                                none++
+                                noClimb++
                             }
                             if (curr === 1) {
                                 tipped++
                             }
                             if (curr === 2) {
-                                fullyOn++
+                                level++
                             }
                             if (curr == 3) {
-                                off++
+                                failed++
                             }
 
                         }
-                        arr.push(((fullyOn + 1)/(tipped + fullyOn + off + 3) * 12) + ((tipped + 1)/(tipped + fullyOn + off + 3) * 8))
+                        arr.push(((level + 1)/(tipped + level + failed + 3) * 12) + ((tipped + 1)/(tipped + level + failed + 3) * 8))
                     }
                     
                     a.tipped = tipped
-                    a.level = fullyOn
-                    a.failed = off
-                    a.noClimb = none
+                    a.level = level
+                    a.failed = failed
+                    a.noClimb = noClimb
                     a.array = arr
-                    a.totalAttempted = tipped + off + fullyOn
+                    a.totalAttempted = tipped + failed + level
                     resolve("done")
 
 
@@ -85,20 +83,18 @@ class climberSucsessAutoAll extends BaseAnalysis {
                 }
             })
             .then((data) => {
-                // console.log(data)
                 return data
             })
     }
     runAnalysis() {
         return new Promise(async (resolve, reject) => {
             let a = this
-            var temp = await a.getData().catch((err) => {
+            await a.getData().catch((err) => {
                 if (err) {
                     console.log(err)
                     return err
                 }
             })
-            // a.result = temp  
             resolve("done")
         })
 

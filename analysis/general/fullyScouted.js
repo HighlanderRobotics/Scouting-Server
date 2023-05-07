@@ -1,7 +1,7 @@
 const Manager = require('../../manager/dbmanager.js')
 const BaseAnalysis = require('../BaseAnalysis.js')
 
-
+//returns true if the match is "fully scouted" meaning it has 6 data peices (needs to be upated if we are going to have multiple scouters per team per match)
 class fullyScouted extends BaseAnalysis {
     static name = `fullyScouted`
 

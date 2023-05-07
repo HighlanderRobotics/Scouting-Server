@@ -2,16 +2,14 @@ const { map, all } = require('mathjs')
 const BaseAnalysis = require('../BaseAnalysis.js')
 const Manager = require('../../manager/dbmanager.js')
 const autoPaths = require('./cargo/autoPaths.js')
-// const Manager = require('./manager/dbmanager.js')
-
+//array of paths in order by average score on the path
+//[17, 18, 19] (starting positions)
 class cargoCountAuto extends BaseAnalysis {
     static name = `cargoCountAuto`
 
     constructor(db, team) {
         super(db)
         this.team = team
-        // this.start = start
-        // this.end = end
         this.bestPaths = [[{"points" : 0, "path" : {}, "climbPoints" : 0, "climb" : false, "all" : {"scoringRow" : []}}], [{"points" : 0, "path" : {}, "climbPoints" : 0, "climb" : false, "all" : {"scoringRow" : []}}], [{"points" : 0, "path" : {}, "climbPoints" : 0, "climb" : false, "all" : {"socringRow" : 0}}]]
     }
     async getAccuracy() {
@@ -50,12 +48,11 @@ class cargoCountAuto extends BaseAnalysis {
     runAnalysis() {
         return new Promise(async (resolve, reject) => {
             let a = this
-            var temp = await a.getAccuracy().catch((err) => {
+            await a.getAccuracy().catch((err) => {
                 if (err) {
                     return err
                 }
             })
-            // a.result = temp  
             resolve("done")
         })
 

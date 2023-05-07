@@ -4,19 +4,14 @@ const all = require('./climberSucsessAll.js')
 const math = require('mathjs')
 
 
-// const Manager = require('./manager/dbmanager.js')
-
-class climberSucsessDifference extends BaseAnalysis {
-    static name = `climberSucsessDifference`
+//gives z-core for picklist
+class climberSucsessPicklist extends BaseAnalysis {
+    static name = `climberSucsessPicklist`
 
     constructor(db, team) {
         super(db)
         this.team = team
-        // this.teamKey = "frc" + team
-        // this.start = start
-        // this.end = end
         this.zScore
-        // this.array = []
 
     }
     async getAccuracy() {
@@ -42,12 +37,11 @@ class climberSucsessDifference extends BaseAnalysis {
     runAnalysis() {
         return new Promise(async (resolve, reject) => {
             let a = this
-            var temp = await a.getAccuracy().catch((err) => {
+            await a.getAccuracy().catch((err) => {
                 if (err) {
                     return err
                 }
             })
-            // a.result = temp  
             resolve("done")
         })
 
@@ -60,4 +54,4 @@ class climberSucsessDifference extends BaseAnalysis {
     }
 
 }
-module.exports = climberSucsessDifference
+module.exports = climberSucsessPicklist

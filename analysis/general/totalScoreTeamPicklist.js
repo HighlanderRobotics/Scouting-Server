@@ -1,13 +1,13 @@
 const BaseAnalysis = require('../BaseAnalysis.js')
-
-class scoreForPreiction extends BaseAnalysis {
-    static name = `scoreForPreiction`
+//total score for given team (both auto and teleop)
+//gives: array, average and matches
+//used for predictions and picklist
+class totalScoreTeamPicklist extends BaseAnalysis {
+    static name = `totalScoreTeamPicklist`
 
     constructor(db, team) {
         super(db)
         this.team = team
-        // this.start = start
-        // this.end = end
         this.array = []
         this.average = 0
         this.matches = []
@@ -57,7 +57,6 @@ class scoreForPreiction extends BaseAnalysis {
                                     total += 10
                                 }
                                 else if (data.challengeResult === 4) {
-                                    //check this
                                     total += 2
                                 }
                             
@@ -105,10 +104,7 @@ class scoreForPreiction extends BaseAnalysis {
                     a.matches = match
 
 
-                }
-
-                // a.result = arr
-                
+                }                
 
                 resolve("done")
 
@@ -118,12 +114,11 @@ class scoreForPreiction extends BaseAnalysis {
     runAnalysis() {
         return new Promise(async (resolve, reject) => {
             let a = this
-            var temp = await a.scoresOverTime().catch((err) => {
+            await a.scoresOverTime().catch((err) => {
                 if (err) {
                     return err
                 }
             })
-            // a.result = temp  
             resolve("done")
         })
 
@@ -137,4 +132,4 @@ class scoreForPreiction extends BaseAnalysis {
         }
     }
 }
-module.exports = scoreForPreiction
+module.exports = totalScoreTeamPicklist

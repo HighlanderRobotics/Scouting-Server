@@ -1,14 +1,13 @@
 const BaseAnalysis = require('../../BaseAnalysis.js')
-
+//charing in teleop for a spefiied team:
+//# of matches for: no climb, tipped, level, and failed
+//array with match number
 class climberSucsessAll extends BaseAnalysis {
     static name = `climberSucsessAll`
 
     constructor(db, team) {
         super(db)
         this.team = team
-        this.teamKey = "ftc" + team
-        // this.start = start
-        // this.end = end
         this.tipped = 0
         this.failed = 0
         this.noClimb = 0
@@ -20,7 +19,6 @@ class climberSucsessAll extends BaseAnalysis {
     async getData() {
         let a = this
         return new Promise(async (resolve, reject) => {
-            //why does await not work when it works in  bestAverageForMetric
             var sql = `SELECT scoutReport
                     FROM data
                 JOIN (SELECT matches.key, matches.matchNumber
@@ -28,10 +26,13 @@ class climberSucsessAll extends BaseAnalysis {
                     JOIN teams ON teams.key = matches.teamKey)
                      AS  newMatches ON  data.matchKey = newMatches.key
                 `;
-            let fullyOn = 0
+            // none = no climb
+            //tipped = tipped
+            //
+            let level = 0
             let tipped = 0
-            let off = 0
-            let none = 0
+            let failed = 0
+            let noClimb = 0
             let arr = []
 
             this.db.all(sql, [], (err, rows) => {
@@ -47,7 +48,7 @@ class climberSucsessAll extends BaseAnalysis {
                             let curr = JSON.parse(row.scoutReport).challengeResult
                             let temp = 0
                             if (curr === 0) {
-                                none++
+                                noClimb++
                             }
                             if (curr === 1) {
                                 tipped++
@@ -55,13 +56,13 @@ class climberSucsessAll extends BaseAnalysis {
                                 arr.push(temp)
                             }
                             if (curr === 2) {
-                                fullyOn++
+                                level++
                                 temp = 10
                                 arr.push(temp)
 
                             }
                             if (curr == 3) {
-                                off++
+                                failed++
                                 temp = 0
                                 arr.push(temp)
 
@@ -69,11 +70,11 @@ class climberSucsessAll extends BaseAnalysis {
 
                         }
                         a.tipped = tipped
-                        a.level = fullyOn
-                        a.failed = off
-                        a.noClimb = none
+                        a.level = level
+                        a.failed = failed
+                        a.noClimb = noClimb
                         a.array = arr
-                        a.totalAttempted = tipped + fullyOn + off            
+                        a.totalAttempted = tipped + level + failed            
 
     
     

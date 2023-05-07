@@ -1,16 +1,15 @@
 const BaseAnalysis = require('../../BaseAnalysis.js')
-// const Manager = require('./manager/dbmanager.js')
+//averge amount of cargo (of given type: cube or cone) for a given level (1 or 2 or 3)
 
 class levelCargoAll extends BaseAnalysis {
     static name = `levelCargoAll`
 
-    constructor(db, type, location) {
+    constructor(db, type, level) {
         super(db)
-        // this.start = start
-        // this.end = end
-        this.location = location
-        this.type = type
-        this.result = 0
+
+        this.level = level
+        this.objectType = type
+        this.average = 0
         this.array = []
 
     }
@@ -41,15 +40,14 @@ class levelCargoAll extends BaseAnalysis {
                         let curr = JSON.parse(row.scoutReport).events
 
                         for (var i = 0; i < curr.length; i++) {
-                            //change numbers
                             let subArr = curr[i]
 
-                            if(subArr[1] === a.type)
+                            if(subArr[1] === a.objectType)
                             {
 
                                 object = true
                             }
-                           else if (subArr[1] === 2 && object == true && Math.ceil(subArr[2] / 3) === a.location ) {
+                           else if (subArr[1] === 2 && object == true && Math.ceil(subArr[2] / 3) === a.level ) {
                                 makes++
                                 object = false
 
@@ -65,7 +63,7 @@ class levelCargoAll extends BaseAnalysis {
                     }
 
                 }
-                a.result = makes/len
+                a.average = makes/len
                 a.array = arr
               
                 resolve("done")
@@ -86,7 +84,7 @@ class levelCargoAll extends BaseAnalysis {
     runAnalysis() {
         return new Promise(async (resolve, reject) => {
             let a = this
-            var temp = await a.getAccuracy().catch((err) => {
+            await a.getAccuracy().catch((err) => {
                 if (err) {
                     return err
                 }
@@ -98,7 +96,7 @@ class levelCargoAll extends BaseAnalysis {
     }
     finalizeResults() {
         return {
-            "result": this.result,
+            "result": this.average,
             "array" : this.array           
         }
         

@@ -1,5 +1,5 @@
 const BaseAnalysis = require('./BaseAnalysis.js')
-const scores = require('./general/scoreForPreiction')
+const scores = require('./general/totalScoreTeamPicklist')
 const alliance = require('./alliancePage')
 
 const math = require('mathjs')

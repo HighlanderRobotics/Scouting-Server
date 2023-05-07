@@ -1,17 +1,17 @@
 const BaseAnalysis = require('../BaseAnalysis.js')
-
+//Calculates average score in their autonomus or teleop for a given team
+//gives an array with matches and an average
 class averageScore extends BaseAnalysis {
     static name = `averageScore`
 
     constructor(db, team, autoOrTele) {
         super(db)
         this.team = team
-        // this.start = start
-        // this.end = end
         this.array = []
         this.average = 0
         this.matches = []
         this.cargo = 0
+        //change cargo to 1 if only cargo should be inluded (no charging)
         this.totalPicklist = 0
         // 0 = auto
         //1 = teleop
@@ -27,7 +27,7 @@ class averageScore extends BaseAnalysis {
                 FROM matches 
                 JOIN teams ON teams.key = matches.teamKey
                 WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key`
-            let answer = []
+            let array = []
             let match = []
             a.db.all(sql, [a.team], (err, rows) => {
                 if (err) {
@@ -107,15 +107,15 @@ class averageScore extends BaseAnalysis {
                                 }
 
                             }
-                            answer.push(total)
+                            array.push(total)
                         }
 
                     }
-                    a.array = answer
-                    const sum = answer.reduce((partialSum, a) => partialSum + a, 0)
+                    a.array = array
+                    const sum = array.reduce((partialSum, a) => partialSum + a, 0)
 
                     a.totalPicklist = otherPick/len
-                    a.average = sum / answer.length                    
+                    a.average = sum / array.length                    
                     a.matches = match
 
 

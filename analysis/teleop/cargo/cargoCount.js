@@ -1,5 +1,5 @@
 const BaseAnalysis = require('../../BaseAnalysis.js')
-// const Manager = require('./manager/dbmanager.js')
+//finding the differece in average cargo (of a given type: cones or cubes) of a team specificed team to a certain positions (scoring or feeding to team)
 
 class cargoCount extends BaseAnalysis {
     static name = `cargoCount`
@@ -7,13 +7,12 @@ class cargoCount extends BaseAnalysis {
     constructor(db, team, type, location) {
         super(db)
         this.team = team
-        this.teamKey = "frc" + team
-        // this.start = start
-        // this.end = end
         this.location = location
-        this.type = type
-        this.result = 0
-        this.max = 0
+        //cones and cubes
+        //0 - cubes and 1 - cones
+        this.objectType = type
+        this.average = 0
+        this.maxRow = 0
         this.array = []
         this.matches = []
 
@@ -51,7 +50,7 @@ class cargoCount extends BaseAnalysis {
                             //change numbers
                             let subArr = curr[i]
 
-                            if(subArr[1] === a.type)
+                            if(subArr[1] === a.objectType)
                             {
                                 object = true
                             }
@@ -81,8 +80,8 @@ class cargoCount extends BaseAnalysis {
                     "match": match[index],
                     "value": item,
                 }))
-                a.result = makes / len
-                a.max = Math.ceil(highest / 3)
+                a.average = makes / len
+                a.maxRow = Math.ceil(highest / 3)
                 a.matches = match
                 resolve("done")
 
@@ -107,17 +106,16 @@ class cargoCount extends BaseAnalysis {
                     return err
                 }
             })
-            // a.result = temp  
             resolve("done")
         })
 
     }
     finalizeResults() {
         return {
-            "result": this.result,
+            "result": this.average,
             "team": this.team,
             "array": this.array,
-            "max": this.max
+            "max": this.maxRow
         }
         
     }

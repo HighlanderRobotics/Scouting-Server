@@ -7,24 +7,25 @@ const climb = require('../teleop/climber/climberSucsess')
 const math = require('mathjs')
 const { resolve } = require('mathjs')
 
-
-// const Manager = require('./manager/dbmanager.js')
-
+//scoring breakdown for pie chart
+//if matchnumber is not valid/is null it returns the average split of scoring
+//if a match is given it just gives the breakdown of that match
+//also gives array of scores over time, overall auto/tele averge, team average and difference
 class scoringBreakdown extends BaseAnalysis {
     static name = `scoringBreakdown`
 
-    constructor(db, team, type, tournamentKey, matchNumber, matchType) {
+    constructor(db, team, autoOreTele, tournamentKey, matchNumber, matchType) {
         super(db)
         this.teamKey = "frc" + team
-        this.team = team
-        this.array = []
+        this.arrayOfScores = []
         this.all = 0
-        this.type = type
+        this.autoOrTele = autoOreTele
         this.difference = 0
-        this.scoringBreakdown = {}
+        this.pieChart = {}
         this.tournamentKey = tournamentKey
         this.matchNumber = matchNumber
         this.matchType = matchType
+        this.averageScore = 0
 
     }
     async getAccuracy() {
@@ -49,17 +50,17 @@ class scoringBreakdown extends BaseAnalysis {
         }
     
             
-            let team = new teamStat(a.db, a.team, a.type)
+            let team = new teamStat(a.db, a.team, a.autoOrTele)
             await team.runAnalysis()
-            let allAvg = new all(a.db, a.type)
+            let allAvg = new all(a.db, a.autoOrTele)
             await allAvg.runAnalysis()
-            let diff = new difference(a.db, a.team, a.type)
+            let diff = new difference(a.db, a.team, a.autoOrTele)
             await diff.runAnalysis()
 
-            a.result = team.average
+            a.averageScore = team.average
             a.all = allAvg.average
-            a.difference = diff.result
-            a.array = team.finalizeResults().array
+            a.difference = diff.average
+            a.arrayOfScores = team.finalizeResults().array
 
 
 
@@ -87,14 +88,15 @@ class scoringBreakdown extends BaseAnalysis {
 
 
             if (!this.matchNumber) {
-
-                let pieChart = { "coneOne": (oneCone.result * 2) / a.result, "coneTwo": (twoCone.result * 3) / a.result, "coneThree": (threeCone.result * 5) / a.result, "cubeOne": (oneCube.result * 2) / a.result, "cubeTwo": (twoCube.result * 3) / a.result, "cubeThree": (threeCube.result * 5) / a.result, "climb": ((climbAvg.level * 10 + climbAvg.tipped * 6) / climbAvg.totalAttempted) / a.result }
-                a.scoringBreakdown = pieChart
+                //if there is no specified match it just uses overall averages
+                let pieChart = { "coneOne": (oneCone.average * 2) / a.averageScore, "coneTwo": (twoCone.average * 3) / a.averageScore, "coneThree": (threeCone.average * 5) / a.averageScore, "cubeOne": (oneCube.average * 2) / a.averageScore, "cubeTwo": (twoCube.average * 3) / a.averageScore, "cubeThree": (threeCube.average * 5) / a.averageScore, "climb": ((climbAvg.level * 10 + climbAvg.tipped * 6) / climbAvg.totalAttempted) / a.averageScore }
+                a.pieChart = pieChart
             }
             else {
+                //if a match is given it breakdown that match using the arrays
                 let index = -1
-                for (let i = 0; i < a.array.length; i++) {
-                    if (a.array[i].match === matchKey) {
+                for (let i = 0; i < a.arrayOfScores.length; i++) {
+                    if (a.arrayOfScores[i].match === matchKey) {
                         index = i
                     }
                 }
@@ -110,10 +112,10 @@ class scoringBreakdown extends BaseAnalysis {
                     else {
                         tempClimb = 0
                     }
-                    let totalThisMatch = a.array[index].value
+                    let totalThisMatch = a.arrayOfScores[index].value
 
                     let pieChart = { "coneOne": (oneCone.finalizeResults().array[index].value * 2) / totalThisMatch, "coneTwo": (twoCone.finalizeResults().array[index].value * 3) / totalThisMatch, "coneThree": (threeCone.finalizeResults().array[index].value * 5) / totalThisMatch, "cubeOne": (oneCube.finalizeResults().array[index].value * 2) / totalThisMatch, "cubeTwo": (twoCube.finalizeResults().array[index].value * 3) / totalThisMatch, "cubeThree": (threeCube.finalizeResults().array[index].value * 5) / totalThisMatch, "climb": tempClimb / totalThisMatch }
-                    a.scoringBreakdown = pieChart
+                    a.pieChart = pieChart
                 }
             }
         
@@ -125,12 +127,11 @@ class scoringBreakdown extends BaseAnalysis {
 
         return new Promise(async (resolve, reject) => {
             let a = this
-            var temp = await a.getAccuracy().catch((err) => {
+            await a.getAccuracy().catch((err) => {
                 if (err) {
                     console.log(err)
                 }
             })
-            // a.result = temp  
             resolve("done")
         })
 
@@ -138,7 +139,11 @@ class scoringBreakdown extends BaseAnalysis {
     finalizeResults() {
         return {
 
-            "scoringBreakdown": this.scoringBreakdown,
+            "scoringBreakdown": this.pieChart,
+            "all" : this.all,
+            "difference" : this.difference,
+            "result" : this.averageScore,
+            "array" : this.arrayOfScores,
             "team": this.team
         }
     }

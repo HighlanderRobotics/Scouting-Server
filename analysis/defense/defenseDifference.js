@@ -1,13 +1,11 @@
 const BaseAnalysis = require('../BaseAnalysis.js')
-const teamStat = require('./scoreForPreiction')
-const all = require('./totalScoreAll')
-const math = require('mathjs')
-
+const teamStat = require('./defenseTeam.js')
+const all = require('./defenseAll.js')
 
 // const Manager = require('./manager/dbmanager.js')
 
-class totalScoreDifference extends BaseAnalysis {
-    static name = `totalScoreDifference`
+class defenseEventDifference extends BaseAnalysis {
+    static name = `defenseEventDifference`
 
     constructor(db, team) {
         super(db)
@@ -16,8 +14,6 @@ class totalScoreDifference extends BaseAnalysis {
         // this.start = start
         // this.end = end
         this.result = 0
-        //auto = 0
-        //teleop = 1
         // this.array = []
 
     }
@@ -25,18 +21,11 @@ class totalScoreDifference extends BaseAnalysis {
         let a = this
         let x = new teamStat(a.db, a.team)
         await x.runAnalysis()
-        let teamAvg = x.average
+        let teamAvg = x.result
         let y = new all(a.db)
         await y.runAnalysis()
-        let temp = math.std(y.array)
-        let overallAvg = y.average
+        let overallAvg = y.result
         a.result = teamAvg - overallAvg
-        a.zScore = a.result / temp
-        if(isNaN(a.zScore))
-        {
-            a.zScore = 0
-        }
-
 
     }
 
@@ -50,7 +39,6 @@ class totalScoreDifference extends BaseAnalysis {
                 }
             })
             // a.result = temp  
-
             resolve("done")
         })
 
@@ -59,9 +47,8 @@ class totalScoreDifference extends BaseAnalysis {
         return {
             "result": this.result,
             "team": this.team,
-            "zScore" : this.zScore
         }
     }
 
 }
-module.exports = totalScoreDifference
+module.exports = defenseEventDifference

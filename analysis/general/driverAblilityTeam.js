@@ -1,5 +1,5 @@
 const BaseAnalysis = require('../BaseAnalysis.js')
-// const Manager = require('./manager/dbmanager.js')
+//average driver ability for a specific team, also includes array with matches
 
 class driverAbilityTeam extends BaseAnalysis {
     static name = `driverAbilityTeam`
@@ -7,9 +7,8 @@ class driverAbilityTeam extends BaseAnalysis {
     constructor(db, team) {
         super(db)
         this.team = team
-        // this.start = start
-        // this.end = end
-        this.result = 0
+
+        this.average = 0
         this.array = []
         this.matches = []
 
@@ -43,11 +42,11 @@ class driverAbilityTeam extends BaseAnalysis {
                     }
                 }
                 a.array = arr
-                a.result = arr.reduce((partialSum, a) => partialSum + a, 0) / arr.length
+                a.average = arr.reduce((partialSum, a) => partialSum + a, 0) / arr.length
                 a.matches = match
-                if (isNaN(a.result))
+                if (isNaN(a.average))
                 {
-                    a.result = 0
+                    a.average = 0
                 }
 
                 resolve("done")
@@ -61,7 +60,6 @@ class driverAbilityTeam extends BaseAnalysis {
                 }
             })
             .then((data) => {
-                // console.log(data)
                 return data
             })
     }
@@ -71,19 +69,18 @@ class driverAbilityTeam extends BaseAnalysis {
         return new Promise(async (resolve, reject) => {
             let a = this
 
-            var temp = await a.getAccuracy().catch((err) => {
+           await a.getAccuracy().catch((err) => {
                 if (err) {
                     return err
                 }
             })
-            // a.result = temp  
             resolve("done")
         })
 
     }
     finalizeResults() {
         return {
-            "result": this.result,
+            "result": this.average,
             "team": this.team,
             "array": this.array.map((item, index) => ({
                 "match": this.matches[index],

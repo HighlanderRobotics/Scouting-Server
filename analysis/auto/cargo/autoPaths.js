@@ -1,30 +1,24 @@
 const { json } = require('express')
 const { map } = require('mathjs')
 const BaseAnalysis = require('../../BaseAnalysis.js')
-// const Manager = require('./manager/dbmanager.js')
-
+//makes an js object of all the given teams auto paths
+// format: {frequency : num, score : [array, of, points, score, on, the, path], matches : [match, keys, the, path, has, been, used]. chargeRate : {docked : 0. engaged, 0, failed, 0}, maxScore: maxScore (num), scoringRow : [locations, the, path, scores]}
 class cargoCountAuto extends BaseAnalysis {
     static name = `cargoCountAuto`
-
     constructor(db, team) {
         super(db)
         this.team = team
-        // this.start = start
-        // this.end = end
         this.paths = {}
-
     }
     async getAccuracy() {
         let a = this
         return new Promise(async function (resolve, reject) {
-
             var sql = `SELECT scoutReport, newMatches.key AS key
                 FROM data
             JOIN (SELECT matches.key AS key
                 FROM matches 
                 JOIN teams ON teams.key = matches.teamKey
                 WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
-               
           `;
             let jsonObject = {};
             a.db.all(sql, [a.team], (err, rows) => {
@@ -38,66 +32,47 @@ class cargoCountAuto extends BaseAnalysis {
                         let arr = []
                         let events = []
                         let currObj = -1
-                        let scoringRow = []
+                        let scoringLocations = []
                         for (var i = 0; i < curr.length; i++) {
-
                             let subArr = curr[i]
-
                             if (subArr[0] < 16) {
-                                    
-                                    if (subArr[1] === 1 || subArr[1] === 0) {
-                                        currObj = subArr[1]
-                                        events.push(subArr[2])
-                                        arr.push({ "location": subArr[2], "event": subArr[1], "time": subArr[0]})
-                                        if(subArr[0] > 0)
-                                        {
-                                            scoringRow.push(subArr[2])
-                                        }
+                                if (subArr[1] === 1 || subArr[1] === 0) {
+                                    currObj = subArr[1]
+                                    events.push(subArr[2])
+                                    arr.push({ "location": subArr[2], "event": subArr[1], "time": subArr[0] })
+                                    if (subArr[0] > 0) {
+                                        scoringLocations.push(subArr[2])
                                     }
-                                    else if (subArr[1] === 2) {
-                                        // events.push(subArr[2] % 3)
-                                        arr.push({ "location": subArr[2], "event": subArr[1] + currObj + 2, "time": subArr[0]})
-                                        currObj = -1
-                                    }
-                                    // else {
-                                    //     arr.push({ "location": subArr[2], "event": subArr[1], "time": subArr[0] })
-                                    // }
-                                
+                                }
+                                else if (subArr[1] === 2) {
+                                    arr.push({ "location": subArr[2], "event": subArr[1] + currObj + 2, "time": subArr[0] })
+                                    currObj = -1
+                                }
                             }
-
                         }
-
                         let total = 0
                         let str = ""
                         let data = JSON.parse(row.scoutReport)
                         if (data.autoChallengeResult === 1) {
                             total += 8
-                            arr.push({ "location": 11, "event": 9, "time": 15})
+                            arr.push({ "location": 11, "event": 9, "time": 15 })
                             str = "docked"
                             events.push(9)
-
                         }
                         else if (data.autoChallengeResult === 2) {
-                            arr.push({ "location": 11, "event": 9, "time": 15})
+                            arr.push({ "location": 11, "event": 9, "time": 15 })
                             total += 12
                             str = "engaged"
                             events.push(9)
-
-
                         }
-                        else if (data.autoChallengeResult === 3)
-                        {
-                            arr.push({ "location": 11, "event": 9, "time": 15})
+                        else if (data.autoChallengeResult === 3) {
+                            arr.push({ "location": 11, "event": 9, "time": 15 })
                             str = "failed"
                             events.push(9)
-
-
                         }
-                        else if (data.autoChallengeResult === 4)
-                        {
-                                total += 3
+                        else if (data.autoChallengeResult === 4) {
+                            total += 3
                         }
-                        
                         for (var i = 0; i < curr.length; i++) {
                             let entry = curr[i]
                             if (entry[0] <= 16 && entry[1] === 2) {
@@ -120,46 +95,28 @@ class cargoCountAuto extends BaseAnalysis {
                             if (jsonObject.hasOwnProperty(key)) {
                                 jsonObject[key].frequency++;
                                 jsonObject[key].matches.push(row.key)
-                                if(jsonObject[key].maxScore < total)
-                                {
+                                if (jsonObject[key].maxScore < total) {
                                     jsonObject[key].positions = arr
                                     jsonObject[key].maxScore = total
                                 }
                                 jsonObject[key].score.push(total)
-                                
+
 
                             } else {
-                                jsonObject[key] = { frequency: 1, score: [total], positions : arr, matches : [row.key], chargeRate : {"docked" : 0, "engaged" : 0, "failed" : 0}, maxScore : total, scoringRow : scoringRow};
+                                jsonObject[key] = { frequency: 1, score: [total], positions: arr, matches: [row.key], chargeRate: { "docked": 0, "engaged": 0, "failed": 0 }, maxScore: total, scoringRow: scoringLocations };
                                 jsonObject[key].chargeRate.str
                             }
-                            if (str != "")
-                            {
+                            if (str != "") {
                                 jsonObject[key].chargeRate[str]++;
                             }
-
-
                         }
-
-
                     }
-
-
                 }
-
                 a.paths = Object.entries(jsonObject).map(([key, value]) => ({
                     ...value,
                 }))
                 resolve("done")
             })
-
-            // let arr = [];
-            // map.forEach((value, key) => {
-            //     arr.push({ position: key, frequency: value.freq, score: value.score });
-            // });
-
-
-
-
         })
             .catch((err) => {
                 if (err) {
@@ -170,16 +127,14 @@ class cargoCountAuto extends BaseAnalysis {
                 return data
             })
     }
-
     runAnalysis() {
         return new Promise(async (resolve, reject) => {
             let a = this
-            var temp = await a.getAccuracy().catch((err) => {
+            await a.getAccuracy().catch((err) => {
                 if (err) {
                     return err
                 }
             })
-            // a.result = temp  
             resolve("done")
         })
 

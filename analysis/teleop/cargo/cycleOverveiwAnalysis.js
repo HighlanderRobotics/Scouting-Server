@@ -4,8 +4,7 @@ const all = require('./cyclingAll.js')
 const differenceCycle = require('./cyclingDifference.js')
 
 
-// const Manager = require('./manager/dbmanager.js')
-
+//
 class cycleOverviewAnalysis extends BaseAnalysis {
     static name = `cycleOverviewAnalysis`
 
@@ -13,9 +12,7 @@ class cycleOverviewAnalysis extends BaseAnalysis {
         super(db)
         this.team = team
         this.type = type
-        // this.teamKey = "frc" + team
-        // this.start = start
-        // this.end = end
+     
        this.result = 0
        this.all = 0
        this.difference = 0

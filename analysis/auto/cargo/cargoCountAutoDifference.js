@@ -1,35 +1,26 @@
 const BaseAnalysis = require('../../BaseAnalysis.js')
 const teamStat = require('./cargoCountAuto.js')
 const all = require('./cargoCountAutoAll.js')
-
-// const Manager = require('./manager/dbmanager.js')
-
+//gives the difference between team average and average over all teams of an object score in auto
 class cargoCountAutoDifference extends BaseAnalysis {
     static name = `cargoCountAutoDifference`
 
-    constructor(db, team, type) {
+    constructor(db, team, objectType) {
         super(db)
-        this.type  = type
+        this.objectType  = objectType
         this.team = team
-        // this.teamKey = "frc" + team
-        // this.start = start
-        // this.end = end
         this.result = 0
-        this.type = type
-        // this.array = []
+        this.objectType = objectType
 
     }
     async getAccuracy() {
         let a = this
-        let x = new teamStat(a.db, a.team, a.type)
+        let x = new teamStat(a.db, a.team, a.objectType)
         await x.runAnalysis()
-        let teamAvg = x.result
-        let y = new all(a.db, a.type)
+        let teamAvg = x.average
+        let y = new all(a.db, a.objectType)
         await y.runAnalysis()
         let overallAvg = y.result
-
-        
-
         a.result = teamAvg - overallAvg
 
     }
@@ -38,12 +29,11 @@ class cargoCountAutoDifference extends BaseAnalysis {
     runAnalysis() {
         return new Promise(async (resolve, reject) => {
             let a = this
-            var temp = await a.getAccuracy().catch((err) => {
+            await a.getAccuracy().catch((err) => {
                 if (err) {
                     return err
                 }
             })
-            // a.result = temp  
             resolve("done")
         })
 

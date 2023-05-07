@@ -1,13 +1,14 @@
 const { boolean, to, count, resolve } = require('mathjs')
 const BaseAnalysis = require('../BaseAnalysis.js')
-// const Manager = require('./manager/dbmanager.js')
+//average links the team makes per match
+// (teams cargo/total cargo in match) * lionks scored
 
 class links extends BaseAnalysis {
     static name = `links`
 
     constructor(db, team) {
         super(db)
-        this.result = 0
+        this.average = 0
         this.team = team
 
     }
@@ -77,9 +78,9 @@ class links extends BaseAnalysis {
             "match": matches[index],
             "value": item,
         }))
-        a.result = arr.reduce((partialSum, a) => partialSum + a, 0) / arr.length
-        if (isNaN(a.result)) {
-            a.result = 0
+        a.average = arr.reduce((partialSum, a) => partialSum + a, 0) / arr.length
+        if (isNaN(a.average)) {
+            a.average = 0
         }
         resolve("done")
     }
@@ -102,7 +103,7 @@ class links extends BaseAnalysis {
     }
     finalizeResults() {
         return {
-            "result": this.result,
+            "result": this.average,
             "array": this.array,
             "team": this.team
         }
