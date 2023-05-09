@@ -500,7 +500,6 @@ Send packets through Postman if you want
 
 # Analysis
 
-```
 1. each analysis function has a header detialing its functionality at the top
 2. most anaylsis groups have 4 files (a few exceptions):
       - Team : generally gives an average for the team and an array over time (for the sparkline). Some include other stats like: max row, level breakdown etc
@@ -520,6 +519,7 @@ Send packets through Postman if you want
       - level : 1 = hybrid, 2 = mid, 3 = high
 
 4. Template for analyis file:
+```
 const BaseAnalysis = require('../../BaseAnalysis.js')
 //comment about the functionality of the file
 class example extends BaseAnalysis {
@@ -603,6 +603,16 @@ class example extends BaseAnalysis {
 
 }
 module.exports = example
+```
+5. Implementation in TaskManager
+```
+//import
+const example = require('./analysis/example.js')
+
+case ("example"):
+      example.push(new example(Manager.db, task.team))
+      break
+```
 
 
 
