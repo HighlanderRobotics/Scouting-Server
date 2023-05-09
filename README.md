@@ -497,3 +497,117 @@ node {filename}
 ```
 
 Send packets through Postman if you want
+
+# Analysis
+
+```
+1. each analysis function has a header detialing its functionality at the top
+2. most anaylsis groups have 4 files (a few exceptions):
+      - Team : generally gives an average for the team and an array over time (for the sparkline). Some include other stats like: max row, level breakdown etc
+      - Over all team : generally gives average over all teams and sometimes an array
+      - Difference : calcuates the difference between team and all team average
+      - Overview : one file that gives : average, all team average, difference, array from team file, z-score, and other stats from the team file
+3. Names in analysis files:
+      - Result/average : average of the described stat
+      - Difference : all average - team average
+      - array : used for sparkline (code below)
+          "array": this.array.map((item, index) => ({
+                "match": this.matches[index],
+                "value": item,
+            }))
+      - ObjectType : 0 = cube, 1 = cone
+      - Location : 2 = scoring 4 = feeding
+      - level : 1 = hybrid, 2 = mid, 3 = high
+
+4. Template for analyis file:
+const BaseAnalysis = require('../../BaseAnalysis.js')
+//comment about the functionality of the file
+class example extends BaseAnalysis {
+    static name = `example`
+    constructor(db, team, objectType) {
+        super(db)
+        this.team = team
+        this.objectType = objectType
+        this.matches = []
+        this.average = 0
+        this.array = []
+
+    }
+    async getAccuracy() {
+        let a = this
+        return new Promise(async function (resolve, reject) {
+
+            var sql = `SELECT scoutReport, newMatches.key AS key
+                FROM data
+            JOIN (SELECT matches.key AS key
+                FROM matches 
+                JOIN teams ON teams.key = matches.teamKey
+                WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key
+          `;
+            let arr = []
+            let match = []
+            let object = false
+            a.db.all(sql, [a.team], (err, rows) => {
+                if (err) {
+                    console.log(err)
+                }
+                if (rows != undefined) {
+                    rows.forEach(functionAdder);
+                    function functionAdder(row, index, array) {
+                        //code
+                    }}
+                a.array = arr
+                a.average = arr.reduce((partialSum, a) => partialSum + a, 0) / arr.length
+                if(a.average === null)
+                {
+                    a.average = 0
+                }
+                a.matches = match
+                resolve("done")
+
+            })
+
+        })
+            .catch((err) => {
+                if (err) {
+                    return err
+                }
+            })
+            .then((data) => {
+                return data
+            })
+    }
+
+    runAnalysis() {
+        return new Promise(async (resolve, reject) => {
+            let a = this
+           await a.getAccuracy().catch((err) => {
+                if (err) {
+                    return err
+                }
+            })
+            resolve("done")
+        })
+
+    }
+    finalizeResults() {
+        return {
+            "result": this.average,
+            "team": this.team,
+            "array": this.array.map((item, index) => ({
+                "match": this.matches[index],
+                "value": item,
+            }))
+        }
+    }
+
+}
+module.exports = example
+
+
+
+
+
+
+
+
