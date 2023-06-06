@@ -27,6 +27,7 @@ const links = require('./analysis/general/links.js')
 const climberSucsess = require('./analysis/teleop/climber/climberSucsess.js')
 const climberSucsessAuto = require('./analysis/auto/climb/climberSucsessAuto.js')
 const suggestions = require('./analysis/suggestions.js')
+const teamAndMatch = require('./analysis/teamAndMatch.js')
 
 
 class TaskManager {
@@ -178,6 +179,8 @@ class TaskManager {
                 case("suggestions"):
                     returnAnalysis.push(new suggestions(Manager.db, task.red1, task.red2, task.red3, task.blue1, task.blue2, task.blue3, task.matchType))
                     break
+                case("teamAndMatch"):
+                    returnAnalysis.push(new teamAndMatch(Manager.db, task.team, task.matchKey))
                 default:
                     console.log(`${task.name} is not a valid task`)
             }

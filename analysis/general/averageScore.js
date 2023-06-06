@@ -19,7 +19,6 @@ class averageScore extends BaseAnalysis {
     }
     async scoresOverTime() {
         let a = this
-       
         return new Promise(function (resolve, reject) {
             var sql = `SELECT scoutReport, newMatches.key AS key
             FROM data
@@ -27,9 +26,10 @@ class averageScore extends BaseAnalysis {
                 FROM matches 
                 JOIN teams ON teams.key = matches.teamKey
                 WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key`
-            let array = []
+            let arrayT = []
             let match = []
             a.db.all(sql, [a.team], (err, rows) => {
+
                 if (err) {
                     console.log(err)
                     reject(err)
@@ -107,15 +107,18 @@ class averageScore extends BaseAnalysis {
                                 }
 
                             }
-                            array.push(total)
+
+                            arrayT.push(total)
+
                         }
 
+
                     }
-                    a.array = array
-                    const sum = array.reduce((partialSum, a) => partialSum + a, 0)
+                    a.array = arrayT
+                    const sum = arrayT.reduce((partialSum, a) => partialSum + a, 0)
 
                     a.totalPicklist = otherPick/len
-                    a.average = sum / array.length                    
+                    a.average = sum / arrayT.length                    
                     a.matches = match
 
 
