@@ -14,7 +14,7 @@ class averageScoreAll extends BaseAnalysis {
         // teleop = 1
         this.autoOrTele = autoOrTele
         this.array = []
-        this.cargo
+        this.cargo = 0
         //change cargo to 1 if only cargo should be inluded (no charging)
         this.totalPicklist = 0
         this.pickArray = []

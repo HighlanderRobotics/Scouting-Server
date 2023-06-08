@@ -5,9 +5,8 @@ const BaseAnalysis = require('../../BaseAnalysis.js')
 class climberSucsessAutoAll extends BaseAnalysis {
     static name = `climberSucsessAutoAll`
 
-    constructor(db, team) {
+    constructor(db) {
         super(db)
-        this.team = team
         this.tipped = 0
         this.failed = 0
         this.noClimb = 0
@@ -106,7 +105,6 @@ class climberSucsessAutoAll extends BaseAnalysis {
             "tipped": this.tipped,
             "array": this.array,
             "noClimb": this.none,
-            "team": this.team,
             "allAttempts" : this.allAttempts
         }
     }
