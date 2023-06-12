@@ -42,9 +42,9 @@ class GetMatches extends Manager {
                         }
                     })
 
-                    // console.log(largestQm)
 
                     matches.forEach((match) => {
+                        // console.log(match)
                         if (match.matchType !== 'qm') {
                             let nonQualNumber = parseInt(match.key.match(/(?<=^.*_[a-z]+)\d+(?=_\d+)/))
                             if (match.matchType === 'qf') {
@@ -76,7 +76,7 @@ class GetMatches extends Manager {
 
                             // Remove tournamentKey from the matchKey as requested
                             match.matchKey = match.key.substring(body.tournamentKey.length + 1)
-
+                    
                             modifiedMatches.push(match)
                         }
 
