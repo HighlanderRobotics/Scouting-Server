@@ -10,6 +10,7 @@ const climberSucsess = require('./teleop/climber/climberSucsess.js')
 const driverAbilityTeam = require('./general/driverAblilityTeam.js')
 const pentalties = require('./general/penalties.js')
 const links = require('./general/links.js')
+const statbotics = require('../manager/getStatbotics.js')
 
 
 
@@ -116,6 +117,10 @@ class categoryMetrics extends BaseAnalysis {
             var link = new links(a.db, a.team)
             await link.runAnalysis()
             metrics.links = link.average
+
+            let holder = await new statbotics().runTask(a.team)
+            metrics.normEpaRecent = holder.norm_epa_recent
+            metrics.fullWinrate = holder.full_winrate
 
         
           
