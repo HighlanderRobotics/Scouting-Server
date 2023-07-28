@@ -9,7 +9,7 @@ class deleteMutablePicklist extends Manager {
     }
 
     async runTask(uuid) {
-
+        //check uuid will be unique across teams
         var sql = `DELETE FROM mutablePicklists
         WHERE uuid = ?`
         return new Promise(async (resolve, reject) => {

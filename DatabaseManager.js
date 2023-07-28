@@ -83,16 +83,16 @@ class DatabaseManager {
                 case deletePicklist.name:
                     return new deletePicklist().runTask(body.uuid)
                 case getPicklists.name:
-                    return new getPicklists().runTask()
+                    return new getPicklists().runTask(body.team)
                 case addPicklist.name:
-                    return new addPicklist().runTask(body.uuid, body.name, body.cubeOneScore, body.cubeTwoScore, body.cubeThreeScore, body.coneOneScore, body.coneTwoScore, body.coneThreeScore, body.autoCargo, body.teleopScore, body.defenseScore, body.autoClimb, body.feedCone, body.feedCube, body.avgTotal, body.teleopClimb, body.driverAbility)
+                    return new addPicklist().runTask(body.uuid, body.name, body.cubeOneScore, body.cubeTwoScore, body.cubeThreeScore, body.coneOneScore, body.coneTwoScore, body.coneThreeScore, body.autoCargo, body.teleopScore, body.defenseScore, body.autoClimb, body.feedCone, body.feedCube, body.avgTotal, body.teleopClimb, body.driverAbility, body.team)
                 case addMutablePicklist.name:
                     //works as edit or add
-                    return new addMutablePicklist().runTask(body.uuid, body.name, body.teams)
+                    return new addMutablePicklist().runTask(body.uuid, body.name, body.teams, body.team)
                 case deleteMutablePicklist.name:
                     return new deleteMutablePicklist().runTask(body.uuid)
                 case getMutablePicklists.name:
-                    return new getMutablePicklists().runTask()
+                    return new getMutablePicklists().runTask(body.team)
                 case deleteData.name:
                     return new deleteData().runTask(body.uuid)
                 case editNotes.name:

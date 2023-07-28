@@ -9,12 +9,13 @@ class getPicklists extends Manager {
         super()
     }
 
-    async runTask(){
+    async runTask(team){
 
         var sql = `SELECT *
-        FROM sharedPicklists`
+        FROM sharedPicklists
+        WHERE team = ?`
         return new Promise(async (resolve, reject) => {
-            Manager.db.all(sql, [], (err, rows) => {
+            Manager.db.all(sql, [team], (err, rows) => {
                 if (err) {
                     console.log(err)
                     reject(err)
