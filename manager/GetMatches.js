@@ -34,8 +34,6 @@ class GetMatches extends Manager {
                         if (match.matchType === 'qm') {
                             // Remove tournamentKey from the matchKey as requested
                             match.matchKey = match.key.substring(body.tournamentKey.length + 1)
-
-                            modifiedMatches.push(match)
                             if (match.matchNumber > largestQm) {
                                 largestQm = match.matchNumber
                             }
@@ -45,40 +43,16 @@ class GetMatches extends Manager {
 
                     matches.forEach((match) => {
                         // console.log(match)
-                        if (match.matchType !== 'qm') {
-                            let nonQualNumber = parseInt(match.key.match(/(?<=^.*_[a-z]+)\d+(?=_\d+)/))
-                            if (match.matchType === 'qf') {
-                                match.matchNumber = nonQualNumber + largestQm
-                            } else if (match.matchType === 'ef') {
-                                if (nonQualNumber < 3) {
-                                    match.matchNumber = 4 + nonQualNumber + largestQm
-                                } else if (nonQualNumber < 6) {
-                                    match.matchNumber = 6 + nonQualNumber + largestQm
-                                } else {
-                                    // When tba fixes their stuff to work with double elimination
-                                    // match.matchNumber = 7 + nonQualNumber + largestQm
-                                    match.matchNumber = 6 + nonQualNumber + largestQm
-                                }
-                            } else if (match.matchType === 'sf') {
-                                match.matchNumber = 6 + nonQualNumber + largestQm
-                            } else if (match.matchType === 'f') {
-                                // Should be winners finals but is labeled as f
-                                nonQualNumber = parseInt(match.key.match(/(?<=^.*_[a-z]+)\d+(?=_\d+)/))
-                                // match.matchNumber = 11 + nonQualNumber + largestQm
-                                match.matchNumber = 12 + nonQualNumber + largestQm
-                            } else if (match.matchType === 'gf') {
-                                // Taking creative liberty that finals will get the matchKey 'gf'
-                                match.matchNumber = 8 + nonQualNumber + largestQm
-                            } else {
-                                // Not a match type we know of 
-                                console.log(match)
-                            }
+                        let temp = {key : match.key, team : match.teamKey}
 
-                            // Remove tournamentKey from the matchKey as requested
-                            match.matchKey = match.key.substring(body.tournamentKey.length + 1)
-                    
-                            modifiedMatches.push(match)
+                        if (match.matchType !== 'qm') {
+                            
+                            temp.ordinalNumber = match.matchNumber + largestQm
                         }
+                        else{
+                            temp.ordinalNumber = match.matchNumber
+                        }
+                        modifiedMatches.push(temp)
 
                     })
 
