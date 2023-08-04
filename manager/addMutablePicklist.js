@@ -9,13 +9,13 @@ class addMutablePicklist extends Manager {
         super()
     }
 
-    async runTask(uuid, name, teams) {
+    async runTask(uuid, name, teams, team) {
         let teamsStringed = JSON.stringify(teams)
 
         var sql = `SELECT * FROM mutablePicklists WHERE uuid = ?`
         var sql2 = `DELETE FROM mutablePicklists
         WHERE uuid = ?`
-        var sql3 = `INSERT INTO mutablePicklists (uuid, name, teams) VALUES (?, ?, ?)`
+        var sql3 = `INSERT INTO mutablePicklists (uuid, name, teams, team) VALUES (?, ?, ?, ?)`
         return new Promise(async (resolve, reject) => {
             Manager.db.all(sql, [uuid], (err, rows) => {
                 if (err) {
