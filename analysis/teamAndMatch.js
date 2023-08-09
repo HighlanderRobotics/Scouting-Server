@@ -40,9 +40,14 @@ class teamAndMatch extends BaseAnalysis {
             var autoScore = new averageScore(a.db, a.team, 0)
             await autoScore.runAnalysis()
             let autoScoreArr = autoScore.finalizeResults().array
-
+            if(autoScoreArr.length == 0)
+            {
+                resolve(null)
+                return
+            }
             for(let j = 0; j < autoScore.finalizeResults().array.length; j ++)
             {
+                // console.log(autoScoreArr[j])
                 if(autoScoreArr[j].match == a.matchKey)
                 {
                     i = j;
