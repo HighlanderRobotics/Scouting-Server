@@ -57,8 +57,9 @@ class teamAndMatch extends BaseAnalysis {
             if(i == -1)
             {
                 resolve(null)
+                return
             }
-            metrics.autoScore = autoScoreArr[i].value
+            metrics.autoScore = autoScoreArr[i]
 
 
 
@@ -84,12 +85,21 @@ class teamAndMatch extends BaseAnalysis {
 
             var role = new roles(a.db, a.team)
             await role.runAnalysis()
-            metrics.role = role.finalizeResults().breakdown[i].value
+            metrics.role = role.finalizeResults().array[i].value
 
             var note = new notes(a.db, a.team)
             await note.runAnalysis()
-            metrics.notes = note.finalizeResults().result[i].notes
-            // console.log(note.finalizeResults().result[i].notes)
+           let tempNotes = note.finalizeResults().result
+            // metrics.notes = note.finalizeResults().result[i].notes
+            metrics.notes = []
+            for(let i = 0; i < tempNotes.length; i ++)
+            {
+                if(tempNotes[i].matchKey == a.matchKey)
+                {
+                    metrics.notes.push(tempNotes[i])
+                }
+            }
+            // console.log(note.finalizeResults().result)
 
             var teleScore = new averageScore(a.db, a.team, 1)
             await teleScore.runAnalysis()

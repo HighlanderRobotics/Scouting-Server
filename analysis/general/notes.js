@@ -12,7 +12,7 @@ class notes extends BaseAnalysis {
     async getNotes() {
         let a = this
         return new Promise(function (resolve, reject) {
-            var sql = `SELECT notes, uuid, newMatches.matchNumber AS matchNum, newMatches.key AS matchKey
+            var sql = `SELECT notes, uuid, newMatches.matchNumber AS matchNum, newMatches.key AS matchKey, scouterName
                 FROM data
                 JOIN (SELECT matches.key, matches.matchNumber
                     FROM matches 
