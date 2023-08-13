@@ -1,14 +1,14 @@
 //for testing
-const test = require('./manager/addMutablePicklist')
+const test = require('./manager/GetMatches')
 
 const Manager = require('./manager/dbmanager')
 
 // const y = require("./test")
 async function temp() {
-   // var x = new test(Manager.db, "2023gal", 0, 0.0, 0. , 0.0, 0.0, 0.0, 0.0, 1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
-   let x = new test(Manager.db, 8033)
+   // var x = new test(Manager.db, "2023gal", 0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
+   // let x = new test(Manager.db, 8033)
    // await x.runAnalysis()
-   let temp = await new test().runTask(124, "test", [8033, 1323])
+   let temp = await new test().runTask({tournamentKey :"2023gal"})
    console.log(temp)
 }
 temp()
