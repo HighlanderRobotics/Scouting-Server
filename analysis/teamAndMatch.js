@@ -94,7 +94,7 @@ class teamAndMatch extends BaseAnalysis {
             metrics.notes = []
             for(let i = 0; i < tempNotes.length; i ++)
             {
-                if(tempNotes[i].matchKey == a.matchKey)
+                if(tempNotes[i].matchKey == a.matchKey && tempNotes[i].notes != "")
                 {
                     metrics.notes.push(tempNotes[i])
                 }
