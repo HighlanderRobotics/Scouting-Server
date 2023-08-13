@@ -123,7 +123,6 @@ class averageScore extends BaseAnalysis {
 
 
                 }
-
                 // a.result = arr
                 
 

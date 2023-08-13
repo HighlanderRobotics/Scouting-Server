@@ -17,6 +17,7 @@ class scoringBreakdown extends BaseAnalysis {
     constructor(db, team, autoOreTele, tournamentKey, matchNumber, matchType) {
         super(db)
         this.teamKey = "frc" + team
+        this.team = team
         this.arrayOfScores = []
         this.all = 0
         this.autoOrTele = autoOreTele
@@ -48,7 +49,6 @@ class scoringBreakdown extends BaseAnalysis {
 
             })
         }
-    
             
             let team = new teamStat(a.db, a.team, a.autoOrTele)
             await team.runAnalysis()
@@ -95,12 +95,15 @@ class scoringBreakdown extends BaseAnalysis {
             else {
                 //if a match is given it breakdown that match using the arrays
                 let index = -1
+
                 for (let i = 0; i < a.arrayOfScores.length; i++) {
                     if (a.arrayOfScores[i].match === matchKey) {
                         index = i
+                        break
                     }
                 }
                 if (index >= 0) {
+
                     let tempClimb = climbAvg.finalizeResults().array[index].value
                     if (tempClimb === 2) {
 
