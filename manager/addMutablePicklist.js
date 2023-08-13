@@ -1,4 +1,4 @@
-const { re } = require('mathjs')
+const { re, resolve } = require('mathjs')
 const Manager = require('./Manager.js')
 //adds or updates
 
@@ -10,6 +10,10 @@ class addMutablePicklist extends Manager {
     }
 
     async runTask(uuid, name, teams, team) {
+        if(team == null)
+        {
+            return("no team")
+        }
         let teamsStringed = JSON.stringify(teams)
 
         var sql = `SELECT * FROM mutablePicklists WHERE uuid = ?`
@@ -17,7 +21,7 @@ class addMutablePicklist extends Manager {
         WHERE uuid = ?`
         var sql3 = `INSERT INTO mutablePicklists (uuid, name, teams, team) VALUES (?, ?, ?, ?)`
         return new Promise(async (resolve, reject) => {
-            Manager.db.all(sql, [uuid], (err, rows) => {
+            Manager.db.all(sql, [uuid, name, teams, team], (err, rows) => {
                 if (err) {
                     console.log(err)
                     reject(err)
