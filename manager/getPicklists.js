@@ -10,7 +10,10 @@ class getPicklists extends Manager {
     }
 
     async runTask(team){
-
+        if(team == null)
+        {
+            return("no team")
+        }
         var sql = `SELECT *
         FROM sharedPicklists
         WHERE team = ?`

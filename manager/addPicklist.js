@@ -9,7 +9,10 @@ class addPicklist extends Manager {
     }
 
     async runTask(uuid, name, cubeOneScore, cubeTwoScore, cubeThreeScore, coneOneScore, coneTwoScore, coneThreeScore, autoCargo, teleopScore, defenseScore, autoClimb, feedCone, feedCube, avgTotal, teleopClimb, driverAbility, team) {
-
+        if(team == null)
+        {
+            return("no team")
+        }
         var sql = `SELECT * FROM sharedPicklists WHERE uuid = ?`
         var sql2 = `DELETE FROM sharedPicklists
         WHERE uuid = ?`
