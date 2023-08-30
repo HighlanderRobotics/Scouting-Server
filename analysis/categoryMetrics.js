@@ -11,6 +11,7 @@ const driverAbilityTeam = require('./general/driverAblilityTeam.js')
 const pentalties = require('./general/penalties.js')
 const links = require('./general/links.js')
 const statbotics = require('../manager/getStatbotics.js')
+const flag = require('./trend.js')
 
 
 
@@ -26,14 +27,6 @@ class categoryMetrics extends BaseAnalysis {
     constructor(db, team) {
         super(db)
         this.team = team
-        this.teamKey = "ftc" + team
-        // this.notes = []
-        // this.scoresOverTime = []
-        // this.defenseQuantity = 0
-        // this.defenseQuality = 0
-        // this.ballCount = 0
-        // this.autoCount = 0
-        this.defenseQuality
     }
     async getData() {
         let a = this
@@ -122,6 +115,10 @@ class categoryMetrics extends BaseAnalysis {
             metrics.normEpaRecent = holder.norm_epa_recent
             metrics.fullWinrate = holder.full_winrate
 
+            let trend = new flag(a.team)
+            await trend.runAnalysis()
+            a.flag = trend.result
+
         
           
             resolve({metrics})
@@ -150,7 +147,8 @@ class categoryMetrics extends BaseAnalysis {
     finalizeResults() {
         return {
             "result": this.result,
-            "team": this.team
+            "team": this.team,
+            "flag" : this.flag
         }
     }
 
