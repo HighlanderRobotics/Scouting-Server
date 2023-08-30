@@ -1,6 +1,6 @@
 const BaseAnalysis = require('../BaseAnalysis.js')
 const teamStat = require('./driverAblilityTeam')
-const all = require('./alliancePage.js')
+const all = require('../alliancePage.js')
 const math = require('mathjs')
 
 // const Manager = require('./manager/dbmanager.js')

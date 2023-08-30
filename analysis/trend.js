@@ -39,7 +39,7 @@ class trends extends BaseAnalysis {
 
                 a.result = 2
             }
-            else
+            else 
             {
 
                 if(num < 0)
