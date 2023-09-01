@@ -1,4 +1,5 @@
 const BaseAnalysis = require('./BaseAnalysis.js')
+const averageScore = require('./general/averageScore.js')
 const AverageScore = require('./general/averageScore.js')
 const math = require('mathjs')
 
@@ -8,23 +9,18 @@ class trends extends BaseAnalysis {
     constructor(db, team) {
         super(db)
         this.team = team
-        this.result = this.result
+
+        this.result = 0
+
     }
     async getTrend() {
         let a = this
+
         let score = new AverageScore(a.db, a.team, 1)
         await score.runAnalysis()
         let scoreArr = score.array
         let avgScore = score.average
-        let sql = `SELECT notes, uuid, newMatches.matchNumber AS matchNum, newMatches.key AS matchKey, scouterName
-        FROM data
-        JOIN (SELECT matches.key, matches.matchNumber
-            FROM matches 
-            JOIN teams ON teams.key = matches.teamKey
-            WHERE teams.teamNumber = ?) AS  newMatches ON  data.matchKey = newMatches.key`
-        return new Promise(function (resolve, reject) {
-            a.db.all(sql, [a.team], (err, rows) => {
-                if (rows.length == 0) {
+        if (score.array.length == 0) {
                     a.result = null
                     resolve("done")
                     return
@@ -61,9 +57,8 @@ class trends extends BaseAnalysis {
                     }
                 }
                 resolve("done")
-            })
 
-        })
+    
 
 
     }

@@ -135,10 +135,10 @@ class picklistShell extends BaseAnalysis {
                         for (let row in rows) {
                             let curr = new picklist(a.db, rows[row].teamNumber, a.coneOneScore, a.coneTwoScore, a.coneThreeScore, a.cubeOneScore, a.cubeTwoScore, a.cubeThreeScore, a.autoCargo, a.teleOp, a.defense, a.autoClimb, a.feedingCone, a.feedingCube, a.avgTotal, a.teleppClimb, a.driverAbility, allAndAllArray)
                             await curr.runAnalysis()
-                            let temp = new trends(a.team)
-                            await temp.runAnalysis()
+                            let trend = new trends(a.db, rows[row].teamNumber)
+                            await trend.runAnalysis()
                             if (!isNaN(curr.result)) {
-                                let temp = { "team": rows[row].teamNumber, "result": curr.result, "breakdown": curr.array, "unweighted": curr.unadjustedZScores, "flag" : flag.result }
+                                let temp = { "team": rows[row].teamNumber, "result": curr.result, "breakdown": curr.array, "unweighted": curr.unadjustedZScores, "flag" : trend.result }
                                 arr.push(temp)
                             }
                         }
