@@ -11,10 +11,11 @@ class ResetAndPopulate extends Manager {
         var createTeams = `CREATE TABLE teams(key TEXT ONLY PRIMARY KEY, teamNumber INTEGER, teamName TEXT ONLY, UNIQUE (key, teamNumber, teamName));`
         var createTournaments = `CREATE TABLE tournaments (key TEXT ONLY PRIMARY KEY, name TEXT ONLY, location VARCHAR(50), date TEXT ONLY VARCHAR(20), UNIQUE (key, date));`
         var createMatches = `CREATE TABLE matches (key PRIMARY KEY, tournamentKey TEXT ONLY NOT NULL, matchNumber INTEGER, teamKey TEXT ONLY, matchType TEXT ONLY NOT NULL, UNIQUE (tournamentKey, teamKey, matchType, matchNumber), FOREIGN KEY(tournamentKey) REFERENCES tournaments(key), FOREIGN KEY(teamKey) REFERENCES teams(key));`
-        var createPicklist = `CREATE TABLE sharedPicklists (uuid, name TEXT ONLY, cubeOneScore INTEGER, cubeTwoScore INTEGER, cubeThreeScore INTEGER, coneOneScore INTEGER, coneTwoScore INTEGER, coneThreeScore INTEGER, autoCargo INTEGER, teleopScore INTEGER, defenseScore INTEGER, autoClimb INTEGER, feedCone INTEGER, feedCube INTEGER, avgTotal INTEGER, teleopClimb INTEGER, driverAbility INTEGER, team INTEGER );`
-        var createMutablePicklist = `CREATE TABLE mutablePicklists(uuid, name TEXT ONLY, teams TEXT, team INTEGER)`
+        var createPicklist = `CREATE TABLE sharedPicklists (uuid, name TEXT ONLY, cubeOneScore INTEGER, cubeTwoScore INTEGER, cubeThreeScore INTEGER, coneOneScore INTEGER, coneTwoScore INTEGER, coneThreeScore INTEGER, autoCargo INTEGER, teleopScore INTEGER, defenseScore INTEGER, autoClimb INTEGER, feedCone INTEGER, feedCube INTEGER, avgTotal INTEGER, teleopClimb INTEGER, driverAbility INTEGER, team INTEGER, userName TEXT);`
+        var createMutablePicklist = `CREATE TABLE mutablePicklists(uuid, name TEXT ONLY, teams TEXT, team INTEGER, userName TEXT)`
         var pickedTeams = `CREATE TABLE pickedTeams(teams TEXT)`
         var createPitScouting = `CREATE TABLE pitScouting(team INTEGER, lowerCenterGravity TEXT, driveTrain TEXT, lengthDriveTrain INTEGER, widthDriveTrain INTEGER )`
+
         // Probably finalized lmk if there's any other datapoints
         var createData = `
         CREATE TABLE data (

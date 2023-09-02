@@ -87,10 +87,10 @@ class DatabaseManager {
                 case getPicklists.name:
                     return new getPicklists().runTask(body.team)
                 case addPicklist.name:
-                    return new addPicklist().runTask(body.uuid, body.name, body.cubeOneScore, body.cubeTwoScore, body.cubeThreeScore, body.coneOneScore, body.coneTwoScore, body.coneThreeScore, body.autoCargo, body.teleopScore, body.defenseScore, body.autoClimb, body.feedCone, body.feedCube, body.avgTotal, body.teleopClimb, body.driverAbility, body.team)
+                    return new addPicklist().runTask(body.uuid, body.name, body.cubeOneScore, body.cubeTwoScore, body.cubeThreeScore, body.coneOneScore, body.coneTwoScore, body.coneThreeScore, body.autoCargo, body.teleopScore, body.defenseScore, body.autoClimb, body.feedCone, body.feedCube, body.avgTotal, body.teleopClimb, body.driverAbility, body.team, body.userName)
                 case addMutablePicklist.name:
                     //works as edit or add
-                    return new addMutablePicklist().runTask(body.uuid, body.name, body.teams, body.team)
+                    return new addMutablePicklist().runTask(body.uuid, body.name, body.teams, body.team, body.userName)
                 case deleteMutablePicklist.name:
                     return new deleteMutablePicklist().runTask(body.uuid)
                 case getMutablePicklists.name:
@@ -113,6 +113,7 @@ class DatabaseManager {
                     return new addMatch().runTask(body)
                 case addPitScouting.name: 
                     return new addPitScouting().runTask(body.team, body.lowerCenterGravity, body.driveTrainType, body.lengthDriveTrain, body.widthDriveTrain)
+                
                 
 
                     default:
