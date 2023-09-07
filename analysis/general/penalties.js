@@ -41,6 +41,9 @@ class pentalties extends BaseAnalysis {
 
                     }
                 }
+                else{
+                    reject()
+                }
                 a.matches = arr
                 a.numberOfPenalties = a.matches.length
                 if (isNaN(a.numberOfPenalties))

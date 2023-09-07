@@ -1,7 +1,7 @@
 const Manager = require('./Manager.js')
 
 class GetTeamsInTournament extends Manager {
-    static name = 'getTeamsInTournament'
+    static name = ''
 
     constructor() {
         super()

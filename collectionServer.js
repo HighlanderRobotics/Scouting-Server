@@ -218,6 +218,7 @@ app.get('/API/analysis/:task', async (req, res) => {
         })
 
         let results = await new TaskManager().runTasks(singleTask)
+        
 
         // console.log(`Results: ${JSON.stringify(results)}`)
         res.status(200).send(results)

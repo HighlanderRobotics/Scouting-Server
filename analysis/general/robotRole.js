@@ -46,7 +46,7 @@ class robotRole extends BaseAnalysis {
                     reject(err)
                 }
                 else {
-                    if (rows != undefined) {
+                    if (rows != undefined || rows.length != 0) {
                         rows.forEach(functionAdder);
                         function functionAdder(row, index, array) {
                             let curr = JSON.parse(row.scoutReport).robotRole
@@ -93,6 +93,9 @@ class robotRole extends BaseAnalysis {
                                 a.mainRole = 2
                             }
                         }
+                    }
+                    else{
+                        reject()
                     }
 
                     resolve("done")
