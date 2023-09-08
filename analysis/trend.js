@@ -20,6 +20,7 @@ class trends extends BaseAnalysis {
         await score.runAnalysis()
         let scoreArr = score.array
         let avgScore = score.average
+        console.log(scoreArr)
         if (score.array.length == 0) {
                     a.result = null
                     resolve("done")
@@ -32,7 +33,7 @@ class trends extends BaseAnalysis {
                         resolve("done")
                         return
                     }
-                    let num = (scoreArr[scoreArr.length - 3] - scoreArr[scoreArr.length - 2]) + (scoreArr[scoreArr.length - 2] - scoreArr[scoreArr.length - 1]) / 2
+                    let num = (scoreArr[scoreArr.length - 2] - scoreArr[scoreArr.length - 3]) + (scoreArr[scoreArr.length - 1] - scoreArr[scoreArr.length - 2]) / 2
                     if (math.abs(num) >= avgScore / 3) {
                         if (num < 0) {
                             a.result = 0

@@ -35,6 +35,7 @@ const pitScouting = require('./analysis/pitScouting.js')
 class TaskManager {
 
     runTasks(tasks) {
+
         if (tasks.length <= 0) {
             console.log(`No tasks provided`)
             return `No tasks provided`
@@ -47,7 +48,6 @@ class TaskManager {
 
             // Add tasks
             analysis = a.addTasks(tasks)
-
             for (var i = 0; i < analysis.length; i++) {
                 // Run tasks
                 await analysis[i].runAnalysis()
@@ -82,6 +82,7 @@ class TaskManager {
         let returnAnalysis = []
 
         tasks.forEach((task) => {
+
             switch (task.name) {
                 case (cyclingOverview.name):
                     returnAnalysis.push(new cyclingOverview(Manager.db, task.team, task.type, task.location))

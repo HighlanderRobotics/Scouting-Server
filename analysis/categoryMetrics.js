@@ -27,6 +27,7 @@ class categoryMetrics extends BaseAnalysis {
     constructor(db, team) {
         super(db)
         this.team = team
+
     }
     async getData() {
         let a = this

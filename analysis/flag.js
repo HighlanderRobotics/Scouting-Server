@@ -3,54 +3,61 @@ const trend = require('./trend.js')
 const penalty = require('./general/penalties.js')
 const role = require('./general/robotRole.js')
 const rank = require('../manager/getRankOfTeam.js')
-const TaskManager = require('../TaskManager.js')
 const math = require('mathjs')
+const categoryMetrics = require('./categoryMetrics.js')
+const Manager = require('../manager/Manager.js')
 
 class flag extends BaseAnalysis {
     static name = `flag`
 
-    constructor(db, team, type) {
+    constructor(db, team, typeArr, tournamentKey) {
         super(db)
         this.team = team
-        this.result = this.result
-        this.type = type
+        this.result = null
+        this.typeArr = typeArr
+        this.tournamentKey = tournamentKey
     }
     async getFlag() {
-        let a = this    
-        if (a.type === "trend")
-        {
-            let temp = new trend(a.db, a.team)
-            await temp.runAnalysis()
-            this.result = temp.finalizeResults().result
-        }
-        else if (a.type === "penalty")
-        {
-            let temp = new penalty(a.db, a.team)
-            await temp.runAnalysis()
-            if(temp.finalizeResults().result === 0)
-            {
-                this.result = 0
+
+        let a = this
+        let arr = []
+        for (let i = 0; i < a.typeArr.length; i++) {
+
+            let type = a.typeArr[i]
+            if (type === "trend") {
+                let temp = new trend(a.db, a.team)
+                await temp.runAnalysis()
+                arr.push({"type" : type, "result" : temp.finalizeResults().result})
             }
-            else
-            {
-                this.result = temp.finalizeResults().matches[temp.finalizeResults().matches.length -1].cardType
+            else if (type === "pentalties") {
+
+                let temp = new penalty(a.db, a.team)
+                await temp.runAnalysis()
+                if (temp.finalizeResults().result === 0) {
+                    arr.push({"type" : type, "result" : 0})
+                }
+                else {
+                    arr.push({"type" : type, "result" : temp.finalizeResults().matches[temp.finalizeResults().matches.length - 1].cardType})
+                }
+            }
+
+            else if (type === "mainRole") {
+                let temp = new role(a.db, a.team)
+                await temp.runAnalysis()
+                arr.push({"type" : type, "result" :  temp.finalizeResults().mainRole})
+            }
+            else if (type === "ranking") {
+                let teamKey = "frc" + a.team
+                arr.push({"type" : type, "result" : await new rank().runTask(teamKey, a.tournamentKey)})
+            }
+            else {
+                let metrics = new categoryMetrics(Manager.db, a.team)
+                await metrics.runAnalysis()
+                arr.push({"type" : type, "result" : metrics.result.metrics[type]})
+
             }
         }
-        else if (a.type === "mainRole")
-        {
-            let temp = new role(a.db, a.team)
-            await temp.runAnalysis()
-            this.result = temp.finalizeResults().mainRole
-        }
-        // else if (type === "ranking")
-        // {
-            
-        //     this.result = await new rank().runTask()
-        // }
-        else{
-            resolve( await new TaskManager().runTasks(a.type))
-        
-        }
+        a.result = arr
 
     }
 
