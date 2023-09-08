@@ -3,6 +3,7 @@ const trend = require('./trend.js')
 const penalty = require('./general/penalties.js')
 const role = require('./general/robotRole.js')
 const rank = require('../manager/getRankOfTeam.js')
+const TaskManager = require('../TaskManager.js')
 const math = require('mathjs')
 
 class flag extends BaseAnalysis {
@@ -46,6 +47,10 @@ class flag extends BaseAnalysis {
             
         //     this.result = await new rank().runTask()
         // }
+        else{
+            resolve( await new TaskManager().runTasks(a.type))
+        
+        }
 
     }
 

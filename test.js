@@ -1,13 +1,11 @@
 //for testing
-const test = require('./analysis/general/penalties')
+const test = require('./manager/getMutablePicklists')
 
 const Manager = require('./manager/dbmanager')
 
 // const y = require("./test")
 async function temp() {
-   let x = new test(Manager.db)
-   await x.runAnalysis()
-   console.log(x.finalizeResults())
+   console.log(await new test().runTask(8033))
    // return new test().runTask(8033)
 }
 temp()

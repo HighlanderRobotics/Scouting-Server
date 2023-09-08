@@ -5,14 +5,13 @@ const Manager = require('./Manager.js')
 class addMutablePicklist extends Manager {
     static name = "addMutablePicklist"
 
-      constructor() {
+    constructor() {
         super()
     }
 
     async runTask(uuid, name, teams, team, userName) {
-        if(team == null)
-        {
-            return("no team")
+        if (team == null) {
+            return ("no team")
         }
         let teamsStringed = JSON.stringify(teams)
 
@@ -26,17 +25,19 @@ class addMutablePicklist extends Manager {
                     console.log(err)
                     reject(err)
                 }
-                if (rows.length == 1)
-                {
-                    Manager.db.all(sql2, [uuid], (err, rows) =>{
-                        if (err)
-                        {
-                            console.log(err)
-                            reject(err)
-                        }
-                    })
+                if (rows != undefined) {
+
+
+                    if (rows.length === 1) {
+                        Manager.db.all(sql2, [uuid], (err, rows) => {
+                            if (err) {
+                                console.log(err)
+                                reject(err)
+                            }
+                        })
+                    }
                 }
-                Manager.db.all(sql3, [uuid, name, teams, team, userName], (err) => {
+                Manager.db.all(sql3, [uuid, name, teamsStringed, team, userName], (err) => {
                     if (err) {
                         console.log(err)
                         reject(err)
@@ -44,7 +45,7 @@ class addMutablePicklist extends Manager {
                     resolve("done")
                 })
             })
-           
+
         })
 
     }
