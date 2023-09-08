@@ -1,5 +1,6 @@
 //for testing
 const test = require('./analysis/flag')
+const test = require('./analysis/flag')
 
 const Manager = require('./manager/dbmanager')
 
