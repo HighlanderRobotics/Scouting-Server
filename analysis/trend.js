@@ -3,8 +3,8 @@ const averageScore = require('./general/averageScore.js')
 const AverageScore = require('./general/averageScore.js')
 const math = require('mathjs')
 
-class trends extends BaseAnalysis {
-    static name = `fa`
+class trend extends BaseAnalysis {
+    static name = `trend`
 
     constructor(db, team) {
         super(db)
@@ -86,4 +86,4 @@ class trends extends BaseAnalysis {
     }
 }
 
-module.exports = trends
+module.exports = trend

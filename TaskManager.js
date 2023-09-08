@@ -28,7 +28,7 @@ const climberSucsess = require('./analysis/teleop/climber/climberSucsess.js')
 const climberSucsessAuto = require('./analysis/auto/climb/climberSucsessAuto.js')
 const suggestions = require('./analysis/suggestions.js')
 const teamAndMatch = require('./analysis/teamAndMatch.js')
-const flag = require('./analysis/trend.js')
+const flag = require('./analysis/flag.js')
 const pitScouting = require('./analysis/pitScouting.js')
 
 
@@ -185,7 +185,7 @@ class TaskManager {
                 case("teamAndMatch"):
                     returnAnalysis.push(new teamAndMatch(Manager.db, task.team, task.matchKey))
                 case("flag"):
-                    returnAnalysis.push(new flag(Manager.db, task.team))
+                    returnAnalysis.push(new flag(Manager.db, task.team,task.types, type.tournamentKey))
                 case("getPitScouting"):
                     returnAnalysis.push(new pitScouting(Manager.db, task.team))
                 default:
