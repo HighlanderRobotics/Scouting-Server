@@ -48,7 +48,9 @@ class flag extends BaseAnalysis {
         //     this.result = await new rank().runTask()
         // }
         else{
-            resolve( await new TaskManager().runTasks(a.type))
+           this.result = await new TaskManager().runTasks([{'name': this.type}])[0].result
+        //    console.log(await new TaskManager().runTasks([{'name': this.type}]))
+           resolve()
         
         }
 
