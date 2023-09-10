@@ -29,7 +29,7 @@ const climberSucsessAuto = require('./analysis/auto/climb/climberSucsessAuto.js'
 const suggestions = require('./analysis/suggestions.js')
 const teamAndMatch = require('./analysis/teamAndMatch.js')
 const flag = require('./analysis/flag.js')
-const pitScouting = require('./analysis/pitScouting.js')
+// const pitScouting = require('./analysis/pitScouting.js')
 
 
 class TaskManager {
@@ -184,10 +184,12 @@ class TaskManager {
                     break
                 case("teamAndMatch"):
                     returnAnalysis.push(new teamAndMatch(Manager.db, task.team, task.matchKey))
+                    break
                 case("flag"):
-                    returnAnalysis.push(new flag(Manager.db, task.team,task.types, type.tournamentKey))
-                case("getPitScouting"):
-                    returnAnalysis.push(new pitScouting(Manager.db, task.team))
+                    returnAnalysis.push(new flag(Manager.db, task.team,task.types, task.tournamentKey))
+                    break
+                // case("getPitScouting"):
+                //     returnAnalysis.push(new pitScouting(Manager.db, task.team))
                 default:
                     console.log(`${task.name} is not a valid task`)
             }

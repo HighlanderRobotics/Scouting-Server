@@ -8,7 +8,6 @@ class autoPathsTeams extends BaseAnalysis {
 
     constructor(db, teamOne, teamTwo, teamThree) {
         super(db)
-        this.team = team
         this.teamOne = teamOne
         this.teamTwo = teamTwo
         this.teamThree = teamThree
@@ -18,6 +17,9 @@ class autoPathsTeams extends BaseAnalysis {
 
     }
     async getAccuracy() {
+
+
+
         let a = this
         var one = new teamStat(Manager.db, a.teamOne)
         one.runAnalysis()
@@ -30,6 +32,7 @@ class autoPathsTeams extends BaseAnalysis {
         var three = new teamStat(Manager.db, a.teamThree)
         three.runAnalysis()
         a.threeResult = three.paths
+
 
     }
 
@@ -48,12 +51,12 @@ class autoPathsTeams extends BaseAnalysis {
     }
     finalizeResults() {
         return {
-            "onePaths" : this.oneResult,
-            "twoPaths" : this.twoResult,
-            "threePaths" : this.threeResult,
-            "teamOne" : this.teamOne,
-            "teamTwo" : this.teamTwo,
-            "teamThree" : this.teamThree
+            "onePaths": this.oneResult,
+            "twoPaths": this.twoResult,
+            "threePaths": this.threeResult,
+            "teamOne": this.teamOne,
+            "teamTwo": this.teamTwo,
+            "teamThree": this.teamThree
 
         }
     }

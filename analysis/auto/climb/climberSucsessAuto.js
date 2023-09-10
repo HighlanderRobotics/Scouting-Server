@@ -44,6 +44,10 @@ class climberSucsessAuto extends BaseAnalysis {
                     reject(err)
                 }
                 else {
+                    if(rows == undefined)
+                    {
+                        resolve
+                    }
                     (rows || []).forEach(functionAdder);
                      rows.forEach(functionAdder);
                     function functionAdder(row, index, array) {
