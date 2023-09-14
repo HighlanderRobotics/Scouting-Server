@@ -26,10 +26,8 @@ const pentalties = require('./analysis/general/penalties.js')
 const links = require('./analysis/general/links.js')
 const climberSucsess = require('./analysis/teleop/climber/climberSucsess.js')
 const climberSucsessAuto = require('./analysis/auto/climb/climberSucsessAuto.js')
-const suggestions = require('./analysis/suggestions.js')
 const teamAndMatch = require('./analysis/teamAndMatch.js')
 const flag = require('./analysis/flag.js')
-// const pitScouting = require('./analysis/pitScouting.js')
 
 
 class TaskManager {
@@ -179,17 +177,12 @@ class TaskManager {
                 case("role"):
                     returnAnalysis.push(new robotRole(Manager.db, task.team))
                     break
-                case("suggestions"):
-                    returnAnalysis.push(new suggestions(Manager.db, task.red1, task.red2, task.red3, task.blue1, task.blue2, task.blue3, task.matchType))
-                    break
                 case("teamAndMatch"):
                     returnAnalysis.push(new teamAndMatch(Manager.db, task.team, task.matchKey))
                     break
                 case("flag"):
                     returnAnalysis.push(new flag(Manager.db, task.team,task.types, task.tournamentKey))
                     break
-                // case("getPitScouting"):
-                //     returnAnalysis.push(new pitScouting(Manager.db, task.team))
                 default:
                     console.log(`${task.name} is not a valid task`)
             }
