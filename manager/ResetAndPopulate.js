@@ -15,7 +15,8 @@ class ResetAndPopulate extends Manager {
         var createMutablePicklist = `CREATE TABLE mutablePicklists(uuid, name TEXT ONLY, teams TEXT, team INTEGER, userName TEXT)`
         var pickedTeams = `CREATE TABLE pickedTeams(teams TEXT)`
         var createPitScouting = `CREATE TABLE pitScouting(team INTEGER, lowerCenterGravity TEXT, driveTrain TEXT, lengthDriveTrain INTEGER, widthDriveTrain INTEGER )`
-
+        var createEPA = `CREATE TABLE epaTable(team INTEGER, epa INTEGER)`
+        var createPredictions = `CREATE predictions(match INTEGER, ourRedPoints INTEGER, ourBluePoints INTEGER, epaRedPoints INTEGER, ourBluePoints INTEGER)`
         // Probably finalized lmk if there's any other datapoints
         var createData = `
         CREATE TABLE data (
@@ -40,7 +41,7 @@ class ResetAndPopulate extends Manager {
             UNIQUE (name)
         )`
         return new Promise((resolve, reject) => {
-            this.removeAndAddTables(createTeams, createTournaments, createMatches, createData, createScouters, createPicklist, createMutablePicklist, pickedTeams, createPitScouting)
+            this.removeAndAddTables(createTeams, createTournaments, createMatches, createData, createScouters, createPicklist, createMutablePicklist, pickedTeams, createPitScouting, createEPA, createPredictions)
             .catch((err) => {
                 if (err) {
                     reject({
@@ -78,7 +79,7 @@ class ResetAndPopulate extends Manager {
             }
         }))
     }
-    removeAndAddTables(createTeams, createTournaments, createMatches, createData, createScouters, createPicklist, createMutablePicklist, pickedTeams, createPitScouting) {
+    removeAndAddTables(createTeams, createTournaments, createMatches, createData, createScouters, createPicklist, createMutablePicklist, pickedTeams, createPitScouting, createEPA, createPredictions) {
         return new Promise(function (resolve, reject) {
             Manager.db.serialize(() => {
                 // See of there's a better fix than turning foreign keys off for dropping tables with data in them
@@ -109,7 +110,13 @@ class ResetAndPopulate extends Manager {
 
                 Manager.db.run('DROP TABLE IF EXISTS `pitScouting`', ((err) => {if (err){console.log(`dropPitScouting ${err}`)}}))
                 Manager.db.run(createPitScouting, ((err) => {if (err){console.log(`createPitScouting ${err}`)}}))
-            
+
+                Manager.db.run('DROP TABLE IF EXISTS `epaTable`', ((err) => {if (err){console.log(`epaTable ${err}`)}}))
+                Manager.db.run(createEPA, ((err) => {if (err){console.log(`createEPA ${err}`)}}))
+
+
+                Manager.db.run('DROP TABLE IF EXISTS `predictions`', ((err) => {if (err){console.log(`predictions ${err}`)}}))
+                Manager.db.run(createPredictions, ((err) => {if (err){console.log(`createdPredictions ${err}`)}}))            
                 
                     // Resolve should be here
                     resolve()

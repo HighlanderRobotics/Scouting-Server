@@ -106,6 +106,12 @@ inquirer.prompt(questions).then(async (answers) => {
         successText: "Done adding matches",
     })
 
+    // await oraPromise(new DatabaseManager().runTask("addEpa")) 
+    // {
+    //     text: "adding EPA of teams"
+    //     successText : "done adding EPA of teams"
+    // }
+
     serverProcess.kill();
 
     console.log("\n" + chalk.green("All done!") + "\n\n" + "Next: run " + chalk.blue("npm start") + " to start the server.");

@@ -14,7 +14,6 @@ class GetTeamsInTournament extends Manager {
             ORDER BY teamnumber
         `
 
-        // console.log(sql)
 
         return new Promise((resolve, reject) => {
             Manager.db.all(sql, (err, storedTeams) => {
@@ -42,7 +41,6 @@ class GetTeamsInTournament extends Manager {
                         }
                     })
 
-                    // console.log(teams)
                     resolve(teams)
                 }
             })

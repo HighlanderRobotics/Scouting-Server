@@ -14,12 +14,12 @@ class getStatbotics extends Manager {
 
     async runTask(teamNumber) {
         var url = 'https://api.statbotics.io/v2'
-
         return new Promise((resolve, reject) => {
             axios.get(`${url}/team/${teamNumber}`, {
                 headers: { 'X-TBA-Auth-Key': process.env.KEY }
             })
                 .then(async (response) => {
+                    
                     resolve({"norm_epa_recent" : response.data.norm_epa_recent, "full_winrate" : response.data.full_winrate})
                 })
                 .catch(err => {
@@ -30,6 +30,8 @@ class getStatbotics extends Manager {
         })
 
     }
+    
+
 }
 
 module.exports = getStatbotics
