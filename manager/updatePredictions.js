@@ -21,7 +21,7 @@ class updatePredictions extends Manager {
         const getEPASQL = `SELECT epa
             FROM epaTable
             WHERE team = ?`
-        const addPredictions = `INSERT INTO predictions (epa, team) VALUES (?, ?)`
+        const addPredictions = `INSERT INTO predictions (match, ourRedPoints, ourBluePoints, epaRedPoints, epaBluePoints) VALUES (?, ?, ?, ?, ?)`
             Manager.db.all(getTeamsSQL, [matchNumber], async (err, rows) => {
                 if(err)
                 {
@@ -57,8 +57,12 @@ class updatePredictions extends Manager {
 
                     }
                 }
-                Manager.db.all(getTeamsSQL, [matchNumber], async (err, rows) => {
-
+                Manager.db.all(addPredictions, [matchNumber, redAllianceOurs, blueAllianceOurs, redEPA, blueEPA], async (err, rows) => {
+                        if(err)
+                        {
+                            console.log(err)
+                            reject(err)
+                        }
                 })
                 resolve("done")
             })

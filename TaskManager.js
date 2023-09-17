@@ -133,7 +133,7 @@ class TaskManager {
                     returnAnalysis.push(new defenseOverview(Manager.db, task.team))
                     break
                 case ("picklist"):
-                    returnAnalysis.push(new picklistShell(Manager.db, task.tournamentKey, task.coneOneScore, task.coneTwoScore, task.coneThreeScore, task.cubeOneScore, task.cubeTwoScore, task.cubeThreeScore,task.autoCargo, task.teleopScore, task.defenseScore, task.autoClimb, task.feedCone, task.feedCube, task.avgTotal, task.teleopClimb, task.driverAbility))
+                    returnAnalysis.push(new picklistShell(Manager.db, task.tournamentKey, task.coneOneScore, task.coneTwoScore, task.coneThreeScore, task.cubeOneScore, task.cubeTwoScore, task.cubeThreeScore,task.autoCargo, task.teleopScore, task.defenseScore, task.autoClimb, task.feedCone, task.feedCube, task.avgTotal, task.teleopClimb, task.driverAbility, task.flags))
                     break
                 case (notes.name):
                     returnAnalysis.push(new notes(Manager.db, task.team))

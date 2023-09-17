@@ -20,7 +20,6 @@ class trend extends BaseAnalysis {
         await score.runAnalysis()
         let scoreArr = score.array
         let avgScore = score.average
-        console.log(scoreArr)
         if (score.array.length == 0) {
                     a.result = null
                     resolve("done")

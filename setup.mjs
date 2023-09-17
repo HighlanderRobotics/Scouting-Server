@@ -104,13 +104,13 @@ inquirer.prompt(questions).then(async (answers) => {
     await oraPromise(new DatabaseManager().runTask("addTournamentMatches", { "key": answers.tournament_key }), {
         text: "Adding matches",
         successText: "Done adding matches",
-    })
+    });
 
-    // await oraPromise(new DatabaseManager().runTask("addEpa")) 
+    // await oraPromise(new DatabaseManager().runTask("addEPA"),
     // {
-    //     text: "adding EPA of teams"
-    //     successText : "done adding EPA of teams"
-    // }
+    //     text: "adding EPA of teams",
+    //     successText : "done adding EPA of teams",
+    // })
 
     serverProcess.kill();
 

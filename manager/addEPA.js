@@ -14,10 +14,15 @@ class addEPA extends Manager {
 
     async runTask() {
         let teams = await new GetTeams().runTask()
-        for(let i = 0; i < teams.length; i ++)
-        {
-            console.log(i)
-            await new singleEPA().runTask(teams[i].teamNumber)
+        try {
+
+            console.log("here")
+            for (let i = 0; i < teams.length; i++) {
+                await new singleEPA().runTask(teams[i].teamNumber)
+            }
+        }
+        catch (err) {
+
         }
         resolve("done")
 

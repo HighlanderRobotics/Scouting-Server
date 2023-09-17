@@ -12,12 +12,12 @@ const teamAvgTotal = require('./general/totalScoreAllPicklist')
 const climberSucsessPicklist = require('./teleop/climber/climberSucsessAll')
 const driverAbility = require('./general/driverAbilityAll')
 const math = require('mathjs')
-const trends = require('./trend')
+const flags = require('./flag')
 
 class picklistShell extends BaseAnalysis {
     static name = `picklistShell`
 
-    constructor(db, tourmentKey, coneOneScore, coneTwoScore, coneThreeScore, cubeOneScore, cubeTwoScore, cubeThreeScore, autoCargo, teleOp, defense, autoClimb, feedCone, feedCube, avgTotal, teleppClimb, driverAbility) {
+    constructor(db, tourmentKey, coneOneScore, coneTwoScore, coneThreeScore, cubeOneScore, cubeTwoScore, cubeThreeScore, autoCargo, teleOp, defense, autoClimb, feedCone, feedCube, avgTotal, teleppClimb, driverAbility, flags) {
         super(db)
         this.tourmentKey = tourmentKey
         this.cubeOneScore = cubeOneScore
@@ -36,6 +36,7 @@ class picklistShell extends BaseAnalysis {
         this.avgTotal = avgTotal
         this.teleppClimb = teleppClimb
         this.driverAbility = driverAbility
+        this.flag = flags
     }
 
 
@@ -135,10 +136,11 @@ class picklistShell extends BaseAnalysis {
                         for (let row in rows) {
                             let curr = new picklist(a.db, rows[row].teamNumber, a.coneOneScore, a.coneTwoScore, a.coneThreeScore, a.cubeOneScore, a.cubeTwoScore, a.cubeThreeScore, a.autoCargo, a.teleOp, a.defense, a.autoClimb, a.feedingCone, a.feedingCube, a.avgTotal, a.teleppClimb, a.driverAbility, allAndAllArray)
                             await curr.runAnalysis()
-                            let trend = new trends(a.db, rows[row].teamNumber)
-                            await trend.runAnalysis()
+                            let flag = new flags(a.db, rows[row].teamNumber, a.flag, a.tourmentKey)
+                            await flag.runAnalysis()
+
                             if (!isNaN(curr.result)) {
-                                let temp = { "team": rows[row].teamNumber, "result": curr.result, "breakdown": curr.array, "unweighted": curr.unadjustedZScores, "flag" : trend.result }
+                                let temp = { "team": rows[row].teamNumber, "result": curr.result, "breakdown": curr.array, "unweighted": curr.unadjustedZScores, "flags" : flag.finalizeResults().result}
                                 arr.push(temp)
                             }
                         }

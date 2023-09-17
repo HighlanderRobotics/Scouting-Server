@@ -16,7 +16,7 @@ class ResetAndPopulate extends Manager {
         var pickedTeams = `CREATE TABLE pickedTeams(teams TEXT)`
         var createPitScouting = `CREATE TABLE pitScouting(team INTEGER, lowerCenterGravity TEXT, driveTrain TEXT, lengthDriveTrain INTEGER, widthDriveTrain INTEGER )`
         var createEPA = `CREATE TABLE epaTable(team INTEGER, epa INTEGER)`
-        var createPredictions = `CREATE predictions(match INTEGER, ourRedPoints INTEGER, ourBluePoints INTEGER, epaRedPoints INTEGER, ourBluePoints INTEGER)`
+        var createPredictions = `CREATE TABLE predictions(match INTEGER, ourRedPoints INTEGER, ourBluePoints INTEGER, epaRedPoints INTEGER, epaBluePoints INTEGER)`
         // Probably finalized lmk if there's any other datapoints
         var createData = `
         CREATE TABLE data (

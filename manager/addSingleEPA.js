@@ -23,7 +23,7 @@ class addSingleEPA extends Manager {
                     await this.addEpa(teamNumber, response.data.norm_epa_recent)
                 })
                 .catch(err => {
-                    // console.log(err)
+                    console.log(err)
                     resolve("-")
                 })
                 resolve("done")

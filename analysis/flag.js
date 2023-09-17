@@ -18,7 +18,6 @@ class flag extends BaseAnalysis {
         this.tournamentKey = tournamentKey
     }
     async getFlag() {
-
         let a = this
         let arr = []
         for (let i = 0; i < a.typeArr.length; i++) {
