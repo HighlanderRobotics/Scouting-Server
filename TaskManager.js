@@ -133,7 +133,7 @@ class TaskManager {
                     returnAnalysis.push(new defenseOverview(Manager.db, task.team))
                     break
                 case ("picklist"):
-                    returnAnalysis.push(new picklistShell(Manager.db, task.tournamentKey, task.coneOneScore, task.coneTwoScore, task.coneThreeScore, task.cubeOneScore, task.cubeTwoScore, task.cubeThreeScore,task.autoCargo, task.teleopScore, task.defenseScore, task.autoClimb, task.feedCone, task.feedCube, task.avgTotal, task.teleopClimb, task.driverAbility, task.flags))
+                    returnAnalysis.push(new picklistShell(Manager.db, task.tournamentKey, task.coneOneScore, task.coneTwoScore, task.coneThreeScore, task.cubeOneScore, task.cubeTwoScore, task.cubeThreeScore,task.autoCargo, task.teleopScore, task.defenseScore, task.autoClimb, task.feedCone, task.feedCube, task.avgTotal, task.teleopClimb, task.driverAbility, JSON.parse(task.flags)))
                     break
                 case (notes.name):
                     returnAnalysis.push(new notes(Manager.db, task.team))
@@ -181,7 +181,7 @@ class TaskManager {
                     returnAnalysis.push(new teamAndMatch(Manager.db, task.team, task.matchKey))
                     break
                 case("flag"):
-                    returnAnalysis.push(new flag(Manager.db, task.team,task.types, task.tournamentKey))
+                    returnAnalysis.push(new flag(Manager.db, task.team,JSON.parse(task.types), task.tournamentKey))
                     break
                 default:
                     console.log(`${task.name} is not a valid task`)
