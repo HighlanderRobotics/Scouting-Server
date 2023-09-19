@@ -34,6 +34,7 @@ const editData = require('./manager/editData.js')
 const addMatch = require('./manager/addMatch.js')
 const addPitScouting = require('./manager/addPitScouting.js')
 const addEpa = require('./manager/addEPA.js')
+const addEPA = require('./manager/addEPA.js')
 
 
 class DatabaseManager {
@@ -114,8 +115,8 @@ class DatabaseManager {
                     return new addMatch().runTask(body)
                 case addPitScouting.name: 
                     return new addPitScouting().runTask(body.team, body.lowerCenterGravity, body.driveTrainType, body.lengthDriveTrain, body.widthDriveTrain)
-                case addEpa.name:
-                    return new addEpa().runTask()
+                case addEPA.name:
+                    return new addEPA().runTask()
                 
                 
 
