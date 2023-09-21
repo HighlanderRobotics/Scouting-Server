@@ -1,5 +1,8 @@
 const Manager = require('./Manager.js')
 const axios = require('axios');
+const isFullyScouted = require('./isFullyScouted.js');
+const updateEPA = require('../analysis/general/updateEPA.js');
+const { rows } = require('jstat');
 
 class AddScoutReport extends Manager {
     static name = 'addScoutReport'
@@ -19,13 +22,18 @@ class AddScoutReport extends Manager {
             AND tournamentKey = '${tournamentKey}'
             AND SUBSTRING(key, 1, LENGTH(key)-1) = '${localMatchKey}_'
         `
+        var sqlMatchNumber = `SELECT matchNumber
+        FROM matches
+        WHERE matches.key = ?`
+
+        let matchKey = null
 
         // console.log(sql)
 
         return new Promise((resolve, reject) => {
 
             Manager.db.get(sql, (err, match) => {
-
+                console.log(localMatchKey)
                 if (err) {
 
                     console.error(err)
@@ -39,6 +47,7 @@ class AddScoutReport extends Manager {
                         "customCode": 500
                     })
                 } else if (match != undefined) {
+                    matchKey = match.key
                     this.insertData(match.key, data)
                     .catch((err) => {
                         if (err) {
@@ -52,6 +61,25 @@ class AddScoutReport extends Manager {
                     })
                     .then(() => {
                         console.log(`Data entry complete for ${match.key}`)
+                        //FINISH
+                        Manager.db.get(sqlMatchNumber,[matchKey], (err, row) => {
+                            if(err)
+                            {
+                                console.log(err)
+                                reject(err)
+                            }
+                            else if (rows == undefined || rows.length == 0)
+                            {
+                                console.log("can't find match number")
+                            }
+                            else
+                            {
+                                console.log(row)
+                                new isFullyScouted().runTask(row.matchNumber)
+                            }
+                        })
+
+                        // new isFullyScouted().runTask(ma)
                         resolve(`Success`)
                     })
                 } else {

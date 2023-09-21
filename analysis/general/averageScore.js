@@ -19,6 +19,8 @@ class averageScore extends BaseAnalysis {
     }
     async scoresOverTime() {
         let a = this
+
+        
         return new Promise(function (resolve, reject) {
             var sql = `SELECT scoutReport, newMatches.key AS key
             FROM data

@@ -12,6 +12,7 @@ const pentalties = require('./general/penalties.js')
 const links = require('./general/links.js')
 const statbotics = require('../manager/getStatbotics.js')
 const flag = require('./trend.js')
+const updateEPA = require('./general/updateEPA.js')
 
 
 
@@ -116,9 +117,12 @@ class categoryMetrics extends BaseAnalysis {
             metrics.normEpaRecent = holder.norm_epa_recent
             metrics.fullWinrate = holder.full_winrate
 
-            let trend = new flag(a.team)
+            let trend = new flag(a.db, a.team)
             await trend.runAnalysis()
             a.flag = trend.result
+
+            let ourEPA = new updateEPA(a.db, null)
+            metrics.ourEPA = await ourEPA.getEPA(a.team)
 
         
           

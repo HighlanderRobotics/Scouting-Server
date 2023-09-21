@@ -1,4 +1,4 @@
-const { re } = require('mathjs')
+const { re, row } = require('mathjs')
 const Manager = require('./Manager.js')
 const updateEPA = require('../analysis/general/updateEPA.js')
 
@@ -11,22 +11,26 @@ class isFullyScouted extends Manager {
 
     async runTask(matchNumber) {
 
-        var sql = `SELECT DISTINCT matchKey
-       FROM newData
-       JOIN (SELECT *
+        var sql = `SELECT *
            FROM data 
-           JOIN data ON matches.key
-           WHERE matches.matchNumber = ?) AS  newData`
+           JOIN matches ON matches.key = data.matchKey
+           WHERE matches.matchNumber = ? AND matches.matchType = "qm" `
 
         return new Promise(async (resolve, reject) => {
-
-            Manager.db.all(sql, [matchNumber], (err, rows) => {
+        
+            Manager.db.all(sql, [matchNumber], async (err, rows) => {
                 if (err) {
                     console.log(err)
                     reject(err)
                 }
+                else if(rows === undefined)
+                {
+                    console.log("no data for that match")
+                }
                 if (rows.length >= 6) {
-                     
+                    console.log(matchNumber)
+                    let temp = new updateEPA(Manager.db, matchNumber)
+                    await temp.runAnalysis()
                 }
                 resolve("done")
             })

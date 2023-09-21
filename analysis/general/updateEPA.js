@@ -1,48 +1,208 @@
+const { forEach, row, resolve, bellNumbers } = require('mathjs')
 const BaseAnalysis = require('../BaseAnalysis.js')
-//returns array of notes from specified team
-
+const totalScore = require('./averageScorePicklist.js')
+const { error } = require('qrcode-terminal')
+const GetTeams = require('../../manager/GetTeams.js')
 class updateEPA extends BaseAnalysis {
     static name = `updateEPA`
 
-    constructor(db, team, matchNumber) {
+    constructor(db, matchNumber) {
         super(db)
-        this.team = team
         this.matchNumber = matchNumber
         this.notes = []
+
     }
-    async getNotes() {
+    async analysis() {
         let a = this
-        return new Promise(function (resolve, reject) {
-            var sql = `SELECT DISTINCT matchKey
-            FROM newData
-            JOIN (SELECT *
-                FROM data 
-                JOIN data ON matches.key
-                WHERE matches.matchNumber = ?) AS  newData`
-            a.db.all(sql, [a.matchNumber], (err, rows) => {
+        try {
+
+
+            return new Promise(function (resolve, reject) {
+                var sql = `SELECT data.matchKey, data.scoutReport, matches.teamKey
+                FROM data
+                JOIN matches ON matches.key = data.matchKey
+                WHERE matches.matchNumber = ? AND matches.matchType = "qm" `
+                let redTotal = 0
+                let blueTotal = 0
+                let redEPA = 0
+                let blueEPA = 0
+                a.db.all(sql, [a.matchNumber], async (err, rows) => {
+                    if (err) {
+                        console.log(err)
+                        reject(err)
+                    }
+                    else {
+                        for (let i = 0; i < rows.length; i++) {
+
+                            let data = JSON.parse(rows[i].scoutReport)
+                            let total = 0
+
+                            if (data.autoChallengeResult === 1) {
+                                total += 8
+                            }
+                            else if (data.autoChallengeResult === 2) {
+                                total += 12
+                            }
+                            else if (data.autoChallengeResult === 4) {
+                                total += 3
+                            }
+
+                            if (data.challengeResult === 1) {
+                                total += 6
+                            }
+                            else if (data.challengeResult === 2) {
+                                total += 10
+                            }
+                            else if (data.challengeResult === 2) {
+                                total += 2
+                            }
+
+
+
+
+                            let arr = data.events
+                            for (let i = 0; i < arr.length; i++) {
+
+                                const entry = arr[i];
+                                let max = Math.ceil(entry[2] / 3)
+                                if (entry[0] < 17 && entry[1] === 2) {
+                                    if (max === 3) {
+                                        total += 6
+                                    }
+                                    if (max === 2) {
+                                        total += 4
+                                    }
+                                    if (max === 1) {
+                                        total += 3
+                                    }
+                                }
+                                else if (entry[1] === 2 && entry[0] >= 17) {
+                                    if (max === 3) {
+                                        total += 5
+                                    }
+                                    if (max === 2) {
+                                        total += 3
+                                    }
+                                    if (max === 1) {
+                                        total += 2
+                                    }
+                                }
+
+                            }
+                            let team = await a.getTeam(rows[i].matchKey)
+                            if (i < rows.length / 2) {
+                                redTotal += total
+                                redEPA += await a.getEPA(team)
+                            }
+                            else {
+                                blueTotal += total
+                                blueEPA += await a.getEPA(team)
+
+                            }
+                        }
+                        let actualScoreMargin = redTotal - blueTotal
+                        let predictedScoreMargin = redEPA - blueEPA
+                        let update = (72 / 250) * (actualScoreMargin - predictedScoreMargin)
+                        for (let i = 0; i < rows.length; i++) {
+                            let team = await a.getTeam(rows[i].matchKey)
+                            await a.updateTeamEPA(team, update)
+
+                        }
+                        resolve("done")
+                    }
+                })
+            })
+        }
+        catch (err) {
+            console.log(err)
+        }
+
+
+
+    }
+    async updateTeamEPA(teamNumber, epaChange) {
+        let a = this
+        var del = `DELETE FROM epaTable WHERE team = ?`
+        var add = `INSERT INTO epaTable (team, epa) VALUES (?, ?)`
+        let epa = await a.getEPA(teamNumber)
+        a.db.all(del, [teamNumber], async (err, rowD) => {
+            if (err) {
+                console.log(err)
+            }
+            else {
+
+                a.db.all(add, [teamNumber, epa + epaChange], async (err, rowA) => {
+                    if (err) {
+                        console.log(err)
+                    }
+                    console.log("done inserting")
+                })
+
+
+
+
+            }
+        })
+
+    }
+    async getTeam(matchKey) {
+        let a = this
+        var sql = `SELECT teamKey 
+        FROM matches
+        WHERE key = ?`
+        return new Promise((resolve, reject) => {
+
+            a.db.all(sql, [matchKey], (err, rows) => {
+                if (err) {
+                    console.log(err)
+                }
+                else if (rows == undefined) {
+                    console.log("cannot find team for match " + matchKey)
+                }
+                else {
+                    let x = rows[0].teamKey.substring(3)
+                    resolve(x)
+                    return x
+                }
+
+            })
+        })
+    }
+    async getEPA(team) {
+        let a = this
+        return new Promise((resolve, reject) => {
+            var getEPASQL = `SELECT epa
+                        FROM epaTable
+                        WHERE team = ?`
+
+            a.db.all(getEPASQL, [team], (err, rows) => {
                 if (err) {
                     console.log(err)
                     reject(err)
                 }
-                else {
+                else if (rows === undefined || rows.length === 0) {
+                    console.log("cannot find epa for team " + team)
+                    resolve("cannot find epa for team")
 
-                    resolve(rows)
+                }
+                else {
+                    resolve(rows[0].epa)
+                    return rows[0].epa
                 }
             })
-
-
         })
+
     }
+
     runAnalysis() {
         let a = this
         return new Promise(async (resolve, reject) => {
-            var temp = await a.getNotes().catch((err) => {
+            await a.analysis().catch((err) => {
                 if (err) {
                     return err
                 }
             })
-            a.notes = temp
-            resolve(temp)
+            resolve("done")
         })
 
     }
