@@ -74,11 +74,12 @@ class AddScoutReport extends Manager {
                             }
                             else
                             {
+                                
                                 console.log(row)
                                 new isFullyScouted().runTask(row.matchNumber)
                             }
                         })
-
+                    .catch((err) => { reject(err)})
                         // new isFullyScouted().runTask(ma)
                         resolve(`Success`)
                     })

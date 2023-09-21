@@ -181,6 +181,7 @@ class updateEPA extends BaseAnalysis {
                     reject(err)
                 }
                 else if (rows === undefined || rows.length === 0) {
+                    console.log(rows)
                     console.log("cannot find epa for team " + team)
                     resolve("cannot find epa for team")
 
