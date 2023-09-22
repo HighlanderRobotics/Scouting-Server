@@ -13,8 +13,7 @@ class AddScoutReport extends Manager {
 
     runTask(teamKey, tournamentKey, data) {
         let localMatchKey = `${tournamentKey}_${data.matchKey}`
-        // console.log(localMatchKey)
-        // console.log(tournamentKey)
+       
         let sql = `
         SELECT * FROM matches 
         WHERE
@@ -33,12 +32,10 @@ class AddScoutReport extends Manager {
         return new Promise((resolve, reject) => {
 
             Manager.db.get(sql, (err, match) => {
-                console.log(localMatchKey)
                 if (err) {
 
                     console.error(err)
 
-                    // console.log('asdf')
 
                     reject({
 
@@ -61,31 +58,27 @@ class AddScoutReport extends Manager {
                     })
                     .then(() => {
                         console.log(`Data entry complete for ${match.key}`)
-                        //FINISH
-                        Manager.db.get(sqlMatchNumber,[matchKey], (err, row) => {
+                        Manager.db.all(sqlMatchNumber,[matchKey], async (err, row) => {
                             if(err)
                             {
                                 console.log(err)
                                 reject(err)
                             }
-                            else if (rows == undefined || rows.length == 0)
+                            else if (row == undefined || row.length === 0)
                             {
                                 console.log("can't find match number")
                             }
                             else
                             {
-                                
-                                console.log(row)
-                                new isFullyScouted().runTask(row.matchNumber)
+                                await new isFullyScouted().runTask(row[0].matchNumber)
                             }
+                            resolve("done")
+
                         })
-                    .catch((err) => { reject(err)})
-                        // new isFullyScouted().runTask(ma)
-                        resolve(`Success`)
                     })
+                  
                 } else {
                     console.log(`Couldn't find match for:`)
-                    console.log(data)
                     reject({
                         "results": `Match doesn't exist`,
                         "customCode": 406

@@ -18,10 +18,12 @@ class updateEPA extends BaseAnalysis {
 
 
             return new Promise(function (resolve, reject) {
-                var sql = `SELECT data.matchKey, data.scoutReport, matches.teamKey
+                var sql = `SELECT data.matchKey, data.scoutReport, matches.teamKey 
                 FROM data
+                
                 JOIN matches ON matches.key = data.matchKey
-                WHERE matches.matchNumber = ? AND matches.matchType = "qm" `
+                WHERE matches.matchNumber = ? AND matches.matchType = "qm" 
+                LIMIT 6`
                 let redTotal = 0
                 let blueTotal = 0
                 let redEPA = 0
@@ -33,7 +35,6 @@ class updateEPA extends BaseAnalysis {
                     }
                     else {
                         for (let i = 0; i < rows.length; i++) {
-
                             let data = JSON.parse(rows[i].scoutReport)
                             let total = 0
 
@@ -90,7 +91,7 @@ class updateEPA extends BaseAnalysis {
 
                             }
                             let team = await a.getTeam(rows[i].matchKey)
-                            if (i < rows.length / 2) {
+                            if (i <= 2) {
                                 redTotal += total
                                 redEPA += await a.getEPA(team)
                             }
@@ -100,13 +101,26 @@ class updateEPA extends BaseAnalysis {
 
                             }
                         }
-                        let actualScoreMargin = redTotal - blueTotal
-                        let predictedScoreMargin = redEPA - blueEPA
-                        let update = (72 / 250) * (actualScoreMargin - predictedScoreMargin)
-                        for (let i = 0; i < rows.length; i++) {
-                            let team = await a.getTeam(rows[i].matchKey)
-                            await a.updateTeamEPA(team, update)
+                        let actualScoreMarginRed = redTotal - blueTotal
+                        let predictedScoreMarginRed = redEPA - blueEPA
+                        let updateRed = (72 / 250) * (actualScoreMarginRed - predictedScoreMarginRed)
 
+                        let actualScoreMarginBlue = blueTotal - redTotal
+                        let predictedScoreMarginBlue = blueEPA - redEPA
+                        let updateBlue = (72 / 250) * (actualScoreMarginBlue - predictedScoreMarginBlue)
+
+                        for (let i = 0; i < rows.length; i++) {
+                            if(i <= 2)
+                            {
+                                let team = await a.getTeam(rows[i].matchKey)
+                                await a.updateTeamEPA(team, updateRed)    
+                            }
+                            else
+                            {
+                                let team = await a.getTeam(rows[i].matchKey)
+                                await a.updateTeamEPA(team, updateBlue)    
+                            }
+                       
                         }
                         resolve("done")
                     }
@@ -115,6 +129,7 @@ class updateEPA extends BaseAnalysis {
         }
         catch (err) {
             console.log(err)
+            reject(err)
         }
 
 
@@ -135,7 +150,6 @@ class updateEPA extends BaseAnalysis {
                     if (err) {
                         console.log(err)
                     }
-                    console.log("done inserting")
                 })
 
 
@@ -181,9 +195,8 @@ class updateEPA extends BaseAnalysis {
                     reject(err)
                 }
                 else if (rows === undefined || rows.length === 0) {
-                    console.log(rows)
                     console.log("cannot find epa for team " + team)
-                    resolve("cannot find epa for team")
+                    resolve(null)
 
                 }
                 else {

@@ -10,7 +10,6 @@ class isFullyScouted extends Manager {
     }
 
     async runTask(matchNumber) {
-
         var sql = `SELECT *
            FROM data 
            JOIN matches ON matches.key = data.matchKey
@@ -28,7 +27,6 @@ class isFullyScouted extends Manager {
                     console.log("no data for that match")
                 }
                 if (rows.length >= 6) {
-                    console.log(matchNumber)
                     let temp = new updateEPA(Manager.db, matchNumber)
                     await temp.runAnalysis()
                 }
