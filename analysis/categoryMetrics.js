@@ -114,12 +114,7 @@ class categoryMetrics extends BaseAnalysis {
             metrics.links = link.average
 
             let holder = await new statbotics().runTask(a.team)
-            metrics.normEpaRecent = holder.norm_epa_recent
-            metrics.fullWinrate = holder.full_winrate
-
-            let trend = new flag(a.db, a.team)
-            await trend.runAnalysis()
-            a.flag = trend.result
+            metrics.statboticsEPA = holder.norm_epa_recent
 
             let ourEPA = new updateEPA(a.db, null)
             metrics.ourEPA = await ourEPA.getEPA(a.team)
