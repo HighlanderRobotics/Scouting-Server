@@ -20,15 +20,15 @@ class updateEPA extends BaseAnalysis {
             return new Promise(function (resolve, reject) {
                 var sql = `SELECT data.matchKey, data.scoutReport, matches.teamKey 
                 FROM data
-                
                 JOIN matches ON matches.key = data.matchKey
                 WHERE matches.matchNumber = ? AND matches.matchType = "qm" 
-                LIMIT 6`
+                ORDER BY data.matchKey`
                 let redTotal = 0
                 let blueTotal = 0
                 let redEPA = 0
                 let blueEPA = 0
                 a.db.all(sql, [a.matchNumber], async (err, rows) => {
+                    console.log(rows)
                     if (err) {
                         console.log(err)
                         reject(err)
@@ -101,10 +101,15 @@ class updateEPA extends BaseAnalysis {
 
                             }
                         }
+
                         let actualScoreMarginRed = redTotal - blueTotal
                         let predictedScoreMarginRed = redEPA - blueEPA
+                        console.log("actual red " + blueEPA)
+                        console.log("actual blue " + redEPA)
                         let updateRed = (72 / 250) * (actualScoreMarginRed - predictedScoreMarginRed)
-
+                        console.log("predicted margin" + predictedScoreMarginRed)
+                        console.log("update red" + updateRed)
+                        console.log(updateRed)
                         let actualScoreMarginBlue = blueTotal - redTotal
                         let predictedScoreMarginBlue = blueEPA - redEPA
                         let updateBlue = (72 / 250) * (actualScoreMarginBlue - predictedScoreMarginBlue)

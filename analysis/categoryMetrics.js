@@ -114,7 +114,7 @@ class categoryMetrics extends BaseAnalysis {
             metrics.links = link.average
 
             let holder = await new statbotics().runTask(a.team)
-            metrics.statboticsEPA = holder.norm_epa_recent
+            metrics.statboticsEPA = holder.epa_end
 
             let ourEPA = new updateEPA(a.db, null)
             metrics.ourEPA = await ourEPA.getEPA(a.team)
@@ -148,7 +148,6 @@ class categoryMetrics extends BaseAnalysis {
         return {
             "result": this.result,
             "team": this.team,
-            "flag" : this.flag
         }
     }
 
