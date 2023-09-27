@@ -104,15 +104,12 @@ class updateEPA extends BaseAnalysis {
 
                         let actualScoreMarginRed = redTotal - blueTotal
                         let predictedScoreMarginRed = redEPA - blueEPA
-                        console.log("actual red " + blueEPA)
-                        console.log("actual blue " + redEPA)
                         let updateRed = (72 / 250) * (actualScoreMarginRed - predictedScoreMarginRed)
-                        console.log("predicted margin" + predictedScoreMarginRed)
-                        console.log("update red" + updateRed)
-                        console.log(updateRed)
                         let actualScoreMarginBlue = blueTotal - redTotal
                         let predictedScoreMarginBlue = blueEPA - redEPA
                         let updateBlue = (72 / 250) * (actualScoreMarginBlue - predictedScoreMarginBlue)
+                        console.log(predictedScoreMarginBlue)
+
 
                         for (let i = 0; i < rows.length; i++) {
                             if(i <= 2)
