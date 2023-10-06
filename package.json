@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Scouting Server",
   "main": "collectionServer.js",
-  "homepage": "https://github.com/barryb5/learn-auth-server#README.md",
+  "homepage": "https://github.com/HighlanderRobotics/Scouting-Server#README.md",
   "scripts": {
     "start": "nodemon collectionServer.js",
     "linuxstart": "gnome-terminal -- ./ngrok.sh; nodemon collectionServer.js",
@@ -36,10 +36,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/barryb5/learn-auth-server"
+    "url": "https://github.com/HighlanderRobotics/Scouting-Server"
   },
   "bugs": {
-    "url": "https://github.com/barryb5/learn-auth-server/issues"
+    "url": "https://github.com/HighlanderRobotics/Scouting-Server/issues"
   },
   "engines": {
     "node": "^18.12.1",
