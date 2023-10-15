@@ -3,7 +3,7 @@ const Manager = require('./Manager.js')
 //adds or updates
 
 class AddCustomMatch extends Manager {
-    static name = "AddCustomMatch"
+    static name = "addCustomMatch"
 
     constructor() {
         super()

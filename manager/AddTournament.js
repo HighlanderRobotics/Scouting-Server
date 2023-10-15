@@ -5,7 +5,7 @@ const updateEPA = require('../analysis/general/updateEPA.js');
 const { rows } = require('jstat');
 
 class AddTournament extends Manager {
-    static name = 'AddTournament'
+    static name = 'addTournament'
 
     constructor() {
         super()
