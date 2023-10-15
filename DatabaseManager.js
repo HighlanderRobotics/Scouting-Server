@@ -35,6 +35,8 @@ const addMatch = require('./manager/addMatch.js')
 const addPitScouting = require('./manager/addPitScouting.js')
 const addEpa = require('./manager/addEPA.js')
 const addEPA = require('./manager/addEPA.js')
+const AddTournament = require('./manager/AddTournament.js')
+const AddCustomMatch = require('./manager/AddCustomMatch.js')
 
 
 class DatabaseManager {
@@ -117,10 +119,15 @@ class DatabaseManager {
                     return new addPitScouting().runTask(body.team, body.lowerCenterGravity, body.driveTrainType, body.lengthDriveTrain, body.widthDriveTrain)
                 case addEPA.name:
                     return new addEPA().runTask()
+                case AddTournament.name:
+                    return new AddTournament().runTask(body.key, body.name, body.location, body.date)
+                case AddCustomMatch.name:
+                    // console.log("here")
+                    return new AddCustomMatch().runTask(body.tournamentKey, body.matchNumber, body.matchType, body.teams)
                 
                 
 
-                    default:
+                default:
                     return new Promise((resolve, reject) => {
                         reject({
                             "task": task,
